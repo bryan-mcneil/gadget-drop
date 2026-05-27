@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background: gray-100 rounded square -->
+  <rect width="32" height="32" rx="7" fill="#f3f4f6"/>
+  <!-- Subtle inner border -->
+  <rect width="32" height="32" rx="7" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+  <!-- "G" in gray-900 -->
+  <text x="2" y="24"
+    font-family="Arial Black, Arial, sans-serif"
+    font-weight="900"
+    font-size="20"
+    fill="#111827">G</text>
+  <!-- "D" in indigo-600 -->
+  <text x="16" y="24"
+    font-family="Arial Black, Arial, sans-serif"
+    font-weight="900"
+    font-size="20"
+    fill="#4f46e5">D</text>
+</svg>

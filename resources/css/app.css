@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Hide scrollbar but keep scroll ────────────────────────── */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Post body drop cap ─────────────────────────────────────── */
+.post-body > div:first-child .prose p:first-child::first-letter {
+    float: left;
+    font-size: 3.75rem;
+    font-weight: 900;
+    line-height: 0.8;
+    margin-right: 0.08em;
+    margin-top: 0.06em;
+    color: #4f46e5;
+}

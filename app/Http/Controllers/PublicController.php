@@ -1,0 +1,341 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\AffiliateClick;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Product;
+use App\Models\Tag;
+use App\Services\AmazonProductService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class PublicController extends Controller
+{
+    public function home(): Response
+    {
+        $slides  = [];
+        $seenIds = [];
+
+        $fmt = fn ($p) => [
+            'id'             => $p->id,
+            'type'           => $p->type,
+            'title'          => $p->title,
+            'slug'           => $p->slug,
+            'excerpt'        => $p->excerpt,
+            'featured_image' => $p->featured_image,
+            'published_at'   => $p->published_at?->format('Y-m-d'),
+        ];
+
+        $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at'];
+
+        // Slide 1 — Today's Drop (articles only)
+        $today = Post::published()->where('type', '!=', 'tech_tip')->latest('published_at')->first($cols);
+        if ($today) {
+            $seenIds[] = $today->id;
+            $slides[]  = ['label' => "Today's Drop", 'post' => $fmt($today)];
+        }
+
+        // Slide 2 — Yesterday's Drop (articles only)
+        $yesterday = Post::published()->where('type', '!=', 'tech_tip')->latest('published_at')
+            ->whereNotIn('id', $seenIds)->first($cols);
+        if ($yesterday) {
+            $seenIds[] = $yesterday->id;
+            $slides[]  = ['label' => "Yesterday's Drop", 'post' => $fmt($yesterday)];
+        }
+
+        // Slide 3 — Top Trending (most views, articles only)
+        $trending = Post::published()->where('type', '!=', 'tech_tip')->orderByDesc('view_count')
+            ->whereNotIn('id', $seenIds)->first($cols);
+        if ($trending) {
+            $seenIds[] = $trending->id;
+            $slides[]  = ['label' => 'Top Trending', 'post' => $fmt($trending)];
+        }
+
+        // Slide 4 — Top Featured [Random Tag] Pick (articles only)
+        $tag = Tag::withCount(['posts' => fn ($q) => $q->published()->where('type', '!=', 'tech_tip')])
+            ->having('posts_count', '>', 0)
+            ->inRandomOrder()
+            ->first();
+        if ($tag) {
+            $tagPost = Post::published()
+                ->where('type', '!=', 'tech_tip')
+                ->whereHas('tags', fn ($q) => $q->where('tags.id', $tag->id))
+                ->whereNotIn('id', $seenIds)
+                ->latest('published_at')
+                ->first($cols);
+            if ($tagPost) {
+                $slides[] = ['label' => "Top {$tag->name} Pick", 'post' => $fmt($tagPost)];
+            }
+        }
+
+        // Slide 5 — Latest Tech Tip
+        $latestTechTip = Post::published()->where('type', 'tech_tip')->latest('published_at')->first($cols);
+        if ($latestTechTip) {
+            $slides[] = ['label' => 'Latest Tech Tip', 'post' => $fmt($latestTechTip)];
+        }
+
+        // Top Picks — up to 6 unique products from recent articles (no tech tips)
+        $topPickPosts = Post::published()
+            ->where('type', '!=', 'tech_tip')
+            ->has('products')
+            ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
+            ->latest('published_at')
+            ->take(12)
+            ->get(['id', 'slug']);
+
+        $seenProductIds = [];
+        $topPicks = [];
+        foreach ($topPickPosts as $tp) {
+            $product = $tp->products->first();
+            if ($product && ! in_array($product->id, $seenProductIds)) {
+                $seenProductIds[] = $product->id;
+                $api = $this->resolveApiData($product->asin);
+                $topPicks[] = [
+                    'id'        => $product->id,
+                    'name'      => $api['name']  ?? $product->name,
+                    'price'     => $api['price'] ?? $product->price,
+                    'image_url' => $product->image_url,
+                    'post_slug' => $tp->slug,
+                ];
+            }
+            if (count($topPicks) >= 6) break;
+        }
+
+        // Featured Spotlight — most recent article (not tech tip) with at least one product
+        $spotlightPost = Post::published()
+            ->where('type', '!=', 'tech_tip')
+            ->has('products')
+            ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
+            ->latest('published_at')
+            ->first(['id', 'title', 'slug']);
+
+        $spotlight = null;
+        if ($spotlightPost && $spotlightPost->products->isNotEmpty()) {
+            $sp  = $spotlightPost->products->first();
+            $api = $this->resolveApiData($sp->asin);
+            $spotlight = [
+                'post'    => ['title' => $spotlightPost->title, 'slug' => $spotlightPost->slug],
+                'product' => [
+                    'id'          => $sp->id,
+                    'name'        => $api['name']        ?? $sp->name,
+                    'description' => $api['description'] ?? $sp->description,
+                    'price'       => $api['price']       ?? $sp->price,
+                    'image_url'   => $sp->image_url,
+                ],
+            ];
+        }
+
+        return Inertia::render('Public/Home', [
+            'heroSlides' => $slides,
+            'recentPosts' => Post::published()
+                ->where('type', '!=', 'tech_tip')
+                ->with('categories')
+                ->latest('published_at')
+                ->skip(1)
+                ->take(8)
+                ->get($cols)
+                ->map($fmt),
+            'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
+                ->having('posts_count', '>', 0)
+                ->orderBy('name')
+                ->get(['id', 'name', 'slug', 'featured_image']),
+            'spotlight' => $spotlight,
+            'topPicks'  => $topPicks,
+        ]);
+    }
+
+    public function show(Post $post): Response
+    {
+        abort_unless($post->status === 'published', 404);
+
+        $post->increment('view_count');
+        $post->load(['categories', 'tags', 'products', 'seoMeta', 'user']);
+
+        // Freshen product data from Amazon PA API (cached); image always stays from DB
+        $post->products->each(function ($product) {
+            $api = $this->resolveApiData($product->asin);
+            if ($api) {
+                $product->name        = $api['name']        ?? $product->name;
+                $product->price       = $api['price']       ?? $product->price;
+                $product->description = $api['description'] ?? $product->description;
+            }
+        });
+
+        $postData = $post->toArray();
+        $postData['published_at'] = $post->published_at?->format('Y-m-d');
+
+        $categoryIds = $post->categories->pluck('id');
+        $tagIds      = $post->tags->pluck('id');
+
+        $formatPost = fn ($p) => [
+            'id'             => $p->id,
+            'title'          => $p->title,
+            'slug'           => $p->slug,
+            'published_at'   => $p->published_at?->format('Y-m-d'),
+            'featured_image' => $p->featured_image,
+        ];
+
+        $cols = ['id', 'title', 'slug', 'published_at', 'featured_image'];
+
+        $categoryPosts = Post::published()
+            ->whereHas('categories', fn ($q) => $q->whereIn('categories.id', $categoryIds))
+            ->where('id', '!=', $post->id)
+            ->latest('published_at')
+            ->take(8)
+            ->get($cols)
+            ->map($formatPost);
+
+        $excludeIds = $categoryPosts->pluck('id')->push($post->id);
+
+        $tagPosts = $tagIds->isNotEmpty()
+            ? Post::published()
+                ->whereHas('tags', fn ($q) => $q->whereIn('tags.id', $tagIds))
+                ->whereNotIn('id', $excludeIds)
+                ->latest('published_at')
+                ->take(8)
+                ->get($cols)
+                ->map($formatPost)
+            : collect();
+
+        $excludeIds = $excludeIds->merge($tagPosts->pluck('id'));
+
+        $recentPosts = Post::published()
+            ->where('type', '!=', 'tech_tip')
+            ->whereNotIn('id', $excludeIds)
+            ->latest('published_at')
+            ->take(15)
+            ->get($cols)
+            ->map($formatPost);
+
+        return Inertia::render('Public/Post', [
+            'post'          => $postData,
+            'categoryPosts' => $categoryPosts,
+            'tagPosts'      => $tagPosts,
+            'recentPosts'   => $recentPosts,
+        ]);
+    }
+
+    public function category(Category $category): Response
+    {
+        return Inertia::render('Public/Category', [
+            'category' => $category,
+            'posts' => Post::published()
+                ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
+                ->with('categories')
+                ->latest('published_at')
+                ->paginate(12)
+                ->through(fn ($p) => [
+                    'id'             => $p->id,
+                    'type'           => $p->type,
+                    'title'          => $p->title,
+                    'slug'           => $p->slug,
+                    'excerpt'        => $p->excerpt,
+                    'featured_image' => $p->featured_image,
+                    'published_at'   => $p->published_at?->toDateString(),
+                ]),
+            'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
+                ->having('posts_count', '>', 0)
+                ->orderBy('name')
+                ->get(['id', 'name', 'slug', 'featured_image']),
+        ]);
+    }
+
+    public function search(Request $request): Response
+    {
+        $query = trim($request->get('q', ''));
+
+        $posts      = collect();
+        $categories = collect();
+        $tags       = collect();
+
+        if (strlen($query) >= 2) {
+            $posts = Post::published()
+                ->where(fn ($q) => $q
+                    ->where('title', 'like', "%{$query}%")
+                    ->orWhere('excerpt', 'like', "%{$query}%")
+                )
+                ->latest('published_at')
+                ->take(12)
+                ->get(['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at'])
+                ->map(fn ($p) => [
+                    'id'             => $p->id,
+                    'type'           => $p->type,
+                    'title'          => $p->title,
+                    'slug'           => $p->slug,
+                    'excerpt'        => $p->excerpt,
+                    'featured_image' => $p->featured_image,
+                    'published_at'   => $p->published_at?->format('Y-m-d'),
+                ]);
+
+            $categories = Category::where('name', 'like', "%{$query}%")
+                ->withCount(['posts' => fn ($q) => $q->published()])
+                ->having('posts_count', '>', 0)
+                ->orderByDesc('posts_count')
+                ->take(6)
+                ->get(['id', 'name', 'slug', 'posts_count']);
+
+            $tags = Tag::where('name', 'like', "%{$query}%")
+                ->withCount(['posts' => fn ($q) => $q->published()])
+                ->having('posts_count', '>', 0)
+                ->orderByDesc('posts_count')
+                ->take(10)
+                ->get(['id', 'name', 'slug', 'posts_count']);
+        }
+
+        return Inertia::render('Public/Search', [
+            'query'      => $query,
+            'posts'      => $posts,
+            'categories' => $categories,
+            'tags'       => $tags,
+        ]);
+    }
+
+    public function redirect(Product $product, Request $request): RedirectResponse
+    {
+        AffiliateClick::create([
+            'product_id' => $product->id,
+            'post_id'    => $request->query('post'),
+            'ip_hash'    => hash('sha256', $request->ip()),
+            'referrer'   => $request->header('referer'),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        $url = $this->appendAffiliateTag($product->affiliate_url);
+
+        return redirect()->away($url);
+    }
+
+    /**
+     * Try to get fresh product data from the Amazon PA API (cached 12 h).
+     * Returns null instantly when the API is not configured or the call fails.
+     */
+    private function resolveApiData(?string $asin): ?array
+    {
+        if (! $asin) {
+            return null;
+        }
+
+        return app(AmazonProductService::class)->cachedLookup($asin);
+    }
+
+    private function appendAffiliateTag(string $url): string
+    {
+        $tag = config('services.amazon.affiliate_tag');
+
+        if (! $tag) {
+            return $url;
+        }
+
+        $parsed = parse_url($url);
+        parse_str($parsed['query'] ?? '', $params);
+        $params['tag'] = $tag;
+
+        $base = ($parsed['scheme'] ?? 'https') . '://' . ($parsed['host'] ?? '') . ($parsed['path'] ?? '');
+
+        return $base . '?' . http_build_query($params);
+    }
+}
