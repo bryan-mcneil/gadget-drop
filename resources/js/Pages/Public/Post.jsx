@@ -129,22 +129,33 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                     {/* Author card */}
                     {post.user && (
                         <div className="mt-8 flex items-start gap-4 bg-white border border-gray-200 rounded-xl p-5">
-                            {post.user.avatar_url ? (
-                                <img src={post.user.avatar_url} alt={post.user.name} loading="lazy"
-                                    className="w-14 h-14 rounded-full object-cover flex-shrink-0" />
-                            ) : (
-                                <div className="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                                    <span className="text-indigo-600 font-bold text-xl">
-                                        {post.user.name.charAt(0)}
-                                    </span>
-                                </div>
-                            )}
+                            <Link href={route('author', post.user.slug)} className="flex-shrink-0">
+                                {post.user.avatar_url ? (
+                                    <img src={post.user.avatar_url} alt={post.user.name} loading="lazy"
+                                        className="w-14 h-14 rounded-full object-cover ring-2 ring-indigo-100 hover:ring-indigo-300 transition" />
+                                ) : (
+                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500
+                                                    flex items-center justify-center ring-2 ring-indigo-100 hover:ring-indigo-300 transition">
+                                        <span className="text-white font-bold text-xl">
+                                            {post.user.name.charAt(0)}
+                                        </span>
+                                    </div>
+                                )}
+                            </Link>
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Written by</p>
-                                <p className="font-semibold text-gray-900">{post.user.name}</p>
+                                <Link href={route('author', post.user.slug)}
+                                    className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors">
+                                    {post.user.name}
+                                </Link>
                                 {post.user.bio && (
                                     <p className="text-sm text-gray-500 mt-1">{post.user.bio}</p>
                                 )}
+                                <Link href={route('author', post.user.slug)}
+                                    className="inline-flex items-center gap-1 mt-2 text-xs text-indigo-500
+                                               hover:text-indigo-700 font-medium transition-colors">
+                                    View all posts →
+                                </Link>
                             </div>
                         </div>
                     )}

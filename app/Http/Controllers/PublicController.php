@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Models\User;
 use App\Services\AmazonProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -291,6 +292,43 @@ class PublicController extends Controller
             'posts'      => $posts,
             'categories' => $categories,
             'tags'       => $tags,
+        ]);
+    }
+
+    public function author(User $user): Response
+    {
+        abort_if($user->id === 1, 404);
+        $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'view_count'];
+
+        $posts = Post::published()
+            ->where('user_id', $user->id)
+            ->latest('published_at')
+            ->get($cols)
+            ->map(fn ($p) => [
+                'id'             => $p->id,
+                'type'           => $p->type,
+                'title'          => $p->title,
+                'slug'           => $p->slug,
+                'excerpt'        => $p->excerpt,
+                'featured_image' => $p->featured_image,
+                'published_at'   => $p->published_at?->format('M j, Y'),
+                'view_count'     => $p->view_count,
+            ]);
+
+        $totalViews = $posts->sum('view_count');
+        $firstPost  = $posts->last(); // oldest is last after latest() sort
+
+        return Inertia::render('Public/Author', [
+            'author' => [
+                'id'         => $user->id,
+                'name'       => $user->name,
+                'bio'        => $user->bio,
+                'avatar_url' => $user->avatar_url,
+                'since'      => $firstPost ? $firstPost['published_at'] : null,
+            ],
+            'posts'       => $posts,
+            'totalViews'  => $totalViews,
+            'postCount'   => $posts->count(),
         ]);
     }
 

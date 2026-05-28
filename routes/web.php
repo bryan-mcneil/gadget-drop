@@ -22,6 +22,7 @@ Route::get('/search', [PublicController::class, 'search'])->name('search');
 Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts.show');
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
+Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe');
 Route::get('/unsubscribe', [SubscriberController::class, 'showUnsubscribe'])->name('unsubscribe');
 Route::post('/unsubscribe', [SubscriberController::class, 'destroyByEmail'])->name('unsubscribe.email');
