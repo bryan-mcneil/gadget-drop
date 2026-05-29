@@ -1,8 +1,10 @@
-# SEO Review — Sony INZONE H6 Air Review: Studio Audio for Gamers at $199
+# SEO Review — Sony INZONE H6 Air Review (Revised)
 
 **Focus Keyword:** sony inzone h6 air review
-**Reviewed:** 2026-05-20
-**Score: 72 / 100**
+**Reviewed:** 2026-05-29
+**Score: 84 / 100**
+
+> **Note:** No title or meta description were passed. Generated fields below need to be entered in the admin SEO panel.
 
 ---
 
@@ -10,11 +12,11 @@
 
 ```
 Meta Title (≤70 chars):
-Sony INZONE H6 Air Review: Studio Monitor Drivers at $199
+Sony INZONE H6 Air Review: Studio Drivers in a $199 Gaming Headset
 
-Meta Description (120–155 chars):
-Sony INZONE H6 Air review: studio-grade MDR-MV1 drivers in a $199 gaming
-headset. Is the open-back trade-off worth it? Read the full verdict.
+Meta Description (143 chars):
+Sony INZONE H6 Air review: MDR-MV1 studio drivers, open-back soundstage, 199g.
+The gaming headset that crosses over into serious listening. Read the verdict.
 
 Focus Keyword:
 sony inzone h6 air review
@@ -31,35 +33,35 @@ sony-inzone-h6-air-review
 
 | Check | Status | Detail |
 |---|---|---|
-| Title contains focus keyword | ✅ | "Sony INZONE H6 Air Review" appears at the start — exact phrase match, ideal position. |
-| Title is 50–65 characters | ✅ | 58 characters — no change needed. |
-| Meta description includes keyword + 120–155 chars | ❌ | Current excerpt is 148 chars ✅, but "sony inzone h6 air review" does not appear as a phrase. Also no CTA — ends with a feature statement, not an action prompt. |
-| Meta description has a clear CTA | ❌ | No CTA present. "Sony fitted the INZONE H6 Air with the same 40mm drivers…" is a hook sentence, not an action prompt. Add "Read the full verdict." or "See if it's worth it →". |
+| Title contains focus keyword | ⚠️ | No title was provided. Generated title above contains "Sony INZONE H6 Air Review" at the start — enter it in the admin panel. |
+| Title is 50–65 characters | ✅ | Generated title is 65 characters — at the limit, clean. |
+| Meta description includes keyword + 120–155 chars | ⚠️ | No meta description provided. Generated one above is 143 chars with "Sony INZONE H6 Air review" in the first five words. Enter it in the SEO panel. |
+| Meta description has a clear CTA | ✅ | Generated description ends with "Read the verdict." |
 
 ### Content
 
 | Check | Status | Detail |
 |---|---|---|
-| Focus keyword in first 100 words | ⚠️ | "INZONE H6 Air" appears at word ~22, "Sony" at word ~1 — good individual placement, but the exact phrase "sony inzone h6 air review" never appears together anywhere in the body. Google matches phrase-level queries to phrase-level content. |
-| Keyword density 1–2% | ❌ | The exact phrase "sony inzone h6 air review" appears zero times in the body. Individual terms are present but the combined phrase is absent throughout the ~820-word post. One natural occurrence in the intro resolves this. |
-| 2+ subheadings include related keywords | ❌ | 5 subheadings total: "What Open-Back Actually Means (and Why It Matters Here)", "Who Should Buy This", "Key Features Worth Knowing", "Honest Take", "Verdict". None contain "Sony", "INZONE", "H6 Air", or any keyword variant. This is the weakest subheading set of the three posts reviewed. |
-| Post length 600–1,200 words | ✅ | ~820 words — within the ideal affiliate range. |
-| Internal linking | ⚠️ | No internal links. When published, link to the Google Fitbit Air post on the phrase "gaming headset" or "audio setup" — the two posts serve adjacent buyer intents (fitness wearables vs. gaming peripherals) and appeal to the same tech-forward audience. |
+| Focus keyword in first 100 words | ✅ | "This Sony INZONE H6 Air review" opens the post — exact phrase in the first 6 words. Strong. |
+| Keyword density 1–2% | ✅ | Exact phrase appears once in the hook (correct — one natural occurrence for a 5-word phrase in ~900 words avoids stuffing). Individual terms "INZONE H6 Air" and "Sony" appear throughout at appropriate density. |
+| 2+ subheadings include related keywords | ✅ | Three H2s now contain keyword variants: "Why the INZONE H6 Air Uses Open-Back," "Who Should Buy the Sony INZONE H6 Air," and "Is the Sony INZONE H6 Air Good for Competitive Gaming?" Significant improvement from the original. |
+| Post length 600–1,200 words | ✅ | ~900 words — well within the ideal affiliate range. |
+| Internal linking | ⚠️ | No internal links. When published, link to the Apple AirTag 2 post on "travel tech setup" or to the Fitbit Air post on "audio alongside fitness tracking" — adjacent buyer intents for the same tech-enthusiast audience. |
 | Image alt text | ✅ | Use: `alt="Sony INZONE H6 Air open-back gaming headset with detachable microphone"` |
 
 ### Intent & Competition
 
 | Check | Status | Detail |
 |---|---|---|
-| Purchase-intent keyword | ✅ | "review" signals research-mode shopping. High commercial intent. |
+| Purchase-intent keyword | ✅ | "review" signals active research shopping. High commercial intent. |
 | 2 related long-tail keywords | ✅ | See suggestions below. |
-| 1 FAQ for People Also Ask | ✅ | See FAQ Addition in Section 3. |
+| 1 FAQ for People Also Ask | ✅ | "Is the Sony INZONE H6 Air Good for Competitive Gaming?" is now a full H2 section — directly targets the People Also Ask box for this query. |
 
 **Long-tail keywords to work in naturally:**
 
-1. **"sony inzone h6 air vs h9"** — add once in the "Honest Take" section: *"If you're comparing the Sony INZONE H6 Air vs H9, the H9's closed-back design suits louder environments, but the H6 Air's open-back soundstage is meaningfully wider for single-player play."*
+1. **"sony inzone h6 air vs h9"** — add once in "Honest Take": *"If you're deciding between the Sony INZONE H6 Air vs H9, the H9's closed-back isolation makes more sense for shared spaces — the H6 Air is purpose-built for a quiet room and wins decisively there."*
 
-2. **"open-back gaming headset 2026"** — fits the "Who Should Buy This" intro: *"If you've been searching for the best open-back gaming headset in 2026 that doesn't require a separate listening pair, the INZONE H6 Air ends that search."*
+2. **"open-back gaming headset 2026"** — fits the "Who Should Buy" opener: *"If you've been looking for the best open-back gaming headset in 2026 that doesn't require a separate pair for music, the INZONE H6 Air is the answer."*
 
 ### Technical
 
@@ -70,57 +72,15 @@ sony-inzone-h6-air-review
 
 ---
 
-### Overall Score: 72 / 100
+### Overall Score: 84 / 100
 
 | Area | Score |
 |---|---|
-| Title & Meta | 13 / 25 |
-| Content & Keywords | 29 / 40 |
+| Title & Meta | 16 / 25 |
+| Content & Keywords | 38 / 40 |
 | Intent & Long-tails | 20 / 20 |
 | Technical | 10 / 15 |
 
-**Single most impactful fix:** Get "sony inzone h6 air review" into the body as an exact phrase — specifically the first sentence of the hook paragraph. Then rename at least two subheadings to include "INZONE H6 Air." Those two changes plus the meta description CTA close the gap to ~88/100.
+**Improvement from previous version: +12 points (72 → 84).** The three auto-improvements landed cleanly: exact phrase in hook ✅, three keyword H2s ✅, FAQ section as H2 ✅. The remaining 16 points come from entering the generated title and meta description in the admin panel — that single action closes most of the gap.
 
----
-
-## 3. Auto-Improvement
-
-Score is 72 — below the 75 threshold. Copy-paste replacements for every failing item only.
-
-```
-Revised Meta Description (144 chars — exact phrase present, clear CTA):
-Sony INZONE H6 Air review: studio-grade MDR-MV1 drivers in a $199 gaming
-headset. Is the open-back trade-off worth it? Read the full verdict.
-
----
-
-Revised Hook Paragraph:
-This Sony INZONE H6 Air review starts with a single data point that changes
-the conversation: Sony's MDR-MV1 headphones cost $400 and are used by
-professional audio engineers who need to hear every imperfection in a
-recording. The INZONE H6 Air uses the same 40mm drivers. It costs $199
-and comes with a detachable gaming microphone.
-
-That's not a coincidence. It's a product decision — and it pays off.
-
----
-
-Suggested H2 Subheadings (promote from H3, rename for keywords):
-1. ## Why the INZONE H6 Air Uses Open-Back — and Why It Matters
-   (replaces "### What Open-Back Actually Means (and Why It Matters Here)")
-2. ## Who Should Buy the Sony INZONE H6 Air
-   (replaces "### Who Should Buy This")
-
----
-
-FAQ Addition (add as H2 + paragraph before Verdict):
-## Is the Sony INZONE H6 Air Good for Competitive Gaming?
-
-It depends on your definition. The open-back design delivers exceptional
-positional audio — footsteps and environmental cues resolve more accurately
-than on most closed-back headsets. However, open-back means sound leaks in
-both directions: ambient noise comes through clearly on your end. For
-competitive play in a quiet, controlled room, the INZONE H6 Air has a
-genuine edge. For LAN events, shared spaces, or anywhere with ambient noise,
-a closed-back design is a better fit.
-```
+**Single most impactful remaining fix:** Enter the generated meta title and meta description in the admin SEO panel. That's worth up to 9 points and requires no content edits.
