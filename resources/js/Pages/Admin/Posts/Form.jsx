@@ -2,6 +2,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ImageUploader from '@/Components/ImageUploader';
 
+function toDatetimeLocal(val) {
+    if (!val) return new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    if (val.includes('T')) return val.slice(0, 16);
+    if (val.length === 10)  return val + 'T00:00';
+    return val.slice(0, 16);
+}
+
 export default function PostForm({ post, categories, tags, products, authors }) {
     const editing = !!post;
 
@@ -21,7 +28,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         image_3:             post?.image_3 ?? '',
         image_3_fit:         post?.image_3_fit ?? 'cover',
         status:          post?.status ?? 'draft',
-        published_at:    post?.published_at ?? new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
+        published_at:    toDatetimeLocal(post?.published_at),
         user_id:         post?.user_id ?? '',
         category_ids:    post?.categories?.map((c) => c.id) ?? [],
         tag_ids:         post?.tags?.map((t) => t.id) ?? [],
