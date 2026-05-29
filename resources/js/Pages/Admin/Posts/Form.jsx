@@ -18,7 +18,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         image_3:         post?.image_3 ?? '',
         status:          post?.status ?? 'draft',
         published_at:    post?.published_at ?? '',
-        user_id:         post?.user_id ?? (authors?.[0]?.id ?? ''),
+        user_id:         post?.user_id ?? '',
         category_ids:    post?.categories?.map((c) => c.id) ?? [],
         tag_ids:         post?.tags?.map((t) => t.id) ?? [],
         product_ids:     post?.products?.map((p) => p.id) ?? [],
@@ -120,6 +120,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                             <Field label="Written by" error={errors.user_id}>
                                 <select value={data.user_id} onChange={(e) => setData('user_id', e.target.value)}
                                     className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
+                                    <option value="">— Select author —</option>
                                     {authors.map((a) => (
                                         <option key={a.id} value={a.id}>{a.name}</option>
                                     ))}

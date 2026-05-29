@@ -129,7 +129,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                     {/* Author card */}
                     {post.user && (
                         <div className="mt-8 flex items-start gap-4 bg-white border border-gray-200 rounded-xl p-5">
-                            <Link href={route('author', post.user.slug)} className="flex-shrink-0">
+                            <Link href={post.user.slug ? route('author', post.user.slug) : '#'} className="flex-shrink-0">
                                 {post.user.avatar_url ? (
                                     <img src={post.user.avatar_url} alt={post.user.name} loading="lazy"
                                         className="w-14 h-14 rounded-full object-cover ring-2 ring-indigo-100 hover:ring-indigo-300 transition" />
@@ -144,14 +144,14 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                             </Link>
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Written by</p>
-                                <Link href={route('author', post.user.slug)}
+                                <Link href={post.user.slug ? route('author', post.user.slug) : '#'}
                                     className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors">
                                     {post.user.name}
                                 </Link>
                                 {post.user.bio && (
                                     <p className="text-sm text-gray-500 mt-1">{post.user.bio}</p>
                                 )}
-                                <Link href={route('author', post.user.slug)}
+                                <Link href={post.user.slug ? route('author', post.user.slug) : '#'}
                                     className="inline-flex items-center gap-1 mt-2 text-xs text-indigo-500
                                                hover:text-indigo-700 font-medium transition-colors">
                                     View all posts →

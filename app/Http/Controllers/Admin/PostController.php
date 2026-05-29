@@ -38,7 +38,7 @@ class PostController extends Controller
             'categories' => Category::orderBy('name')->get(['id', 'name']),
             'tags'       => Tag::orderBy('name')->get(['id', 'name']),
             'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
-            'authors'    => User::orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
+            'authors'    => User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
         ]);
     }
 
@@ -100,7 +100,7 @@ class PostController extends Controller
             'categories' => Category::orderBy('name')->get(['id', 'name']),
             'tags'       => Tag::orderBy('name')->get(['id', 'name']),
             'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
-            'authors'    => User::orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
+            'authors'    => User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
         ]);
     }
 
