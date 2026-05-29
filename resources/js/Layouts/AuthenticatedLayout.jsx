@@ -189,9 +189,6 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="text-base font-medium text-gray-800">
                                 {user.name}
                             </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
                         </div>
 
                         <div className="mt-3 space-y-1">

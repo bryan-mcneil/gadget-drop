@@ -43,7 +43,9 @@ Structure:
 - **Who it's for** — specific use cases and personas
 - **Key features** (3–5 bullets) — benefits-first, not raw specs
 - **Honest take** — one potential downside or "not for you if…" (builds trust)
+- `---` — horizontal rule rendered as a styled gradient divider on the site; place one before Verdict and one before the CTA
 - **Verdict** — punchy 2-sentence wrap-up
+- `---`
 - **CTA** — "Check the current price on Amazon →" (do NOT include the actual affiliate URL — that gets added in the admin panel)
 
 ### Tone rules
@@ -54,17 +56,20 @@ Structure:
 - Amazon Associates disclosure is added automatically by the site — do NOT include it in the body
 
 ### Output
-Return the post in this format:
+Return the post wrapped in a single fenced code block so the raw text is copyable without markdown rendering. Use plain-text labels (no `##`):
+
+````
 ```
-## Title
+TITLE:
 [post title]
 
-## Excerpt
+EXCERPT:
 [excerpt]
 
-## Focus Keyword
+FOCUS KEYWORD:
 [keyword]
 
-## Body
+BODY:
 [full markdown body]
 ```
+````

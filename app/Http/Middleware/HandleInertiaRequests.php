@@ -35,19 +35,24 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? [
+                    'id'   => $request->user()->id,
+                    'name' => $request->user()->name,
+                ] : null,
             ],
             'navigation' => fn () => [
                 'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
                     ->having('posts_count', '>', 0)
                     ->orderByDesc('posts_count')
                     ->take(12)
-                    ->get(['id', 'name', 'slug', 'posts_count']),
+                    ->get()
+                    ->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug, 'posts_count' => $c->posts_count]),
                 'popularTags' => Tag::withCount(['posts' => fn ($q) => $q->published()])
                     ->having('posts_count', '>', 0)
                     ->orderByDesc('posts_count')
                     ->take(24)
-                    ->get(['id', 'name', 'slug']),
+                    ->get(['id', 'name', 'slug'])
+                    ->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
                 'trending' => Post::published()
                     ->where('type', '!=', 'tech_tip')
                     ->orderByDesc('view_count')
