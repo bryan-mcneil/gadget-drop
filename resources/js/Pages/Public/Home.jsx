@@ -314,7 +314,7 @@ function JoinTheDrop() {
                             </svg>
                         </div>
                         <p className="text-2xl font-bold text-white mt-1">You're in!</p>
-                        <p className="text-indigo-200 text-base">Watch your inbox for tomorrow's drop.</p>
+                        <p className="text-indigo-200 text-base">Watch your inbox for our weekly drop.</p>
                         <a href={route('unsubscribe')}
                             className="text-xs text-white/30 hover:text-white/60 transition-colors mt-2 inline-block">
                             Unsubscribe anytime →
