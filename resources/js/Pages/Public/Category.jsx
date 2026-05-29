@@ -4,7 +4,9 @@ import PublicLayout from '@/Layouts/PublicLayout';
 export default function CategoryPage({ category, posts, categories }) {
     return (
         <PublicLayout>
-            <Head title={`${category.name} — GadgetDrop`} />
+            <Head title={`${category.name} — GadgetDrop`}>
+                <meta name="description" content={`Browse ${category.name} reviews, picks, and buying guides on GadgetDrop. ${posts.total} posts and counting.`} />
+            </Head>
 
             <CategoryHero category={category} postCount={posts.total} />
 

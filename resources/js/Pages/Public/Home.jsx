@@ -8,7 +8,9 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
 
     return (
         <PublicLayout>
-            <Head title="GadgetDrop — Daily Tech Picks" />
+            <Head title="GadgetDrop — Daily Tech Picks">
+                <meta name="description" content="Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price — delivered fresh every day." />
+            </Head>
 
             <HeroCarousel slides={heroSlides} />
 

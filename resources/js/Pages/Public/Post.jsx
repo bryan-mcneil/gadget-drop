@@ -28,7 +28,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
         <PublicLayout>
             <Head>
                 <title>{seo?.meta_title ?? `${post.title} | GadgetDrop`}</title>
-                {seo?.meta_description && <meta name="description" content={seo.meta_description} />}
+                <meta name="description" content={seo?.meta_description ?? post.excerpt ?? `${post.title} — GadgetDrop`} />
                 {seo?.canonical_url && <link rel="canonical" href={seo.canonical_url} />}
                 <meta property="og:title" content={seo?.meta_title ?? post.title} />
                 {seo?.og_image && <meta property="og:image" content={seo.og_image} />}
