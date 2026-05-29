@@ -19,7 +19,9 @@ class TechTipController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('Admin/TechTips/Index');
+        return Inertia::render('Admin/TechTips/Index', [
+            'authors' => \App\Models\User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name']),
+        ]);
     }
 
     public function search(Request $request): JsonResponse
@@ -71,11 +73,12 @@ class TechTipController extends Controller
         $request->validate([
             'source_url'    => 'nullable|string|max:500',
             'json_response' => 'required|string',
+            'user_id'       => 'nullable|exists:users,id',
         ]);
 
         try {
             $data  = $this->generator->parseClaudeResponse($request->json_response);
-            $draft = $this->generator->createDraftPost($data, $request->source_url, auth()->id());
+            $draft = $this->generator->createDraftPost($data, $request->source_url, $request->user_id ?? auth()->id());
 
             return response()->json([
                 'redirect' => route('admin.posts.edit', $draft->id),

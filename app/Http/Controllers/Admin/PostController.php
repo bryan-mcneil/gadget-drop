@@ -127,6 +127,7 @@ class PostController extends Controller
             'source_url'     => 'nullable|string|max:500',
             'status'         => 'required|in:draft,published,scheduled',
             'published_at'   => 'nullable|date',
+            'user_id'        => 'nullable|exists:users,id',
             'category_ids'   => 'nullable|array',
             'category_ids.*' => 'exists:categories,id',
             'tag_ids'        => 'nullable|array',

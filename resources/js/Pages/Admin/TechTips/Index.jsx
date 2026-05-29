@@ -3,9 +3,10 @@ import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function TechTipsIndex() {
+export default function TechTipsIndex({ authors = [] }) {
     const [sourceUrl,    setSourceUrl]    = useState('');
     const [jsonResponse, setJsonResponse] = useState('');
+    const [userId,       setUserId]       = useState('');
     const [creating,     setCreating]     = useState(false);
     const [error,        setError]        = useState(null);
 
@@ -19,6 +20,7 @@ export default function TechTipsIndex() {
             const { data } = await axios.post(route('admin.tech-tips.generate'), {
                 source_url:    sourceUrl.trim(),
                 json_response: jsonResponse.trim(),
+                user_id:       userId || null,
             });
             window.location.href = data.redirect;
         } catch (err) {
@@ -62,6 +64,23 @@ export default function TechTipsIndex() {
                             placeholder="https://www.reddit.com/r/techsupport/comments/…"
                             className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-gray-700">
+                            Author
+                            <span className="ml-1.5 text-xs font-normal text-gray-400">(required — select the writer for this tip)</span>
+                        </label>
+                        <select
+                            value={userId}
+                            onChange={e => setUserId(e.target.value)}
+                            className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        >
+                            <option value="">— Select author —</option>
+                            {authors.map(a => (
+                                <option key={a.id} value={a.id}>{a.name}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="space-y-1.5">
