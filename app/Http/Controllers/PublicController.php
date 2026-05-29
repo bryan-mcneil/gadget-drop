@@ -143,7 +143,8 @@ class PublicController extends Controller
             'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
                 ->having('posts_count', '>', 0)
                 ->orderBy('name')
-                ->get(['id', 'name', 'slug', 'featured_image']),
+                ->get()
+                ->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug, 'featured_image' => $c->featured_image, 'posts_count' => $c->posts_count]),
             'spotlight' => $spotlight,
             'topPicks'  => $topPicks,
         ]);
@@ -166,8 +167,43 @@ class PublicController extends Controller
             }
         });
 
-        $postData = $post->toArray();
-        $postData['published_at'] = $post->published_at?->format('Y-m-d');
+        $postData = [
+            'id'             => $post->id,
+            'type'           => $post->type,
+            'title'          => $post->title,
+            'slug'           => $post->slug,
+            'excerpt'        => $post->excerpt,
+            'body'           => $post->body,
+            'featured_image' => $post->featured_image,
+            'image_1'        => $post->image_1,
+            'image_2'        => $post->image_2,
+            'image_3'        => $post->image_3,
+            'source_url'     => $post->source_url,
+            'published_at'   => $post->published_at?->format('Y-m-d'),
+            'categories'     => $post->categories->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug]),
+            'tags'           => $post->tags->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
+            'products'       => $post->products->map(fn ($p) => [
+                'id'          => $p->id,
+                'name'        => $p->name,
+                'description' => $p->description,
+                'price'       => $p->price,
+                'image_url'   => $p->image_url,
+            ]),
+            'seo_meta' => $post->seoMeta ? [
+                'meta_title'       => $post->seoMeta->meta_title,
+                'meta_description' => $post->seoMeta->meta_description,
+                'canonical_url'    => $post->seoMeta->canonical_url,
+                'og_image'         => $post->seoMeta->og_image,
+                'focus_keyword'    => $post->seoMeta->focus_keyword,
+            ] : null,
+            'user' => $post->user ? [
+                'id'         => $post->user->id,
+                'name'       => $post->user->name,
+                'bio'        => $post->user->bio,
+                'avatar_url' => $post->user->avatar_url,
+                'slug'       => $post->user->slug,
+            ] : null,
+        ];
 
         $categoryIds = $post->categories->pluck('id');
         $tagIds      = $post->tags->pluck('id');
@@ -223,7 +259,13 @@ class PublicController extends Controller
     public function category(Category $category): Response
     {
         return Inertia::render('Public/Category', [
-            'category' => $category,
+            'category' => [
+                'id'             => $category->id,
+                'name'           => $category->name,
+                'slug'           => $category->slug,
+                'description'    => $category->description,
+                'featured_image' => $category->featured_image,
+            ],
             'posts' => Post::published()
                 ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
                 ->with('categories')
