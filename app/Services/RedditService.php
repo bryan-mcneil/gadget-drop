@@ -3,17 +3,22 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class RedditService
 {
-    private string $userAgent = 'GadgetDrop:TechTipBot/1.0';
+    private array $headers = [
+        'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept'          => 'application/json, text/plain, */*',
+        'Accept-Language' => 'en-US,en;q=0.9',
+    ];
 
     /**
      * Search a subreddit for top posts matching a keyword.
      */
     public function search(string $query, string $subreddit = 'techsupport', string $time = 'month', int $limit = 10): array
     {
-        $response = Http::withHeaders(['User-Agent' => $this->userAgent])
+        $response = Http::withHeaders($this->headers)
             ->timeout(15)
             ->get("https://www.reddit.com/r/{$subreddit}/search.json", [
                 'q'           => $query,
@@ -23,8 +28,15 @@ class RedditService
                 'restrict_sr' => 1,
             ]);
 
+        Log::debug('Reddit search', ['status' => $response->status(), 'url' => "r/{$subreddit}/search"]);
+
+        if ($response->status() === 403) {
+            throw new \Exception("Reddit is blocking search requests from this server. Paste a direct thread URL instead.");
+        }
+
         if (! $response->successful()) {
-            throw new \Exception("Reddit API error ({$response->status()})");
+            Log::warning('Reddit search failed', ['status' => $response->status(), 'body' => $response->body()]);
+            throw new \Exception("Reddit search failed ({$response->status()})");
         }
 
         return collect($response->json('data.children') ?? [])
@@ -53,7 +65,7 @@ class RedditService
     {
         $permalink = '/' . ltrim(rtrim($permalink, '/'), '/');
 
-        $response = Http::withHeaders(['User-Agent' => $this->userAgent])
+        $response = Http::withHeaders($this->headers)
             ->timeout(20)
             ->get("https://www.reddit.com{$permalink}.json", [
                 'sort'  => 'top',
@@ -61,8 +73,11 @@ class RedditService
                 'depth' => 1,
             ]);
 
+        Log::debug('Reddit fetchThread', ['status' => $response->status(), 'permalink' => $permalink]);
+
         if (! $response->successful()) {
-            throw new \Exception("Failed to fetch Reddit thread ({$response->status()})");
+            Log::warning('Reddit fetchThread failed', ['status' => $response->status(), 'body' => substr($response->body(), 0, 500)]);
+            throw new \Exception("Reddit returned {$response->status()} for this thread. It may be private or removed.");
         }
 
         $data     = $response->json();

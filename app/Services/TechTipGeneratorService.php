@@ -77,7 +77,7 @@ PROMPT;
     /**
      * Persist the parsed data as a draft Post with tags and SEO meta.
      */
-    public function createDraftPost(array $generated, string $sourceUrl, int $authorId): Post
+    public function createDraftPost(array $generated, ?string $sourceUrl, int $authorId): Post
     {
         $slug     = $this->slugify($generated['title']);
         $baseSlug = $slug;

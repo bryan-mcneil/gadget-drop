@@ -69,7 +69,7 @@ class TechTipController extends Controller
     public function generate(Request $request): JsonResponse
     {
         $request->validate([
-            'source_url'    => 'required|string|max:500',
+            'source_url'    => 'nullable|string|max:500',
             'json_response' => 'required|string',
         ]);
 
