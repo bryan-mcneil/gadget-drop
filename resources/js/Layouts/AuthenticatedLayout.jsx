@@ -54,6 +54,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Tech Tips
                                 </NavLink>
+                                <NavLink
+                                    href={route('admin.newsletter.index')}
+                                    active={route().current('admin.newsletter.*')}
+                                >
+                                    Newsletter
+                                </NavLink>
                             </div>
                         </div>
 
@@ -181,6 +187,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('admin.tech-tips.*')}
                         >
                             Tech Tips
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('admin.newsletter.index')}
+                            active={route().current('admin.newsletter.*')}
+                        >
+                            Newsletter
                         </ResponsiveNavLink>
                     </div>
 

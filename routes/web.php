@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ImageController;
@@ -40,6 +41,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('tech-tips/search', [TechTipController::class, 'search'])->name('tech-tips.search');
     Route::get('tech-tips/prepare', [TechTipController::class, 'prepare'])->name('tech-tips.prepare');
     Route::post('tech-tips/generate', [TechTipController::class, 'generate'])->name('tech-tips.generate');
+    Route::get('newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
+    Route::post('newsletter/test', [NewsletterController::class, 'sendTest'])->name('newsletter.test');
+    Route::post('newsletter/send-all', [NewsletterController::class, 'sendAll'])->name('newsletter.send-all');
 });
 
 Route::middleware('auth')->group(function () {
