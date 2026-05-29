@@ -11,7 +11,8 @@ class Post extends Model
 {
     protected $fillable = [
         'user_id', 'type', 'title', 'slug', 'excerpt', 'body',
-        'source_url', 'featured_image', 'image_1', 'image_2', 'image_3',
+        'source_url', 'featured_image', 'featured_image_fit',
+        'image_1', 'image_1_fit', 'image_2', 'image_2_fit', 'image_3', 'image_3_fit',
         'status', 'published_at', 'view_count',
     ];
 

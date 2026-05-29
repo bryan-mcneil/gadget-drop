@@ -5,6 +5,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import AffiliateDisclosure from '@/Components/AffiliateDisclosure';
 import AdUnit from '@/Components/AdUnit';
 import PostJsonLd from '@/Components/PostJsonLd';
+import AdaptiveImage from '@/Components/AdaptiveImage';
 
 /* ── Custom ReactMarkdown renderers ─────────────────────────── */
 const proseComponents = {
@@ -60,8 +61,14 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                     </div>
 
                     {post.featured_image && (
-                        <img src={post.featured_image} alt={`Featured image for ${post.title}`}
-                            className="w-full rounded-xl mb-8 object-cover max-h-80" />
+                        <AdaptiveImage
+                            src={post.featured_image}
+                            alt={`Featured image for ${post.title}`}
+                            fit={post.featured_image_fit ?? 'cover'}
+                            className="w-full rounded-xl max-h-96"
+                            wrapperClass="mb-8"
+                            loading="eager"
+                        />
                     )}
 
                     {/* Products */}
@@ -74,7 +81,11 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                     )}
 
                     {/* Body — split into thirds with inline images between sections */}
-                    <BodyWithImages body={post.body} images={[post.image_1, post.image_2, post.image_3]} />
+                    <BodyWithImages
+                        body={post.body}
+                        images={[post.image_1, post.image_2, post.image_3]}
+                        fits={[post.image_1_fit, post.image_2_fit, post.image_3_fit]}
+                    />
 
                     {/* Repeat CTA after body — captures readers who finished the article */}
                     {post.products.length > 0 && (
@@ -209,7 +220,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
     );
 }
 
-function BodyWithImages({ body, images }) {
+function BodyWithImages({ body, images, fits = [] }) {
     const paragraphs = body ? body.split(/\n\n+/) : [];
     const total = paragraphs.length;
 
@@ -217,9 +228,9 @@ function BodyWithImages({ body, images }) {
     const cut2 = Math.max(cut1 + 1, Math.floor((2 * total) / 3));
 
     const sections = [
-        { text: paragraphs.slice(0, cut1).join('\n\n'), image: images[0] },
-        { text: paragraphs.slice(cut1, cut2).join('\n\n'), image: images[1] },
-        { text: paragraphs.slice(cut2).join('\n\n'), image: images[2] },
+        { text: paragraphs.slice(0, cut1).join('\n\n'), image: images[0], fit: fits[0] ?? 'cover' },
+        { text: paragraphs.slice(cut1, cut2).join('\n\n'), image: images[1], fit: fits[1] ?? 'cover' },
+        { text: paragraphs.slice(cut2).join('\n\n'), image: images[2], fit: fits[2] ?? 'cover' },
     ];
 
     return (
@@ -232,11 +243,12 @@ function BodyWithImages({ body, images }) {
                         </div>
                     )}
                     {section.image && (
-                        <img
+                        <AdaptiveImage
                             src={section.image}
                             alt=""
-                            loading="lazy"
-                            className="w-full rounded-xl my-8 object-cover max-h-72"
+                            fit={section.fit}
+                            className="w-full rounded-xl max-h-80"
+                            wrapperClass="my-8"
                         />
                     )}
                 </div>

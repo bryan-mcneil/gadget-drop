@@ -12,10 +12,14 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         excerpt:         post?.excerpt ?? '',
         body:            post?.body ?? '',
         source_url:      post?.source_url ?? '',
-        featured_image:  post?.featured_image ?? '',
-        image_1:         post?.image_1 ?? '',
-        image_2:         post?.image_2 ?? '',
-        image_3:         post?.image_3 ?? '',
+        featured_image:      post?.featured_image ?? '',
+        featured_image_fit:  post?.featured_image_fit ?? 'cover',
+        image_1:             post?.image_1 ?? '',
+        image_1_fit:         post?.image_1_fit ?? 'cover',
+        image_2:             post?.image_2 ?? '',
+        image_2_fit:         post?.image_2_fit ?? 'cover',
+        image_3:             post?.image_3 ?? '',
+        image_3_fit:         post?.image_3_fit ?? 'cover',
         status:          post?.status ?? 'draft',
         published_at:    post?.published_at ?? '',
         user_id:         post?.user_id ?? '',
@@ -173,6 +177,12 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                     onChange={(url) => setData('featured_image', url)}
                                     previewClass="h-28"
                                 />
+                                {data.featured_image && (
+                                    <FitToggle
+                                        value={data.featured_image_fit}
+                                        onChange={(v) => setData('featured_image_fit', v)}
+                                    />
+                                )}
                             </Field>
                             <button type="submit" disabled={processing}
                                 className="w-full bg-indigo-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50">
@@ -191,6 +201,12 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                         onChange={(url) => setData(`image_${n}`, url)}
                                         previewClass="h-24"
                                     />
+                                    {data[`image_${n}`] && (
+                                        <FitToggle
+                                            value={data[`image_${n}_fit`]}
+                                            onChange={(v) => setData(`image_${n}_fit`, v)}
+                                        />
+                                    )}
                                 </Field>
                             ))}
                         </div>
@@ -211,6 +227,30 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                 </div>
             </form>
         </AuthenticatedLayout>
+    );
+}
+
+function FitToggle({ value, onChange }) {
+    return (
+        <div className="flex items-center gap-1.5 mt-1.5">
+            <span className="text-xs text-gray-400">Display:</span>
+            {[
+                { val: 'cover',   label: 'Crop to fill' },
+                { val: 'contain', label: 'Show full image' },
+            ].map(({ val, label }) => (
+                <button
+                    key={val}
+                    type="button"
+                    onClick={() => onChange(val)}
+                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                        value === val
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}>
+                    {label}
+                </button>
+            ))}
+        </div>
     );
 }
 
