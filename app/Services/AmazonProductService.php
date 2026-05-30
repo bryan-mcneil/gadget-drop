@@ -91,6 +91,8 @@ class AmazonProductService
                 'ItemInfo.Title',
                 'ItemInfo.Features',
                 'Offers.Listings.Price',
+                'CustomerReviews.Count',
+                'CustomerReviews.StarRating',
             ],
         ]);
 
@@ -160,13 +162,18 @@ class AmazonProductService
         $name  = $item['ItemInfo']['Title']['DisplayValue'] ?? null;
         $price = $item['Offers']['Listings'][0]['Price']['Amount'] ?? null;
 
-        $features = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
+        $features    = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
         $description = $features ? implode("\n", array_slice($features, 0, 5)) : null;
 
+        $reviewCount = $item['CustomerReviews']['Count'] ?? null;
+        $starRating  = $item['CustomerReviews']['StarRating']['Value'] ?? null;
+
         return [
-            'name'        => $name,
-            'price'       => $price,
-            'description' => $description,
+            'name'                => $name,
+            'price'               => $price,
+            'description'         => $description,
+            'amazon_rating'       => $starRating  !== null ? (float) $starRating  : null,
+            'amazon_review_count' => $reviewCount !== null ? (int)   $reviewCount : null,
         ];
     }
 

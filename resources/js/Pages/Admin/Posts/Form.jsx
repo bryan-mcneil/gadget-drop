@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ImageUploader from '@/Components/ImageUploader';
@@ -33,6 +34,9 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         category_ids:    post?.categories?.map((c) => c.id) ?? [],
         tag_ids:         post?.tags?.map((t) => t.id) ?? [],
         product_ids:     post?.products?.map((p) => p.id) ?? [],
+        rating:          post?.rating ?? null,
+        pros:            post?.pros   ?? [],
+        cons:            post?.cons   ?? [],
         seo: {
             meta_title:       post?.seo_meta?.meta_title ?? '',
             meta_description: post?.seo_meta?.meta_description ?? '',
@@ -77,7 +81,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
 
             <form onSubmit={handleSubmit} className="py-8 px-4 max-w-5xl mx-auto space-y-6">
                 <div className="grid grid-cols-3 gap-6">
-                    {/* Main content */}
+                    {/* ── Main content ── */}
                     <div className="col-span-2 space-y-5">
                         <Field label="Title" error={errors.title}>
                             <input type="text" value={data.title} onChange={(e) => handleTitleChange(e.target.value)}
@@ -123,7 +127,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                         </div>
                     </div>
 
-                    {/* Sidebar */}
+                    {/* ── Sidebar ── */}
                     <div className="space-y-5">
                         {/* Author */}
                         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
@@ -230,6 +234,41 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                         <CheckboxGroup label="Products" items={products} selected={data.product_ids}
                             onToggle={(id) => toggleId('product_ids', id)}
                             renderLabel={(p) => `${p.name}${p.price ? ` — $${p.price}` : ''}`} />
+
+                        {/* Review — articles only */}
+                        {data.type === 'article' && (
+                            <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
+                                <div>
+                                    <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">Review</h3>
+                                    <p className="text-xs text-gray-400 mt-0.5">Powers Google rich results (star ratings, pros/cons).</p>
+                                </div>
+
+                                <Field label="Editorial Rating" error={errors.rating}>
+                                    <StarPicker
+                                        value={data.rating}
+                                        onChange={(v) => setData('rating', v)}
+                                    />
+                                </Field>
+
+                                <Field label="Pros" error={errors.pros}>
+                                    <ListEditor
+                                        items={data.pros}
+                                        onChange={(items) => setData('pros', items)}
+                                        placeholder="Add a pro…"
+                                        color="emerald"
+                                    />
+                                </Field>
+
+                                <Field label="Cons" error={errors.cons}>
+                                    <ListEditor
+                                        items={data.cons}
+                                        onChange={(items) => setData('cons', items)}
+                                        placeholder="Add a con…"
+                                        color="rose"
+                                    />
+                                </Field>
+                            </div>
+                        )}
                     </div>
                 </div>
             </form>
@@ -237,6 +276,95 @@ export default function PostForm({ post, categories, tags, products, authors }) 
     );
 }
 
+/* ─── Star picker ────────────────────────────────────────────── */
+const RATING_STEPS = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+
+function StarPicker({ value, onChange }) {
+    const numVal = value ? Number(value) : null;
+
+    return (
+        <div className="space-y-2">
+            <div className="flex flex-wrap gap-1">
+                {RATING_STEPS.map((v) => (
+                    <button
+                        key={v}
+                        type="button"
+                        onClick={() => onChange(numVal === v ? null : v)}
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-colors ${
+                            numVal === v
+                                ? 'bg-amber-400 text-white'
+                                : 'bg-gray-100 text-gray-600 hover:bg-amber-100 hover:text-amber-700'
+                        }`}>
+                        {v}
+                    </button>
+                ))}
+            </div>
+            {numVal ? (
+                <p className="text-xs text-amber-600 font-medium">
+                    {'★'.repeat(Math.floor(numVal))}{numVal % 1 ? '½' : ''} &nbsp;{numVal} / 5
+                </p>
+            ) : (
+                <p className="text-xs text-gray-400">No rating set</p>
+            )}
+        </div>
+    );
+}
+
+/* ─── Dynamic list editor ────────────────────────────────────── */
+function ListEditor({ items, onChange, placeholder, color = 'gray' }) {
+    const [draft, setDraft] = useState('');
+
+    const dotColor  = color === 'emerald' ? 'bg-emerald-400' : color === 'rose' ? 'bg-rose-400' : 'bg-gray-400';
+    const addBtnCls = color === 'emerald'
+        ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+        : color === 'rose'
+            ? 'bg-rose-50 text-rose-700 hover:bg-rose-100'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200';
+
+    function add() {
+        const trimmed = draft.trim();
+        if (!trimmed) return;
+        onChange([...items, trimmed]);
+        setDraft('');
+    }
+
+    function remove(i) {
+        onChange(items.filter((_, idx) => idx !== i));
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Enter') { e.preventDefault(); add(); }
+    }
+
+    return (
+        <div className="space-y-1.5">
+            {items.map((item, i) => (
+                <div key={i} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${dotColor}`} />
+                    <span className="flex-1 text-sm text-gray-700">{item}</span>
+                    <button type="button" onClick={() => remove(i)}
+                        className="text-gray-300 hover:text-red-400 transition-colors text-sm leading-none">✕</button>
+                </div>
+            ))}
+            <div className="flex gap-2 pt-0.5">
+                <input
+                    type="text"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={handleKey}
+                    placeholder={placeholder}
+                    className="flex-1 border-gray-300 rounded-lg shadow-sm text-sm"
+                />
+                <button type="button" onClick={add}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${addBtnCls}`}>
+                    Add
+                </button>
+            </div>
+        </div>
+    );
+}
+
+/* ─── Shared helpers ─────────────────────────────────────────── */
 function FitToggle({ value, onChange }) {
     return (
         <div className="flex items-center gap-1.5 mt-1.5">

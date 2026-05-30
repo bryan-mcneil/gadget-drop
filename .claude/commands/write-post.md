@@ -37,16 +37,43 @@ Write a complete, publish-ready GadgetDrop post containing:
 - The exact phrase someone would Google
 
 ### 4. Full Post Body (Markdown)
-Structure:
-- **Hook paragraph** — open with a relatable problem or surprising fact, not "In this article we will…"
-- **What it is** — plain-language explanation of the product, no jargon dumps
-- **Who it's for** — specific use cases and personas
-- **Key features** (3–5 bullets) — benefits-first, not raw specs
-- **Honest take** — one potential downside or "not for you if…" (builds trust)
-- `---` — horizontal rule rendered as a styled gradient divider on the site; place one before Verdict and one before the CTA
-- **Verdict** — punchy 2-sentence wrap-up
+
+Structure and heading rules:
+
+- **Hook paragraph** — no heading, open with a relatable problem or surprising fact, not "In this article we will…"
+
+- **What it is** — **Required SEO heading.** Never use the generic label "What It Is". Write an H2 that contains the product name or focus keyword and answers a real question. Examples:
+  - `## What Is the Anker 737 Power Bank?`
+  - `## How Does the Bose QuietComfort 45 Actually Work?`
+  - `## The Sony WH-1000XM5, Explained`
+  Plain-language explanation of the product, no jargon dumps.
+
+- **Who it's for** — **Required SEO heading.** Never use the generic label "Who It's For". Write an H2 that frames the audience around the product or keyword. Examples:
+  - `## Who Should Buy the Anker 737?`
+  - `## Is the Bose QC45 Right for You?`
+  - `## The Kind of Person Who Will Love This Keyboard`
+  Specific use cases and personas.
+
+- **Key features** (3–5 bullets, benefits-first, not raw specs) — Heading is flexible. Use the generic `## Key Features` only if no stronger keyword opportunity exists. Otherwise make it product-specific:
+  - `## What the Anker 737 Does Better Than the Competition`
+  - `## Key Features Worth Knowing`
+
+- **Honest take** — one potential downside or "not for you if…" (builds trust). Heading is flexible — use `## Honest Take`, `## One Thing to Consider`, or a product-specific angle if it reads better.
+
+- **FAQ** (3 questions a real buyer would Google) — Heading is flexible. Use `## FAQ` or a keyword-rich variant like `## Anker 737 FAQ` or `## Common Questions`. Format each question as a bold H3-style line:
+  **Q: {question}**
+  {2–3 sentence answer in the author's voice}
+  Target "People Also Ask" style questions: comparisons, compatibility, "is it worth it", battery life, etc.
+
+- `---` — horizontal rule (rendered as a styled gradient divider); place one before Verdict and one before the CTA
+
+- **Verdict** — punchy 2-sentence wrap-up. Heading is flexible — `## Verdict`, `## The Verdict`, or `## Is the [Product] Worth It?` if that phrasing adds SEO value.
+
 - `---`
+
 - **CTA** — "Check the current price on Amazon →" (do NOT include the actual affiliate URL — that gets added in the admin panel)
+
+**Heading rule summary:** Every H2 is a Google ranking signal. "What It Is" and "Who It's For" are wasted H2s — replace them with headings that contain the product name or keyword. The others (Key Features, Honest Take, FAQ, Verdict) can stay generic if the section is already keyword-rich, but prefer product-specific phrasing when it sounds natural.
 
 ### Tone rules
 - **If a Persona/Voice is provided**: stay rigidly in that voice — vocabulary, sentence length, personality quirks, and level of technical depth should all match
@@ -69,7 +96,22 @@ EXCERPT:
 FOCUS KEYWORD:
 [keyword]
 
+RATING:
+[one value from: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5 — your honest editorial score]
+
+PROS:
+- [benefit 1 — concise, 5–10 words]
+- [benefit 2]
+- [benefit 3]
+(2–5 bullets drawn from the Key features and real strengths of the product)
+
+CONS:
+- [drawback 1 — honest, 5–10 words]
+(1–3 bullets drawn from the Honest take; if a product is genuinely strong, one con is fine)
+
 BODY:
 [full markdown body]
 ```
 ````
+
+**Rating guidance:** Score based on value-for-money, build quality, and how well it solves the problem — not just whether it's a popular product. A 3.5 is honest and trustworthy; everything being 4.5+ destroys credibility.

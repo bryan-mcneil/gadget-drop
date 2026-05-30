@@ -161,9 +161,11 @@ class PublicController extends Controller
         $post->products->each(function ($product) {
             $api = $this->resolveApiData($product->asin);
             if ($api) {
-                $product->name        = $api['name']        ?? $product->name;
-                $product->price       = $api['price']       ?? $product->price;
-                $product->description = $api['description'] ?? $product->description;
+                $product->name                = $api['name']                ?? $product->name;
+                $product->price               = $api['price']               ?? $product->price;
+                $product->description         = $api['description']         ?? $product->description;
+                $product->amazon_rating       = $api['amazon_rating']       ?? null;
+                $product->amazon_review_count = $api['amazon_review_count'] ?? null;
             }
         });
 
@@ -187,11 +189,13 @@ class PublicController extends Controller
             'categories'     => $post->categories->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug]),
             'tags'           => $post->tags->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
             'products'       => $post->products->map(fn ($p) => [
-                'id'          => $p->id,
-                'name'        => $p->name,
-                'description' => $p->description,
-                'price'       => $p->price,
-                'image_url'   => $p->image_url,
+                'id'                  => $p->id,
+                'name'                => $p->name,
+                'description'         => $p->description,
+                'price'               => $p->price,
+                'image_url'           => $p->image_url,
+                'amazon_rating'       => $p->amazon_rating       ?? null,
+                'amazon_review_count' => $p->amazon_review_count ?? null,
             ]),
             'seo_meta' => $post->seoMeta ? [
                 'meta_title'       => $post->seoMeta->meta_title,
@@ -200,6 +204,9 @@ class PublicController extends Controller
                 'og_image'         => $post->seoMeta->og_image,
                 'focus_keyword'    => $post->seoMeta->focus_keyword,
             ] : null,
+            'rating' => $post->rating,
+            'pros'   => $post->pros ?? [],
+            'cons'   => $post->cons ?? [],
             'user' => $post->user ? [
                 'id'         => $post->user->id,
                 'name'       => $post->user->name,

@@ -71,6 +71,11 @@ class PostController extends Controller
             'seo.meta_title'       => 'nullable|string|max:70',
             'seo.meta_description' => 'nullable|string|max:320',
             'seo.focus_keyword'    => 'nullable|string|max:100',
+            'rating'               => 'nullable|numeric|min:1|max:5',
+            'pros'                 => 'nullable|array|max:10',
+            'pros.*'               => 'string|max:200',
+            'cons'                 => 'nullable|array|max:10',
+            'cons.*'               => 'string|max:200',
         ]);
 
         $post = Post::create([
@@ -137,6 +142,11 @@ class PostController extends Controller
             'seo.meta_title'       => 'nullable|string|max:70',
             'seo.meta_description' => 'nullable|string|max:320',
             'seo.focus_keyword'    => 'nullable|string|max:100',
+            'rating'               => 'nullable|numeric|min:1|max:5',
+            'pros'                 => 'nullable|array|max:10',
+            'pros.*'               => 'string|max:200',
+            'cons'                 => 'nullable|array|max:10',
+            'cons.*'               => 'string|max:200',
         ]);
 
         $post->update([

@@ -14,10 +14,14 @@ class Post extends Model
         'source_url', 'featured_image', 'featured_image_fit',
         'image_1', 'image_1_fit', 'image_2', 'image_2_fit', 'image_3', 'image_3_fit',
         'status', 'published_at', 'view_count',
+        'rating', 'pros', 'cons',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'rating'       => 'decimal:1',
+        'pros'         => 'array',
+        'cons'         => 'array',
     ];
 
     public function user(): BelongsTo
