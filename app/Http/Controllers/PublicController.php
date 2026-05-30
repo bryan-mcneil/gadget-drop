@@ -130,6 +130,8 @@ class PublicController extends Controller
             ];
         }
 
+        view()->share('serverJsonLd', $this->buildHomeJsonLd());
+
         return Inertia::render('Public/Home', [
             'heroSlides' => $slides,
             'recentPosts' => Post::published()
@@ -272,6 +274,40 @@ class PublicController extends Controller
             'tagPosts'      => $tagPosts,
             'recentPosts'   => $recentPosts,
         ]);
+    }
+
+    private function buildHomeJsonLd(): string
+    {
+        $base = url('');
+
+        $graph = [
+            [
+                '@type'        => 'Organization',
+                '@id'          => "{$base}/#organization",
+                'name'         => 'GadgetDrop',
+                'url'          => $base,
+                'logo'         => ['@type' => 'ImageObject', 'url' => "{$base}/favicon.svg"],
+                'description'  => 'GadgetDrop is a daily tech picks and gadget review site covering consumer electronics available on Amazon.',
+                'contactPoint' => ['@type' => 'ContactPoint', 'email' => 'hello@gadgetdrop.tech', 'contactType' => 'customer service'],
+            ],
+            [
+                '@type'     => 'WebSite',
+                '@id'       => "{$base}/#website",
+                'name'      => 'GadgetDrop',
+                'url'       => $base,
+                'publisher' => ['@id' => "{$base}/#organization"],
+                'potentialAction' => [
+                    '@type'       => 'SearchAction',
+                    'target'      => ['@type' => 'EntryPoint', 'urlTemplate' => "{$base}/search?q={search_term_string}"],
+                    'query-input' => 'required name=search_term_string',
+                ],
+            ],
+        ];
+
+        return json_encode(
+            ['@context' => 'https://schema.org', '@graph' => $graph],
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 
     private function buildServerMeta(array $d): array
