@@ -259,12 +259,151 @@ class PublicController extends Controller
             ->get($cols)
             ->map($formatPost);
 
+        // Share with blade for server-side injection (visible to Googlebot on first crawl)
+        view()->share('serverMeta',   $this->buildServerMeta($postData));
+        view()->share('serverJsonLd', $this->buildServerJsonLd($postData));
+
         return Inertia::render('Public/Post', [
             'post'          => $postData,
             'categoryPosts' => $categoryPosts,
             'tagPosts'      => $tagPosts,
             'recentPosts'   => $recentPosts,
         ]);
+    }
+
+    private function buildServerMeta(array $d): array
+    {
+        $seo = $d['seo_meta'] ?? [];
+        return [
+            'title'       => ($seo['meta_title']       ?? null) ?: "{$d['title']} | GadgetDrop",
+            'description' => ($seo['meta_description'] ?? null) ?: ($d['excerpt'] ?? ''),
+            'og_image'    => ($seo['og_image']          ?? null) ?: ($d['featured_image'] ?? null),
+            'canonical'   => ($seo['canonical_url']     ?? null) ?: (url("/posts/{$d['slug']}")),
+        ];
+    }
+
+    private function buildServerJsonLd(array $d): string
+    {
+        $base    = url('');
+        $seo     = $d['seo_meta'] ?? [];
+        $postUrl = ($seo['canonical_url'] ?? null) ?: "{$base}/posts/{$d['slug']}";
+
+        $graph = [];
+
+        // BlogPosting
+        $article = [
+            '@type'            => 'BlogPosting',
+            '@id'              => "{$postUrl}#article",
+            'headline'         => $d['title'],
+            'url'              => $postUrl,
+            'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $postUrl],
+            'datePublished'    => $d['published_at'] ?? null,
+            'publisher'        => [
+                '@type' => 'Organization',
+                'name'  => 'GadgetDrop',
+                'logo'  => ['@type' => 'ImageObject', 'url' => "{$base}/favicon.svg"],
+            ],
+        ];
+
+        $desc = ($seo['meta_description'] ?? null) ?: ($d['excerpt'] ?? null);
+        if ($desc) $article['description'] = $desc;
+
+        $img = ($seo['og_image'] ?? null) ?: ($d['featured_image'] ?? null);
+        if ($img) $article['image'] = ['@type' => 'ImageObject', 'url' => $img];
+
+        if ($d['user']['name'] ?? null) {
+            $article['author'] = ['@type' => 'Person', 'name' => $d['user']['name']];
+        }
+
+        $keywords = collect($d['tags'] ?? [])->pluck('name')->implode(', ');
+        if ($keywords) $article['keywords'] = $keywords;
+
+        $graph[] = $article;
+
+        // Products
+        foreach (collect($d['products'] ?? []) as $p) {
+            $p = (array) $p;
+
+            $product = [
+                '@type'  => 'Product',
+                'name'   => $p['name'],
+                'offers' => [
+                    '@type'         => 'Offer',
+                    'priceCurrency' => 'USD',
+                    'availability'  => 'https://schema.org/InStock',
+                    'itemCondition' => 'https://schema.org/NewCondition',
+                    'url'           => "{$base}/out/{$p['id']}",
+                    'seller'        => ['@type' => 'Organization', 'name' => 'Amazon'],
+                ],
+            ];
+
+            if ($p['description'] ?? null) $product['description'] = $p['description'];
+            if ($p['image_url'] ?? null)   $product['image']       = $p['image_url'];
+            if (isset($p['price']) && $p['price'] !== null) {
+                $product['offers']['price'] = (float) $p['price'];
+            }
+
+            if (($p['amazon_rating'] ?? null) && ($p['amazon_review_count'] ?? null)) {
+                $product['aggregateRating'] = [
+                    '@type'       => 'AggregateRating',
+                    'ratingValue' => $p['amazon_rating'],
+                    'reviewCount' => $p['amazon_review_count'],
+                    'bestRating'  => 5,
+                    'worstRating' => 1,
+                ];
+            }
+
+            if ($d['rating'] ?? null) {
+                $review = [
+                    '@type'         => 'Review',
+                    'author'        => ['@type' => 'Person', 'name' => $d['user']['name'] ?? 'GadgetDrop Editorial'],
+                    'datePublished' => $d['published_at'] ?? null,
+                    'reviewRating'  => [
+                        '@type'       => 'Rating',
+                        'ratingValue' => (float) $d['rating'],
+                        'bestRating'  => 5,
+                        'worstRating' => 1,
+                    ],
+                ];
+
+                $pros = $d['pros'] ?? [];
+                if (!empty($pros)) {
+                    $review['positiveNotes'] = ['@type' => 'ItemList', 'itemListElement' =>
+                        array_values(array_map(fn ($v, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $v],
+                            $pros, array_keys($pros)))];
+                }
+
+                $cons = $d['cons'] ?? [];
+                if (!empty($cons)) {
+                    $review['negativeNotes'] = ['@type' => 'ItemList', 'itemListElement' =>
+                        array_values(array_map(fn ($v, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $v],
+                            $cons, array_keys($cons)))];
+                }
+
+                $product['review'] = $review;
+            }
+
+            $graph[] = $product;
+        }
+
+        // BreadcrumbList
+        $crumbs   = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $base]];
+        $firstCat = collect($d['categories'] ?? [])->first();
+
+        if ($firstCat) {
+            $firstCat = (array) $firstCat;
+            $crumbs[] = ['@type' => 'ListItem', 'position' => 2, 'name' => $firstCat['name'], 'item' => "{$base}/category/{$firstCat['slug']}"];
+            $crumbs[] = ['@type' => 'ListItem', 'position' => 3, 'name' => $d['title'], 'item' => $postUrl];
+        } else {
+            $crumbs[] = ['@type' => 'ListItem', 'position' => 2, 'name' => $d['title'], 'item' => $postUrl];
+        }
+
+        $graph[] = ['@type' => 'BreadcrumbList', 'itemListElement' => $crumbs];
+
+        return json_encode(
+            ['@context' => 'https://schema.org', '@graph' => $graph],
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 
     public function category(Category $category): Response

@@ -5,7 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        @isset($serverMeta)
+        <title>{{ $serverMeta['title'] }}</title>
+        @if($serverMeta['description'])
+        <meta name="description" content="{{ $serverMeta['description'] }}">
+        @endif
+        <meta property="og:type"  content="article">
+        <meta property="og:title" content="{{ $serverMeta['title'] }}">
+        @if($serverMeta['og_image'])
+        <meta property="og:image" content="{{ $serverMeta['og_image'] }}">
+        @endif
+        <link rel="canonical" href="{{ $serverMeta['canonical'] }}">
+        @else
+        <title inertia>{{ config('app.name', 'GadgetDrop') }}</title>
+        @endisset
 
         <!-- Favicon -->
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -47,6 +60,9 @@
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
+        @isset($serverJsonLd)
+        <script type="application/ld+json">{!! $serverJsonLd !!}</script>
+        @endisset
     </head>
     <body class="font-sans antialiased">
         @inertia
