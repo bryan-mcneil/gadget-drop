@@ -185,7 +185,8 @@ class PublicController extends Controller
             'image_3'            => $post->image_3,
             'image_3_fit'        => $post->image_3_fit ?? 'cover',
             'source_url'     => $post->source_url,
-            'published_at'   => $post->published_at?->format('Y-m-d'),
+            'published_at'     => $post->published_at?->format('Y-m-d'),
+            'published_at_iso' => $post->published_at?->toIso8601String(),
             'categories'     => $post->categories->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug]),
             'tags'           => $post->tags->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
             'products'       => $post->products->map(fn ($p) => [
@@ -297,7 +298,7 @@ class PublicController extends Controller
             'headline'         => $d['title'],
             'url'              => $postUrl,
             'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $postUrl],
-            'datePublished'    => $d['published_at'] ?? null,
+            'datePublished'    => $d['published_at_iso'] ?? null,
             'publisher'        => [
                 '@type' => 'Organization',
                 'name'  => 'GadgetDrop',
@@ -312,7 +313,11 @@ class PublicController extends Controller
         if ($img) $article['image'] = ['@type' => 'ImageObject', 'url' => $img];
 
         if ($d['user']['name'] ?? null) {
-            $article['author'] = ['@type' => 'Person', 'name' => $d['user']['name']];
+            $article['author'] = [
+                '@type' => 'Person',
+                'name'  => $d['user']['name'],
+                'url'   => "{$base}/author/{$d['user']['slug']}",
+            ];
         }
 
         $keywords = collect($d['tags'] ?? [])->pluck('name')->implode(', ');
@@ -356,8 +361,12 @@ class PublicController extends Controller
             if ($d['rating'] ?? null) {
                 $review = [
                     '@type'         => 'Review',
-                    'author'        => ['@type' => 'Person', 'name' => $d['user']['name'] ?? 'GadgetDrop Editorial'],
-                    'datePublished' => $d['published_at'] ?? null,
+                    'author'        => [
+                        '@type' => 'Person',
+                        'name'  => $d['user']['name'] ?? 'GadgetDrop Editorial',
+                        'url'   => isset($d['user']['slug']) ? "{$base}/author/{$d['user']['slug']}" : null,
+                    ],
+                    'datePublished' => $d['published_at_iso'] ?? null,
                     'reviewRating'  => [
                         '@type'       => 'Rating',
                         'ratingValue' => (float) $d['rating'],

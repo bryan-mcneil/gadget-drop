@@ -13,8 +13,7 @@ export default function PostJsonLd({ post }) {
         headline:         post.title,
         url:              postUrl,
         mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
-        datePublished:    post.published_at ?? undefined,
-        dateModified:     post.updated_at   ?? undefined,
+        datePublished:    post.published_at_iso ?? undefined,
         publisher: {
             '@type': 'Organization',
             name:    'GadgetDrop',
@@ -28,7 +27,11 @@ export default function PostJsonLd({ post }) {
     const heroImage = seo.og_image || post.featured_image;
     if (heroImage) article.image = { '@type': 'ImageObject', url: heroImage };
 
-    if (post.user?.name) article.author = { '@type': 'Person', name: post.user.name };
+    if (post.user?.name) article.author = {
+        '@type': 'Person',
+        name: post.user.name,
+        url:  `${base}/author/${post.user.slug}`,
+    };
 
     const keywords = post.tags?.map((t) => t.name).join(', ');
     if (keywords) article.keywords = keywords;
@@ -70,8 +73,12 @@ export default function PostJsonLd({ post }) {
         if (post.rating) {
             const review = {
                 '@type':  'Review',
-                author:   { '@type': 'Person', name: post.user?.name ?? 'GadgetDrop Editorial' },
-                datePublished: post.published_at,
+                author:   {
+                    '@type': 'Person',
+                    name: post.user?.name ?? 'GadgetDrop Editorial',
+                    url:  post.user?.slug ? `${base}/author/${post.user.slug}` : undefined,
+                },
+                datePublished: post.published_at_iso,
                 reviewRating: {
                     '@type':      'Rating',
                     ratingValue:  Number(post.rating),
