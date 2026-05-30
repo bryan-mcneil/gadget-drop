@@ -1,3 +1,23 @@
+const AMAZON_SHIPPING = {
+    '@type':               'OfferShippingDetails',
+    shippingRate:          { '@type': 'MonetaryAmount', value: '0', currency: 'USD' },
+    shippingDestination:   { '@type': 'DefinedRegion', addressCountry: 'US' },
+    deliveryTime: {
+        '@type':       'ShippingDeliveryTime',
+        handlingTime:  { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+        transitTime:   { '@type': 'QuantitativeValue', minValue: 2, maxValue: 5, unitCode: 'DAY' },
+    },
+};
+
+const AMAZON_RETURN_POLICY = {
+    '@type':               'MerchantReturnPolicy',
+    applicableCountry:     'US',
+    returnPolicyCategory:  'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays:    30,
+    returnMethod:          'https://schema.org/ReturnByMail',
+    returnFees:            'https://schema.org/FreeReturn',
+};
+
 export default function PostJsonLd({ post }) {
     const seo     = post.seo_meta ?? {};
     const base    = typeof window !== 'undefined' ? window.location.origin : '';
@@ -43,19 +63,21 @@ export default function PostJsonLd({ post }) {
         const product = {
             '@type': 'Product',
             name:    p.name,
+            hasMerchantReturnPolicy: AMAZON_RETURN_POLICY,
             offers: {
-                '@type':         'Offer',
-                priceCurrency:   'USD',
-                availability:    'https://schema.org/InStock',
-                itemCondition:   'https://schema.org/NewCondition',
-                url:             `${base}/out/${p.id}`,
-                seller:          { '@type': 'Organization', name: 'Amazon' },
+                '@type':          'Offer',
+                priceCurrency:    'USD',
+                availability:     'https://schema.org/InStock',
+                itemCondition:    'https://schema.org/NewCondition',
+                url:              `${base}/out/${p.id}`,
+                seller:           { '@type': 'Organization', name: 'Amazon' },
+                shippingDetails:  AMAZON_SHIPPING,
             },
         };
 
+        if (p.brand)        product.brand       = { '@type': 'Brand', name: p.brand };
         if (p.description)  product.description = p.description;
-        if (p.image_url)    product.image        = p.image_url;
-        if (p.asin)         product.sku          = p.asin;
+        if (p.image_url)    product.image       = p.image_url;
         if (p.price != null) product.offers.price = Number(p.price);
 
         /* Amazon aggregate rating */

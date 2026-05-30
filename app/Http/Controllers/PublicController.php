@@ -164,6 +164,7 @@ class PublicController extends Controller
                 $product->name                = $api['name']                ?? $product->name;
                 $product->price               = $api['price']               ?? $product->price;
                 $product->description         = $api['description']         ?? $product->description;
+                $product->brand               = $api['brand']               ?? null;
                 $product->amazon_rating       = $api['amazon_rating']       ?? null;
                 $product->amazon_review_count = $api['amazon_review_count'] ?? null;
             }
@@ -195,6 +196,7 @@ class PublicController extends Controller
                 'description'         => $p->description,
                 'price'               => $p->price,
                 'image_url'           => $p->image_url,
+                'brand'               => $p->brand               ?? null,
                 'amazon_rating'       => $p->amazon_rating       ?? null,
                 'amazon_review_count' => $p->amazon_review_count ?? null,
             ]),
@@ -289,6 +291,26 @@ class PublicController extends Controller
         $seo     = $d['seo_meta'] ?? [];
         $postUrl = ($seo['canonical_url'] ?? null) ?: "{$base}/posts/{$d['slug']}";
 
+        $amazonShipping = [
+            '@type'                => 'OfferShippingDetails',
+            'shippingRate'         => ['@type' => 'MonetaryAmount', 'value' => '0', 'currency' => 'USD'],
+            'shippingDestination'  => ['@type' => 'DefinedRegion', 'addressCountry' => 'US'],
+            'deliveryTime'         => [
+                '@type'       => 'ShippingDeliveryTime',
+                'handlingTime'=> ['@type' => 'QuantitativeValue', 'minValue' => 0, 'maxValue' => 1, 'unitCode' => 'DAY'],
+                'transitTime' => ['@type' => 'QuantitativeValue', 'minValue' => 2, 'maxValue' => 5, 'unitCode' => 'DAY'],
+            ],
+        ];
+
+        $amazonReturnPolicy = [
+            '@type'                => 'MerchantReturnPolicy',
+            'applicableCountry'    => 'US',
+            'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            'merchantReturnDays'   => 30,
+            'returnMethod'         => 'https://schema.org/ReturnByMail',
+            'returnFees'           => 'https://schema.org/FreeReturn',
+        ];
+
         $graph = [];
 
         // BlogPosting
@@ -332,16 +354,19 @@ class PublicController extends Controller
             $product = [
                 '@type'  => 'Product',
                 'name'   => $p['name'],
+                'hasMerchantReturnPolicy' => $amazonReturnPolicy,
                 'offers' => [
-                    '@type'         => 'Offer',
-                    'priceCurrency' => 'USD',
-                    'availability'  => 'https://schema.org/InStock',
-                    'itemCondition' => 'https://schema.org/NewCondition',
-                    'url'           => "{$base}/out/{$p['id']}",
-                    'seller'        => ['@type' => 'Organization', 'name' => 'Amazon'],
+                    '@type'           => 'Offer',
+                    'priceCurrency'   => 'USD',
+                    'availability'    => 'https://schema.org/InStock',
+                    'itemCondition'   => 'https://schema.org/NewCondition',
+                    'url'             => "{$base}/out/{$p['id']}",
+                    'seller'          => ['@type' => 'Organization', 'name' => 'Amazon'],
+                    'shippingDetails' => $amazonShipping,
                 ],
             ];
 
+            if ($p['brand'] ?? null)       $product['brand']       = ['@type' => 'Brand', 'name' => $p['brand']];
             if ($p['description'] ?? null) $product['description'] = $p['description'];
             if ($p['image_url'] ?? null)   $product['image']       = $p['image_url'];
             if (isset($p['price']) && $p['price'] !== null) {

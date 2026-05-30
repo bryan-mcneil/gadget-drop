@@ -90,6 +90,7 @@ class AmazonProductService
             'Resources'   => [
                 'ItemInfo.Title',
                 'ItemInfo.Features',
+                'ItemInfo.ByLineInfo',
                 'Offers.Listings.Price',
                 'CustomerReviews.Count',
                 'CustomerReviews.StarRating',
@@ -167,11 +168,13 @@ class AmazonProductService
 
         $reviewCount = $item['CustomerReviews']['Count'] ?? null;
         $starRating  = $item['CustomerReviews']['StarRating']['Value'] ?? null;
+        $brand       = $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? null;
 
         return [
             'name'                => $name,
             'price'               => $price,
             'description'         => $description,
+            'brand'               => $brand,
             'amazon_rating'       => $starRating  !== null ? (float) $starRating  : null,
             'amazon_review_count' => $reviewCount !== null ? (int)   $reviewCount : null,
         ];
