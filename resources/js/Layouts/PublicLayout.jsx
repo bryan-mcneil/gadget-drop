@@ -137,10 +137,20 @@ export default function PublicLayout({ children }) {
 
             <main className="flex-1">{children}</main>
 
-            <footer className="bg-white border-t border-gray-200 py-6 text-center text-xs text-gray-400">
-                © {new Date().getFullYear()} GadgetDrop.tech ·
-                GadgetDrop participates in the Amazon Associates program.
-                We earn a small commission on qualifying purchases at no extra cost to you.
+            <footer className="bg-white border-t border-gray-200 py-8 text-xs text-gray-400">
+                <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p>
+                        © {new Date().getFullYear()} GadgetDrop.tech ·
+                        GadgetDrop participates in the Amazon Associates program.
+                        We earn a small commission on qualifying purchases at no extra cost to you.
+                    </p>
+                    <nav className="flex items-center gap-4 shrink-0">
+                        <Link href={route('about')}   className="hover:text-gray-600 transition-colors">About</Link>
+                        <Link href={route('contact')} className="hover:text-gray-600 transition-colors">Contact</Link>
+                        <Link href={route('privacy')} className="hover:text-gray-600 transition-colors">Privacy Policy</Link>
+                        <Link href={route('cookies')} className="hover:text-gray-600 transition-colors">Cookie Policy</Link>
+                    </nav>
+                </div>
             </footer>
         </div>
     );

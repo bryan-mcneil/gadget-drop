@@ -341,6 +341,26 @@ class PublicController extends Controller
         ]);
     }
 
+    public function about(): Response
+    {
+        return Inertia::render('Public/About');
+    }
+
+    public function privacy(): Response
+    {
+        return Inertia::render('Public/Privacy');
+    }
+
+    public function contact(): Response
+    {
+        return Inertia::render('Public/Contact');
+    }
+
+    public function cookies(): Response
+    {
+        return Inertia::render('Public/Cookies');
+    }
+
     public function author(User $user): Response
     {
         abort_if($user->id === 1, 404);

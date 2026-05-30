@@ -15,6 +15,29 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- Google Consent Mode v2 — defaults denied until user accepts -->
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+                ad_storage:          'denied',
+                ad_user_data:        'denied',
+                ad_personalization:  'denied',
+                analytics_storage:   'denied',
+                wait_for_update:     500,
+            });
+            // Restore consent if user already accepted
+            var _gc = localStorage.getItem('gadgetdrop_consent');
+            if (_gc === 'accepted') {
+                gtag('consent', 'update', {
+                    ad_storage:         'granted',
+                    ad_user_data:       'granted',
+                    ad_personalization: 'granted',
+                    analytics_storage:  'granted',
+                });
+            }
+        </script>
+
         <!-- Google AdSense -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3856395634564582"
             crossorigin="anonymous"></script>
