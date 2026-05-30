@@ -142,7 +142,7 @@ export default function PublicLayout({ children }) {
                     <p>
                         © {new Date().getFullYear()} GadgetDrop.tech ·
                         GadgetDrop participates in the Amazon Associates program.
-                        We earn a small commission on qualifying purchases at no extra cost to you.
+                        We earn a small commission on qualifying purchases.
                     </p>
                     <nav className="flex items-center gap-4 shrink-0">
                         <Link href={route('about')}   className="hover:text-gray-600 transition-colors">About</Link>
