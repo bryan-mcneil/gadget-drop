@@ -149,6 +149,7 @@ export default function PublicLayout({ children }) {
                         <Link href={route('contact')} className="hover:text-gray-600 transition-colors">Contact</Link>
                         <Link href={route('privacy')} className="hover:text-gray-600 transition-colors">Privacy Policy</Link>
                         <Link href={route('cookies')} className="hover:text-gray-600 transition-colors">Cookie Policy</Link>
+                        <Link href={route('terms')}   className="hover:text-gray-600 transition-colors">Terms</Link>
                     </nav>
                 </div>
             </footer>

@@ -28,6 +28,7 @@ Route::get('/about',   [PublicController::class, 'about'])->name('about');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/cookies', [PublicController::class, 'cookies'])->name('cookies');
+Route::get('/terms',   [PublicController::class, 'terms'])->name('terms');
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe');
 Route::get('/unsubscribe', [SubscriberController::class, 'showUnsubscribe'])->name('unsubscribe');
 Route::post('/unsubscribe', [SubscriberController::class, 'destroyByEmail'])->name('unsubscribe.email');

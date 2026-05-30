@@ -54,9 +54,9 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                             ))}
                         </div>
                         <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">{post.title}</h1>
-                        <div className="flex items-center gap-3 mt-2">
+                        <div className="mt-2 space-y-1">
                             <p className="text-sm text-gray-500">By {post.user?.name} · {post.published_at}</p>
-                            {post.products.length > 0 && <AffiliateDisclosure />}
+                            <AffiliateDisclosure />
                         </div>
                     </div>
 

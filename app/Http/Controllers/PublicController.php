@@ -361,6 +361,11 @@ class PublicController extends Controller
         return Inertia::render('Public/Cookies');
     }
 
+    public function terms(): Response
+    {
+        return Inertia::render('Public/Terms');
+    }
+
     public function author(User $user): Response
     {
         abort_if($user->id === 1, 404);
