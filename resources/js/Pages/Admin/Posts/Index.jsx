@@ -34,6 +34,7 @@ export default function PostsIndex({ posts }) {
                         <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
                             <tr>
                                 <th className="px-6 py-3 text-left">Title</th>
+                                <th className="px-6 py-3 text-left">Type</th>
                                 <th className="px-6 py-3 text-left">Author</th>
                                 <th className="px-6 py-3 text-left">Status</th>
                                 <th className="px-6 py-3 text-left">Published</th>
@@ -44,6 +45,7 @@ export default function PostsIndex({ posts }) {
                             {posts.data.map((p) => (
                                 <tr key={p.id} className="hover:bg-gray-50">
                                     <td className="px-6 py-3 font-medium text-gray-900 max-w-xs truncate">{p.title}</td>
+                                    <td className="px-6 py-3"><TypeBadge type={p.type} /></td>
                                     <td className="px-6 py-3 text-gray-500">{p.author}</td>
                                     <td className="px-6 py-3"><StatusBadge status={p.status} /></td>
                                     <td className="px-6 py-3 text-gray-500">{p.published_at ?? '—'}</td>
@@ -70,6 +72,12 @@ export default function PostsIndex({ posts }) {
             </div>
         </AuthenticatedLayout>
     );
+}
+
+function TypeBadge({ type }) {
+    const labels = { article: 'Article', tech_tip: 'Tech Tip' };
+    const colors = { article: 'bg-blue-100 text-blue-700', tech_tip: 'bg-purple-100 text-purple-700' };
+    return <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${colors[type] ?? 'bg-gray-100 text-gray-600'}`}>{labels[type] ?? type}</span>;
 }
 
 function StatusBadge({ status }) {

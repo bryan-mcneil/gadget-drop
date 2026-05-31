@@ -25,6 +25,7 @@ class PostController extends Controller
                 ->through(fn ($p) => [
                     'id'           => $p->id,
                     'title'        => $p->title,
+                    'type'         => $p->type,
                     'status'       => $p->status,
                     'published_at' => $p->published_at?->toDateString(),
                     'author'       => $p->user->name,
