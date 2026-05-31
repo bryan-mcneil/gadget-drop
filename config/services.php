@@ -14,6 +14,8 @@ return [
     |
     */
 
+    'gadgetdrop_api_key' => env('GADGETDROP_API_KEY'),
+
     'amazon' => [
         'affiliate_tag'  => env('AMAZON_AFFILIATE_TAG'),
         'pa_access_key'  => env('AMAZON_PA_ACCESS_KEY'),

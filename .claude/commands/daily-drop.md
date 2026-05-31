@@ -10,6 +10,25 @@ Do not print the full content in chat — only print a short status line after e
 
 ## Phase 1 — Research (find 4 products)
 
+### Step 1a — Fetch already-reviewed products
+
+Before searching, retrieve the list of products already published on GadgetDrop.
+
+Use the Bash tool to run:
+```bash
+php -r "echo file_get_contents(getenv('APP_URL') . '/api/reviewed-products', false, stream_context_create(['http' => ['header' => 'X-API-Key: ' . getenv('GADGETDROP_API_KEY')]]));"
+```
+
+If the Bash tool is unavailable, use WebFetch:
+- URL: `https://gadgetdrop.tech/api/reviewed-products`
+- Header: `X-API-Key: {value of GADGETDROP_API_KEY from .env}`
+
+Parse the JSON response. Keep the list of `{ name, asin }` objects in memory. **Do not pick any product whose ASIN or name appears in this list.**
+
+If the API call fails, note it and continue without filtering.
+
+### Step 1b — Search the web
+
 Search the web for today's most compelling tech products with Amazon affiliate potential:
 
 - Amazon Best Sellers in Electronics
@@ -22,6 +41,7 @@ Search the web for today's most compelling tech products with Amazon affiliate p
 - Priced $20–$500
 - Currently trending or newly released
 - Strong buyer-intent search volume
+- **NOT already in the reviewed-products list from Step 1a**
 
 Pick exactly **4 products**. For each note:
 - Product name (exact Amazon listing name)
@@ -32,7 +52,7 @@ Pick exactly **4 products**. For each note:
 - Suggested GadgetDrop category (Audio, Smart Home, Wearables, Accessories, Gaming, Productivity, Photography, etc.)
 - 3–5 suggested tags
 
-Print to chat: `✅ Phase 1 complete — [Product 1], [Product 2], [Product 3], [Product 4]`
+Print to chat: `✅ Phase 1 complete — [Product 1], [Product 2], [Product 3], [Product 4] (checked against N existing products)`
 
 ---
 
