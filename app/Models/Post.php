@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -15,7 +16,23 @@ class Post extends Model
         'image_1', 'image_1_fit', 'image_2', 'image_2_fit', 'image_3', 'image_3_fit',
         'status', 'published_at', 'view_count',
         'rating', 'pros', 'cons',
+        'share_code',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Post $post) {
+            if (empty($post->share_code)) {
+                do {
+                    $code = Str::random(8);
+                } while (static::where('share_code', $code)->exists());
+
+                $post->share_code = $code;
+            }
+        });
+    }
 
     protected $casts = [
         'published_at' => 'datetime',

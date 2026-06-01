@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import PublicLayout from '@/Layouts/PublicLayout';
 import AffiliateDisclosure from '@/Components/AffiliateDisclosure';
+import ShareBar from '@/Components/ShareBar';
 import AdUnit from '@/Components/AdUnit';
 import PostJsonLd from '@/Components/PostJsonLd';
 import AdaptiveImage from '@/Components/AdaptiveImage';
@@ -56,6 +57,11 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                         <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">{post.title}</h1>
                         <div className="mt-2 space-y-1">
                             <p className="text-sm text-gray-500">By {post.user?.name} · {post.published_at}</p>
+                            <ShareBar
+                                url={route('posts.show', post.slug)}
+                                shortUrl={post.short_url}
+                                title={post.title}
+                            />
                             <AffiliateDisclosure />
                         </div>
                     </div>

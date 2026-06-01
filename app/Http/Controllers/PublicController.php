@@ -219,6 +219,9 @@ class PublicController extends Controller
                 'avatar_url' => $post->user->avatar_url,
                 'slug'       => $post->user->slug,
             ] : null,
+            'short_url' => $post->share_code
+                ? url('/s/' . $post->share_code)
+                : url('/posts/' . $post->slug),
         ];
 
         $categoryIds = $post->categories->pluck('id');
@@ -632,6 +635,11 @@ class PublicController extends Controller
         $url = $this->appendAffiliateTag($product->affiliate_url);
 
         return redirect()->away($url);
+    }
+
+    public function shortlink(Post $post): RedirectResponse
+    {
+        return redirect()->route('posts.show', $post->slug, 302);
     }
 
     /**

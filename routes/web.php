@@ -23,6 +23,7 @@ Route::get('/search', [PublicController::class, 'search'])->name('search');
 Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts.show');
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
+Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about',   [PublicController::class, 'about'])->name('about');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
