@@ -2,10 +2,26 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
+const THEME = {
+    bg:          'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)',
+    heroBg:      '#030309',
+    spotlightBg: 'linear-gradient(160deg, #050510 0%, #0c0c1d 45%, #0e0b1f 100%)',
+    heroOverlay: 'from-gray-950/95 via-gray-950/75 to-gray-950/30',
+    heroFallback:'from-gray-950 to-indigo-950',
+    dotColor:    'rgba(99,102,241,0.18)',
+    dotSize:     '28px 28px',
+    accentVia:   'via-indigo-500/40',
+    accentBot:   'via-indigo-500/20',
+    glowA:       'bg-indigo-700/15',
+    glowB:       'bg-purple-700/10',
+    spotAccent:  'via-indigo-500/50',
+};
+
 export default function Home({ heroSlides, recentPosts, categories, spotlight, topPicks }) {
     const { navigation } = usePage().props;
     const popularTags = navigation?.popularTags ?? [];
     const latestNews  = navigation?.latestNews  ?? [];
+    const theme = THEME;
 
     return (
         <PublicLayout>
@@ -13,17 +29,13 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
                 <meta name="description" content="Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price — delivered fresh every day." />
             </Head>
 
-            <HeroCarousel slides={heroSlides} />
+            <HeroCarousel slides={heroSlides} theme={theme} />
 
-            <CategoriesStrip categories={categories} />
-
-            <BreakingNewsSection posts={latestNews} />
-
-            <FeaturedSpotlight spotlight={spotlight} />
+            <CategoriesStrip categories={categories} theme={theme} />
 
             <TopPicks picks={topPicks} />
 
-            <JoinTheDrop />
+            <FeaturedSpotlight spotlight={spotlight} theme={theme} />
 
             {/* Recent Drops section */}
             <div className="relative">
@@ -102,12 +114,16 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
                     </aside>
                 </div>
             </div>
+
+            <BreakingNewsSection posts={latestNews} theme={theme} />
+
+            <JoinTheDrop />
         </PublicLayout>
     );
 }
 
 /* ── Hero Carousel ──────────────────────────────────────────── */
-function HeroCarousel({ slides }) {
+function HeroCarousel({ slides, theme }) {
     const [active, setActive] = useState(0);
     const [paused, setPaused] = useState(false);
     const count = slides.length;
@@ -125,7 +141,8 @@ function HeroCarousel({ slides }) {
 
     return (
         <section
-            className="relative overflow-hidden min-h-[460px] md:min-h-[520px] bg-gray-950 text-white"
+            className="relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white"
+            style={{ background: theme?.heroBg ?? '#030309' }}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >
@@ -147,18 +164,35 @@ function HeroCarousel({ slides }) {
                                 className="absolute inset-0 w-full h-full object-cover"
                                 style={{ objectPosition: slide.post.hero_image_position ?? slide.post.featured_image_position ?? 'center center' }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-gray-950/95 via-gray-950/75 to-gray-950/30" />
+                            <div className={`absolute inset-0 bg-gradient-to-r ${theme?.heroOverlay ?? 'from-gray-950/95 via-gray-950/75 to-gray-950/30'}`} />
                         </>
                     ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-950 to-indigo-950" />
+                        <div className={`absolute inset-0 bg-gradient-to-br ${theme?.heroFallback ?? 'from-gray-950 to-indigo-950'}`} />
                     )}
 
                     {/* Content */}
                     <div className="relative z-10 h-full flex flex-col justify-center max-w-4xl mx-auto px-6 py-16">
-                        <span className="inline-flex items-center gap-1.5 text-indigo-400 text-xs font-bold uppercase tracking-[0.15em] mb-3">
-                            <span className="w-4 h-px bg-indigo-400" />
-                            {slide.label}
-                        </span>
+                        {slide.post.type === 'tech_news' ? (
+                            <span className="inline-flex items-center gap-1.5 text-rose-400 text-xs font-bold uppercase tracking-[0.15em] mb-3">
+                                <span className="relative flex h-2 w-2 mr-0.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
+                                </span>
+                                {slide.label}
+                            </span>
+                        ) : slide.post.type === 'tech_tip' ? (
+                            <span className="inline-flex items-center gap-1.5 text-emerald-400 text-xs font-bold uppercase tracking-[0.15em] mb-3">
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                {slide.label}
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center gap-1.5 text-indigo-400 text-xs font-bold uppercase tracking-[0.15em] mb-3">
+                                <span className="w-4 h-px bg-indigo-400" />
+                                {slide.label}
+                            </span>
+                        )}
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight max-w-2xl">
                             {slide.post.title}
                         </h1>
@@ -170,9 +204,15 @@ function HeroCarousel({ slides }) {
                         <div className="mt-7 flex items-center gap-4">
                             <Link
                                 href={route('posts.show', slide.post.slug)}
-                                className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                                className={`inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-lg transition-colors ${
+                                    slide.post.type === 'tech_news' ? 'bg-rose-600 hover:bg-rose-500'
+                                    : slide.post.type === 'tech_tip' ? 'bg-emerald-600 hover:bg-emerald-500'
+                                    : 'bg-indigo-600 hover:bg-indigo-500'
+                                }`}
                             >
-                                Read the Drop
+                                {slide.post.type === 'tech_news' ? 'Read the Story'
+                                    : slide.post.type === 'tech_tip' ? 'Read the Tip'
+                                    : 'Read the Drop'}
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
@@ -459,7 +499,7 @@ function TopPicks({ picks }) {
 }
 
 /* ── Featured Spotlight ─────────────────────────────────────── */
-function FeaturedSpotlight({ spotlight }) {
+function FeaturedSpotlight({ spotlight, theme }) {
     if (!spotlight) return null;
 
     const { post, product } = spotlight;
@@ -467,15 +507,14 @@ function FeaturedSpotlight({ spotlight }) {
     return (
         <section
             className="relative py-16 overflow-hidden"
-            style={{ background: 'linear-gradient(160deg, #050510 0%, #0c0c1d 45%, #0e0b1f 100%)' }}
+            style={{ background: theme?.spotlightBg ?? 'linear-gradient(160deg, #050510 0%, #0c0c1d 45%, #0e0b1f 100%)' }}
         >
-            {/* Glow orb behind image */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full bg-indigo-700/15 blur-[100px] pointer-events-none" />
-            {/* Subtle purple orb on content side */}
-            <div className="absolute right-0 bottom-0 w-72 h-72 rounded-full bg-purple-700/10 blur-[80px] pointer-events-none" />
+            {/* Glow orbs */}
+            <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full ${theme?.glowA ?? 'bg-indigo-700/15'} blur-[100px] pointer-events-none`} />
+            <div className={`absolute right-0 bottom-0 w-72 h-72 rounded-full ${theme?.glowB ?? 'bg-purple-700/10'} blur-[80px] pointer-events-none`} />
             {/* Top + bottom accent lines */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/25 to-transparent" />
+            <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent ${theme?.spotAccent ?? 'via-indigo-500/50'} to-transparent`} />
+            <div className={`absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent ${theme?.accentBot ?? 'via-indigo-500/25'} to-transparent`} />
 
             <div className="relative max-w-6xl mx-auto px-4">
                 {/* Section label */}
@@ -568,7 +607,7 @@ function FeaturedSpotlight({ spotlight }) {
 }
 
 /* ── Categories strip ───────────────────────────────────────── */
-function CategoriesStrip({ categories }) {
+function CategoriesStrip({ categories, theme }) {
     if (!categories?.length) return null;
 
     const scrollRef = useRef(null);
@@ -600,19 +639,19 @@ function CategoriesStrip({ categories }) {
     return (
         <section
             className="relative py-12"
-            style={{ background: 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)' }}
+            style={{ background: theme?.bg ?? 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)' }}
         >
             {/* Dot-grid texture */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px)',
-                    backgroundSize: '28px 28px',
+                    backgroundImage: `radial-gradient(circle, ${theme?.dotColor ?? 'rgba(99,102,241,0.18)'} 1px, transparent 1px)`,
+                    backgroundSize: theme?.dotSize ?? '28px 28px',
                 }}
             />
             {/* Top + bottom accent lines */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
+            <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent ${theme?.accentVia ?? 'via-indigo-500/40'} to-transparent`} />
+            <div className={`absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent ${theme?.accentBot ?? 'via-indigo-500/20'} to-transparent`} />
 
             <div className="relative max-w-6xl mx-auto px-4">
                 <div className="flex items-center gap-3 mb-7">
@@ -713,34 +752,32 @@ function CategoriesStrip({ categories }) {
 }
 
 /* ── Breaking News section ──────────────────────────────────── */
-function BreakingNewsSection({ posts }) {
+function BreakingNewsSection({ posts, theme }) {
     if (!posts?.length) return null;
     const post = posts[0];
     const isBreaking = isWithin24h(post.published_at_iso);
-
-    // Dark base matches other homepage sections (#0d0d2b → #0f0a1e)
-    const darkBg = 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)';
+    const hasImage = !!(post.hero_image || post.featured_image);
 
     return (
-        <section className="relative overflow-hidden" style={{ background: darkBg }}>
-            {/* Rose accent bar — news identity */}
+        <section className="relative overflow-hidden" style={{ background: theme?.bg ?? 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)' }}>
+            {/* Rose accent bar */}
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 via-red-400 to-rose-600 z-10" />
 
-            {/* Dot-grid texture — same pattern as Categories / Spotlight sections */}
+            {/* Dot-grid texture */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px)',
-                    backgroundSize: '28px 28px',
+                    backgroundImage: `radial-gradient(circle, ${theme?.dotColor ?? 'rgba(99,102,241,0.12)'} 1px, transparent 1px)`,
+                    backgroundSize: theme?.dotSize ?? '28px 28px',
                 }}
             />
 
-            {/* Rose glow orb — news-specific warmth over the shared indigo palette */}
-            <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-rose-700/10 blur-3xl pointer-events-none" />
-            <div className="absolute top-0 left-1/3 w-64 h-64 rounded-full bg-indigo-700/10 blur-[80px] pointer-events-none" />
+            {/* Glow orbs */}
+            <div className={`absolute -bottom-24 -right-24 w-80 h-80 rounded-full ${theme?.glowB ?? 'bg-rose-700/10'} blur-3xl pointer-events-none`} />
+            <div className={`absolute top-0 left-1/3 w-64 h-64 rounded-full ${theme?.glowA ?? 'bg-indigo-700/10'} blur-[80px] pointer-events-none`} />
 
-            {/* Image — CSS mask fades the pixels themselves to transparent so the section bg bleeds through cleanly */}
-            {post.featured_image && (
+            {/* Image — CSS mask fades pixels to transparent so the dark bg bleeds through cleanly */}
+            {hasImage && (
                 <div className="pt-1">
                     <img
                         src={post.hero_image ?? post.featured_image}
@@ -756,8 +793,8 @@ function BreakingNewsSection({ posts }) {
                 </div>
             )}
 
-            {/* Text content — pulled up into the bottom of the image */}
-            <div className={`relative z-10 max-w-6xl mx-auto px-4 pb-14 ${post.featured_image ? '-mt-44' : 'pt-16'}`}>
+            {/* Text content — pulled up into the faded bottom of the image */}
+            <div className={`relative z-10 max-w-6xl mx-auto px-4 pb-14 ${hasImage ? '-mt-44' : 'pt-16'}`}>
 
                 {/* Eyebrow */}
                 <div className="flex items-center gap-3 mb-4">
@@ -802,7 +839,7 @@ function BreakingNewsSection({ posts }) {
                 </Link>
             </div>
 
-            {/* Bottom accent line — same as other sections */}
+            {/* Bottom accent line */}
             <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
         </section>
     );

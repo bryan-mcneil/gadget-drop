@@ -13,7 +13,8 @@ class SitemapController extends Controller
     public function index(): Response
     {
         $sitemap = Sitemap::create()
-            ->add(Url::create(route('home'))->setPriority(1.0)->setChangeFrequency('daily'));
+            ->add(Url::create(route('home'))->setPriority(1.0)->setChangeFrequency('daily'))
+            ->add(Url::create(route('news'))->setPriority(0.9)->setChangeFrequency('daily'));
 
         Post::published()
             ->latest('published_at')

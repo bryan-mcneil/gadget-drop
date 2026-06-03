@@ -51,8 +51,8 @@ class HandleInertiaRequests extends Middleware
                     ->having('posts_count', '>', 0)
                     ->orderByDesc('posts_count')
                     ->take(24)
-                    ->get(['id', 'name', 'slug'])
-                    ->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
+                    ->get()
+                    ->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug, 'posts_count' => $t->posts_count]),
                 'trending' => Post::published()
                     ->whereNotIn('type', ['tech_tip', 'tech_news'])
                     ->orderByDesc('view_count')
@@ -70,11 +70,12 @@ class HandleInertiaRequests extends Middleware
                     ->where('type', 'tech_tip')
                     ->latest('published_at')
                     ->take(6)
-                    ->get(['id', 'title', 'slug', 'published_at'])
+                    ->get(['id', 'title', 'slug', 'excerpt', 'published_at'])
                     ->map(fn ($p) => [
                         'id'           => $p->id,
                         'title'        => $p->title,
                         'slug'         => $p->slug,
+                        'excerpt'      => $p->excerpt,
                         'published_at' => $p->published_at?->format('Y-m-d'),
                     ]),
                 'latestNews' => Post::published()

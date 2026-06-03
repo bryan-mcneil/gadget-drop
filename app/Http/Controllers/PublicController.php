@@ -85,6 +85,12 @@ class PublicController extends Controller
             $slides[] = ['label' => 'Latest Tech Tip', 'post' => $fmt($latestTechTip)];
         }
 
+        // Slide 6 — Latest Tech News
+        $latestNewsPost = Post::published()->where('type', 'tech_news')->latest('published_at')->first($cols);
+        if ($latestNewsPost) {
+            $slides[] = ['label' => 'Latest Tech News', 'post' => $fmt($latestNewsPost)];
+        }
+
         // Top Picks — up to 6 unique products from recent articles (no tech tips or news)
         $topPickPosts = Post::published()
             ->whereNotIn('type', ['tech_tip', 'tech_news'])
@@ -135,6 +141,14 @@ class PublicController extends Controller
                 ],
             ];
         }
+
+        view()->share('serverMeta', [
+            'title'       => 'GadgetDrop — Daily Tech Picks, Gadget Reviews & Buying Guides',
+            'description' => 'Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price — delivered fresh every day.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => url('/'),
+        ]);
 
         view()->share('serverJsonLd', $this->buildHomeJsonLd());
 
@@ -389,6 +403,7 @@ class PublicController extends Controller
             'title'       => ($seo['meta_title']       ?? null) ?: "{$d['title']} | GadgetDrop",
             'description' => ($seo['meta_description'] ?? null) ?: ($d['excerpt'] ?? ''),
             'og_image'    => ($seo['og_image']          ?? null) ?: ($d['featured_image'] ?? null),
+            'og_type'     => 'article',
             'canonical'   => ($seo['canonical_url']     ?? null) ?: (url("/posts/{$d['slug']}")),
         ];
     }

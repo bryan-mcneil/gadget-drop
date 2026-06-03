@@ -10,10 +10,14 @@
         @if($serverMeta['description'])
         <meta name="description" content="{{ $serverMeta['description'] }}">
         @endif
-        <meta property="og:type"  content="article">
-        <meta property="og:title" content="{{ $serverMeta['title'] }}">
+        <meta property="og:type"        content="{{ $serverMeta['og_type'] ?? 'article' }}">
+        <meta property="og:title"       content="{{ $serverMeta['title'] }}">
+        <meta property="og:url"         content="{{ $serverMeta['canonical'] }}">
+        @if($serverMeta['description'])
+        <meta property="og:description" content="{{ $serverMeta['description'] }}">
+        @endif
         @if($serverMeta['og_image'])
-        <meta property="og:image" content="{{ $serverMeta['og_image'] }}">
+        <meta property="og:image"       content="{{ $serverMeta['og_image'] }}">
         @endif
         <link rel="canonical" href="{{ $serverMeta['canonical'] }}">
         @else
