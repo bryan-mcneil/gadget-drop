@@ -569,7 +569,7 @@ function CategoriesStrip({ categories }) {
 
     return (
         <section
-            className="relative py-12 overflow-hidden"
+            className="relative py-12"
             style={{ background: 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)' }}
         >
             {/* Dot-grid texture */}
@@ -591,8 +591,9 @@ function CategoriesStrip({ categories }) {
                         Browse by Category
                     </h2>
                 </div>
+            </div>
 
-                <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">
+            <div className="relative flex gap-5 overflow-x-auto scrollbar-hide pb-2 px-4">
                     {categories.map((cat) => (
                         <Link
                             key={cat.id}
@@ -634,7 +635,6 @@ function CategoriesStrip({ categories }) {
                                             group-hover:ring-indigo-500/50 transition-all duration-300" />
                         </Link>
                     ))}
-                </div>
             </div>
         </section>
     );
