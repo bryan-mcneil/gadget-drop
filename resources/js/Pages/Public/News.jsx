@@ -86,6 +86,7 @@ function NewsCard({ post, featured = false }) {
                                 src={post.featured_image}
                                 alt={post.title}
                                 className="w-full h-56 md:h-full object-cover"
+                                style={{ objectPosition: post.featured_image_position ?? 'center center' }}
                             />
                         </div>
                     )}
@@ -124,6 +125,7 @@ function NewsCard({ post, featured = false }) {
                         src={post.featured_image}
                         alt={post.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        style={{ objectPosition: post.featured_image_position ?? 'center center' }}
                     />
                 </div>
             )}

@@ -20,8 +20,11 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         excerpt:         post?.excerpt ?? '',
         body:            post?.body ?? '',
         source_url:      post?.source_url ?? '',
-        featured_image:      post?.featured_image ?? '',
-        featured_image_fit:  post?.featured_image_fit ?? 'cover',
+        featured_image:          post?.featured_image ?? '',
+        featured_image_fit:      post?.featured_image_fit ?? 'cover',
+        featured_image_position: post?.featured_image_position ?? 'center center',
+        hero_image:              post?.hero_image ?? '',
+        hero_image_position:     post?.hero_image_position ?? 'center center',
         image_1:             post?.image_1 ?? '',
         image_1_fit:         post?.image_1_fit ?? 'cover',
         image_2:             post?.image_2 ?? '',
@@ -198,10 +201,45 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                     previewClass="h-28"
                                 />
                                 {data.featured_image && (
-                                    <FitToggle
-                                        value={data.featured_image_fit}
-                                        onChange={(v) => setData('featured_image_fit', v)}
+                                    <>
+                                        <FitToggle
+                                            value={data.featured_image_fit}
+                                            onChange={(v) => setData('featured_image_fit', v)}
+                                        />
+                                        <FocalPointPicker
+                                            image={data.featured_image}
+                                            value={data.featured_image_position}
+                                            onChange={(v) => setData('featured_image_position', v)}
+                                        />
+                                    </>
+                                )}
+                            </Field>
+
+                            <Field label="Hero / Banner Image" error={errors.hero_image}>
+                                <p className="text-xs text-gray-400 mb-1.5">
+                                    Optional wide crop for hero sections (carousel, breaking news). Falls back to featured image if not set.
+                                    <br />
+                                    <span className="text-gray-300">Recommended: 16:5 ratio — e.g. 1920×600</span>
+                                </p>
+                                <ImageUploader
+                                    value={data.hero_image}
+                                    onChange={(url) => setData('hero_image', url)}
+                                    previewClass="h-20"
+                                />
+                                {data.hero_image && (
+                                    <FocalPointPicker
+                                        image={data.hero_image}
+                                        value={data.hero_image_position}
+                                        onChange={(v) => setData('hero_image_position', v)}
                                     />
+                                )}
+                                {data.hero_image && (
+                                    <button
+                                        type="button"
+                                        onClick={() => { setData('hero_image', ''); setData('hero_image_position', 'center center'); }}
+                                        className="mt-1.5 text-xs text-red-400 hover:text-red-600 transition-colors">
+                                        Remove hero image
+                                    </button>
                                 )}
                             </Field>
                             <button type="submit" disabled={processing}
@@ -394,6 +432,78 @@ function FitToggle({ value, onChange }) {
                     {label}
                 </button>
             ))}
+        </div>
+    );
+}
+
+const FOCAL_POINTS = [
+    { label: 'Top left',     value: 'left top' },
+    { label: 'Top center',   value: 'center top' },
+    { label: 'Top right',    value: 'right top' },
+    { label: 'Left',         value: 'left center' },
+    { label: 'Center',       value: 'center center' },
+    { label: 'Right',        value: 'right center' },
+    { label: 'Bottom left',  value: 'bottom left' },
+    { label: 'Bottom center',value: 'center bottom' },
+    { label: 'Bottom right', value: 'right bottom' },
+];
+
+function FocalPointPicker({ image, value, onChange }) {
+    return (
+        <div className="mt-3 space-y-2">
+            <p className="text-xs text-gray-400">Focal point <span className="text-gray-300">— controls which part stays visible when cropped</span></p>
+            <div className="flex gap-3 items-start">
+                {/* 3×3 picker grid */}
+                <div
+                    className="relative flex-shrink-0 rounded-lg overflow-hidden border border-gray-200"
+                    style={{ width: 96, height: 64 }}
+                >
+                    <img
+                        src={image}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover"
+                        style={{ objectPosition: value }}
+                    />
+                    {/* 3×3 click grid overlaid on the preview */}
+                    <div className="absolute inset-0 grid grid-cols-3 grid-rows-3">
+                        {FOCAL_POINTS.map((fp) => (
+                            <button
+                                key={fp.value}
+                                type="button"
+                                title={fp.label}
+                                onClick={() => onChange(fp.value)}
+                                className={`transition-all ${
+                                    value === fp.value
+                                        ? 'bg-indigo-500/60'
+                                        : 'bg-transparent hover:bg-white/30'
+                                }`}
+                            >
+                                {value === fp.value && (
+                                    <span className="flex items-center justify-center w-full h-full">
+                                        <span className="w-2 h-2 rounded-full bg-white shadow-md ring-1 ring-indigo-400" />
+                                    </span>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Larger live preview showing how it looks cropped */}
+                <div
+                    className="relative flex-1 rounded-lg overflow-hidden border border-gray-200 bg-gray-100"
+                    style={{ height: 64 }}
+                >
+                    <img
+                        src={image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        style={{ objectPosition: value }}
+                    />
+                    <span className="absolute bottom-1 right-1.5 text-[9px] text-white/60 font-mono bg-black/30 px-1 rounded">
+                        {value}
+                    </span>
+                </div>
+            </div>
         </div>
     );
 }

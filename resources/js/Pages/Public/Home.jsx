@@ -5,6 +5,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 export default function Home({ heroSlides, recentPosts, categories, spotlight, topPicks }) {
     const { navigation } = usePage().props;
     const popularTags = navigation?.popularTags ?? [];
+    const latestNews  = navigation?.latestNews  ?? [];
 
     return (
         <PublicLayout>
@@ -15,6 +16,8 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
             <HeroCarousel slides={heroSlides} />
 
             <CategoriesStrip categories={categories} />
+
+            <BreakingNewsSection posts={latestNews} />
 
             <FeaturedSpotlight spotlight={spotlight} />
 
@@ -139,9 +142,10 @@ function HeroCarousel({ slides }) {
                     {slide.post.featured_image ? (
                         <>
                             <img
-                                src={slide.post.featured_image}
+                                src={slide.post.hero_image ?? slide.post.featured_image}
                                 alt=""
                                 className="absolute inset-0 w-full h-full object-cover"
+                                style={{ objectPosition: slide.post.hero_image_position ?? slide.post.featured_image_position ?? 'center center' }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-950/95 via-gray-950/75 to-gray-950/30" />
                         </>
@@ -708,6 +712,131 @@ function CategoriesStrip({ categories }) {
     );
 }
 
+/* ── Breaking News section ──────────────────────────────────── */
+function BreakingNewsSection({ posts }) {
+    if (!posts?.length) return null;
+    const post = posts[0];
+    const isBreaking   = isWithin24h(post.published_at_iso);
+    const sourceDomain = extractDomain(post.source_url);
+
+    // Dark base matches other homepage sections (#0d0d2b → #0f0a1e)
+    const darkBg = 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)';
+
+    return (
+        <section className="relative overflow-hidden" style={{ background: darkBg }}>
+            {/* Rose accent bar — news identity */}
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 via-red-400 to-rose-600 z-10" />
+
+            {/* Dot-grid texture — same pattern as Categories / Spotlight sections */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px)',
+                    backgroundSize: '28px 28px',
+                }}
+            />
+
+            {/* Rose glow orb — news-specific warmth over the shared indigo palette */}
+            <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-rose-700/10 blur-3xl pointer-events-none" />
+            <div className="absolute top-0 left-1/3 w-64 h-64 rounded-full bg-indigo-700/10 blur-[80px] pointer-events-none" />
+
+            {/* Image — CSS mask fades the pixels themselves to transparent so the section bg bleeds through cleanly */}
+            {post.featured_image && (
+                <div className="pt-1">
+                    <img
+                        src={post.hero_image ?? post.featured_image}
+                        alt={post.title}
+                        className="w-full object-cover"
+                        style={{
+                            height: '460px',
+                            objectPosition: post.hero_image_position ?? post.featured_image_position ?? 'center center',
+                            maskImage: 'linear-gradient(to bottom, black 0%, black 20%, transparent 92%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 20%, transparent 92%)',
+                        }}
+                    />
+                </div>
+            )}
+
+            {/* Text content — pulled up into the bottom of the image */}
+            <div className={`relative z-10 max-w-6xl mx-auto px-4 pb-14 ${post.featured_image ? '-mt-44' : 'pt-16'}`}>
+
+                {/* Eyebrow */}
+                <div className="flex items-center gap-3 mb-4">
+                    <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500" />
+                    </span>
+                    <span className="text-rose-400 text-xs font-black uppercase tracking-[0.25em]">
+                        {isBreaking ? 'Breaking News' : 'Latest Tech News'}
+                    </span>
+                    <span className="h-px flex-1 max-w-16 bg-gradient-to-r from-rose-500/40 to-transparent" />
+                    <Link href={route('news')}
+                        className="ml-auto text-xs font-semibold text-indigo-400 hover:text-white transition-colors flex items-center gap-1">
+                        All news
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
+
+                {/* Headline */}
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight max-w-3xl mb-4">
+                    {post.title}
+                </h2>
+
+                {/* Excerpt */}
+                {post.excerpt && (
+                    <p className="text-indigo-200/60 text-base md:text-lg leading-relaxed max-w-2xl line-clamp-2 mb-5">
+                        {post.excerpt}
+                    </p>
+                )}
+
+                {/* Meta */}
+                <div className="flex items-center gap-3 text-xs text-indigo-400/60 mb-8">
+                    <span>{formatNewsDate(post.published_at)}</span>
+                    {sourceDomain && (
+                        <>
+                            <span className="w-1 h-1 rounded-full bg-indigo-700" />
+                            <span>{sourceDomain}</span>
+                        </>
+                    )}
+                </div>
+
+                {/* CTA */}
+                <Link
+                    href={route('posts.show', post.slug)}
+                    className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-500
+                               text-white font-bold px-7 py-3 rounded-xl transition-colors
+                               shadow-lg shadow-rose-950/50"
+                >
+                    Read the Story
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </Link>
+            </div>
+
+            {/* Bottom accent line — same as other sections */}
+            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
+        </section>
+    );
+}
+
+function isWithin24h(isoDate) {
+    if (!isoDate) return false;
+    return Date.now() - new Date(isoDate).getTime() < 24 * 60 * 60 * 1000;
+}
+
+function extractDomain(url) {
+    if (!url) return null;
+    try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return null; }
+}
+
+function formatNewsDate(dateStr) {
+    if (!dateStr) return '';
+    return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 /* ── Post card ──────────────────────────────────────────────── */
 function PostCard({ post }) {
     return (
@@ -720,6 +849,7 @@ function PostCard({ post }) {
                         src={post.featured_image}
                         alt={post.title}
                         className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                        style={{ objectPosition: post.featured_image_position ?? 'center center' }}
                     />
                 ) : (
                     <div className="w-full h-48 bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">

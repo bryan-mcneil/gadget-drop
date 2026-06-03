@@ -22,16 +22,22 @@ class PublicController extends Controller
         $seenIds = [];
 
         $fmt = fn ($p) => [
-            'id'             => $p->id,
-            'type'           => $p->type,
-            'title'          => $p->title,
-            'slug'           => $p->slug,
-            'excerpt'        => $p->excerpt,
-            'featured_image' => $p->featured_image,
-            'published_at'   => $p->published_at?->format('Y-m-d'),
+            'id'      => $p->id,
+            'type'    => $p->type,
+            'title'   => $p->title,
+            'slug'    => $p->slug,
+            'excerpt' => $p->excerpt,
+            'featured_image'          => $p->featured_image,
+            'featured_image_position' => $p->featured_image_position ?? 'center center',
+            // hero_image is the wide-crop override for carousel/banner contexts
+            'hero_image'              => $p->hero_image ?: $p->featured_image,
+            'hero_image_position'     => $p->hero_image
+                ? ($p->hero_image_position ?? 'center center')
+                : ($p->featured_image_position ?? 'center center'),
+            'published_at' => $p->published_at?->format('Y-m-d'),
         ];
 
-        $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at'];
+        $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'featured_image_position', 'hero_image', 'hero_image_position', 'published_at'];
 
         // Slide 1 — Today's Drop (articles only)
         $today = Post::published()->whereNotIn('type', ['tech_tip', 'tech_news'])->latest('published_at')->first($cols);
@@ -165,7 +171,8 @@ class PublicController extends Controller
                 'title'          => $p->title,
                 'slug'           => $p->slug,
                 'excerpt'        => $p->excerpt,
-                'featured_image' => $p->featured_image,
+                'featured_image'          => $p->featured_image,
+                'featured_image_position' => $p->featured_image_position ?? 'center center',
                 'source_url'     => $p->source_url,
                 'published_at'   => $p->published_at?->format('Y-m-d'),
                 'published_at_iso' => $p->published_at?->toIso8601String(),
@@ -206,8 +213,13 @@ class PublicController extends Controller
             'slug'           => $post->slug,
             'excerpt'        => $post->excerpt,
             'body'           => $post->body,
-            'featured_image'     => $post->featured_image,
-            'featured_image_fit' => $post->featured_image_fit ?? 'cover',
+            'featured_image'          => $post->featured_image,
+            'featured_image_fit'      => $post->featured_image_fit ?? 'cover',
+            'featured_image_position' => $post->featured_image_position ?? 'center center',
+            'hero_image'              => $post->hero_image ?: $post->featured_image,
+            'hero_image_position'     => $post->hero_image
+                ? ($post->hero_image_position ?? 'center center')
+                : ($post->featured_image_position ?? 'center center'),
             'image_1'            => $post->image_1,
             'image_1_fit'        => $post->image_1_fit ?? 'cover',
             'image_2'            => $post->image_2,

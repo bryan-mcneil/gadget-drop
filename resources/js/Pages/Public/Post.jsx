@@ -93,11 +93,12 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                         </div>
                     </div>
 
-                    {post.featured_image && (
+                    {(post.hero_image || post.featured_image) && (
                         <AdaptiveImage
-                            src={post.featured_image}
+                            src={post.hero_image ?? post.featured_image}
                             alt={`Featured image for ${post.title}`}
                             fit={post.featured_image_fit ?? 'cover'}
+                            position={post.hero_image_position ?? post.featured_image_position ?? 'center center'}
                             className="w-full rounded-xl max-h-96"
                             wrapperClass="mb-8"
                             loading="eager"

@@ -81,12 +81,21 @@ class HandleInertiaRequests extends Middleware
                     ->where('type', 'tech_news')
                     ->latest('published_at')
                     ->take(6)
-                    ->get(['id', 'title', 'slug', 'published_at'])
+                    ->get(['id', 'title', 'slug', 'excerpt', 'featured_image', 'featured_image_position', 'hero_image', 'hero_image_position', 'source_url', 'published_at'])
                     ->map(fn ($p) => [
-                        'id'           => $p->id,
-                        'title'        => $p->title,
-                        'slug'         => $p->slug,
-                        'published_at' => $p->published_at?->format('Y-m-d'),
+                        'id'      => $p->id,
+                        'title'   => $p->title,
+                        'slug'    => $p->slug,
+                        'excerpt' => $p->excerpt,
+                        'featured_image'          => $p->featured_image,
+                        'featured_image_position' => $p->featured_image_position ?? 'center center',
+                        'hero_image'              => $p->hero_image ?: $p->featured_image,
+                        'hero_image_position'     => $p->hero_image
+                            ? ($p->hero_image_position ?? 'center center')
+                            : ($p->featured_image_position ?? 'center center'),
+                        'source_url'       => $p->source_url,
+                        'published_at'     => $p->published_at?->format('Y-m-d'),
+                        'published_at_iso' => $p->published_at?->toIso8601String(),
                     ]),
             ],
         ];

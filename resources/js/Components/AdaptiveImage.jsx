@@ -2,6 +2,7 @@ export default function AdaptiveImage({
     src,
     alt = '',
     fit = 'cover',
+    position = 'center center',
     className = '',
     wrapperClass = '',
     loading = 'lazy',
@@ -17,6 +18,7 @@ export default function AdaptiveImage({
                 alt={alt}
                 loading={loading}
                 className={`${className} ${fitClass}`}
+                style={fit !== 'contain' ? { objectPosition: position } : undefined}
             />
         </div>
     );
