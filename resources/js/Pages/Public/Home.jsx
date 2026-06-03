@@ -716,8 +716,7 @@ function CategoriesStrip({ categories }) {
 function BreakingNewsSection({ posts }) {
     if (!posts?.length) return null;
     const post = posts[0];
-    const isBreaking   = isWithin24h(post.published_at_iso);
-    const sourceDomain = extractDomain(post.source_url);
+    const isBreaking = isWithin24h(post.published_at_iso);
 
     // Dark base matches other homepage sections (#0d0d2b → #0f0a1e)
     const darkBg = 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)';
@@ -770,13 +769,6 @@ function BreakingNewsSection({ posts }) {
                         {isBreaking ? 'Breaking News' : 'Latest Tech News'}
                     </span>
                     <span className="h-px flex-1 max-w-16 bg-gradient-to-r from-rose-500/40 to-transparent" />
-                    <Link href={route('news')}
-                        className="ml-auto text-xs font-semibold text-indigo-400 hover:text-white transition-colors flex items-center gap-1">
-                        All news
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </Link>
                 </div>
 
                 {/* Headline */}
@@ -794,12 +786,6 @@ function BreakingNewsSection({ posts }) {
                 {/* Meta */}
                 <div className="flex items-center gap-3 text-xs text-indigo-400/60 mb-8">
                     <span>{formatNewsDate(post.published_at)}</span>
-                    {sourceDomain && (
-                        <>
-                            <span className="w-1 h-1 rounded-full bg-indigo-700" />
-                            <span>{sourceDomain}</span>
-                        </>
-                    )}
                 </div>
 
                 {/* CTA */}

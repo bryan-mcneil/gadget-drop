@@ -519,19 +519,89 @@ function Field({ label, error, children }) {
 }
 
 function CheckboxGroup({ label, items, selected, onToggle, renderLabel }) {
+    const [query, setQuery] = useState('');
+
+    const getLabel = (item) => renderLabel ? renderLabel(item) : item.name;
+
+    // Selected items always visible; unselected items filtered by query
+    const visible = query.trim()
+        ? items.filter(item =>
+            selected.includes(item.id) ||
+            getLabel(item).toLowerCase().includes(query.toLowerCase())
+          )
+        : items;
+
+    const hiddenSelectedCount = query.trim()
+        ? 0
+        : 0; // selected are always shown, so no hidden ones
+
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide mb-3">{label}</h3>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-                {items.length === 0 && <p className="text-xs text-gray-400">None yet.</p>}
-                {items.map((item) => (
-                    <label key={item.id} className="flex items-center gap-2 text-sm cursor-pointer">
-                        <input type="checkbox" checked={selected.includes(item.id)} onChange={() => onToggle(item.id)}
-                            className="rounded border-gray-300 text-indigo-600" />
-                        {renderLabel ? renderLabel(item) : item.name}
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">{label}</h3>
+                {selected.length > 0 && (
+                    <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
+                        {selected.length} selected
+                    </span>
+                )}
+            </div>
+
+            {/* Search input */}
+            <div className="relative mb-2">
+                <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                </svg>
+                <input
+                    type="text"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder={`Search ${label.toLowerCase()}…`}
+                    className="w-full pl-8 pr-7 py-1.5 text-xs border border-gray-200 rounded-lg bg-gray-50
+                               focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
+                />
+                {query && (
+                    <button
+                        type="button"
+                        onClick={() => setQuery('')}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 leading-none">
+                        ✕
+                    </button>
+                )}
+            </div>
+
+            {/* List */}
+            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                {items.length === 0 && (
+                    <p className="text-xs text-gray-400 py-1">None yet.</p>
+                )}
+                {items.length > 0 && visible.length === 0 && (
+                    <p className="text-xs text-gray-400 py-1">No results for "{query}"</p>
+                )}
+                {visible.map((item) => (
+                    <label key={item.id}
+                        className={`flex items-center gap-2 text-sm cursor-pointer px-2 py-1 rounded-lg transition-colors
+                            ${selected.includes(item.id) ? 'bg-indigo-50' : 'hover:bg-gray-50'}`}>
+                        <input
+                            type="checkbox"
+                            checked={selected.includes(item.id)}
+                            onChange={() => onToggle(item.id)}
+                            className="rounded border-gray-300 text-indigo-600 flex-shrink-0"
+                        />
+                        <span className={selected.includes(item.id) ? 'text-indigo-700 font-medium' : 'text-gray-700'}>
+                            {getLabel(item)}
+                        </span>
                     </label>
                 ))}
             </div>
+
+            {/* Footer hint when query is hiding unselected items */}
+            {query && items.length > visible.length && (
+                <p className="text-[10px] text-gray-400 mt-2">
+                    {items.length - visible.length} item{items.length - visible.length > 1 ? 's' : ''} hidden by search
+                </p>
+            )}
         </div>
     );
 }
