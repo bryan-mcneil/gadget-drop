@@ -265,13 +265,20 @@ class PublicController extends Controller
 
         $cols = ['id', 'title', 'slug', 'published_at', 'featured_image'];
 
-        $categoryPosts = Post::published()
+        // categoryPosts — same type only so tips/news don't surface product articles
+        $categoryPostsQuery = Post::published()
             ->whereHas('categories', fn ($q) => $q->whereIn('categories.id', $categoryIds))
             ->where('id', '!=', $post->id)
             ->latest('published_at')
-            ->take(8)
-            ->get($cols)
-            ->map($formatPost);
+            ->take(8);
+
+        if (in_array($post->type, ['tech_tip', 'tech_news'])) {
+            $categoryPostsQuery->where('type', $post->type);
+        } else {
+            $categoryPostsQuery->whereNotIn('type', ['tech_tip', 'tech_news']);
+        }
+
+        $categoryPosts = $categoryPostsQuery->get($cols)->map($formatPost);
 
         $excludeIds = $categoryPosts->pluck('id')->push($post->id);
 
@@ -300,15 +307,32 @@ class PublicController extends Controller
 
         $recentPosts = $recentQuery->get($cols)->map($formatPost);
 
+        // Related products for tips and news — pulled from shared categories
+        $relatedProducts = [];
+        if (in_array($post->type, ['tech_tip', 'tech_news']) && $categoryIds->isNotEmpty()) {
+            $relatedProducts = Product::whereIn('category_id', $categoryIds)
+                ->latest()
+                ->take(4)
+                ->get(['id', 'name', 'price', 'image_url', 'affiliate_url'])
+                ->map(fn ($p) => [
+                    'id'        => $p->id,
+                    'name'      => $p->name,
+                    'price'     => $p->price,
+                    'image_url' => $p->image_url,
+                ])
+                ->all();
+        }
+
         // Share with blade for server-side injection (visible to Googlebot on first crawl)
         view()->share('serverMeta',   $this->buildServerMeta($postData));
         view()->share('serverJsonLd', $this->buildServerJsonLd($postData));
 
         return Inertia::render('Public/Post', [
-            'post'          => $postData,
-            'categoryPosts' => $categoryPosts,
-            'tagPosts'      => $tagPosts,
-            'recentPosts'   => $recentPosts,
+            'post'             => $postData,
+            'categoryPosts'    => $categoryPosts,
+            'tagPosts'         => $tagPosts,
+            'recentPosts'      => $recentPosts,
+            'relatedProducts'  => $relatedProducts,
         ]);
     }
 

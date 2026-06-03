@@ -20,7 +20,7 @@ const proseComponents = {
     ),
 };
 
-export default function PostPage({ post, categoryPosts, tagPosts, recentPosts }) {
+export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, relatedProducts = [] }) {
     const seo = post.seo_meta;
 
     return (
@@ -223,6 +223,11 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
 
                 {/* Sidebar */}
                 <aside className="lg:border-l lg:border-gray-100 lg:pl-6 space-y-8">
+                    {/* Related products for tips and news */}
+                    {relatedProducts.length > 0 && (
+                        <RelatedProductsSection products={relatedProducts} postId={post.id} />
+                    )}
+
                     {post.type === 'tech_news' ? (
                         <>
                             <SidebarSection
@@ -347,6 +352,42 @@ function ReadingProgress() {
                 className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400"
                 style={{ width: `${progress}%` }}
             />
+        </div>
+    );
+}
+
+function RelatedProductsSection({ products, postId }) {
+    return (
+        <div>
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                Shop Related
+            </h3>
+            <ul className="space-y-3">
+                {products.map((p) => (
+                    <li key={p.id}>
+                        <a href={route('affiliate.redirect', { product: p.id, post: postId })}
+                            target="_blank" rel="nofollow sponsored"
+                            className="flex items-center gap-3 group">
+                            {p.image_url ? (
+                                <img src={p.image_url} alt={p.name} loading="lazy"
+                                    className="w-12 h-12 rounded-lg object-contain bg-gray-50 flex-shrink-0" />
+                            ) : (
+                                <div className="w-12 h-12 rounded-lg bg-orange-50 flex-shrink-0 flex items-center justify-center">
+                                    <span className="text-orange-300 text-lg font-bold">A</span>
+                                </div>
+                            )}
+                            <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium text-gray-800 group-hover:text-orange-600 leading-snug transition-colors line-clamp-2">
+                                    {p.name}
+                                </p>
+                                {p.price && (
+                                    <p className="text-xs text-gray-500 mt-0.5">${p.price}</p>
+                                )}
+                            </div>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
