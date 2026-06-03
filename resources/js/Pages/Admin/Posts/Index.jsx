@@ -75,8 +75,8 @@ export default function PostsIndex({ posts }) {
 }
 
 function TypeBadge({ type }) {
-    const labels = { article: 'Article', tech_tip: 'Tech Tip' };
-    const colors = { article: 'bg-blue-100 text-blue-700', tech_tip: 'bg-purple-100 text-purple-700' };
+    const labels = { article: 'Article', tech_tip: 'Tech Tip', tech_news: 'Tech News' };
+    const colors = { article: 'bg-blue-100 text-blue-700', tech_tip: 'bg-purple-100 text-purple-700', tech_news: 'bg-rose-100 text-rose-700' };
     return <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${colors[type] ?? 'bg-gray-100 text-gray-600'}`}>{labels[type] ?? type}</span>;
 }
 
