@@ -55,6 +55,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Tech Tips
                                 </NavLink>
                                 <NavLink
+                                    href={route('admin.news.index')}
+                                    active={route().current('admin.news.*')}
+                                >
+                                    News
+                                </NavLink>
+                                <NavLink
                                     href={route('admin.newsletter.index')}
                                     active={route().current('admin.newsletter.*')}
                                 >
@@ -187,6 +193,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('admin.tech-tips.*')}
                         >
                             Tech Tips
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('admin.news.index')}
+                            active={route().current('admin.news.*')}
+                        >
+                            News
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route('admin.newsletter.index')}

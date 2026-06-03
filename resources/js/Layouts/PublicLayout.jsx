@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
     const [searchQuery, setSearchQuery] = useState('');
     const headerRef = useRef(null);
     const { navigation } = usePage().props;
-    const { categories = [], popularTags = [], trending = [], latestTechTips = [] } = navigation ?? {};
+    const { categories = [], popularTags = [], trending = [], latestTechTips = [], latestNews = [] } = navigation ?? {};
 
     useEffect(() => {
         function onMouseDown(e) {
@@ -67,6 +67,8 @@ export default function PublicLayout({ children }) {
                                 onClick={() => toggle('trending')} />
                             <NavButton label="Tech Tips"  active={activeMenu === 'tech-tips'}
                                 onClick={() => toggle('tech-tips')} emerald />
+                            <NavButton label="News"       active={activeMenu === 'news'}
+                                onClick={() => toggle('news')} rose />
                         </nav>
 
                         <div className="flex-1" />
@@ -119,6 +121,9 @@ export default function PublicLayout({ children }) {
                 <MegaMenu open={activeMenu === 'tech-tips'} emerald>
                     <TechTipsMegamenu posts={latestTechTips} onClose={() => setActiveMenu(null)} />
                 </MegaMenu>
+                <MegaMenu open={activeMenu === 'news'} rose>
+                    <NewsMegamenu posts={latestNews} onClose={() => setActiveMenu(null)} />
+                </MegaMenu>
 
                 {/* ── Mobile menu ── */}
                 {mobileOpen && (
@@ -127,6 +132,7 @@ export default function PublicLayout({ children }) {
                         tags={popularTags}
                         trending={trending}
                         techTips={latestTechTips}
+                        latestNews={latestNews}
                         activeSection={mobileSection}
                         onToggleSection={name =>
                             setMobileSection(prev => prev === name ? null : name)}
@@ -158,17 +164,26 @@ export default function PublicLayout({ children }) {
 }
 
 /* ─── Desktop nav button ─────────────────────────────────────── */
-function NavButton({ label, active, onClick, emerald = false }) {
-    const activeClass  = emerald ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700';
-    const defaultClass = emerald
-        ? 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
-        : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50';
+function NavButton({ label, active, onClick, emerald = false, rose = false }) {
+    const activeClass = rose
+        ? 'bg-rose-50 text-rose-700'
+        : emerald ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700';
+    const defaultClass = rose
+        ? 'text-gray-600 hover:text-rose-600 hover:bg-rose-50'
+        : emerald
+            ? 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
+            : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50';
     return (
         <button
             onClick={onClick}
             className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors
                 ${active ? activeClass : defaultClass}`}>
-            {emerald && (
+            {rose && (
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                </svg>
+            )}
+            {emerald && !rose && (
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -180,15 +195,16 @@ function NavButton({ label, active, onClick, emerald = false }) {
 }
 
 /* ─── Megamenu wrapper ───────────────────────────────────────── */
-function MegaMenu({ open, children, emerald = false }) {
+function MegaMenu({ open, children, emerald = false, rose = false }) {
     if (!open) return null;
+    const accent = rose
+        ? 'bg-gradient-to-r from-rose-500 via-red-500 to-rose-400'
+        : emerald
+            ? 'bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300'
+            : 'bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-400';
     return (
         <div className="hidden md:block absolute top-full left-0 right-0 bg-white shadow-xl z-40">
-            {/* Thin gradient accent line at top */}
-            <div className={`h-0.5 ${emerald
-                ? 'bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300'
-                : 'bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-400'}`}
-            />
+            <div className={`h-0.5 ${accent}`} />
             {children}
         </div>
     );
@@ -368,8 +384,58 @@ function TechTipsMegamenu({ posts, onClose }) {
     );
 }
 
+/* ─── News megamenu ─────────────────────────────────────────── */
+function NewsMegamenu({ posts, onClose }) {
+    if (posts.length === 0) return (
+        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">No news published yet.</div>
+    );
+    return (
+        <div className="bg-rose-50/40">
+            <div className="max-w-6xl mx-auto px-4 py-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <svg className="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                    </svg>
+                    <span className="text-xs font-semibold text-rose-700 uppercase tracking-widest">Latest Tech News</span>
+                    <span className="flex-1 h-px bg-rose-100" />
+                    <Link href={route('news')} onClick={onClose}
+                        className="text-xs font-medium text-rose-500 hover:text-rose-700 transition-colors">
+                        All news →
+                    </Link>
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                    {posts.map((p, i) => (
+                        <Link key={p.id} href={route('posts.show', p.slug)} onClick={onClose}
+                            className="flex gap-3 items-start group p-2 rounded-xl hover:bg-rose-100/60 transition -m-2">
+                            <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center
+                                ${i === 0
+                                    ? 'bg-rose-500 shadow-sm'
+                                    : 'bg-white border border-rose-200'}`}>
+                                <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-rose-400'}`}
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                                </svg>
+                            </div>
+                            <div className="min-w-0">
+                                {i === 0 && (
+                                    <span className="inline-block text-xs font-semibold text-rose-600 mb-0.5">Latest</span>
+                                )}
+                                <p className="text-sm font-medium text-gray-800 group-hover:text-rose-700
+                                              leading-snug transition-colors line-clamp-2">
+                                    {p.title}
+                                </p>
+                                <p className="text-xs text-gray-400 mt-1">{p.published_at}</p>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 /* ─── Mobile menu ───────────────────────────────────────────── */
-function MobileMenu({ categories, tags, trending, techTips, activeSection, onToggleSection, onClose }) {
+function MobileMenu({ categories, tags, trending, techTips, latestNews = [], activeSection, onToggleSection, onClose }) {
     const [q, setQ] = useState('');
 
     function handleSearch(e) {
@@ -502,22 +568,62 @@ function MobileMenu({ categories, tags, trending, techTips, activeSection, onTog
                         </ul>
                     </MobileAccordion>
                 )}
+
+                {/* News accordion */}
+                {latestNews.length > 0 && (
+                    <MobileAccordion
+                        title="News"
+                        open={activeSection === 'news'}
+                        onToggle={() => onToggleSection('news')}
+                        rose>
+                        <ul className="space-y-1 py-1">
+                            {latestNews.map((p, i) => (
+                                <li key={p.id}>
+                                    <Link href={route('posts.show', p.slug)} onClick={onClose}
+                                        className="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-rose-50">
+                                        <div className={`w-8 h-8 rounded-md flex-shrink-0 flex items-center justify-center
+                                            ${i === 0 ? 'bg-rose-500' : 'bg-white border border-rose-200'}`}>
+                                            <svg className={`w-3.5 h-3.5 ${i === 0 ? 'text-white' : 'text-rose-400'}`}
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-sm text-gray-700 line-clamp-2">{p.title}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <Link href={route('news')} onClick={onClose}
+                            className="block mt-2 text-xs font-medium text-rose-600 hover:text-rose-800 px-2 pb-2">
+                            View all news →
+                        </Link>
+                    </MobileAccordion>
+                )}
             </nav>
         </div>
     );
 }
 
-function MobileAccordion({ title, open, onToggle, children, emerald = false }) {
+function MobileAccordion({ title, open, onToggle, children, emerald = false, rose = false }) {
+    const openClass = rose
+        ? 'text-rose-700 bg-rose-50'
+        : emerald ? 'text-emerald-700 bg-emerald-50' : 'text-indigo-700 bg-indigo-50';
+    const closedClass = rose
+        ? 'text-gray-700 hover:text-rose-600 hover:bg-rose-50'
+        : emerald ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50';
+
     return (
         <div className="border-t border-gray-50">
             <button onClick={onToggle}
                 className={`flex items-center justify-between w-full px-3 py-3 text-sm font-medium rounded-lg transition-colors
-                    ${open
-                        ? emerald ? 'text-emerald-700 bg-emerald-50' : 'text-indigo-700 bg-indigo-50'
-                        : emerald ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                    }`}>
+                    ${open ? openClass : closedClass}`}>
                 <span className="flex items-center gap-2">
-                    {emerald && (
+                    {rose && (
+                        <svg className="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                        </svg>
+                    )}
+                    {emerald && !rose && (
                         <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>

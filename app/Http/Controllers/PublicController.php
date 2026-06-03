@@ -34,14 +34,14 @@ class PublicController extends Controller
         $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at'];
 
         // Slide 1 — Today's Drop (articles only)
-        $today = Post::published()->where('type', '!=', 'tech_tip')->latest('published_at')->first($cols);
+        $today = Post::published()->whereNotIn('type', ['tech_tip', 'tech_news'])->latest('published_at')->first($cols);
         if ($today) {
             $seenIds[] = $today->id;
             $slides[]  = ['label' => "Today's Drop", 'post' => $fmt($today)];
         }
 
         // Slide 2 — Yesterday's Drop (articles only)
-        $yesterday = Post::published()->where('type', '!=', 'tech_tip')->latest('published_at')
+        $yesterday = Post::published()->whereNotIn('type', ['tech_tip', 'tech_news'])->latest('published_at')
             ->whereNotIn('id', $seenIds)->first($cols);
         if ($yesterday) {
             $seenIds[] = $yesterday->id;
@@ -49,7 +49,7 @@ class PublicController extends Controller
         }
 
         // Slide 3 — Top Trending (most views, articles only)
-        $trending = Post::published()->where('type', '!=', 'tech_tip')->orderByDesc('view_count')
+        $trending = Post::published()->whereNotIn('type', ['tech_tip', 'tech_news'])->orderByDesc('view_count')
             ->whereNotIn('id', $seenIds)->first($cols);
         if ($trending) {
             $seenIds[] = $trending->id;
@@ -57,13 +57,13 @@ class PublicController extends Controller
         }
 
         // Slide 4 — Top Featured [Random Tag] Pick (articles only)
-        $tag = Tag::withCount(['posts' => fn ($q) => $q->published()->where('type', '!=', 'tech_tip')])
+        $tag = Tag::withCount(['posts' => fn ($q) => $q->published()->whereNotIn('type', ['tech_tip', 'tech_news'])])
             ->having('posts_count', '>', 0)
             ->inRandomOrder()
             ->first();
         if ($tag) {
             $tagPost = Post::published()
-                ->where('type', '!=', 'tech_tip')
+                ->whereNotIn('type', ['tech_tip', 'tech_news'])
                 ->whereHas('tags', fn ($q) => $q->where('tags.id', $tag->id))
                 ->whereNotIn('id', $seenIds)
                 ->latest('published_at')
@@ -79,9 +79,9 @@ class PublicController extends Controller
             $slides[] = ['label' => 'Latest Tech Tip', 'post' => $fmt($latestTechTip)];
         }
 
-        // Top Picks — up to 6 unique products from recent articles (no tech tips)
+        // Top Picks — up to 6 unique products from recent articles (no tech tips or news)
         $topPickPosts = Post::published()
-            ->where('type', '!=', 'tech_tip')
+            ->whereNotIn('type', ['tech_tip', 'tech_news'])
             ->has('products')
             ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
@@ -106,9 +106,9 @@ class PublicController extends Controller
             if (count($topPicks) >= 6) break;
         }
 
-        // Featured Spotlight — most recent article (not tech tip) with at least one product
+        // Featured Spotlight — most recent article (not tech tip or news) with at least one product
         $spotlightPost = Post::published()
-            ->where('type', '!=', 'tech_tip')
+            ->whereNotIn('type', ['tech_tip', 'tech_news'])
             ->has('products')
             ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
@@ -135,7 +135,7 @@ class PublicController extends Controller
         return Inertia::render('Public/Home', [
             'heroSlides' => $slides,
             'recentPosts' => Post::published()
-                ->where('type', '!=', 'tech_tip')
+                ->whereNotIn('type', ['tech_tip', 'tech_news'])
                 ->with('categories')
                 ->latest('published_at')
                 ->skip(1)
@@ -149,6 +149,33 @@ class PublicController extends Controller
                 ->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug, 'featured_image' => $c->featured_image, 'posts_count' => $c->posts_count]),
             'spotlight' => $spotlight,
             'topPicks'  => $topPicks,
+        ]);
+    }
+
+    public function news(): Response
+    {
+        $paginator = Post::published()
+            ->where('type', 'tech_news')
+            ->latest('published_at')
+            ->paginate(12);
+
+        return Inertia::render('Public/News', [
+            'posts' => $paginator->through(fn ($p) => [
+                'id'             => $p->id,
+                'title'          => $p->title,
+                'slug'           => $p->slug,
+                'excerpt'        => $p->excerpt,
+                'featured_image' => $p->featured_image,
+                'source_url'     => $p->source_url,
+                'published_at'   => $p->published_at?->format('Y-m-d'),
+                'published_at_iso' => $p->published_at?->toIso8601String(),
+                'read_minutes'   => max(1, (int) ceil(str_word_count(strip_tags($p->body ?? '')) / 200)),
+            ]),
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page'    => $paginator->lastPage(),
+                'total'        => $paginator->total(),
+            ],
         ]);
     }
 
@@ -219,9 +246,10 @@ class PublicController extends Controller
                 'avatar_url' => $post->user->avatar_url,
                 'slug'       => $post->user->slug,
             ] : null,
-            'short_url' => $post->share_code
+            'short_url'    => $post->share_code
                 ? url('/s/' . $post->share_code)
                 : url('/posts/' . $post->slug),
+            'read_minutes' => max(1, (int) ceil(str_word_count(strip_tags($post->body ?? '')) / 200)),
         ];
 
         $categoryIds = $post->categories->pluck('id');
@@ -259,13 +287,18 @@ class PublicController extends Controller
 
         $excludeIds = $excludeIds->merge($tagPosts->pluck('id'));
 
-        $recentPosts = Post::published()
-            ->where('type', '!=', 'tech_tip')
+        $recentQuery = Post::published()
             ->whereNotIn('id', $excludeIds)
             ->latest('published_at')
-            ->take(15)
-            ->get($cols)
-            ->map($formatPost);
+            ->take(15);
+
+        if ($post->type === 'tech_news') {
+            $recentQuery->where('type', 'tech_news');
+        } else {
+            $recentQuery->whereNotIn('type', ['tech_tip', 'tech_news']);
+        }
+
+        $recentPosts = $recentQuery->get($cols)->map($formatPost);
 
         // Share with blade for server-side injection (visible to Googlebot on first crawl)
         view()->share('serverMeta',   $this->buildServerMeta($postData));

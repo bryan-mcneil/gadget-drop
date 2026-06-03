@@ -38,6 +38,11 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
 
             <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
                 <article className="lg:col-span-3">
+                    {/* News accent bar */}
+                    {post.type === 'tech_news' && (
+                        <div className="h-1 bg-gradient-to-r from-rose-500 via-red-500 to-rose-400 rounded-full mb-6 -mx-1" />
+                    )}
+
                     {/* Header */}
                     <div className="mb-6">
                         <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -49,6 +54,23 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                                     Tech Tip
                                 </span>
                             )}
+                            {post.type === 'tech_news' && (
+                                <>
+                                    {isBreakingNews(post.published_at_iso) ? (
+                                        <span className="inline-flex items-center gap-1.5 text-xs bg-rose-600 text-white font-bold px-2.5 py-1 rounded-full">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                                            Breaking
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1 text-xs bg-rose-100 text-rose-700 font-bold px-2.5 py-1 rounded-full">
+                                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                                            </svg>
+                                            Tech News
+                                        </span>
+                                    )}
+                                </>
+                            )}
                             {post.categories.map((c) => (
                                 <Link key={c.id} href={route('category', c.slug)}
                                     className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full font-medium">{c.name}</Link>
@@ -56,13 +78,18 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                         </div>
                         <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">{post.title}</h1>
                         <div className="mt-2 space-y-1">
-                            <p className="text-sm text-gray-500">By {post.user?.name} · {post.published_at}</p>
+                            <p className="text-sm text-gray-500">
+                                By {post.user?.name} · {post.published_at}
+                                {post.read_minutes && (
+                                    <span className="ml-2 text-gray-400">· {post.read_minutes} min read</span>
+                                )}
+                            </p>
                             <ShareBar
                                 url={route('posts.show', post.slug)}
                                 shortUrl={post.short_url}
                                 title={post.title}
                             />
-                            <AffiliateDisclosure />
+                            {post.type !== 'tech_news' && <AffiliateDisclosure />}
                         </div>
                     </div>
 
@@ -126,6 +153,22 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                         </div>
                     )}
 
+                    {/* Source attribution for Tech News */}
+                    {post.type === 'tech_news' && post.source_url && (
+                        <div className="mt-6 pt-5 border-t border-rose-100 flex items-center gap-2.5">
+                            <svg className="w-4 h-4 text-rose-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                            <p className="text-xs text-gray-400">
+                                Source:{' '}
+                                <a href={post.source_url} target="_blank" rel="nofollow noopener"
+                                    className="underline hover:text-rose-600 transition-colors">
+                                    {extractSourceDomain(post.source_url)}
+                                </a>
+                            </p>
+                        </div>
+                    )}
+
                     {/* Reddit attribution for Tech Tips */}
                     {post.type === 'tech_tip' && post.source_url && (
                         <div className="mt-6 pt-5 border-t border-gray-100 flex items-center gap-2.5">
@@ -180,7 +223,22 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
 
                 {/* Sidebar */}
                 <aside className="lg:border-l lg:border-gray-100 lg:pl-6 space-y-8">
-                    {post.type === 'tech_tip' ? (
+                    {post.type === 'tech_news' ? (
+                        <>
+                            <SidebarSection
+                                title="More News"
+                                posts={recentPosts}
+                                emptyLabel="No other news yet."
+                                rose
+                            />
+                            <SidebarSection
+                                title="Related Stories"
+                                posts={categoryPosts}
+                                emptyLabel={null}
+                                rose
+                            />
+                        </>
+                    ) : post.type === 'tech_tip' ? (
                         <SidebarSection
                             title="Related Drops"
                             posts={categoryPosts}
@@ -199,7 +257,14 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts })
                         <AdUnit slot="YOUR_AD_SLOT_ID" />
                     </div>
 
-                    {post.type === 'tech_tip' ? (
+                    {post.type === 'tech_news' ? (
+                        <SidebarSection
+                            title="From Same Tags"
+                            posts={tagPosts}
+                            emptyLabel={null}
+                            rose
+                        />
+                    ) : post.type === 'tech_tip' ? (
                         <SidebarSection
                             title="From Same Tags"
                             posts={tagPosts}
@@ -286,8 +351,12 @@ function ReadingProgress() {
     );
 }
 
-function SidebarSection({ title, posts, emptyLabel }) {
+function SidebarSection({ title, posts, emptyLabel, rose = false }) {
     if (!posts || (posts.length === 0 && !emptyLabel)) return null;
+
+    const hoverColor = rose ? 'group-hover:text-rose-600' : 'group-hover:text-indigo-600';
+    const placeholderBg = rose ? 'bg-rose-50' : 'bg-indigo-50';
+    const placeholderText = rose ? 'text-rose-300' : 'text-indigo-300';
 
     return (
         <div>
@@ -300,10 +369,7 @@ function SidebarSection({ title, posts, emptyLabel }) {
                 <ul className="space-y-4">
                     {posts.map((p) => (
                         <li key={p.id} className="group">
-                            <Link
-                                href={route('posts.show', p.slug)}
-                                className="flex gap-3 items-start"
-                            >
+                            <Link href={route('posts.show', p.slug)} className="flex gap-3 items-start">
                                 {p.featured_image ? (
                                     <img
                                         src={p.featured_image}
@@ -312,12 +378,12 @@ function SidebarSection({ title, posts, emptyLabel }) {
                                         className="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-gray-100"
                                     />
                                 ) : (
-                                    <div className="w-14 h-14 rounded-lg bg-indigo-50 flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-indigo-300 text-xl font-bold">G</span>
+                                    <div className={`w-14 h-14 rounded-lg ${placeholderBg} flex-shrink-0 flex items-center justify-center`}>
+                                        <span className={`${placeholderText} text-xl font-bold`}>G</span>
                                     </div>
                                 )}
                                 <div className="min-w-0">
-                                    <p className="text-sm font-medium text-gray-800 group-hover:text-indigo-600 leading-snug transition-colors">
+                                    <p className={`text-sm font-medium text-gray-800 ${hoverColor} leading-snug transition-colors`}>
                                         {p.title}
                                     </p>
                                     <p className="text-xs text-gray-400 mt-0.5">{p.published_at}</p>
@@ -329,6 +395,18 @@ function SidebarSection({ title, posts, emptyLabel }) {
             )}
         </div>
     );
+}
+
+/* ── Helpers ── */
+
+function isBreakingNews(isoDate) {
+    if (!isoDate) return false;
+    return Date.now() - new Date(isoDate).getTime() < 24 * 60 * 60 * 1000;
+}
+
+function extractSourceDomain(url) {
+    if (!url) return url;
+    try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return url; }
 }
 
 function ProductCard({ product, postId }) {

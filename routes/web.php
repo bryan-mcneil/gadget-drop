@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\TechTipController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
@@ -19,6 +20,7 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 // Public site
 Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/news', [PublicController::class, 'news'])->name('news');
 Route::get('/search', [PublicController::class, 'search'])->name('search');
 Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts.show');
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
@@ -47,6 +49,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('tech-tips/search', [TechTipController::class, 'search'])->name('tech-tips.search');
     Route::get('tech-tips/prepare', [TechTipController::class, 'prepare'])->name('tech-tips.prepare');
     Route::post('tech-tips/generate', [TechTipController::class, 'generate'])->name('tech-tips.generate');
+    Route::get('news', [NewsController::class, 'index'])->name('news.index');
+    Route::post('news/prompt', [NewsController::class, 'buildPrompt'])->name('news.prompt');
+    Route::post('news/generate', [NewsController::class, 'generate'])->name('news.generate');
     Route::get('newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
     Route::post('newsletter/test', [NewsletterController::class, 'sendTest'])->name('newsletter.test');
     Route::post('newsletter/send-all', [NewsletterController::class, 'sendAll'])->name('newsletter.send-all');

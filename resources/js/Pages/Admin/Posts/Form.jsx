@@ -157,6 +157,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                     className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
                                     <option value="article">Article</option>
                                     <option value="tech_tip">Tech Tip</option>
+                                    <option value="tech_news">Tech News</option>
                                 </select>
                             </Field>
                             {data.type === 'tech_tip' && (
@@ -165,6 +166,14 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                         onChange={(e) => setData('source_url', e.target.value)}
                                         className="w-full border-gray-300 rounded-lg shadow-sm text-sm"
                                         placeholder="https://reddit.com/r/…" />
+                                </Field>
+                            )}
+                            {data.type === 'tech_news' && (
+                                <Field label="Source URL" error={errors.source_url}>
+                                    <input type="url" value={data.source_url}
+                                        onChange={(e) => setData('source_url', e.target.value)}
+                                        className="w-full border-gray-300 rounded-lg shadow-sm text-sm"
+                                        placeholder="https://techcrunch.com/…" />
                                 </Field>
                             )}
                             <Field label="Status" error={errors.status}>
