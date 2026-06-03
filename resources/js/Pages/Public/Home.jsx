@@ -567,6 +567,32 @@ function FeaturedSpotlight({ spotlight }) {
 function CategoriesStrip({ categories }) {
     if (!categories?.length) return null;
 
+    const scrollRef = useRef(null);
+    const [canScrollLeft,  setCanScrollLeft]  = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+
+    const updateButtons = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setCanScrollLeft(el.scrollLeft > 2);
+        setCanScrollRight(Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 2);
+    }, []);
+
+    useEffect(() => {
+        updateButtons();
+        const el = scrollRef.current;
+        el?.addEventListener('scroll', updateButtons, { passive: true });
+        window.addEventListener('resize', updateButtons);
+        return () => {
+            el?.removeEventListener('scroll', updateButtons);
+            window.removeEventListener('resize', updateButtons);
+        };
+    }, [updateButtons]);
+
+    function scroll(dir) {
+        scrollRef.current?.scrollBy({ left: dir * 280, behavior: 'smooth' });
+    }
+
     return (
         <section
             className="relative py-12"
@@ -591,50 +617,92 @@ function CategoriesStrip({ categories }) {
                         Browse by Category
                     </h2>
                 </div>
-            </div>
 
-            <div className="relative flex gap-5 overflow-x-auto scrollbar-hide pb-2 px-4">
-                    {categories.map((cat) => (
-                        <Link
-                            key={cat.id}
-                            href={route('category', cat.slug)}
-                            className="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40"
+                {/* Scroll container with buttons */}
+                <div className="relative">
+                    {/* Left scroll button — only when scrolled right */}
+                    {canScrollLeft && (
+                        <button
+                            onClick={() => scroll(-1)}
+                            aria-label="Scroll left"
+                            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10
+                                       w-10 h-10 items-center justify-center rounded-full
+                                       bg-gray-900/80 border border-indigo-500/40 text-indigo-300
+                                       hover:bg-indigo-600 hover:text-white hover:border-indigo-600
+                                       transition-all duration-200 shadow-lg shadow-black/40 backdrop-blur-sm"
                         >
-                            {/* Image */}
-                            {cat.featured_image ? (
-                                <img
-                                    src={cat.featured_image}
-                                    alt={cat.name}
-                                    loading="lazy"
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                            ) : (
-                                <div className="absolute inset-0 bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center">
-                                    <span className="text-white/20 font-black text-8xl select-none">
-                                        {cat.name.charAt(0)}
-                                    </span>
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    )}
+
+                    {/* Right scroll button — hidden once at end */}
+                    {canScrollRight && (
+                        <button
+                            onClick={() => scroll(1)}
+                            aria-label="Scroll right"
+                            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10
+                                       w-10 h-10 items-center justify-center rounded-full
+                                       bg-gray-900/80 border border-indigo-500/40 text-indigo-300
+                                       hover:bg-indigo-600 hover:text-white hover:border-indigo-600
+                                       transition-all duration-200 shadow-lg shadow-black/40 backdrop-blur-sm"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    )}
+
+                    {/* Scrollable strip — native touch scroll on mobile/tablet */}
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-5 overflow-x-auto scrollbar-hide pb-2"
+                        style={{ touchAction: 'pan-x' }}
+                    >
+                        {categories.map((cat) => (
+                            <Link
+                                key={cat.id}
+                                href={route('category', cat.slug)}
+                                className="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40"
+                            >
+                                {/* Image */}
+                                {cat.featured_image ? (
+                                    <img
+                                        src={cat.featured_image}
+                                        alt={cat.name}
+                                        loading="lazy"
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                ) : (
+                                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center">
+                                        <span className="text-white/20 font-black text-8xl select-none">
+                                            {cat.name.charAt(0)}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Gradient scrim */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/20 to-transparent
+                                                transition-opacity duration-300 group-hover:opacity-90" />
+
+                                {/* Name + indigo underline accent */}
+                                <div className="absolute bottom-0 left-0 right-0 px-4 py-4
+                                                translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                                    <p className="text-white font-bold text-base leading-tight tracking-wide">
+                                        {cat.name}
+                                    </p>
+                                    <div className="mt-1.5 h-0.5 w-0 bg-indigo-400 rounded-full
+                                                    transition-all duration-300 group-hover:w-8" />
                                 </div>
-                            )}
 
-                            {/* Gradient scrim */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/20 to-transparent
-                                            transition-opacity duration-300 group-hover:opacity-90" />
-
-                            {/* Name + indigo underline accent */}
-                            <div className="absolute bottom-0 left-0 right-0 px-4 py-4
-                                            translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                                <p className="text-white font-bold text-base leading-tight tracking-wide">
-                                    {cat.name}
-                                </p>
-                                <div className="mt-1.5 h-0.5 w-0 bg-indigo-400 rounded-full
-                                                transition-all duration-300 group-hover:w-8" />
-                            </div>
-
-                            {/* Hover border glow */}
-                            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5
-                                            group-hover:ring-indigo-500/50 transition-all duration-300" />
-                        </Link>
-                    ))}
+                                {/* Hover border glow */}
+                                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5
+                                                group-hover:ring-indigo-500/50 transition-all duration-300" />
+                            </Link>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     );
