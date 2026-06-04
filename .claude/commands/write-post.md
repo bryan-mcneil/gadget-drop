@@ -82,6 +82,27 @@ Structure and heading rules:
 - Never start a sentence with "Overall" or "In conclusion"
 - Amazon Associates disclosure is added automatically by the site — do NOT include it in the body
 
+### Banned patterns — never use these
+- Em dashes (—) in any form. Use a comma, a period + new sentence, or restructure the sentence instead.
+- "dive into", "deep dive", "let's dive"
+- "game-changer" / "game changer"
+- "it's worth noting", "worth noting"
+- "seamlessly", "seamless integration"
+- "unleash", "unlock your", "elevate your"
+- "robust" as a feature adjective
+- "cutting-edge" unless quoting the manufacturer verbatim
+- "at the end of the day", "in today's world", "in today's fast-paced"
+- "look no further"
+- Opening a sentence with "Additionally," or "Furthermore,"
+- Passive "is designed to" constructions
+
+### Naturalness rules
+- Vary sentence length deliberately: mix short punchy sentences with longer explanatory ones.
+- Use contractions throughout: "you'll", "it's", "doesn't", "that's". Formal prose is an AI tell.
+- One concrete number or real-world comparison per section beats three vague adjectives.
+- If a sentence could appear unchanged in any product review for any product, rewrite it to be specific to this one.
+- Read the hook aloud. If it sounds like you're narrating a slideshow, rewrite it.
+
 ### Output
 Return the post wrapped in a single fenced code block so the raw text is copyable without markdown rendering. Use plain-text labels (no `##`):
 

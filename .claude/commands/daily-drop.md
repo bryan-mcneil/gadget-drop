@@ -126,140 +126,156 @@ Each section must be separated by a markdown `---` horizontal rule.
 - Title: 50–65 characters, compelling, contains the main keyword
 - Excerpt: 120–155 characters, entices the click
 
+**Banned patterns — apply across all four voices:**
+- Em dashes (—) in any form. Use a comma, a period + new sentence, or restructure instead.
+- "dive into", "deep dive", "let's dive"
+- "game-changer" / "game changer"
+- "it's worth noting", "worth noting"
+- "seamlessly", "seamless integration"
+- "unleash", "unlock your", "elevate your"
+- "robust" as a feature adjective
+- "cutting-edge" unless quoting the manufacturer verbatim
+- "at the end of the day", "in today's world", "in today's fast-paced"
+- "look no further"
+- Opening a sentence with "Additionally," or "Furthermore,"
+- Passive "is designed to" constructions
+
+**Naturalness rules:**
+- Vary sentence length deliberately: mix short punchy sentences with longer explanatory ones.
+- Use contractions throughout: "you'll", "it's", "doesn't", "that's".
+- One concrete number or real-world comparison per section beats three vague adjectives.
+- If a sentence could appear unchanged in any product review, rewrite it to be specific to this product.
+
 Print to chat after each product completes: `✅ Product [N] written — [name]`
 
 ---
 
-## Phase 3 — SEO fields (for every post)
+## Phase 3 — SEO + JSON output (for every post)
 
-For each of the 16 posts, generate copy-paste-ready SEO values and a score.
+For each of the 16 posts, compute SEO values and assemble the final JSON object.
 
-**SEO scoring checklist:**
+**SEO checklist per post:**
 - Title contains focus keyword near the start (50–65 chars)
-- Excerpt/meta description 120–155 chars, includes keyword and CTA
+- Excerpt 120–155 chars, includes keyword
 - Focus keyword in first 100 words of body
-- Keyword density 1–2%
 - At least 2 H2/H3 subheadings with related keywords
 - Body 600–1200 words
-- Slug is short, lowercase, hyphenated, contains keyword
-- Purchase-intent keyword ("best", "review", "vs", price terms)
+- Slug short, lowercase, hyphenated, contains keyword
 
-If a post scores below 75, include a revised title and revised hook paragraph inline.
+If a post scores below 75, revise the title and excerpt before writing the JSON.
 
 ---
 
 ## Output file format
 
-Save everything to `daily-drop-output.md` using this exact structure:
+Collect all 16 post objects and save to `daily-drop-output.md` as a single JSON array.
+The body field must keep its full markdown formatting (## headings, --- dividers, **bold**, etc.) — JSON-encode it as a string.
 
 ```
 # GadgetDrop Daily Drop — {today's date}
 
-════════════════════════════════════════
-## PRODUCT 1: {Product Name}
-ASIN: {B0XXXXXXXXX}
-Trending because: {1 sentence}
-Category: {category}
-Tags: {tag1, tag2, tag3, tag4, tag5}
-════════════════════════════════════════
-
-### ✍️ MAYA REEVES
-
-**FORM FIELDS — copy-paste into admin:**
-| Field | Value |
-|---|---|
-| Title | {title} |
-| Slug | {slug} |
-| Excerpt | {excerpt} |
-| Focus Keyword | {keyword} |
-| Meta Title | {meta title ≤70 chars} |
-| Meta Description | {meta description 120–155 chars} |
-| Category | {category} |
-| Tags | {tags} |
-| Rating | {one value: 1 / 1.5 / 2 / 2.5 / 3 / 3.5 / 4 / 4.5 / 5} |
-| Pros | {2–5 bullet points, each on its own line, drawn from Key features} |
-| Cons | {1–3 bullet points, each on its own line, drawn from Honest take} |
-| SEO Score | {score}/100 |
-
-**POST BODY:**
-{full markdown body}
-
----
-
-### ✍️ KEN FUJIMOTO
-
-**FORM FIELDS — copy-paste into admin:**
-| Field | Value |
-|---|---|
-| Title | {title} |
-| Slug | {slug} |
-| Excerpt | {excerpt} |
-| Focus Keyword | {keyword} |
-| Meta Title | {meta title ≤70 chars} |
-| Meta Description | {meta description 120–155 chars} |
-| Category | {category} |
-| Tags | {tags} |
-| Rating | {one value: 1 / 1.5 / 2 / 2.5 / 3 / 3.5 / 4 / 4.5 / 5} |
-| Pros | {2–5 bullet points, each on its own line, drawn from Key features} |
-| Cons | {1–3 bullet points, each on its own line, drawn from Honest take} |
-| SEO Score | {score}/100 |
-
-**POST BODY:**
-{full markdown body}
-
----
-
-### ✍️ ELIZABETH AVERY
-
-**FORM FIELDS — copy-paste into admin:**
-| Field | Value |
-|---|---|
-| Title | {title} |
-| Slug | {slug} |
-| Excerpt | {excerpt} |
-| Focus Keyword | {keyword} |
-| Meta Title | {meta title ≤70 chars} |
-| Meta Description | {meta description 120–155 chars} |
-| Category | {category} |
-| Tags | {tags} |
-| Rating | {one value: 1 / 1.5 / 2 / 2.5 / 3 / 3.5 / 4 / 4.5 / 5} |
-| Pros | {2–5 bullet points, each on its own line, drawn from Key features} |
-| Cons | {1–3 bullet points, each on its own line, drawn from Honest take} |
-| SEO Score | {score}/100 |
-
-**POST BODY:**
-{full markdown body}
-
----
-
-### ✍️ SAM JOHNSON
-
-**FORM FIELDS — copy-paste into admin:**
-| Field | Value |
-|---|---|
-| Title | {title} |
-| Slug | {slug} |
-| Excerpt | {excerpt} |
-| Focus Keyword | {keyword} |
-| Meta Title | {meta title ≤70 chars} |
-| Meta Description | {meta description 120–155 chars} |
-| Category | {category} |
-| Tags | {tags} |
-| Rating | {one value: 1 / 1.5 / 2 / 2.5 / 3 / 3.5 / 4 / 4.5 / 5} |
-| Pros | {2–5 bullet points, each on its own line, drawn from Key features} |
-| Cons | {1–3 bullet points, each on its own line, drawn from Honest take} |
-| SEO Score | {score}/100 |
-
-**POST BODY:**
-{full markdown body}
-
----
-{repeat for Products 2, 3, 4}
+```json
+[
+  {
+    "title": "{title, 50–65 chars, contains keyword}",
+    "excerpt": "{excerpt, 120–155 chars}",
+    "body": "{full markdown body as a single JSON string — ## headings, --- dividers preserved}",
+    "type": "article",
+    "author_name": "Maya Reeves",
+    "category_name": "{Audio | Smart Home | Wearables | Gaming | Accessories | Productivity | Photography | etc.}",
+    "tag_names": ["{tag1}", "{tag2}", "{tag3}", "{tag4}", "{tag5}"],
+    "product_asin": "{B0XXXXXXXXX}",
+    "rating": {4.0},
+    "pros": ["{benefit 1, 5–10 words}", "{benefit 2}", "{benefit 3}"],
+    "cons": ["{drawback 1, 5–10 words}"],
+    "seo": {
+      "meta_title": "{meta title ≤70 chars}",
+      "meta_description": "{meta description 120–155 chars}",
+      "focus_keyword": "{primary seo keyword}"
+    }
+  },
+  {same structure for Ken Fujimoto},
+  {same structure for Elizabeth Avery},
+  {same structure for Sam Johnson},
+  {repeat for Products 2, 3, 4 — 16 objects total}
+]
 ```
+```
+
+**JSON encoding rules for the body field:**
+- Escape all double quotes as `\"`
+- Encode newlines as `\n`
+- Encode tab characters as `\t`
+- Do NOT wrap in a nested JSON object — the body value is a plain string
+
+After saving the JSON array, append the following section to `daily-drop-output.md` for each of the 4 products, then print the completion message.
+
+---
+
+## Phase 4 — Video & Social Assets (per product)
+
+For each of the 4 products, generate the following and append to `daily-drop-output.md` under a `### VIDEO ASSETS` header.
+
+Use **Ken Fujimoto's voice** for all scripts (casual, punchy, direct — best for spoken-word video).
+
+```
+════════════════════════════════════════
+### VIDEO ASSETS — {Product Name}
+════════════════════════════════════════
+
+**YouTube Title A (curiosity hook, <70 chars):**
+{title}
+
+**YouTube Title B (keyword-first, <70 chars):**
+{title}
+
+**90-Second Script:**
+{3–4 short spoken paragraphs, each 2–4 sentences. Mark natural pauses with (PAUSE).
+No em dashes. Contractions throughout. One concrete number or comparison per paragraph.
+End with a direct CTA: "Link in the description."}
+
+**YouTube Description (400 words):**
+{Hook paragraph (2 sentences).
+
+0:00 — Intro
+0:20 — What is it?
+0:45 — Who's it for?
+1:10 — Key features
+1:35 — Honest take
+1:50 — Verdict
+
+🔗 Check the price: https://www.amazon.com/dp/{ASIN}
+
+{2-sentence Amazon Associates disclosure}
+
+Subscribe for weekly tech picks → https://gadgetdrop.tech
+
+#{keyword} #gadgets #techreview #amazon #{category}}
+
+**Short-Form Captions:**
+
+X/Twitter (280 chars max):
+{punchy take + price + affiliate link short: https://www.amazon.com/dp/{ASIN} + 2-3 hashtags}
+
+Instagram:
+{2–3 sentence caption, conversational. 10 hashtags on a new line.}
+
+Pinterest:
+{product description 50–100 words, purchase-intent keywords, no hashtags}
+```
+
+**Script rules:**
+- No em dashes, no banned phrases (same list as Phase 2)
+- Aim for 180–220 words (spoken at normal pace = ~90 seconds)
+- Mention the price naturally ("it's $X on Amazon right now")
+- One genuine downside — this builds credibility on camera
+
+---
 
 After saving the file, print to chat:
 ```
 ✅ Daily drop complete — daily-drop-output.md is ready.
-4 products · 16 posts · all SEO fields generated.
-Pick your favourite voice for each product and paste into the admin panel.
+4 products · 16 posts · JSON array saved · video assets included.
+Go to /admin/daily-drop, paste the JSON array, preview, then import all as drafts.
+For videos: copy each script into ElevenLabs → import audio into Pictory → export and upload.
 ```
