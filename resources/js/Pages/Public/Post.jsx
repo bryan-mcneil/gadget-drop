@@ -23,6 +23,11 @@ const proseComponents = {
 export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, relatedProducts = [] }) {
     const seo = post.seo_meta;
 
+    const sectionColor =
+        post.type === 'tech_news' ? 'rose' :
+        post.type === 'tech_tip'  ? 'emerald' :
+                                    'indigo';
+
     return (
         <>
         <ReadingProgress />
@@ -38,10 +43,12 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
 
             <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
                 <article className="lg:col-span-3">
-                    {/* News accent bar */}
-                    {post.type === 'tech_news' && (
-                        <div className="h-1 bg-gradient-to-r from-rose-500 via-red-500 to-rose-400 rounded-full mb-6 -mx-1" />
-                    )}
+                    {/* Post type accent bar */}
+                    <div className={`h-1 rounded-full mb-6 -mx-1 bg-gradient-to-r ${
+                        post.type === 'tech_news' ? 'from-rose-500 via-red-500 to-rose-400' :
+                        post.type === 'tech_tip'  ? 'from-emerald-500 via-green-500 to-emerald-400' :
+                                                    'from-indigo-500 via-violet-500 to-indigo-400'
+                    }`} />
 
                     {/* Header */}
                     <div className="mb-6">
@@ -223,10 +230,10 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                 </article>
 
                 {/* Sidebar */}
-                <aside className="lg:border-l lg:border-gray-100 lg:pl-6 space-y-8">
+                <aside className="lg:pl-6 space-y-8">
                     {/* Related products for tips and news */}
                     {relatedProducts.length > 0 && (
-                        <RelatedProductsSection products={relatedProducts} postId={post.id} />
+                        <RelatedProductsSection products={relatedProducts} postId={post.id} color={sectionColor} />
                     )}
 
                     {post.type === 'tech_news' ? (
@@ -235,13 +242,13 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                                 title="More News"
                                 posts={recentPosts}
                                 emptyLabel="No other news yet."
-                                rose
+                                color="rose"
                             />
                             <SidebarSection
                                 title="Related Stories"
                                 posts={categoryPosts}
                                 emptyLabel={null}
-                                rose
+                                color="rose"
                             />
                         </>
                     ) : post.type === 'tech_tip' ? (
@@ -249,6 +256,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                             title="Related Drops"
                             posts={categoryPosts}
                             emptyLabel="No related posts yet."
+                            color="emerald"
                         />
                     ) : (
                         <SidebarSection
@@ -268,13 +276,14 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                             title="From Same Tags"
                             posts={tagPosts}
                             emptyLabel={null}
-                            rose
+                            color="rose"
                         />
                     ) : post.type === 'tech_tip' ? (
                         <SidebarSection
                             title="From Same Tags"
                             posts={tagPosts}
                             emptyLabel={null}
+                            color="emerald"
                         />
                     ) : (
                         <>
@@ -357,12 +366,20 @@ function ReadingProgress() {
     );
 }
 
-function RelatedProductsSection({ products, postId }) {
+function RelatedProductsSection({ products, postId, color = 'indigo' }) {
+    const accentColors = {
+        indigo:  { bar: 'bg-indigo-400',  title: 'text-indigo-700',  border: 'border-indigo-200'  },
+        emerald: { bar: 'bg-emerald-400', title: 'text-emerald-700', border: 'border-emerald-200' },
+        rose:    { bar: 'bg-rose-400',    title: 'text-rose-700',    border: 'border-rose-200'    },
+    };
+    const c = accentColors[color] ?? accentColors.indigo;
+
     return (
-        <div>
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Shop Related
-            </h3>
+        <div className={`border-b ${c.border} pb-8`}>
+            <div className="flex items-center gap-2 mb-4">
+                <span className={`block w-1 h-4 rounded-full ${c.bar}`} />
+                <h3 className={`text-xs font-bold uppercase tracking-widest ${c.title}`}>Shop Related</h3>
+            </div>
             <ul className="space-y-3">
                 {products.map((p) => (
                     <li key={p.id}>
@@ -393,18 +410,44 @@ function RelatedProductsSection({ products, postId }) {
     );
 }
 
-function SidebarSection({ title, posts, emptyLabel, rose = false }) {
+function SidebarSection({ title, posts, emptyLabel, color = 'indigo' }) {
     if (!posts || (posts.length === 0 && !emptyLabel)) return null;
 
-    const hoverColor = rose ? 'group-hover:text-rose-600' : 'group-hover:text-indigo-600';
-    const placeholderBg = rose ? 'bg-rose-50' : 'bg-indigo-50';
-    const placeholderText = rose ? 'text-rose-300' : 'text-indigo-300';
+    const colors = {
+        indigo: {
+            accent:      'bg-indigo-400',
+            title:       'text-indigo-700',
+            hover:       'group-hover:text-indigo-600',
+            placeholder: 'bg-indigo-50',
+            icon:        'text-indigo-300',
+            border:      'border-indigo-200',
+        },
+        emerald: {
+            accent:      'bg-emerald-400',
+            title:       'text-emerald-700',
+            hover:       'group-hover:text-emerald-600',
+            placeholder: 'bg-emerald-50',
+            icon:        'text-emerald-300',
+            border:      'border-emerald-200',
+        },
+        rose: {
+            accent:      'bg-rose-400',
+            title:       'text-rose-700',
+            hover:       'group-hover:text-rose-600',
+            placeholder: 'bg-rose-50',
+            icon:        'text-rose-300',
+            border:      'border-rose-200',
+        },
+    };
+
+    const c = colors[color] ?? colors.indigo;
 
     return (
-        <div>
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                {title}
-            </h3>
+        <div className={`border-b ${c.border} pb-8`}>
+            <div className="flex items-center gap-2 mb-4">
+                <span className={`block w-1 h-4 rounded-full ${c.accent}`} />
+                <h3 className={`text-xs font-bold uppercase tracking-widest ${c.title}`}>{title}</h3>
+            </div>
             {posts.length === 0 ? (
                 <p className="text-sm text-gray-400">{emptyLabel}</p>
             ) : (
@@ -420,12 +463,12 @@ function SidebarSection({ title, posts, emptyLabel, rose = false }) {
                                         className="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-gray-100"
                                     />
                                 ) : (
-                                    <div className={`w-14 h-14 rounded-lg ${placeholderBg} flex-shrink-0 flex items-center justify-center`}>
-                                        <span className={`${placeholderText} text-xl font-bold`}>G</span>
+                                    <div className={`w-14 h-14 rounded-lg ${c.placeholder} flex-shrink-0 flex items-center justify-center`}>
+                                        <span className={`${c.icon} text-xl font-bold`}>G</span>
                                     </div>
                                 )}
                                 <div className="min-w-0">
-                                    <p className={`text-sm font-medium text-gray-800 ${hoverColor} leading-snug transition-colors`}>
+                                    <p className={`text-sm font-medium text-gray-800 ${c.hover} leading-snug transition-colors`}>
                                         {p.title}
                                     </p>
                                     <p className="text-xs text-gray-400 mt-0.5">{p.published_at}</p>
