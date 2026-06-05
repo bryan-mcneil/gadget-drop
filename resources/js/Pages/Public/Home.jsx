@@ -292,6 +292,21 @@ const TOOL_ICONS = {
             <path strokeLinecap="round" strokeLinejoin="round" d="m7.848 8.25 1.536.887M7.848 8.25a3 3 0 1 1-5.196-3 3 3 0 0 1 5.196 3Zm1.536.887a2.165 2.165 0 0 1 1.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 1 1-5.196 3 3 3 0 0 1 5.196-3Zm1.536-.887a2.165 2.165 0 0 0 1.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863 2.077-1.199m0-3.328a4.323 4.323 0 0 1 2.068-1.379l5.325-1.628a4.5 4.5 0 0 1 2.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0 0 10.607 12m3.736 0 7.794 4.5-.802.215a4.5 4.5 0 0 1-2.48-.043l-5.326-1.629a4.324 4.324 0 0 1-2.068-1.379M14.343 12l-2.882 1.664" />
         </svg>
     ),
+    photo: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+        </svg>
+    ),
+    crop: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75v13.5m0 0H21m-13.5 0H3M20.25 7.5H6.75" />
+        </svg>
+    ),
+    sparkles: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+        </svg>
+    ),
     wrench: (
         <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
@@ -351,6 +366,70 @@ const TOOL_PREVIEWS = {
                     Saved 28%
                 </span>
                 <span className="text-gray-600 text-xs">68 B → 49 B</span>
+            </div>
+        </div>
+    ),
+    'image-converter': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">image-converter</span>
+            </div>
+            <div className="flex gap-3 items-center mb-3">
+                <div className="w-20 h-16 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-600">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z" />
+                    </svg>
+                </div>
+                <div className="flex-1 space-y-2">
+                    <div className="flex gap-1.5">
+                        {['WebP', 'JPG', 'PNG'].map((f, i) => (
+                            <span key={f} className={`text-xs px-2 py-1 rounded-lg font-semibold ${i === 0 ? 'bg-amber-500 text-white' : 'bg-gray-800 text-gray-500'}`}>{f}</span>
+                        ))}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">Quality</span>
+                        <div className="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                            <div className="h-full w-[90%] bg-amber-500 rounded-full" />
+                        </div>
+                        <span className="text-xs text-amber-400 font-bold">90%</span>
+                    </div>
+                </div>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+                <span className="text-gray-500">photo.jpg 2.4 MB</span>
+                <svg className="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+                <span className="text-green-400 font-semibold">photo.webp 0.8 MB</span>
+                <span className="ml-auto text-xs font-bold bg-green-900/50 text-green-400 px-2 py-0.5 rounded-full border border-green-800/50">-67%</span>
+            </div>
+        </div>
+    ),
+    'image-cropper': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">image-cropper</span>
+            </div>
+            <div className="flex gap-1.5 mb-3">
+                {['Free', '1:1', '16:9', '4:3', 'Circle'].map((p, i) => (
+                    <span key={p} className={`text-xs px-2 py-1 rounded-lg font-semibold ${i === 2 ? 'bg-amber-500 text-white' : 'bg-gray-800 text-gray-500'}`}>{p}</span>
+                ))}
+            </div>
+            <div className="relative bg-gray-900 rounded-lg overflow-hidden h-20 flex items-center justify-center border border-gray-700">
+                <div className="absolute inset-0 opacity-30"
+                    style={{ backgroundImage: 'linear-gradient(45deg, #374151 25%, transparent 25%), linear-gradient(-45deg, #374151 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #374151 75%), linear-gradient(-45deg, transparent 75%, #374151 75%)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 0 4px, 4px -4px, -4px 0px' }} />
+                <div className="relative border-2 border-amber-400 w-28 h-16 rounded-sm">
+                    <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-amber-400" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-amber-400" />
+                    <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-amber-400" />
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-amber-400" />
+                </div>
             </div>
         </div>
     ),
@@ -475,8 +554,8 @@ function ToolsSection({ tools }) {
                                 </svg>
                             </div>
                             <div className="min-w-0 flex-1">
-                                <p className="font-bold text-amber-700 text-sm">More tools coming</p>
-                                <p className="text-xs text-amber-600/70 mt-0.5">Image converter, cropper, and more</p>
+                                                <p className="font-bold text-amber-700 text-sm">More tools coming</p>
+                                <p className="text-xs text-amber-600/70 mt-0.5">Color picker, Base64 encoder, and more</p>
                             </div>
                             <svg className="w-4 h-4 text-amber-400 group-hover:text-amber-600 flex-shrink-0 transition-colors"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

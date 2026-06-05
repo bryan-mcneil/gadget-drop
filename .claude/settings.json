@@ -5,7 +5,13 @@
       "Bash(gh pr *)",
       "Bash(php artisan *)",
       "Bash(npm install *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "WebFetch(domain:gadgetdrop.tech)",
+      "WebFetch(domain:www.techradar.com)",
+      "WebFetch(domain:www.amazon.com)",
+      "Bash(Test-Path \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\daily-drop-output.md\")",
+      "Bash(Select-String \"image\")",
+      "Bash(Copy-Item \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\node_modules\\\\cropperjs\\\\dist\\\\cropper.css\" \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\resources\\\\css\\\\cropper.css\")"
     ]
   }
 }

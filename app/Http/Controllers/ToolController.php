@@ -16,6 +16,7 @@ class ToolController extends Controller
             'name'        => $tool['name'],
             'description' => $tool['description'],
             'icon'        => $tool['icon'],
+            'category'    => $tool['category'] ?? null,
         ])->values();
 
         return Inertia::render('Public/Tools/Index', [
@@ -39,6 +40,39 @@ class ToolController extends Controller
         $tool = config('tools.js-css-minifier');
 
         return Inertia::render('Public/Tools/JsCssMinifier', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function backgroundRemover()
+    {
+        $tool = config('tools.background-remover');
+
+        return Inertia::render('Public/Tools/BackgroundRemover', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function imageConverter()
+    {
+        $tool = config('tools.image-converter');
+
+        return Inertia::render('Public/Tools/ImageConverter', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function imageCropper()
+    {
+        $tool = config('tools.image-cropper');
+
+        return Inertia::render('Public/Tools/ImageCropper', [
             'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
             'metaTitle'       => $tool['meta_title'],
             'metaDescription' => $tool['meta_description'],
