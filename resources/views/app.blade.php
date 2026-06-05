@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <title inertia>{{ $serverMeta['title'] ?? config('app.name', 'GadgetDrop') }}</title>
         @isset($serverMeta)
-        <title>{{ $serverMeta['title'] }}</title>
         @if($serverMeta['description'])
         <meta name="description" content="{{ $serverMeta['description'] }}">
         @endif
@@ -20,8 +20,6 @@
         <meta property="og:image"       content="{{ $serverMeta['og_image'] }}">
         @endif
         <link rel="canonical" href="{{ $serverMeta['canonical'] }}">
-        @else
-        <title inertia>{{ config('app.name', 'GadgetDrop') }}</title>
         @endisset
 
         <!-- Favicon -->

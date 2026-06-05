@@ -143,8 +143,8 @@ class PublicController extends Controller
         }
 
         view()->share('serverMeta', [
-            'title'       => 'GadgetDrop — Daily Tech Picks, Gadget Reviews & Buying Guides',
-            'description' => 'Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price — delivered fresh every day.',
+            'title'       => 'GadgetDrop | Daily Tech Picks, Gadget Reviews & Buying Guides',
+            'description' => 'Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price, delivered fresh every day.',
             'og_image'    => null,
             'og_type'     => 'website',
             'canonical'   => url('/'),
