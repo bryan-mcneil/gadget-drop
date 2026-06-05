@@ -104,14 +104,14 @@ export default function NewsIndex({ authors = [] }) {
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-gray-700">
                                 Author
-                                <span className="ml-1.5 text-xs font-normal text-gray-400">(required — voice is woven into the prompt)</span>
+                                <span className="ml-1.5 text-xs font-normal text-gray-400">(required: voice is woven into the prompt)</span>
                             </label>
                             <select
                                 value={userId}
                                 onChange={e => setUserId(e.target.value)}
                                 required
                                 className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-rose-500 focus:border-rose-500">
-                                <option value="">— Select author —</option>
+                                <option value="">Select author</option>
                                 {authors.map(a => (
                                     <option key={a.id} value={a.id}>{a.name}</option>
                                 ))}
@@ -121,7 +121,7 @@ export default function NewsIndex({ authors = [] }) {
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-gray-700">
                                 Source URLs
-                                <span className="ml-1.5 text-xs font-normal text-gray-400">(required — one per line)</span>
+                                <span className="ml-1.5 text-xs font-normal text-gray-400">(required: one per line)</span>
                             </label>
                             <textarea
                                 value={sourceUrls}
@@ -136,7 +136,7 @@ export default function NewsIndex({ authors = [] }) {
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-gray-700">
                                 Google Trending Topics
-                                <span className="ml-1.5 text-xs font-normal text-gray-400">(optional — paste today's trends for keyword weaving)</span>
+                                <span className="ml-1.5 text-xs font-normal text-gray-400">(optional: paste today's trends for keyword weaving)</span>
                             </label>
                             <textarea
                                 value={trendingKeywords}
@@ -150,7 +150,7 @@ export default function NewsIndex({ authors = [] }) {
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-gray-700">
                                 Editor Notes
-                                <span className="ml-1.5 text-xs font-normal text-gray-400">(optional — angle, context, things to emphasize)</span>
+                                <span className="ml-1.5 text-xs font-normal text-gray-400">(optional: angle, context, things to emphasize)</span>
                             </label>
                             <textarea
                                 value={context}

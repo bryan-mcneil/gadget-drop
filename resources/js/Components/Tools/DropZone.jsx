@@ -24,7 +24,7 @@ export default function DropZone({ onFile }) {
             return;
         }
         if (file.size > MAX_WARN) {
-            setWarning(`Large file (${(file.size / 1024 / 1024).toFixed(1)} MB) — processing may be slow on mobile.`);
+            setWarning(`Large file (${(file.size / 1024 / 1024).toFixed(1)} MB). Processing may be slow on mobile.`);
         }
 
         const reader = new FileReader();
@@ -65,7 +65,7 @@ export default function DropZone({ onFile }) {
                     <p className="text-sm font-semibold text-gray-700">
                         {dragging ? 'Drop your image here' : 'Drag & drop an image here'}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">or click to browse — JPG, PNG, WebP, GIF up to 20 MB</p>
+                    <p className="text-xs text-gray-400 mt-1">or click to browse: JPG, PNG, WebP, GIF up to 20 MB</p>
                 </div>
                 <input
                     ref={inputRef}

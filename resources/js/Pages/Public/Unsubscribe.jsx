@@ -41,7 +41,7 @@ export default function Unsubscribe({ status }) {
 
     return (
         <PublicLayout>
-            <Head title="Unsubscribe — GadgetDrop" />
+            <Head title="Unsubscribe | GadgetDrop" />
 
             <div className="min-h-[60vh] flex items-center justify-center px-4 py-20 bg-slate-50">
                 <div className="w-full max-w-md">
@@ -56,7 +56,7 @@ export default function Unsubscribe({ status }) {
                             <h1 className="text-2xl font-extrabold text-gray-900">You're unsubscribed</h1>
                             <p className="text-gray-500 text-sm leading-relaxed">
                                 You've been removed from the GadgetDrop list.<br />
-                                No more emails from us — we promise.
+                                No more emails from us, we promise.
                             </p>
                             <a href={route('home')}
                                 className="inline-flex items-center gap-1.5 mt-4 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">
@@ -92,12 +92,12 @@ export default function Unsubscribe({ status }) {
 
                                 {result === 'not_found' && (
                                     <p className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5">
-                                        That email isn't on our list — you may already be unsubscribed.
+                                        That email isn't on our list; you may already be unsubscribed.
                                     </p>
                                 )}
                                 {result === 'error' && (
                                     <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
-                                        Something went wrong — please try again.
+                                        Something went wrong. Please try again.
                                     </p>
                                 )}
 

@@ -61,7 +61,7 @@ export default function AuthorPage({ author, posts, totalViews, postCount }) {
 
                         {/* Persona disclosure */}
                         <p className="mt-4 text-xs text-gray-400 max-w-sm text-center sm:text-left">
-                            {author.name} is a GadgetDrop editorial persona — a distinct writing voice maintained by the GadgetDrop team.{' '}
+                            {author.name} is a GadgetDrop editorial persona: a distinct writing voice maintained by the GadgetDrop team.{' '}
                             <a href={route('about')} className="underline hover:text-gray-600">Learn more →</a>
                         </p>
                     </div>

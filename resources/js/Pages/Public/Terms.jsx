@@ -13,7 +13,7 @@ function Section({ title, children }) {
 export default function TermsPage() {
     return (
         <PublicLayout>
-            <Head title="Terms of Service — GadgetDrop">
+            <Head title="Terms of Service | GadgetDrop">
                 <meta name="description" content="GadgetDrop terms of service. Read the rules and conditions for using this site." />
             </Head>
 
@@ -37,13 +37,13 @@ export default function TermsPage() {
                 <Section title="What GadgetDrop is">
                     <p>
                         GadgetDrop is an editorial content site that publishes product reviews, buying guides, and tech tips. Content is produced with editorial AI writing assistance and reviewed before publication.
-                        We are not a retailer — we do not sell products directly.
+                        We are not a retailer: we do not sell products directly.
                     </p>
                 </Section>
 
                 <Section title="Affiliate links and advertising">
                     <p>
-                        GadgetDrop participates in the Amazon Services LLC Associates Program. Product links on this site are affiliate links — if you click a link and make a qualifying purchase, we may earn a commission at no extra cost to you.
+                        GadgetDrop participates in the Amazon Services LLC Associates Program. Product links on this site are affiliate links: if you click a link and make a qualifying purchase, we may earn a commission at no extra cost to you.
                         This never influences which products we cover or what we write about them.
                     </p>
                     <p>
@@ -53,14 +53,14 @@ export default function TermsPage() {
 
                 <Section title="Accuracy of information">
                     <p>
-                        We aim to keep pricing, availability, and product information accurate, but this data changes frequently. Product prices and availability shown on GadgetDrop are indicative only — always verify current information on Amazon before purchasing.
+                        We aim to keep pricing, availability, and product information accurate, but this data changes frequently. Product prices and availability shown on GadgetDrop are indicative only; always verify current information on Amazon before purchasing.
                         GadgetDrop is not responsible for price discrepancies or stock availability.
                     </p>
                 </Section>
 
                 <Section title="Intellectual property">
                     <p>
-                        All editorial content on GadgetDrop — including text, graphics, and page designs — is owned by or licensed to GadgetDrop. You may not reproduce, republish, or distribute this content without written permission.
+                        All editorial content on GadgetDrop, including text, graphics, and page designs, is owned by or licensed to GadgetDrop. You may not reproduce, republish, or distribute this content without written permission.
                     </p>
                     <p>
                         Product images are sourced from Amazon via the Amazon Product Advertising API and remain the property of Amazon or the respective rights holders.

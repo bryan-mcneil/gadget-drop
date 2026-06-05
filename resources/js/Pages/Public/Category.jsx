@@ -4,7 +4,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 export default function CategoryPage({ category, posts, categories }) {
     return (
         <PublicLayout>
-            <Head title={`${category.name} — GadgetDrop`}>
+            <Head title={`${category.name} | GadgetDrop`}>
                 <meta name="description" content={`Browse ${category.name} reviews, picks, and buying guides on GadgetDrop. ${posts.total} posts and counting.`} />
             </Head>
 
@@ -24,7 +24,7 @@ export default function CategoryPage({ category, posts, categories }) {
                                     </svg>
                                 </div>
                                 <p className="text-lg font-bold text-gray-900">No drops yet</p>
-                                <p className="text-sm text-gray-400 mt-1 mb-6">Check back soon — we're always adding new picks.</p>
+                                <p className="text-sm text-gray-400 mt-1 mb-6">Check back soon, we're always adding new picks.</p>
                                 <Link href={route('home')}
                                     className="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">
                                     ← Back to Home
@@ -95,7 +95,7 @@ export default function CategoryPage({ category, posts, categories }) {
 
                         {/* Mini disclosure */}
                         <p className="text-xs text-gray-400 px-1">
-                            #ad #commissionsearned — As an Amazon Associate we earn from qualifying purchases.
+                            #ad #commissionsearned. As an Amazon Associate we earn from qualifying purchases.
                         </p>
                     </aside>
                 </div>

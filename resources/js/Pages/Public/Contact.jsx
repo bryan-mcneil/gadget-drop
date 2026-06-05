@@ -4,7 +4,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 export default function ContactPage() {
     return (
         <PublicLayout>
-            <Head title="Contact — GadgetDrop">
+            <Head title="Contact | GadgetDrop">
                 <meta name="description" content="Get in touch with the GadgetDrop team. Questions, corrections, partnerships, and press enquiries welcome." />
             </Head>
 
@@ -13,7 +13,7 @@ export default function ContactPage() {
                     <p className="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-3">Get in touch</p>
                     <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-4">Contact GadgetDrop</h1>
                     <p className="text-gray-500 max-w-md mx-auto">
-                        We read every message. Whether it's a correction, a partnership idea, or just a great tip — drop us a line.
+                        We read every message. Whether it's a correction, a partnership idea, or just a great tip, drop us a line.
                     </p>
                 </div>
             </div>

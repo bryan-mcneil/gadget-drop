@@ -6,7 +6,7 @@ export default function News({ posts, meta }) {
 
     return (
         <PublicLayout>
-            <Head title="Tech News — GadgetDrop" />
+            <Head title="Tech News | GadgetDrop" />
 
             {/* ── Page header with red gradient accent ── */}
             <div className="bg-white border-b border-gray-200">
@@ -20,7 +20,7 @@ export default function News({ posts, meta }) {
                     </div>
                     <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Tech News</h1>
                     <p className="text-gray-500 mt-1 text-sm">
-                        The latest in tech — breaking stories, product launches, and industry moves.
+                        The latest in tech: breaking stories, product launches, and industry moves.
                     </p>
                 </div>
             </div>
@@ -29,7 +29,7 @@ export default function News({ posts, meta }) {
                 {data.length === 0 ? (
                     <div className="text-center py-24 text-gray-400">
                         <SignalIcon className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                        <p className="font-medium">No news yet — check back soon.</p>
+                        <p className="font-medium">No news yet, check back soon.</p>
                     </div>
                 ) : (
                     <>

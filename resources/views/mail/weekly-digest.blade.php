@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>This Week's Drop — GadgetDrop</title>
+    <title>This Week's Drop | GadgetDrop</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f3f4f6;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
 
@@ -29,7 +29,7 @@
                     </tr>
                 </table>
                 <p style="margin:20px 0 0;font-size:16px;color:rgba(255,255,255,0.9);line-height:1.6;">
-                    Another week, another haul. Here's what dropped on GadgetDrop — the gear worth your attention this week. ⚡
+                    Another week, another haul. Here's what dropped on GadgetDrop: the gear worth your attention this week. ⚡
                 </p>
             </td>
         </tr>
@@ -158,7 +158,7 @@
                 <tr>
                     <td style="padding:24px;text-align:center;">
                         <p style="margin:0 0 4px;font-size:18px;font-weight:800;color:#111827;">Miss last week's drop?</p>
-                        <p style="margin:0 0 16px;font-size:14px;color:#6b7280;">Everything's on the site — browse all our picks.</p>
+                        <p style="margin:0 0 16px;font-size:14px;color:#6b7280;">Everything's on the site, browse all our picks.</p>
                         <a href="{{ url('/') }}"
                             style="display:inline-block;background:#4f46e5;color:#ffffff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;">
                             Browse GadgetDrop →

@@ -4,7 +4,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 export default function NotFound() {
     return (
         <PublicLayout>
-            <Head title="Page Not Found — GadgetDrop" />
+            <Head title="Page Not Found | GadgetDrop" />
 
             <div className="min-h-[60vh] flex items-center justify-center px-4">
                 <div className="text-center max-w-md">

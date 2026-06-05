@@ -42,9 +42,9 @@ export default function ProductsIndex({ products }) {
                             {products.data.map((p) => (
                                 <tr key={p.id} className="hover:bg-gray-50">
                                     <td className="px-6 py-3 font-medium text-gray-900 max-w-xs truncate">{p.name}</td>
-                                    <td className="px-6 py-3 text-gray-500 font-mono text-xs">{p.asin ?? '—'}</td>
-                                    <td className="px-6 py-3 text-gray-500">{p.category ?? '—'}</td>
-                                    <td className="px-6 py-3 text-gray-700">{p.price ? `$${p.price}` : '—'}</td>
+                                    <td className="px-6 py-3 text-gray-500 font-mono text-xs">{p.asin ?? '-'}</td>
+                                    <td className="px-6 py-3 text-gray-500">{p.category ?? '-'}</td>
+                                    <td className="px-6 py-3 text-gray-700">{p.price ? `$${p.price}` : '-'}</td>
                                     <td className="px-6 py-3 text-right space-x-3">
                                         <Link href={route('admin.products.edit', p.id)} className="text-indigo-600 hover:underline">Edit</Link>
                                         <button onClick={() => destroy(p.id)} className="text-red-500 hover:underline">Delete</button>

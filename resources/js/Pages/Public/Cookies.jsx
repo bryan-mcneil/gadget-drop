@@ -37,7 +37,7 @@ export default function CookiesPage() {
 
     return (
         <PublicLayout>
-            <Head title="Cookie Policy — GadgetDrop">
+            <Head title="Cookie Policy | GadgetDrop">
                 <meta name="description" content="GadgetDrop cookie policy. Learn what cookies we use, why, and how to manage your preferences." />
             </Head>
 
@@ -61,7 +61,7 @@ export default function CookiesPage() {
                     <p className="text-sm text-gray-600">
                         {status === 'accepted' && 'You have accepted all cookies. Personalised ads and full analytics are enabled.'}
                         {status === 'rejected' && 'You have rejected non-essential cookies. Only essential cookies are active. Ads shown are non-personalised.'}
-                        {!status && 'No preference set — your choice will be requested when you next visit a page.'}
+                        {!status && 'No preference set. Your choice will be requested when you next visit a page.'}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {status !== 'accepted' && (

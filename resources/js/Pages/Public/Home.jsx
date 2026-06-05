@@ -26,8 +26,8 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
 
     return (
         <PublicLayout>
-            <Head title="GadgetDrop — Daily Tech Picks">
-                <meta name="description" content="Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price — delivered fresh every day." />
+            <Head title="GadgetDrop | Daily Tech Picks">
+                <meta name="description" content="Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price, delivered fresh every day." />
             </Head>
 
             <HeroCarousel slides={heroSlides} theme={theme} />
@@ -543,7 +543,7 @@ const TOOL_PREVIEWS = {
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-200">
                 <p className="text-gray-400 text-xs mb-1" style={{ fontSize: '10px' }}>gadgetdrop.tech</p>
-                <p className="text-blue-700 font-medium leading-tight mb-1" style={{ fontSize: '11px' }}>Best Wireless Earbuds 2025 — GadgetDrop</p>
+                <p className="text-blue-700 font-medium leading-tight mb-1" style={{ fontSize: '11px' }}>Best Wireless Earbuds 2025 | GadgetDrop</p>
                 <p className="text-gray-600 leading-snug" style={{ fontSize: '10px' }}>Our top picks for wireless earbuds this year. Tested and reviewed so you don't have to...</p>
             </div>
             <div className="mt-2 flex items-center gap-1.5">
@@ -763,7 +763,7 @@ function JoinTheDrop() {
                 </h2>
                 <p className="text-indigo-200 text-lg mb-10 leading-relaxed">
                     Weekly tech picks, curated just for you.<br />
-                    Zero spam — unsubscribe anytime.
+                    Zero spam, unsubscribe anytime.
                 </p>
 
                 {status === 'success' ? (
@@ -805,10 +805,10 @@ function JoinTheDrop() {
                 )}
 
                 {status === 'duplicate' && (
-                    <p className="mt-4 text-indigo-200 text-sm">You're already on the list — stay tuned!</p>
+                    <p className="mt-4 text-indigo-200 text-sm">You're already on the list. Stay tuned!</p>
                 )}
                 {status === 'error' && (
-                    <p className="mt-4 text-red-300 text-sm">Something went wrong — please try again.</p>
+                    <p className="mt-4 text-red-300 text-sm">Something went wrong. Please try again.</p>
                 )}
 
                 <p className="mt-8 text-xs text-white/30">
@@ -1011,7 +1011,7 @@ function FeaturedSpotlight({ spotlight, theme }) {
                         </div>
 
                         <p className="text-xs text-gray-600 pt-1">
-                            #ad #commissionsearned — As an Amazon Associate we earn from qualifying purchases.
+                            #ad #commissionsearned. As an Amazon Associate we earn from qualifying purchases.
                         </p>
                     </div>
                 </div>

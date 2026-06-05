@@ -55,7 +55,7 @@ export default function TechTipsIndex({ authors = [] }) {
                     <div className="space-y-1.5">
                         <label className="block text-sm font-medium text-gray-700">
                             Reddit Source URL
-                            <span className="ml-1.5 text-xs font-normal text-gray-400">(optional — adds attribution link to the post)</span>
+                            <span className="ml-1.5 text-xs font-normal text-gray-400">(optional: adds attribution link to the post)</span>
                         </label>
                         <input
                             type="url"
@@ -69,14 +69,14 @@ export default function TechTipsIndex({ authors = [] }) {
                     <div className="space-y-1.5">
                         <label className="block text-sm font-medium text-gray-700">
                             Author
-                            <span className="ml-1.5 text-xs font-normal text-gray-400">(required — select the writer for this tip)</span>
+                            <span className="ml-1.5 text-xs font-normal text-gray-400">(required: select the writer for this tip)</span>
                         </label>
                         <select
                             value={userId}
                             onChange={e => setUserId(e.target.value)}
                             className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"
                         >
-                            <option value="">— Select author —</option>
+                            <option value="">Select author</option>
                             {authors.map(a => (
                                 <option key={a.id} value={a.id}>{a.name}</option>
                             ))}

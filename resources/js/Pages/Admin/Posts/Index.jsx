@@ -48,7 +48,7 @@ export default function PostsIndex({ posts }) {
                                     <td className="px-6 py-3"><TypeBadge type={p.type} /></td>
                                     <td className="px-6 py-3 text-gray-500">{p.author}</td>
                                     <td className="px-6 py-3"><StatusBadge status={p.status} /></td>
-                                    <td className="px-6 py-3 text-gray-500">{p.published_at ?? '—'}</td>
+                                    <td className="px-6 py-3 text-gray-500">{p.published_at ?? '-'}</td>
                                     <td className="px-6 py-3 text-right space-x-3">
                                         <Link href={route('admin.posts.edit', p.id)}
                                             className="text-indigo-600 hover:underline">Edit</Link>

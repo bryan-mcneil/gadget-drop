@@ -138,7 +138,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                             <Field label="Written by" error={errors.user_id}>
                                 <select value={data.user_id} onChange={(e) => setData('user_id', e.target.value)}
                                     className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
-                                    <option value="">— Select author —</option>
+                                    <option value="">Select author</option>
                                     {authors.map((a) => (
                                         <option key={a.id} value={a.id}>{a.name}</option>
                                     ))}
@@ -219,7 +219,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                 <p className="text-xs text-gray-400 mb-1.5">
                                     Optional wide crop for hero sections (carousel, breaking news). Falls back to featured image if not set.
                                     <br />
-                                    <span className="text-gray-300">Recommended: 16:5 ratio — e.g. 1920×600</span>
+                                    <span className="text-gray-300">Recommended: 16:5 ratio, e.g. 1920×600</span>
                                 </p>
                                 <ImageUploader
                                     value={data.hero_image}
@@ -280,7 +280,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                         {/* Products */}
                         <CheckboxGroup label="Products" items={products} selected={data.product_ids}
                             onToggle={(id) => toggleId('product_ids', id)}
-                            renderLabel={(p) => `${p.name}${p.price ? ` — $${p.price}` : ''}`} />
+                            renderLabel={(p) => `${p.name}${p.price ? ` · $${p.price}` : ''}`} />
 
                         {/* Review — articles only */}
                         {data.type === 'article' && (
@@ -451,7 +451,7 @@ const FOCAL_POINTS = [
 function FocalPointPicker({ image, value, onChange }) {
     return (
         <div className="mt-3 space-y-2">
-            <p className="text-xs text-gray-400">Focal point <span className="text-gray-300">— controls which part stays visible when cropped</span></p>
+            <p className="text-xs text-gray-400">Focal point <span className="text-gray-300">: controls which part stays visible when cropped</span></p>
             <div className="flex gap-3 items-start">
                 {/* 3×3 picker grid */}
                 <div

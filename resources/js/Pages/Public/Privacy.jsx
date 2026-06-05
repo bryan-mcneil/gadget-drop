@@ -13,7 +13,7 @@ function Section({ title, children }) {
 export default function PrivacyPage() {
     return (
         <PublicLayout>
-            <Head title="Privacy Policy — GadgetDrop">
+            <Head title="Privacy Policy | GadgetDrop">
                 <meta name="description" content="GadgetDrop privacy policy. Learn how we collect, use, and protect your data." />
             </Head>
 
@@ -35,10 +35,10 @@ export default function PrivacyPage() {
                 </Section>
 
                 <Section title="Information we collect">
-                    <p><strong>Email address</strong> — if you subscribe to our newsletter, we collect your email address to send you weekly content digests. You can unsubscribe at any time using the link in any email we send.</p>
-                    <p><strong>Affiliate click data</strong> — when you click an outbound Amazon link, we log a hashed version of your IP address (one-way hash, not reversible), the referring page, your browser user agent string, and a timestamp. This is used solely for measuring affiliate link performance. We do not store your raw IP address.</p>
-                    <p><strong>Usage data</strong> — like most websites, our hosting provider automatically collects standard server log data including anonymised IP addresses, pages visited, browser type, and referring URLs. We use this to understand site traffic.</p>
-                    <p><strong>Cookies</strong> — we and our third-party advertising partners (Google AdSense) use cookies to serve and personalise ads. See the Advertising section below for details and opt-out options.</p>
+                    <p><strong>Email address:</strong> if you subscribe to our newsletter, we collect your email address to send you weekly content digests. You can unsubscribe at any time using the link in any email we send.</p>
+                    <p><strong>Affiliate click data:</strong> when you click an outbound Amazon link, we log a hashed version of your IP address (one-way hash, not reversible), the referring page, your browser user agent string, and a timestamp. This is used solely for measuring affiliate link performance. We do not store your raw IP address.</p>
+                    <p><strong>Usage data:</strong> like most websites, our hosting provider automatically collects standard server log data including anonymised IP addresses, pages visited, browser type, and referring URLs. We use this to understand site traffic.</p>
+                    <p><strong>Cookies:</strong> we and our third-party advertising partners (Google AdSense) use cookies to serve and personalise ads. See the Advertising section below for details and opt-out options.</p>
                 </Section>
 
                 <Section title="How we use your information">
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
                     <p>We do not sell, rent, or share your personal information with third parties for their own marketing purposes.</p>
                 </Section>
 
-                <Section title="Advertising — Google AdSense">
+                <Section title="Advertising: Google AdSense">
                     <p>
                         GadgetDrop uses Google AdSense to display advertisements. Google and its partners use cookies to serve ads based on your prior visits to this and other websites.
                         You may opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" className="text-indigo-600 underline" target="_blank" rel="noopener noreferrer">Google Ad Settings</a> or <a href="https://www.aboutads.info/" className="text-indigo-600 underline" target="_blank" rel="noopener noreferrer">aboutads.info</a>.

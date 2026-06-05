@@ -99,7 +99,7 @@ export default function MetaTagPreviewer({ sidebarProducts = [], metaTitle, meta
                                     type="text"
                                     value={title}
                                     onChange={e => setTitle(e.target.value)}
-                                    placeholder="Best Wireless Earbuds 2025 — GadgetDrop"
+                                    placeholder="Best Wireless Earbuds 2025 | GadgetDrop"
                                     className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors ${charBg(title.length, TITLE_T)}`}
                                 />
                                 <p className="mt-1 text-xs text-gray-400">Keep under 60 characters to avoid truncation in Google.</p>

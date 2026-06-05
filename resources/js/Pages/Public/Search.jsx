@@ -16,7 +16,7 @@ export default function SearchPage({ query, posts, categories, tags }) {
 
     return (
         <PublicLayout>
-            <Head title={query ? `"${query}" — Search` : 'Search — GadgetDrop'}>
+            <Head title={query ? `"${query}" | Search` : 'Search | GadgetDrop'}>
                 <meta name="robots" content="noindex, follow" />
                 <meta name="description" content={query ? `Search results for "${query}" on GadgetDrop.` : 'Search GadgetDrop for tech reviews, gadget picks, and buying guides.'} />
             </Head>

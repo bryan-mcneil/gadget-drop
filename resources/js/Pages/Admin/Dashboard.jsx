@@ -70,7 +70,7 @@ export default function Dashboard({ stats, recentPosts }) {
                                     <td className="px-6 py-3">
                                         <StatusBadge status={p.status} />
                                     </td>
-                                    <td className="px-6 py-3 text-gray-500">{p.published_at ?? '—'}</td>
+                                    <td className="px-6 py-3 text-gray-500">{p.published_at ?? '-'}</td>
                                 </tr>
                             ))}
                         </tbody>

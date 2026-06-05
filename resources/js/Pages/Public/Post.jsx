@@ -34,7 +34,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
         <PublicLayout>
             <Head>
                 <title>{seo?.meta_title ?? `${post.title} | GadgetDrop`}</title>
-                <meta name="description" content={seo?.meta_description ?? post.excerpt ?? `${post.title} — GadgetDrop`} />
+                <meta name="description" content={seo?.meta_description ?? post.excerpt ?? `${post.title} | GadgetDrop`} />
                 {seo?.canonical_url && <link rel="canonical" href={seo.canonical_url} />}
                 <meta property="og:title" content={seo?.meta_title ?? post.title} />
                 {seo?.og_image && <meta property="og:image" content={seo.og_image} />}
@@ -189,7 +189,7 @@ export default function PostPage({ post, categoryPosts, tagPosts, recentPosts, r
                                     className="underline hover:text-gray-600 transition-colors">
                                     Reddit community discussion
                                 </a>
-                                {' '}— edited for clarity and accuracy.
+                                , edited for clarity and accuracy.
                             </p>
                         </div>
                     )}

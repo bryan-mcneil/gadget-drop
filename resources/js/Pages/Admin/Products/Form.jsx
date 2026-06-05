@@ -66,7 +66,7 @@ export default function ProductForm({ product, categories }) {
                     <Field label="Category" error={errors.category_id}>
                         <select value={data.category_id} onChange={(e) => setData('category_id', e.target.value)}
                             className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
-                            <option value="">— None —</option>
+                            <option value="">None</option>
                             {categories.map((c) => (
                                 <option key={c.id} value={c.id}>{c.name}</option>
                             ))}

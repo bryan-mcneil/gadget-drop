@@ -67,14 +67,14 @@ export default function DailyDropIndex({ authors = [] }) {
                             <label className="block text-sm font-medium text-gray-700">
                                 Author Override
                                 <span className="ml-1.5 text-xs font-normal text-gray-400">
-                                    (optional — leave blank to use author_name from JSON, or current user as fallback)
+                                    (optional: leave blank to use author_name from JSON, or current user as fallback)
                                 </span>
                             </label>
                             <select
                                 value={userId}
                                 onChange={e => setUserId(e.target.value)}
                                 className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500">
-                                <option value="">— Use author_name from JSON —</option>
+                                <option value="">Use author_name from JSON</option>
                                 {authors.map(a => (
                                     <option key={a.id} value={a.id}>{a.name}</option>
                                 ))}
