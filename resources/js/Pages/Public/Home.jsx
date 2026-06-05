@@ -314,6 +314,26 @@ const TOOL_ICONS = {
             <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
         </svg>
     ),
+    key: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 0 1 21.75 8.25Z" />
+        </svg>
+    ),
+    'arrows-right-left': (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+        </svg>
+    ),
+    swatch: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.375 3.375 0 0 1 3.375 17.625v-2.25A3.375 3.375 0 0 1 6.75 12H21a3.375 3.375 0 0 1 3.375 3.375v2.25A3.375 3.375 0 0 1 21 21H6.75Zm0-12.75A3.375 3.375 0 0 0 3.375 11.625v.75A3.375 3.375 0 0 0 6.75 15.75h11.25m-11.25-9A3.375 3.375 0 0 1 10.125 3.375h.75A3.375 3.375 0 0 1 14.25 6.75V9" />
+        </svg>
+    ),
+    'magnifying-glass': (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+    ),
 };
 
 const TOOL_PREVIEWS = {
@@ -432,6 +452,106 @@ const TOOL_PREVIEWS = {
                     <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-amber-400" />
                     <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-amber-400" />
                 </div>
+            </div>
+        </div>
+    ),
+    'password-generator': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 font-mono text-xs overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">password-generator</span>
+            </div>
+            <div className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 mb-3 flex items-center justify-between">
+                <span className="text-green-400 tracking-widest">K9#mPx@2qL!nR5vT</span>
+                <span className="text-amber-400 text-xs font-semibold ml-2">Copy</span>
+            </div>
+            <div className="flex gap-1.5 mb-2">
+                {['A-Z', 'a-z', '0-9', '!@#'].map((c) => (
+                    <span key={c} className="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold">{c}</span>
+                ))}
+            </div>
+            <div className="flex items-center gap-2">
+                <span className="text-gray-500 text-xs">Length</span>
+                <div className="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-full w-[50%] bg-amber-500 rounded-full" />
+                </div>
+                <span className="text-amber-400 font-bold text-xs">16</span>
+                <span className="ml-2 text-xs font-bold bg-green-900/50 text-green-400 px-2 py-0.5 rounded-full border border-green-800/50">Strong</span>
+            </div>
+        </div>
+    ),
+    'base64-encoder': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 font-mono text-xs overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">base64-encoder</span>
+            </div>
+            <div className="space-y-2">
+                <div>
+                    <p className="text-gray-500 text-xs mb-1">Input</p>
+                    <div className="bg-gray-900 border border-gray-700 rounded px-2 py-1.5">
+                        <span className="text-gray-300">Hello, GadgetDrop!</span>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <span className="flex-1 h-px bg-gray-800" />
+                    <span className="text-xs bg-amber-500 text-white px-2 py-0.5 rounded font-bold">Encode</span>
+                    <span className="flex-1 h-px bg-gray-800" />
+                </div>
+                <div>
+                    <p className="text-gray-500 text-xs mb-1">Output</p>
+                    <div className="bg-gray-900 border border-gray-700 rounded px-2 py-1.5">
+                        <span className="text-amber-400 break-all">SGVsbG8sIEdhZGdldERyb3Ah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ),
+    'color-palette': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">color-palette</span>
+            </div>
+            <div className="flex gap-2 mb-3">
+                {['#1a237e','#0d47a1','#1565c0','#42a5f5','#90caf9'].map((color) => (
+                    <div key={color} className="flex-1 flex flex-col items-center gap-1.5">
+                        <div className="w-full h-10 rounded-lg border border-white/10" style={{ background: color }} />
+                        <span className="text-gray-500 font-mono" style={{ fontSize: '9px' }}>{color}</span>
+                    </div>
+                ))}
+            </div>
+            <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500">5 colors extracted</span>
+                <span className="text-amber-400 font-semibold">Copy all</span>
+            </div>
+        </div>
+    ),
+    'meta-tag-previewer': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 text-xs overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">meta-tag-previewer</span>
+            </div>
+            <div className="bg-white rounded-lg p-3 border border-gray-200">
+                <p className="text-gray-400 text-xs mb-1" style={{ fontSize: '10px' }}>gadgetdrop.tech</p>
+                <p className="text-blue-700 font-medium leading-tight mb-1" style={{ fontSize: '11px' }}>Best Wireless Earbuds 2025 — GadgetDrop</p>
+                <p className="text-gray-600 leading-snug" style={{ fontSize: '10px' }}>Our top picks for wireless earbuds this year. Tested and reviewed so you don't have to...</p>
+            </div>
+            <div className="mt-2 flex items-center gap-1.5">
+                <span className="text-xs font-bold text-green-400">✓</span>
+                <span className="text-xs text-gray-500">Title 42 chars</span>
+                <span className="mx-1 text-gray-700">·</span>
+                <span className="text-xs font-bold text-green-400">✓</span>
+                <span className="text-xs text-gray-500">Desc 98 chars</span>
             </div>
         </div>
     ),
@@ -557,7 +677,7 @@ function ToolsSection({ tools }) {
                             </div>
                             <div className="min-w-0 flex-1">
                                                 <p className="font-bold text-amber-700 text-sm">More tools coming</p>
-                                <p className="text-xs text-amber-600/70 mt-0.5">Color picker, Base64 encoder, and more</p>
+                                <p className="text-xs text-amber-600/70 mt-0.5">Markdown editor, diff checker, and more</p>
                             </div>
                             <svg className="w-4 h-4 text-amber-400 group-hover:text-amber-600 flex-shrink-0 transition-colors"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

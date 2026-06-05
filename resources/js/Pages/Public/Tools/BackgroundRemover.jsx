@@ -305,7 +305,7 @@ export default function BackgroundRemover({ sidebarProducts = [], metaTitle, met
                                             <div>
                                                 <span className="text-sm font-medium text-gray-700">Tolerance</span>
                                                 <span className="ml-2 text-xs text-gray-400">
-                                                    — higher catches more shadow and near-white pixels
+                                                    higher catches more shadow and near-white pixels
                                                 </span>
                                             </div>
                                             <span className="text-sm font-bold text-amber-600 tabular-nums">{tolerance}</span>

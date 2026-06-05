@@ -268,7 +268,7 @@ function TechTipsMegamenu({ posts, onClose }) {
     return (
         <div className="bg-emerald-50/40">
             <div className="max-w-6xl mx-auto px-4 py-6">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-6">
                     <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
@@ -280,19 +280,19 @@ function TechTipsMegamenu({ posts, onClose }) {
                     {posts.map((p, i) => (
                         <Link key={p.id} href={route('posts.show', p.slug)} onClick={onClose}
                             className="flex gap-3 items-start group p-2 rounded-xl hover:bg-emerald-100/60 transition -m-2">
-                            <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center
-                                ${i === 0
-                                    ? 'bg-emerald-500 shadow-sm'
-                                    : 'bg-white border border-emerald-200'}`}>
-                                <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-emerald-500'}`}
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
+                            <div className="relative flex-shrink-0">
+                                {i === 0 && (
+                                    <span className="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-emerald-600 pb-0.5">Latest</span>
+                                )}
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center
+                                    ${i === 0 ? 'bg-emerald-500 shadow-sm' : 'bg-white border border-emerald-200'}`}>
+                                    <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-emerald-500'}`}
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
                             </div>
                             <div className="min-w-0">
-                                {i === 0 && (
-                                    <span className="inline-block text-xs font-semibold text-emerald-600 mb-0.5">Latest</span>
-                                )}
                                 <p className="text-sm font-medium text-gray-800 group-hover:text-emerald-700
                                               leading-snug transition-colors line-clamp-2">
                                     {p.title}
@@ -315,7 +315,7 @@ function NewsMegamenu({ posts, onClose }) {
     return (
         <div className="bg-rose-50/40">
             <div className="max-w-6xl mx-auto px-4 py-6">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-6">
                     <svg className="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
                     </svg>
@@ -330,19 +330,19 @@ function NewsMegamenu({ posts, onClose }) {
                     {posts.map((p, i) => (
                         <Link key={p.id} href={route('posts.show', p.slug)} onClick={onClose}
                             className="flex gap-3 items-start group p-2 rounded-xl hover:bg-rose-100/60 transition -m-2">
-                            <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center
-                                ${i === 0
-                                    ? 'bg-rose-500 shadow-sm'
-                                    : 'bg-white border border-rose-200'}`}>
-                                <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-rose-400'}`}
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
-                                </svg>
+                            <div className="relative flex-shrink-0">
+                                {i === 0 && (
+                                    <span className="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-rose-600 pb-0.5">Latest</span>
+                                )}
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center
+                                    ${i === 0 ? 'bg-rose-500 shadow-sm' : 'bg-white border border-rose-200'}`}>
+                                    <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-rose-400'}`}
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                                    </svg>
+                                </div>
                             </div>
                             <div className="min-w-0">
-                                {i === 0 && (
-                                    <span className="inline-block text-xs font-semibold text-rose-600 mb-0.5">Latest</span>
-                                )}
                                 <p className="text-sm font-medium text-gray-800 group-hover:text-rose-700
                                               leading-snug transition-colors line-clamp-2">
                                     {p.title}
@@ -365,7 +365,7 @@ function ToolsMegamenu({ tools, onClose }) {
     return (
         <div className="bg-amber-50/40">
             <div className="max-w-6xl mx-auto px-4 py-6">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-6">
                     <svg className="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
                     </svg>
@@ -380,17 +380,19 @@ function ToolsMegamenu({ tools, onClose }) {
                     {tools.map((tool, i) => (
                         <Link key={tool.slug} href={route(`tools.${tool.slug}`)} onClick={onClose}
                             className="flex gap-3 items-start group p-2 rounded-xl hover:bg-amber-100/60 transition -m-2">
-                            <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center
-                                ${i === 0 ? 'bg-amber-500 shadow-sm' : 'bg-white border border-amber-200'}`}>
-                                <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-amber-500'}`}
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
-                                </svg>
+                            <div className="relative flex-shrink-0">
+                                {i === 0 && (
+                                    <span className="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-amber-600 pb-0.5">New</span>
+                                )}
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center
+                                    ${i === 0 ? 'bg-amber-500 shadow-sm' : 'bg-white border border-amber-200'}`}>
+                                    <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-amber-500'}`}
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                                    </svg>
+                                </div>
                             </div>
                             <div className="min-w-0">
-                                {i === 0 && (
-                                    <span className="inline-block text-xs font-semibold text-amber-600 mb-0.5">New</span>
-                                )}
                                 <p className="text-sm font-medium text-gray-800 group-hover:text-amber-700
                                               leading-snug transition-colors line-clamp-1">
                                     {tool.name}

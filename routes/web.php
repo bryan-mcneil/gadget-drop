@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\DailyDropController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\TechTipController;
 use App\Http\Controllers\ProfileController;
@@ -40,6 +41,10 @@ Route::get('/tools/js-css-minifier',  [ToolController::class, 'jsCssMinifier'])-
 Route::get('/tools/image-converter',  [ToolController::class, 'imageConverter'])->name('tools.image-converter');
 Route::get('/tools/image-cropper',       [ToolController::class, 'imageCropper'])->name('tools.image-cropper');
 Route::get('/tools/background-remover',  [ToolController::class, 'backgroundRemover'])->name('tools.background-remover');
+Route::get('/tools/password-generator',  [ToolController::class, 'passwordGenerator'])->name('tools.password-generator');
+Route::get('/tools/base64-encoder',      [ToolController::class, 'base64Encoder'])->name('tools.base64-encoder');
+Route::get('/tools/color-palette',       [ToolController::class, 'colorPalette'])->name('tools.color-palette');
+Route::get('/tools/meta-tag-previewer',  [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
 
 // Server-side tools scaffold (Phase 2+)
 Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {
@@ -63,6 +68,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('tech-tips/search', [TechTipController::class, 'search'])->name('tech-tips.search');
     Route::get('tech-tips/prepare', [TechTipController::class, 'prepare'])->name('tech-tips.prepare');
     Route::post('tech-tips/generate', [TechTipController::class, 'generate'])->name('tech-tips.generate');
+    Route::get('daily-drop', [DailyDropController::class, 'index'])->name('daily-drop.index');
+    Route::post('daily-drop/generate', [DailyDropController::class, 'generate'])->name('daily-drop.generate');
     Route::get('news', [NewsController::class, 'index'])->name('news.index');
     Route::post('news/prompt', [NewsController::class, 'buildPrompt'])->name('news.prompt');
     Route::post('news/generate', [NewsController::class, 'generate'])->name('news.generate');

@@ -49,6 +49,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Categories
                                 </NavLink>
                                 <NavLink
+                                    href={route('admin.daily-drop.index')}
+                                    active={route().current('admin.daily-drop.*')}
+                                >
+                                    Daily Drop
+                                </NavLink>
+                                <NavLink
                                     href={route('admin.tech-tips.index')}
                                     active={route().current('admin.tech-tips.*')}
                                 >
@@ -187,6 +193,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('admin.categories.*')}
                         >
                             Categories
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('admin.daily-drop.index')}
+                            active={route().current('admin.daily-drop.*')}
+                        >
+                            Daily Drop
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route('admin.tech-tips.index')}

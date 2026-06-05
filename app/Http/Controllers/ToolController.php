@@ -79,6 +79,50 @@ class ToolController extends Controller
         ]);
     }
 
+    public function passwordGenerator()
+    {
+        $tool = config('tools.password-generator');
+
+        return Inertia::render('Public/Tools/PasswordGenerator', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function base64Encoder()
+    {
+        $tool = config('tools.base64-encoder');
+
+        return Inertia::render('Public/Tools/Base64Encoder', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function colorPalette()
+    {
+        $tool = config('tools.color-palette');
+
+        return Inertia::render('Public/Tools/ColorPalette', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
+    public function metaTagPreviewer()
+    {
+        $tool = config('tools.meta-tag-previewer');
+
+        return Inertia::render('Public/Tools/MetaTagPreviewer', [
+            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
+            'metaTitle'       => $tool['meta_title'],
+            'metaDescription' => $tool['meta_description'],
+        ]);
+    }
+
     private function getSidebarProducts(array $relatedTags): Collection
     {
         $products = Post::published()

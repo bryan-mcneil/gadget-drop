@@ -35,8 +35,8 @@ export default function ToolsIndex({ tools }) {
 
     return (
         <PublicLayout>
-            <Head title="Free Online Tools — GadgetDrop">
-                <meta name="description" content="Free browser-based tools for developers and everyday users. Validate JSON, minify JS & CSS, convert and crop images — no sign-up, no server upload." />
+            <Head title="Free Online Tools | GadgetDrop">
+                <meta name="description" content="Free browser-based tools for developers and everyday users. Validate JSON, minify JS & CSS, convert and crop images. No sign-up, no server upload." />
             </Head>
 
             {/* Hero */}

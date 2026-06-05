@@ -125,6 +125,7 @@ Each section must be separated by a markdown `---` horizontal rule.
 - Amazon Associates disclosure is added automatically by the site — do NOT include it
 - Title: 50–65 characters, compelling, contains the main keyword
 - Excerpt: 120–155 characters, entices the click
+- Write between 600-1000 words
 
 **Banned patterns — apply across all four voices:**
 - Em dashes (—) in any form. Use a comma, a period + new sentence, or restructure instead.
@@ -189,6 +190,7 @@ The body field must keep its full markdown formatting (## headings, --- dividers
     "pros": ["{benefit 1, 5–10 words}", "{benefit 2}", "{benefit 3}"],
     "cons": ["{drawback 1, 5–10 words}"],
     "seo": {
+	  "score": "{calculated total SEO score 0-100}"
       "meta_title": "{meta title ≤70 chars}",
       "meta_description": "{meta description 120–155 chars}",
       "focus_keyword": "{primary seo keyword}"

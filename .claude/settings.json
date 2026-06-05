@@ -15,7 +15,12 @@
       "Bash(Get-ChildItem -Name)",
       "Bash(curl -sI https://gadgetdrop.tech)",
       "Bash(curl -sIL http://gadgetdrop.tech)",
-      "Bash(curl -sI -H \"Accept-Encoding: gzip, br\" https://gadgetdrop.tech)"
+      "Bash(curl -sI -H \"Accept-Encoding: gzip, br\" https://gadgetdrop.tech)",
+      "Bash(curl -s -o /dev/null -D - -H \"Accept-Encoding: gzip, br\" https://gadgetdrop.tech)",
+      "Bash(mkdir -p \"c:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\resources\\\\js\\\\Pages\\\\Admin\\\\DailyDrop\" 2>/dev/null; echo \"done\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"
     ]
   }
 }
