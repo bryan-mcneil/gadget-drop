@@ -21,6 +21,7 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
     const { navigation } = usePage().props;
     const popularTags = navigation?.popularTags ?? [];
     const latestNews  = navigation?.latestNews  ?? [];
+    const tools       = navigation?.tools       ?? [];
     const theme = THEME;
 
     return (
@@ -116,6 +117,8 @@ export default function Home({ heroSlides, recentPosts, categories, spotlight, t
             </div>
 
             <BreakingNewsSection posts={latestNews} theme={theme} />
+
+            <ToolsSection tools={tools} />
 
             <JoinTheDrop />
         </PublicLayout>
@@ -273,6 +276,216 @@ function HeroCarousel({ slides, theme }) {
                     {active + 1} / {count}
                 </div>
             )}
+        </section>
+    );
+}
+
+/* ── Tools Section ──────────────────────────────────────────── */
+const TOOL_ICONS = {
+    'code-bracket': (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+        </svg>
+    ),
+    scissors: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m7.848 8.25 1.536.887M7.848 8.25a3 3 0 1 1-5.196-3 3 3 0 0 1 5.196 3Zm1.536.887a2.165 2.165 0 0 1 1.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 1 1-5.196 3 3 3 0 0 1 5.196-3Zm1.536-.887a2.165 2.165 0 0 0 1.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863 2.077-1.199m0-3.328a4.323 4.323 0 0 1 2.068-1.379l5.325-1.628a4.5 4.5 0 0 1 2.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0 0 10.607 12m3.736 0 7.794 4.5-.802.215a4.5 4.5 0 0 1-2.48-.043l-5.326-1.629a4.324 4.324 0 0 1-2.068-1.379M14.343 12l-2.882 1.664" />
+        </svg>
+    ),
+    wrench: (
+        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+        </svg>
+    ),
+};
+
+const TOOL_PREVIEWS = {
+    'json-validator': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 font-mono text-xs leading-relaxed overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">json-validator</span>
+            </div>
+            <div className="space-y-0.5">
+                <p><span className="text-gray-500">{'{'}</span></p>
+                <p className="pl-4"><span className="text-amber-400">"name"</span><span className="text-gray-400">: </span><span className="text-green-400">"GadgetDrop"</span><span className="text-gray-500">,</span></p>
+                <p className="pl-4"><span className="text-amber-400">"version"</span><span className="text-gray-400">: </span><span className="text-blue-400">2</span><span className="text-gray-500">,</span></p>
+                <p className="pl-4"><span className="text-amber-400">"tools"</span><span className="text-gray-400">: </span><span className="text-gray-500">[</span></p>
+                <p className="pl-8"><span className="text-green-400">"json-validator"</span><span className="text-gray-500">,</span></p>
+                <p className="pl-8"><span className="text-green-400">"js-css-minifier"</span></p>
+                <p className="pl-4"><span className="text-gray-500">]</span></p>
+                <p><span className="text-gray-500">{'}'}</span></p>
+            </div>
+            <div className="mt-3 flex items-center gap-2 text-green-400">
+                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span>Valid JSON, formatted successfully.</span>
+            </div>
+        </div>
+    ),
+    'js-css-minifier': (
+        <div className="rounded-xl bg-gray-950 border border-gray-800 p-4 font-mono text-xs leading-relaxed overflow-hidden select-none">
+            <div className="flex items-center gap-1.5 mb-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="ml-2 text-gray-600 text-xs">js-minifier</span>
+            </div>
+            <div className="space-y-1">
+                <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Before</p>
+                <p className="text-gray-400 line-clamp-2">{'function greet(name) {'}</p>
+                <p className="text-gray-400 pl-4">{'  return "Hello, " + name + "!";'}</p>
+                <p className="text-gray-400">{'}'}</p>
+            </div>
+            <div className="my-3 flex items-center gap-2">
+                <span className="flex-1 h-px bg-gray-800" />
+                <span className="text-xs text-gray-600">minified</span>
+                <span className="flex-1 h-px bg-gray-800" />
+            </div>
+            <p className="text-green-400">{'function greet(n){return"Hello, "+n+"!"}'}</p>
+            <div className="mt-3 flex items-center gap-2">
+                <span className="text-xs font-semibold bg-green-900/50 text-green-400 px-2 py-0.5 rounded-full border border-green-800/50">
+                    Saved 28%
+                </span>
+                <span className="text-gray-600 text-xs">68 B → 49 B</span>
+            </div>
+        </div>
+    ),
+};
+
+function ToolsSection({ tools }) {
+    if (!tools?.length) return null;
+
+    const featured = tools[0];
+    const rest = tools.slice(1);
+    const featuredIcon = TOOL_ICONS[featured.icon] ?? TOOL_ICONS['wrench'];
+    const featuredPreview = TOOL_PREVIEWS[featured.slug] ?? null;
+
+    return (
+        <section className="bg-gray-100 py-16 relative overflow-hidden">
+            {/* Subtle top/bottom borders */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent" />
+
+            <div className="max-w-6xl mx-auto px-4">
+                {/* Section header */}
+                <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                        <span className="w-1 h-7 rounded-full bg-gradient-to-b from-amber-400 to-orange-400" />
+                        <div>
+                            <h2 className="text-2xl font-extrabold text-gray-900 leading-none">Free Online Tools</h2>
+                            <p className="text-xs text-gray-400 mt-0.5 tracking-wide">Runs in your browser, nothing sent to a server</p>
+                        </div>
+                    </div>
+                    <Link href={route('tools.index')}
+                        className="text-sm text-amber-600 hover:text-amber-700 font-semibold flex items-center gap-1 transition-colors">
+                        All tools
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
+
+                {/* Featured + aside layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                    {/* Featured tool — spans 2 columns */}
+                    <div className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div className="p-7 flex flex-col h-full">
+                            {/* Badge */}
+                            <div className="flex items-center gap-2 mb-5">
+                                <span className="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                                    </svg>
+                                    Featured Tool
+                                </span>
+                            </div>
+
+                            {/* Icon + title */}
+                            <div className="flex items-start gap-4 mb-4">
+                                <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex-shrink-0 flex items-center justify-center p-2.5 text-amber-600">
+                                    {featuredIcon}
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-extrabold text-gray-900">{featured.name}</h3>
+                                    <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">{featured.description}</p>
+                                </div>
+                            </div>
+
+                            {/* Mock preview */}
+                            {featuredPreview && (
+                                <div className="flex-1 mb-6">
+                                    {featuredPreview}
+                                </div>
+                            )}
+
+                            {/* CTA */}
+                            <Link
+                                href={route(`tools.${featured.slug}`)}
+                                className="inline-flex items-center gap-2 self-start bg-amber-500 hover:bg-amber-600
+                                           text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm shadow-sm">
+                                Use Tool Free
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Aside — remaining tools stacked */}
+                    <div className="flex flex-col gap-4">
+                        {/* Other tools */}
+                        {rest.map(tool => {
+                            const icon = TOOL_ICONS[tool.icon] ?? TOOL_ICONS['wrench'];
+                            return (
+                                <Link
+                                    key={tool.slug}
+                                    href={route(`tools.${tool.slug}`)}
+                                    className="group flex gap-4 items-start bg-white border border-gray-200 rounded-2xl p-5
+                                               hover:border-amber-300 hover:shadow-md transition-all duration-200 shadow-sm">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex-shrink-0
+                                                    flex items-center justify-center p-2 text-amber-600 group-hover:bg-amber-100 transition-colors">
+                                        {icon}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="font-bold text-gray-900 group-hover:text-amber-700 transition-colors text-sm">{tool.name}</p>
+                                        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed line-clamp-2">{tool.description}</p>
+                                    </div>
+                                    <svg className="w-4 h-4 text-gray-300 group-hover:text-amber-500 flex-shrink-0 mt-0.5 transition-colors"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </Link>
+                            );
+                        })}
+
+                        {/* "View all tools" card — always visible */}
+                        <Link
+                            href={route('tools.index')}
+                            className="group flex gap-4 items-center bg-amber-50 border border-amber-200 border-dashed rounded-2xl p-5
+                                       hover:bg-amber-100 hover:border-amber-300 transition-all duration-200">
+                            <div className="w-10 h-10 rounded-xl bg-white border border-amber-200 flex-shrink-0
+                                            flex items-center justify-center text-amber-500 group-hover:bg-amber-50 transition-colors">
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <p className="font-bold text-amber-700 text-sm">More tools coming</p>
+                                <p className="text-xs text-amber-600/70 mt-0.5">Image converter, cropper, and more</p>
+                            </div>
+                            <svg className="w-4 h-4 text-amber-400 group-hover:text-amber-600 flex-shrink-0 transition-colors"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 }

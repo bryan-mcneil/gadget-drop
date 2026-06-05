@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
     const [searchQuery, setSearchQuery] = useState('');
     const headerRef = useRef(null);
     const { navigation } = usePage().props;
-    const { categories = [], popularTags = [], trending = [], latestTechTips = [], latestNews = [] } = navigation ?? {};
+    const { categories = [], popularTags = [], trending = [], latestTechTips = [], latestNews = [], tools = [] } = navigation ?? {};
 
     useEffect(() => {
         function onMouseDown(e) {
@@ -69,6 +69,8 @@ export default function PublicLayout({ children }) {
                                 onClick={() => toggle('tech-tips')} emerald />
                             <NavButton label="News"       active={activeMenu === 'news'}
                                 onClick={() => toggle('news')} rose />
+                            <NavButton label="Tools"      active={activeMenu === 'tools'}
+                                onClick={() => toggle('tools')} amber />
                         </nav>
 
                         <div className="flex-1" />
@@ -124,6 +126,9 @@ export default function PublicLayout({ children }) {
                 <MegaMenu open={activeMenu === 'news'} rose>
                     <NewsMegamenu posts={latestNews} onClose={() => setActiveMenu(null)} />
                 </MegaMenu>
+                <MegaMenu open={activeMenu === 'tools'} amber>
+                    <ToolsMegamenu tools={tools} onClose={() => setActiveMenu(null)} />
+                </MegaMenu>
 
                 {/* ── Mobile menu ── */}
                 {mobileOpen && (
@@ -133,6 +138,7 @@ export default function PublicLayout({ children }) {
                         trending={trending}
                         techTips={latestTechTips}
                         latestNews={latestNews}
+                        tools={tools}
                         activeSection={mobileSection}
                         onToggleSection={name =>
                             setMobileSection(prev => prev === name ? null : name)}
@@ -151,6 +157,7 @@ export default function PublicLayout({ children }) {
                         We earn a small commission on qualifying purchases.
                     </p>
                     <nav className="flex items-center gap-4 shrink-0">
+                        <Link href={route('tools.index')} className="hover:text-amber-600 transition-colors font-medium">Tools</Link>
                         <Link href={route('about')}   className="hover:text-gray-600 transition-colors">About</Link>
                         <Link href={route('contact')} className="hover:text-gray-600 transition-colors">Contact</Link>
                         <Link href={route('privacy')} className="hover:text-gray-600 transition-colors">Privacy Policy</Link>
@@ -164,15 +171,17 @@ export default function PublicLayout({ children }) {
 }
 
 /* ─── Desktop nav button ─────────────────────────────────────── */
-function NavButton({ label, active, onClick, emerald = false, rose = false }) {
+function NavButton({ label, active, onClick, emerald = false, rose = false, amber = false }) {
     const activeClass = rose
         ? 'bg-rose-50 text-rose-700'
-        : emerald ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700';
+        : emerald ? 'bg-emerald-50 text-emerald-700'
+        : amber  ? 'bg-amber-50 text-amber-700'
+        : 'bg-indigo-50 text-indigo-700';
     const defaultClass = rose
         ? 'text-gray-600 hover:text-rose-600 hover:bg-rose-50'
-        : emerald
-            ? 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
-            : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50';
+        : emerald ? 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
+        : amber   ? 'text-gray-600 hover:text-amber-600 hover:bg-amber-50'
+        : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50';
     return (
         <button
             onClick={onClick}
@@ -188,6 +197,11 @@ function NavButton({ label, active, onClick, emerald = false, rose = false }) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
             )}
+            {amber && !rose && !emerald && (
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                </svg>
+            )}
             {label}
             <ChevronIcon className={`w-3.5 h-3.5 transition-transform ${active ? 'rotate-180' : ''}`} />
         </button>
@@ -195,13 +209,13 @@ function NavButton({ label, active, onClick, emerald = false, rose = false }) {
 }
 
 /* ─── Megamenu wrapper ───────────────────────────────────────── */
-function MegaMenu({ open, children, emerald = false, rose = false }) {
+function MegaMenu({ open, children, emerald = false, rose = false, amber = false }) {
     if (!open) return null;
     const accent = rose
         ? 'bg-gradient-to-r from-rose-500 via-red-500 to-rose-400'
-        : emerald
-            ? 'bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300'
-            : 'bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-400';
+        : emerald ? 'bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300'
+        : amber   ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300'
+        : 'bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-400';
     return (
         <div className="hidden md:block absolute top-full left-0 right-0 bg-white shadow-xl z-40">
             <div className={`h-0.5 ${accent}`} />
@@ -434,8 +448,56 @@ function NewsMegamenu({ posts, onClose }) {
     );
 }
 
+/* ─── Tools megamenu ────────────────────────────────────────── */
+function ToolsMegamenu({ tools, onClose }) {
+    if (tools.length === 0) return (
+        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">No tools available yet.</div>
+    );
+    return (
+        <div className="bg-amber-50/40">
+            <div className="max-w-6xl mx-auto px-4 py-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <svg className="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                    </svg>
+                    <span className="text-xs font-semibold text-amber-700 uppercase tracking-widest">Free Online Tools</span>
+                    <span className="flex-1 h-px bg-amber-100" />
+                    <Link href={route('tools.index')} onClick={onClose}
+                        className="text-xs font-medium text-amber-500 hover:text-amber-700 transition-colors">
+                        All tools →
+                    </Link>
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                    {tools.map((tool, i) => (
+                        <Link key={tool.slug} href={route(`tools.${tool.slug}`)} onClick={onClose}
+                            className="flex gap-3 items-start group p-2 rounded-xl hover:bg-amber-100/60 transition -m-2">
+                            <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center
+                                ${i === 0 ? 'bg-amber-500 shadow-sm' : 'bg-white border border-amber-200'}`}>
+                                <svg className={`w-4 h-4 ${i === 0 ? 'text-white' : 'text-amber-500'}`}
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                                </svg>
+                            </div>
+                            <div className="min-w-0">
+                                {i === 0 && (
+                                    <span className="inline-block text-xs font-semibold text-amber-600 mb-0.5">New</span>
+                                )}
+                                <p className="text-sm font-medium text-gray-800 group-hover:text-amber-700
+                                              leading-snug transition-colors line-clamp-1">
+                                    {tool.name}
+                                </p>
+                                <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{tool.description}</p>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 /* ─── Mobile menu ───────────────────────────────────────────── */
-function MobileMenu({ categories, tags, trending, techTips, latestNews = [], activeSection, onToggleSection, onClose }) {
+function MobileMenu({ categories, tags, trending, techTips, latestNews = [], tools = [], activeSection, onToggleSection, onClose }) {
     const [q, setQ] = useState('');
 
     function handleSearch(e) {
@@ -599,18 +661,55 @@ function MobileMenu({ categories, tags, trending, techTips, latestNews = [], act
                         </Link>
                     </MobileAccordion>
                 )}
+
+                {/* Tools accordion */}
+                {tools.length > 0 && (
+                    <MobileAccordion
+                        title="Tools"
+                        open={activeSection === 'tools'}
+                        onToggle={() => onToggleSection('tools')}
+                        amber>
+                        <ul className="space-y-1 py-1">
+                            {tools.map((tool) => (
+                                <li key={tool.slug}>
+                                    <Link href={route(`tools.${tool.slug}`)} onClick={onClose}
+                                        className="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-amber-50">
+                                        <div className="w-8 h-8 rounded-md flex-shrink-0 flex items-center justify-center bg-white border border-amber-200">
+                                            <svg className="w-3.5 h-3.5 text-amber-500"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
+                                            </svg>
+                                        </div>
+                                        <div className="min-w-0">
+                                            <p className="text-sm text-gray-700 font-medium">{tool.name}</p>
+                                            <p className="text-xs text-gray-400 line-clamp-1">{tool.description}</p>
+                                        </div>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <Link href={route('tools.index')} onClick={onClose}
+                            className="block mt-2 text-xs font-medium text-amber-600 hover:text-amber-800 px-2 pb-2">
+                            View all tools →
+                        </Link>
+                    </MobileAccordion>
+                )}
             </nav>
         </div>
     );
 }
 
-function MobileAccordion({ title, open, onToggle, children, emerald = false, rose = false }) {
+function MobileAccordion({ title, open, onToggle, children, emerald = false, rose = false, amber = false }) {
     const openClass = rose
         ? 'text-rose-700 bg-rose-50'
-        : emerald ? 'text-emerald-700 bg-emerald-50' : 'text-indigo-700 bg-indigo-50';
+        : emerald ? 'text-emerald-700 bg-emerald-50'
+        : amber   ? 'text-amber-700 bg-amber-50'
+        : 'text-indigo-700 bg-indigo-50';
     const closedClass = rose
         ? 'text-gray-700 hover:text-rose-600 hover:bg-rose-50'
-        : emerald ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50';
+        : emerald ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50'
+        : amber   ? 'text-gray-700 hover:text-amber-600 hover:bg-amber-50'
+        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50';
 
     return (
         <div className="border-t border-gray-50">
@@ -626,6 +725,11 @@ function MobileAccordion({ title, open, onToggle, children, emerald = false, ros
                     {emerald && !rose && (
                         <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    )}
+                    {amber && !rose && !emerald && (
+                        <svg className="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" />
                         </svg>
                     )}
                     {title}

@@ -78,6 +78,11 @@ class HandleInertiaRequests extends Middleware
                         'excerpt'      => $p->excerpt,
                         'published_at' => $p->published_at?->format('Y-m-d'),
                     ]),
+                'tools' => collect(config('tools'))->map(fn ($tool, $slug) => [
+                    'slug'        => $slug,
+                    'name'        => $tool['name'],
+                    'description' => $tool['description'],
+                ])->values(),
                 'latestNews' => Post::published()
                     ->where('type', 'tech_news')
                     ->latest('published_at')

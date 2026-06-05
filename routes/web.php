@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\ToolController;
 use Illuminate\Support\Facades\Route;
 
 // Sitemap
@@ -32,6 +33,16 @@ Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/cookies', [PublicController::class, 'cookies'])->name('cookies');
 Route::get('/terms',   [PublicController::class, 'terms'])->name('terms');
+// Tools
+Route::get('/tools',               [ToolController::class, 'index'])->name('tools.index');
+Route::get('/tools/json-validator',  [ToolController::class, 'jsonValidator'])->name('tools.json-validator');
+Route::get('/tools/js-css-minifier', [ToolController::class, 'jsCssMinifier'])->name('tools.js-css-minifier');
+
+// Server-side tools scaffold (Phase 2+)
+Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {
+    // Phase 2 server-side tool endpoints go here
+});
+
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe');
 Route::get('/unsubscribe', [SubscriberController::class, 'showUnsubscribe'])->name('unsubscribe');
 Route::post('/unsubscribe', [SubscriberController::class, 'destroyByEmail'])->name('unsubscribe.email');

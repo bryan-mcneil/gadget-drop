@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@tailwindcss/typography": "^0.5.19",
-        "react-markdown": "^10.1.0"
+        "react-markdown": "^10.1.0",
+        "terser": "^5.48.0"
     }
 }
