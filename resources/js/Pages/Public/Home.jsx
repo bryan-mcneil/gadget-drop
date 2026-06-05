@@ -905,12 +905,15 @@ function CategoriesStrip({ categories, theme }) {
     const scrollRef = useRef(null);
     const [canScrollLeft,  setCanScrollLeft]  = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
+    const [scrollProgress, setScrollProgress] = useState(0);
 
     const updateButtons = useCallback(() => {
         const el = scrollRef.current;
         if (!el) return;
         setCanScrollLeft(el.scrollLeft > 2);
         setCanScrollRight(Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 2);
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        setScrollProgress(maxScroll > 0 ? (el.scrollLeft / maxScroll) * 100 : 0);
     }, []);
 
     useEffect(() => {
@@ -945,7 +948,7 @@ function CategoriesStrip({ categories, theme }) {
             <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent ${theme?.accentVia ?? 'via-indigo-500/40'} to-transparent`} />
             <div className={`absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent ${theme?.accentBot ?? 'via-indigo-500/20'} to-transparent`} />
 
-            <div className="relative max-w-6xl mx-auto px-4">
+            <div className="relative max-w-[96rem] mx-auto px-4">
                 <div className="flex items-center gap-3 mb-7">
                     <span className="w-6 h-px bg-indigo-500" />
                     <h2 className="text-xs font-bold text-indigo-400 uppercase tracking-[0.2em]">
@@ -1037,6 +1040,14 @@ function CategoriesStrip({ categories, theme }) {
                             </Link>
                         ))}
                     </div>
+
+                    {/* Horizontal scroll progress bar */}
+                    {/* <div className="mt-4 h-0.5 bg-indigo-900/40 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-indigo-400 rounded-full transition-all duration-150 ease-out"
+                            style={{ width: `${scrollProgress}%` }}
+                        />
+                    </div> */}
                 </div>
             </div>
         </section>

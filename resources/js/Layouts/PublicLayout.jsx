@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
     const [searchQuery, setSearchQuery] = useState('');
     const headerRef = useRef(null);
     const { navigation } = usePage().props;
-    const { categories = [], popularTags = [], trending = [], latestTechTips = [], latestNews = [], tools = [] } = navigation ?? {};
+    const { trending = [], latestTechTips = [], latestNews = [], tools = [] } = navigation ?? {};
 
     useEffect(() => {
         function onMouseDown(e) {
@@ -59,10 +59,6 @@ export default function PublicLayout({ children }) {
 
                         {/* Desktop nav items */}
                         <nav className="hidden md:flex items-center gap-1">
-                            <NavButton label="Categories" active={activeMenu === 'categories'}
-                                onClick={() => toggle('categories')} />
-                            <NavButton label="Tags"       active={activeMenu === 'tags'}
-                                onClick={() => toggle('tags')} />
                             <NavButton label="Trending"   active={activeMenu === 'trending'}
                                 onClick={() => toggle('trending')} />
                             <NavButton label="Tech Tips"  active={activeMenu === 'tech-tips'}
@@ -111,12 +107,6 @@ export default function PublicLayout({ children }) {
                 </div>
 
                 {/* ── Desktop megamenus ── */}
-                <MegaMenu open={activeMenu === 'categories'}>
-                    <CategoriesMegamenu categories={categories} onClose={() => setActiveMenu(null)} />
-                </MegaMenu>
-                <MegaMenu open={activeMenu === 'tags'}>
-                    <TagsMegamenu tags={popularTags} onClose={() => setActiveMenu(null)} />
-                </MegaMenu>
                 <MegaMenu open={activeMenu === 'trending'}>
                     <TrendingMegamenu posts={trending} onClose={() => setActiveMenu(null)} />
                 </MegaMenu>
@@ -133,8 +123,6 @@ export default function PublicLayout({ children }) {
                 {/* ── Mobile menu ── */}
                 {mobileOpen && (
                     <MobileMenu
-                        categories={categories}
-                        tags={popularTags}
                         trending={trending}
                         techTips={latestTechTips}
                         latestNews={latestNews}
@@ -181,7 +169,7 @@ function NavButton({ label, active, onClick, emerald = false, rose = false, ambe
         ? 'text-gray-600 hover:text-rose-600 hover:bg-rose-50'
         : emerald ? 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
         : amber   ? 'text-gray-600 hover:text-amber-600 hover:bg-amber-50'
-        : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50';
+        : 'text-gray-600 hover:text-indigo-600 hover:bg-indigo-50';
     return (
         <button
             onClick={onClick}
@@ -224,102 +212,22 @@ function MegaMenu({ open, children, emerald = false, rose = false, amber = false
     );
 }
 
-/* ─── Categories megamenu ───────────────────────────────────── */
-const AVATAR_COLORS = [
-    ['bg-indigo-100 group-hover:bg-indigo-200', 'text-indigo-600'],
-    ['bg-violet-100 group-hover:bg-violet-200', 'text-violet-600'],
-    ['bg-sky-100 group-hover:bg-sky-200',       'text-sky-600'],
-    ['bg-amber-100 group-hover:bg-amber-200',   'text-amber-600'],
-    ['bg-rose-100 group-hover:bg-rose-200',     'text-rose-600'],
-    ['bg-teal-100 group-hover:bg-teal-200',     'text-teal-600'],
-];
-
-function CategoriesMegamenu({ categories, onClose }) {
-    if (categories.length === 0) return (
-        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">No categories yet.</div>
-    );
-    return (
-        <div className="max-w-6xl mx-auto px-4 py-6">
-            <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Browse Categories</span>
-                <span className="flex-1 h-px bg-gray-100" />
-                <span className="text-xs text-gray-300">{categories.length} topics</span>
-            </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2">
-                {categories.map((cat, i) => {
-                    const [bg, text] = AVATAR_COLORS[i % AVATAR_COLORS.length];
-                    return (
-                        <Link key={cat.id} href={route('category', cat.slug)} onClick={onClose}
-                            className="group flex flex-col items-center text-center p-3 rounded-xl hover:bg-gray-50 transition">
-                            <div className={`w-10 h-10 rounded-full ${bg} flex items-center justify-center mb-2 transition`}>
-                                <span className={`${text} font-bold text-sm`}>{cat.name.charAt(0)}</span>
-                            </div>
-                            <span className="text-xs font-medium text-gray-700 group-hover:text-gray-900 leading-tight">
-                                {cat.name}
-                            </span>
-                            <span className="text-xs text-gray-400 mt-0.5">{cat.posts_count} posts</span>
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}
-
-/* ─── Tags megamenu ─────────────────────────────────────────── */
-function TagsMegamenu({ tags, onClose }) {
-    if (tags.length === 0) return (
-        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">No tags yet.</div>
-    );
-
-    const maxCount = Math.max(...tags.map(t => t.posts_count), 1);
-
-    function tagStyle(count) {
-        const ratio = count / maxCount;
-        if (ratio > 0.65) return { size: 'text-sm font-semibold px-4 py-2', color: 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' };
-        if (ratio > 0.35) return { size: 'text-xs font-medium px-3 py-1.5', color: 'bg-gray-100 text-gray-700 hover:bg-indigo-100 hover:text-indigo-700' };
-        return { size: 'text-xs px-2.5 py-1', color: 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-700' };
-    }
-
-    return (
-        <div className="max-w-6xl mx-auto px-4 py-6">
-            <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Browse by Tag</span>
-                <span className="flex-1 h-px bg-gray-100" />
-                <span className="text-xs text-gray-300">sized by popularity</span>
-            </div>
-            <div className="flex flex-wrap gap-2 items-center">
-                {tags.map(tag => {
-                    const { size, color } = tagStyle(tag.posts_count);
-                    return (
-                        <Link key={tag.id}
-                            href={route('search') + '?q=' + encodeURIComponent(tag.name)}
-                            onClick={onClose}
-                            className={`rounded-full transition ${size} ${color}`}>
-                            {tag.name}
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}
-
 /* ─── Trending megamenu ─────────────────────────────────────── */
 function TrendingMegamenu({ posts, onClose }) {
     if (posts.length === 0) return (
         <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">Nothing trending yet.</div>
     );
     return (
+        <div className="bg-indigo-50/70">
         <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Trending Now</span>
-                <span className="flex-1 h-px bg-gray-100" />
+                <span className="text-xs font-semibold text-indigo-700 uppercase tracking-widest">Trending Now</span>
+                <span className="flex-1 h-px bg-indigo-100" />
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 {posts.map((p, i) => (
                     <Link key={p.id} href={route('posts.show', p.slug)} onClick={onClose}
-                        className="flex gap-3 items-start group p-2 rounded-xl hover:bg-gray-50 transition -m-2">
+                        className="flex gap-3 items-start group p-2 rounded-xl hover:bg-indigo-100/60 transition -m-2">
                         <div className="relative flex-shrink-0">
                             {p.featured_image ? (
                                 <img src={p.featured_image} alt={p.title}
@@ -347,6 +255,7 @@ function TrendingMegamenu({ posts, onClose }) {
                     </Link>
                 ))}
             </div>
+        </div>
         </div>
     );
 }
@@ -497,7 +406,7 @@ function ToolsMegamenu({ tools, onClose }) {
 }
 
 /* ─── Mobile menu ───────────────────────────────────────────── */
-function MobileMenu({ categories, tags, trending, techTips, latestNews = [], tools = [], activeSection, onToggleSection, onClose }) {
+function MobileMenu({ trending, techTips, latestNews = [], tools = [], activeSection, onToggleSection, onClose }) {
     const [q, setQ] = useState('');
 
     function handleSearch(e) {
@@ -535,45 +444,6 @@ function MobileMenu({ categories, tags, trending, techTips, latestNews = [], too
                     Home
                 </Link>
 
-                {/* Categories accordion */}
-                <MobileAccordion
-                    title="Categories"
-                    open={activeSection === 'categories'}
-                    onToggle={() => onToggleSection('categories')}>
-                    <div className="grid grid-cols-2 gap-1 py-1">
-                        {categories.map((cat, i) => {
-                            const [, text] = AVATAR_COLORS[i % AVATAR_COLORS.length];
-                            return (
-                                <Link key={cat.id} href={route('category', cat.slug)} onClick={onClose}
-                                    className="px-3 py-2 text-sm text-gray-700 hover:text-indigo-600
-                                               hover:bg-indigo-50 rounded-lg flex items-center gap-2">
-                                    <span className={`font-bold text-xs ${text}`}>{cat.name.charAt(0)}</span>
-                                    {cat.name}
-                                    <span className="text-xs text-gray-400 ml-auto">({cat.posts_count})</span>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                </MobileAccordion>
-
-                {/* Tags accordion */}
-                <MobileAccordion
-                    title="Tags"
-                    open={activeSection === 'tags'}
-                    onToggle={() => onToggleSection('tags')}>
-                    <div className="flex flex-wrap gap-1.5 py-2">
-                        {tags.map(tag => (
-                            <Link key={tag.id}
-                                href={route('search') + '?q=' + encodeURIComponent(tag.name)}
-                                onClick={onClose}
-                                className="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-indigo-100
-                                           text-xs text-gray-700 hover:text-indigo-700 font-medium">
-                                {tag.name}
-                            </Link>
-                        ))}
-                    </div>
-                </MobileAccordion>
-
                 {/* Trending accordion */}
                 <MobileAccordion
                     title="Trending"
@@ -583,7 +453,7 @@ function MobileMenu({ categories, tags, trending, techTips, latestNews = [], too
                         {trending.map((p, i) => (
                             <li key={p.id}>
                                 <Link href={route('posts.show', p.slug)} onClick={onClose}
-                                    className="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-gray-50">
+                                    className="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-indigo-50">
                                     <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold
                                         ${i === 0 ? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-500'}`}>
                                         {i === 0 ? '★' : i + 1}
@@ -709,7 +579,7 @@ function MobileAccordion({ title, open, onToggle, children, emerald = false, ros
         ? 'text-gray-700 hover:text-rose-600 hover:bg-rose-50'
         : emerald ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50'
         : amber   ? 'text-gray-700 hover:text-amber-600 hover:bg-amber-50'
-        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50';
+        : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50';
 
     return (
         <div className="border-t border-gray-50">
