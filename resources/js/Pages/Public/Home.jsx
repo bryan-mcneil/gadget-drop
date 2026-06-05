@@ -166,6 +166,8 @@ function HeroCarousel({ slides, theme }) {
                                 alt=""
                                 className="absolute inset-0 w-full h-full object-cover"
                                 style={{ objectPosition: slide.post.hero_image_position ?? slide.post.featured_image_position ?? 'center center' }}
+                                loading={i === 0 ? 'eager' : 'lazy'}
+                                fetchpriority={i === 0 ? 'high' : 'low'}
                             />
                             <div className={`absolute inset-0 bg-gradient-to-r ${theme?.heroOverlay ?? 'from-gray-950/95 via-gray-950/75 to-gray-950/30'}`} />
                         </>

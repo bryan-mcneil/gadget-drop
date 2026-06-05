@@ -6,6 +6,9 @@ export default function AdaptiveImage({
     className = '',
     wrapperClass = '',
     loading = 'lazy',
+    fetchpriority,
+    width,
+    height,
 }) {
     const fitClass = fit === 'contain'
         ? 'object-contain bg-gray-50'
@@ -17,6 +20,9 @@ export default function AdaptiveImage({
                 src={src}
                 alt={alt}
                 loading={loading}
+                fetchpriority={fetchpriority}
+                width={width}
+                height={height}
                 className={`${className} ${fitClass}`}
                 style={fit !== 'contain' ? { objectPosition: position } : undefined}
             />

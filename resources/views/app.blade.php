@@ -28,9 +28,15 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="icon" href="/favicon.ico" sizes="any">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <!-- Resource hints for third-party origins -->
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+        <!-- Fonts — preload then swap to avoid render-blocking -->
+        <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+        <link rel="preload" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"></noscript>
 
         <!-- Google Consent Mode v2 — defaults denied until user accepts -->
         <script>

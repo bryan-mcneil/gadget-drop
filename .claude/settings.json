@@ -11,7 +11,11 @@
       "WebFetch(domain:www.amazon.com)",
       "Bash(Test-Path \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\daily-drop-output.md\")",
       "Bash(Select-String \"image\")",
-      "Bash(Copy-Item \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\node_modules\\\\cropperjs\\\\dist\\\\cropper.css\" \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\resources\\\\css\\\\cropper.css\")"
+      "Bash(Copy-Item \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\node_modules\\\\cropperjs\\\\dist\\\\cropper.css\" \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\resources\\\\css\\\\cropper.css\")",
+      "Bash(Get-ChildItem -Name)",
+      "Bash(curl -sI https://gadgetdrop.tech)",
+      "Bash(curl -sIL http://gadgetdrop.tech)",
+      "Bash(curl -sI -H \"Accept-Encoding: gzip, br\" https://gadgetdrop.tech)"
     ]
   }
 }
