@@ -98,11 +98,20 @@ class FixEmDashes extends Command
 
     private function replaceEmDashes(string $text): string
     {
-        // Protect em dashes that open a line or appear right after an HTML tag —
-        // these are deliberate list-style markers and must not become leading commas.
-        $placeholder = "\x00NODASH\x00";
+        // Protect em dashes that should not become commas:
+        //   - Opening a line (list-style markers)
+        //   - Right after an HTML tag
+        //   - Right after closing bold markdown (**text** — description)
+        $placeholder      = "\x00NODASH\x00";
+        $placeholderSpace = "\x00NODASH_S\x00";
+
+        // Protect em dashes that open a line or follow an HTML tag — restored without a leading space
         $text = preg_replace('/^[ \t]*—[ \t]*/mu', $placeholder, $text);
         $text = preg_replace('/(>)[ \t]*—[ \t]*/u', '$1' . $placeholder, $text);
+
+        // Protect em dashes that follow closing bold markdown (**text** — description)
+        // restored with a leading space to preserve the original rhythm
+        $text = preg_replace('/(\*\*)[ \t]*—[ \t]*/u', '$1' . $placeholderSpace, $text);
 
         // Replace all remaining em dashes, absorbing surrounding whitespace so
         // "word—word", "word — word", and "word— word" all become "word, word".
@@ -110,6 +119,7 @@ class FixEmDashes extends Command
 
         // Restore protected dashes
         $text = str_replace($placeholder, '— ', $text);
+        $text = str_replace($placeholderSpace, ' — ', $text);
 
         // Safety: fix double commas (em dash was adjacent to an existing comma)
         $text = preg_replace('/,[ \t]*,/u', ',', $text);
