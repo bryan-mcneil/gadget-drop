@@ -31,10 +31,13 @@
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
         <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-        <!-- Fonts — preload then swap to avoid render-blocking -->
+        <!-- Fonts — @font-face lives in app.css (render-blocking) with
+             font-display:optional; preload the woff2 so Figtree is ready
+             at first paint and never swaps in (no FOUT/bold flash). -->
         <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-        <link rel="preload" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"></noscript>
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-400-normal.woff2">
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-500-normal.woff2">
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-600-normal.woff2">
 
         <!-- Google Consent Mode v2 — defaults denied until user accepts -->
         <script>

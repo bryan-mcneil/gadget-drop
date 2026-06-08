@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscriber;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class SubscriberController extends Controller
 {
@@ -29,9 +28,17 @@ class SubscriberController extends Controller
         return response()->json(['message' => 'subscribed']);
     }
 
-    public function showUnsubscribe(): Response
+    public function showUnsubscribe(): View
     {
-        return Inertia::render('Public/Unsubscribe', [
+        view()->share('serverMeta', [
+            'title'       => 'Unsubscribe | GadgetDrop',
+            'description' => 'Unsubscribe from the GadgetDrop newsletter.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('unsubscribe'),
+        ]);
+
+        return view('public.unsubscribe', [
             'status' => session('unsubscribe_status'),
         ]);
     }

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Product;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Inertia\Inertia;
 
 class ToolController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $tools = collect(config('tools'))->map(fn ($tool, $slug) => [
             'slug'        => $slug,
@@ -19,104 +19,40 @@ class ToolController extends Controller
             'category'    => $tool['category'] ?? null,
         ])->values();
 
-        return Inertia::render('Public/Tools/Index', [
-            'tools' => $tools,
+        view()->share('serverMeta', [
+            'title'       => 'Free Online Tools | GadgetDrop',
+            'description' => 'Free browser-based tools for developers and everyday users. Validate JSON, minify JS & CSS, convert and crop images. No sign-up, no server upload.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('tools.index'),
         ]);
+
+        return view('public.tools.index', ['tools' => $tools]);
     }
 
-    public function jsonValidator()
-    {
-        $tool = config('tools.json-validator');
+    public function jsonValidator(): View      { return $this->tool('json-validator', 'json-validator'); }
+    public function jsCssMinifier(): View       { return $this->tool('js-css-minifier', 'js-css-minifier'); }
+    public function backgroundRemover(): View   { return $this->tool('background-remover', 'background-remover'); }
+    public function imageConverter(): View      { return $this->tool('image-converter', 'image-converter'); }
+    public function imageCropper(): View        { return $this->tool('image-cropper', 'image-cropper'); }
+    public function passwordGenerator(): View   { return $this->tool('password-generator', 'password-generator'); }
+    public function base64Encoder(): View       { return $this->tool('base64-encoder', 'base64-encoder'); }
+    public function colorPalette(): View        { return $this->tool('color-palette', 'color-palette'); }
+    public function metaTagPreviewer(): View    { return $this->tool('meta-tag-previewer', 'meta-tag-previewer'); }
 
-        return Inertia::render('Public/Tools/JsonValidator', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
+    private function tool(string $configKey, string $view): View
+    {
+        $tool = config("tools.{$configKey}");
+
+        view()->share('serverMeta', [
+            'title'       => $tool['meta_title'],
+            'description' => $tool['meta_description'],
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('tools.' . $configKey),
         ]);
-    }
 
-    public function jsCssMinifier()
-    {
-        $tool = config('tools.js-css-minifier');
-
-        return Inertia::render('Public/Tools/JsCssMinifier', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function backgroundRemover()
-    {
-        $tool = config('tools.background-remover');
-
-        return Inertia::render('Public/Tools/BackgroundRemover', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function imageConverter()
-    {
-        $tool = config('tools.image-converter');
-
-        return Inertia::render('Public/Tools/ImageConverter', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function imageCropper()
-    {
-        $tool = config('tools.image-cropper');
-
-        return Inertia::render('Public/Tools/ImageCropper', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function passwordGenerator()
-    {
-        $tool = config('tools.password-generator');
-
-        return Inertia::render('Public/Tools/PasswordGenerator', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function base64Encoder()
-    {
-        $tool = config('tools.base64-encoder');
-
-        return Inertia::render('Public/Tools/Base64Encoder', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function colorPalette()
-    {
-        $tool = config('tools.color-palette');
-
-        return Inertia::render('Public/Tools/ColorPalette', [
-            'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
-            'metaTitle'       => $tool['meta_title'],
-            'metaDescription' => $tool['meta_description'],
-        ]);
-    }
-
-    public function metaTagPreviewer()
-    {
-        $tool = config('tools.meta-tag-previewer');
-
-        return Inertia::render('Public/Tools/MetaTagPreviewer', [
+        return view("public.tools.{$view}", [
             'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
             'metaTitle'       => $tool['meta_title'],
             'metaDescription' => $tool['meta_description'],

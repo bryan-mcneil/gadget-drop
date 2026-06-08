@@ -5,7 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.jsx',
+            // app.js  → public site (Alpine + Livewire-driven), tools
+            // app.jsx → admin (Inertia/React, retained during the hybrid)
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/app.jsx'],
             refresh: true,
         }),
         react(),
@@ -14,14 +16,11 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks(id) {
-                    // Heavy tool-only deps → own chunk, loaded only when a tool page renders
-                    if (id.includes('cropperjs') || id.includes('react-cropper')) {
+                    // cropperjs is lazy-imported by the Alpine image-cropper tool → own chunk
+                    if (id.includes('cropperjs')) {
                         return 'vendor-cropper';
                     }
-                    if (id.includes('react-markdown') || id.includes('remark') || id.includes('rehype') || id.includes('micromark') || id.includes('mdast') || id.includes('hast')) {
-                        return 'vendor-markdown';
-                    }
-                    // Core React runtime → shared chunk reused across all pages
+                    // Core React runtime → shared chunk reused across all admin pages
                     if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
                         return 'vendor-react';
                     }
