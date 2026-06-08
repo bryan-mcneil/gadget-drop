@@ -9,6 +9,9 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\AmazonProductService;
+use App\Support\ArticleBody;
+use App\Support\NavigationData;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,7 +19,7 @@ use Inertia\Response;
 
 class PublicController extends Controller
 {
-    public function home(): Response
+    public function home(): View
     {
         $slides  = [];
         $seenIds = [];
@@ -63,8 +66,8 @@ class PublicController extends Controller
         }
 
         // Slide 4 — Top Featured [Random Tag] Pick (articles only)
-        $tag = Tag::withCount(['posts' => fn ($q) => $q->published()->whereNotIn('type', ['tech_tip', 'tech_news'])])
-            ->having('posts_count', '>', 0)
+        $tag = Tag::whereHas('posts', fn ($q) => $q->published()->whereNotIn('type', ['tech_tip', 'tech_news']))
+            ->withCount(['posts' => fn ($q) => $q->published()->whereNotIn('type', ['tech_tip', 'tech_news'])])
             ->inRandomOrder()
             ->first();
         if ($tag) {
@@ -152,7 +155,9 @@ class PublicController extends Controller
 
         view()->share('serverJsonLd', $this->buildHomeJsonLd());
 
-        return Inertia::render('Public/Home', [
+        $nav = NavigationData::get();
+
+        return view('public.home', [
             'heroSlides' => $slides,
             'recentPosts' => Post::published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
@@ -162,25 +167,26 @@ class PublicController extends Controller
                 ->take(8)
                 ->get($cols)
                 ->map($fmt),
-            'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
-                ->having('posts_count', '>', 0)
+            'categories' => Category::whereHas('posts', fn ($q) => $q->published())
+                ->withCount(['posts' => fn ($q) => $q->published()])
                 ->orderBy('name')
                 ->get()
                 ->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug, 'featured_image' => $c->featured_image, 'posts_count' => $c->posts_count]),
-            'spotlight' => $spotlight,
-            'topPicks'  => $topPicks,
+            'spotlight'   => $spotlight,
+            'topPicks'    => $topPicks,
+            'popularTags' => $nav['popularTags'],
+            'latestNews'  => $nav['latestNews'],
+            'tools'       => $nav['tools'],
         ]);
     }
 
-    public function news(): Response
+    public function news(): View
     {
         $paginator = Post::published()
             ->where('type', 'tech_news')
             ->latest('published_at')
-            ->paginate(12);
-
-        return Inertia::render('Public/News', [
-            'posts' => $paginator->through(fn ($p) => [
+            ->paginate(12)
+            ->through(fn ($p) => [
                 'id'             => $p->id,
                 'title'          => $p->title,
                 'slug'           => $p->slug,
@@ -191,16 +197,20 @@ class PublicController extends Controller
                 'published_at'   => $p->published_at?->format('Y-m-d'),
                 'published_at_iso' => $p->published_at?->toIso8601String(),
                 'read_minutes'   => max(1, (int) ceil(str_word_count(strip_tags($p->body ?? '')) / 200)),
-            ]),
-            'meta' => [
-                'current_page' => $paginator->currentPage(),
-                'last_page'    => $paginator->lastPage(),
-                'total'        => $paginator->total(),
-            ],
+            ]);
+
+        view()->share('serverMeta', [
+            'title'       => 'Tech News | GadgetDrop',
+            'description' => 'The latest in tech: breaking stories, product launches, and industry moves.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('news'),
         ]);
+
+        return view('public.news', ['posts' => $paginator]);
     }
 
-    public function show(Post $post): Response
+    public function show(Post $post): View
     {
         abort_unless($post->status === 'published', 404);
 
@@ -353,8 +363,16 @@ class PublicController extends Controller
         view()->share('serverMeta',   $this->buildServerMeta($postData));
         view()->share('serverJsonLd', $this->buildServerJsonLd($postData));
 
-        return Inertia::render('Public/Post', [
+        // Server-side Markdown: body split into thirds with inline images injected
+        $sections = ArticleBody::sections(
+            $post->body,
+            [$post->image_1, $post->image_2, $post->image_3],
+            [$post->image_1_fit ?? 'cover', $post->image_2_fit ?? 'cover', $post->image_3_fit ?? 'cover'],
+        );
+
+        return view('public.show', [
             'post'             => $postData,
+            'sections'         => $sections,
             'categoryPosts'    => $categoryPosts,
             'tagPosts'         => $tagPosts,
             'recentPosts'      => $recentPosts,
@@ -404,7 +422,9 @@ class PublicController extends Controller
         return [
             'title'       => ($seo['meta_title']       ?? null) ?: "{$d['title']} | GadgetDrop",
             'description' => ($seo['meta_description'] ?? null) ?: ($d['excerpt'] ?? ''),
-            'og_image'    => ($seo['og_image']          ?? null) ?: ($d['featured_image'] ?? null),
+            // Branded, auto-generated 1200×630 share card — falls back to a manual SEO override if set.
+            'og_image'    => ($seo['og_image']          ?? null) ?: route('og.posts.show', $d['slug']),
+            'og_image_alt' => $d['title'],
             'og_type'     => 'article',
             'canonical'   => ($seo['canonical_url']     ?? null) ?: (url("/posts/{$d['slug']}")),
         ];
@@ -565,38 +585,52 @@ class PublicController extends Controller
         );
     }
 
-    public function category(Category $category): Response
+    public function category(Category $category): View
     {
-        return Inertia::render('Public/Category', [
-            'category' => [
-                'id'             => $category->id,
-                'name'           => $category->name,
-                'slug'           => $category->slug,
-                'description'    => $category->description,
-                'featured_image' => $category->featured_image,
-            ],
-            'posts' => Post::published()
-                ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
-                ->with('categories')
-                ->latest('published_at')
-                ->paginate(12)
-                ->through(fn ($p) => [
-                    'id'             => $p->id,
-                    'type'           => $p->type,
-                    'title'          => $p->title,
-                    'slug'           => $p->slug,
-                    'excerpt'        => $p->excerpt,
-                    'featured_image' => $p->featured_image,
-                    'published_at'   => $p->published_at?->toDateString(),
-                ]),
-            'categories' => Category::withCount(['posts' => fn ($q) => $q->published()])
-                ->having('posts_count', '>', 0)
-                ->orderBy('name')
-                ->get(['id', 'name', 'slug', 'featured_image']),
+        $categoryData = [
+            'id'             => $category->id,
+            'name'           => $category->name,
+            'slug'           => $category->slug,
+            'description'    => $category->description,
+            'featured_image' => $category->featured_image,
+        ];
+
+        $posts = Post::published()
+            ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
+            ->with('categories')
+            ->latest('published_at')
+            ->paginate(12)
+            ->through(fn ($p) => [
+                'id'             => $p->id,
+                'type'           => $p->type,
+                'title'          => $p->title,
+                'slug'           => $p->slug,
+                'excerpt'        => $p->excerpt,
+                'featured_image' => $p->featured_image,
+                'published_at'   => $p->published_at?->toDateString(),
+            ]);
+
+        $categories = Category::whereHas('posts', fn ($q) => $q->published())
+            ->withCount(['posts' => fn ($q) => $q->published()])
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'featured_image']);
+
+        view()->share('serverMeta', [
+            'title'       => "{$category->name} | GadgetDrop",
+            'description' => "Browse {$category->name} reviews, picks, and buying guides on GadgetDrop. {$posts->total()} posts and counting.",
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('category', $category->slug),
+        ]);
+
+        return view('public.category', [
+            'category'   => $categoryData,
+            'posts'      => $posts,
+            'categories' => $categories,
         ]);
     }
 
-    public function search(Request $request): Response
+    public function search(Request $request): View
     {
         $query = trim($request->get('q', ''));
 
@@ -624,54 +658,103 @@ class PublicController extends Controller
                 ]);
 
             $categories = Category::where('name', 'like', "%{$query}%")
+                ->whereHas('posts', fn ($q) => $q->published())
                 ->withCount(['posts' => fn ($q) => $q->published()])
-                ->having('posts_count', '>', 0)
                 ->orderByDesc('posts_count')
                 ->take(6)
                 ->get(['id', 'name', 'slug', 'posts_count']);
 
             $tags = Tag::where('name', 'like', "%{$query}%")
+                ->whereHas('posts', fn ($q) => $q->published())
                 ->withCount(['posts' => fn ($q) => $q->published()])
-                ->having('posts_count', '>', 0)
                 ->orderByDesc('posts_count')
                 ->take(10)
                 ->get(['id', 'name', 'slug', 'posts_count']);
         }
 
-        return Inertia::render('Public/Search', [
-            'query'      => $query,
-            'posts'      => $posts,
-            'categories' => $categories,
-            'tags'       => $tags,
+        view()->share('serverMeta', [
+            'title'       => $query !== '' ? "\"{$query}\" | Search" : 'Search | GadgetDrop',
+            'description' => $query !== '' ? "Search results for \"{$query}\" on GadgetDrop." : 'Search GadgetDrop for tech reviews, gadget picks, and buying guides.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('search'),
+        ]);
+
+        return view('public.search', [
+            'query'       => $query,
+            'posts'       => $posts,
+            'categories'  => $categories,
+            'tags'        => $tags,
+            'popularTags' => \App\Support\NavigationData::get()['popularTags'],
         ]);
     }
 
-    public function about(): Response
+    public function about(): View
     {
-        return Inertia::render('Public/About');
+        view()->share('serverMeta', [
+            'title'       => 'About GadgetDrop',
+            'description' => 'GadgetDrop is a daily tech picks and gadget review site. Learn who we are, how we find the best gear, and how our content is made.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('about'),
+        ]);
+
+        return view('public.about');
     }
 
-    public function privacy(): Response
+    public function privacy(): View
     {
-        return Inertia::render('Public/Privacy');
+        view()->share('serverMeta', [
+            'title'       => 'Privacy Policy | GadgetDrop',
+            'description' => 'GadgetDrop privacy policy. Learn how we collect, use, and protect your data.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('privacy'),
+        ]);
+
+        return view('public.privacy');
     }
 
-    public function contact(): Response
+    public function contact(): View
     {
-        return Inertia::render('Public/Contact');
+        view()->share('serverMeta', [
+            'title'       => 'Contact | GadgetDrop',
+            'description' => 'Get in touch with the GadgetDrop team. Questions, corrections, partnerships, and press enquiries welcome.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('contact'),
+        ]);
+
+        return view('public.contact');
     }
 
-    public function cookies(): Response
+    public function cookies(): View
     {
-        return Inertia::render('Public/Cookies');
+        view()->share('serverMeta', [
+            'title'       => 'Cookie Policy | GadgetDrop',
+            'description' => 'GadgetDrop cookie policy. Learn what cookies we use, why, and how to manage your preferences.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('cookies'),
+        ]);
+
+        return view('public.cookies');
     }
 
-    public function terms(): Response
+    public function terms(): View
     {
-        return Inertia::render('Public/Terms');
+        view()->share('serverMeta', [
+            'title'       => 'Terms of Service | GadgetDrop',
+            'description' => 'GadgetDrop terms of service. Read the rules and conditions for using this site.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('terms'),
+        ]);
+
+        return view('public.terms');
     }
 
-    public function author(User $user): Response
+    public function author(User $user): View
     {
         abort_if($user->id === 1, 404);
         $cols = ['id', 'type', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'view_count'];
@@ -694,7 +777,15 @@ class PublicController extends Controller
         $totalViews = $posts->sum('view_count');
         $firstPost  = $posts->last(); // oldest is last after latest() sort
 
-        return Inertia::render('Public/Author', [
+        view()->share('serverMeta', [
+            'title'       => "{$user->name} | GadgetDrop",
+            'description' => $user->bio ?: "Posts by {$user->name} on GadgetDrop.",
+            'og_image'    => $user->avatar_url,
+            'og_type'     => 'profile',
+            'canonical'   => route('author', $user->slug),
+        ]);
+
+        return view('public.author', [
             'author' => [
                 'id'         => $user->id,
                 'name'       => $user->name,

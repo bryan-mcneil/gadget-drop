@@ -204,7 +204,7 @@ The body field must keep its full markdown formatting (## headings, --- dividers
 ```
 ```
 
-**JSON encoding rules for the body field:**
+**JSON encoding rules for the body field:** KODEE10","10PCT_48M_CSW8FFJF
 - Escape all double quotes as `\"`
 - Encode newlines as `\n`
 - Encode tab characters as `\t`

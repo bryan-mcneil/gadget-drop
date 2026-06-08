@@ -1,0 +1,49 @@
+@props([
+    'title',
+    'posts' => [],
+    'emptyLabel' => null,
+    'color' => 'indigo',
+])
+
+@php
+    $palette = [
+        'indigo'  => ['accent' => 'bg-indigo-400',  'title' => 'text-indigo-700',  'hover' => 'group-hover:text-indigo-600',  'placeholder' => 'bg-indigo-50',  'icon' => 'text-indigo-300',  'border' => 'border-indigo-200'],
+        'emerald' => ['accent' => 'bg-emerald-400', 'title' => 'text-emerald-700', 'hover' => 'group-hover:text-emerald-600', 'placeholder' => 'bg-emerald-50', 'icon' => 'text-emerald-300', 'border' => 'border-emerald-200'],
+        'rose'    => ['accent' => 'bg-rose-400',    'title' => 'text-rose-700',    'hover' => 'group-hover:text-rose-600',    'placeholder' => 'bg-rose-50',    'icon' => 'text-rose-300',    'border' => 'border-rose-200'],
+    ];
+    $c = $palette[$color] ?? $palette['indigo'];
+    $count = is_countable($posts) ? count($posts) : 0;
+@endphp
+
+@if($count > 0 || $emptyLabel)
+    <div class="border-b {{ $c['border'] }} pb-8">
+        <div class="flex items-center gap-2 mb-4">
+            <span class="block w-1 h-4 rounded-full {{ $c['accent'] }}"></span>
+            <h3 class="text-xs font-bold uppercase tracking-widest {{ $c['title'] }}">{{ $title }}</h3>
+        </div>
+        @if($count === 0)
+            <p class="text-sm text-gray-400">{{ $emptyLabel }}</p>
+        @else
+            <ul class="space-y-4">
+                @foreach($posts as $p)
+                    <li class="group">
+                        <a href="{{ route('posts.show', $p['slug']) }}" class="flex gap-3 items-start">
+                            @if(!empty($p['featured_image']))
+                                <img src="{{ $p['featured_image'] }}" alt="{{ $p['title'] }}" loading="lazy"
+                                    class="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-gray-100" />
+                            @else
+                                <div class="w-14 h-14 rounded-lg {{ $c['placeholder'] }} flex-shrink-0 flex items-center justify-center">
+                                    <span class="{{ $c['icon'] }} text-xl font-bold">G</span>
+                                </div>
+                            @endif
+                            <div class="min-w-0">
+                                <p class="text-sm font-medium text-gray-800 {{ $c['hover'] }} leading-snug transition-colors">{{ $p['title'] }}</p>
+                                <p class="text-xs text-gray-400 mt-0.5">{{ $p['published_at'] }}</p>
+                            </div>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </div>
+@endif
