@@ -32,15 +32,16 @@ class ToolController extends Controller
 
     public function jsonValidator(): View      { return $this->tool('json-validator', 'json-validator'); }
     public function jsCssMinifier(): View       { return $this->tool('js-css-minifier', 'js-css-minifier'); }
-    public function backgroundRemover(): View   { return $this->tool('background-remover', 'background-remover'); }
+    public function imageEditor(): View         { return $this->tool('image-editor', 'image-editor', 'crop'); }
     public function imageConverter(): View      { return $this->tool('image-converter', 'image-converter'); }
     public function imageCropper(): View        { return $this->tool('image-cropper', 'image-cropper'); }
+    public function backgroundRemover(): View   { return $this->tool('background-remover', 'background-remover'); }
     public function passwordGenerator(): View   { return $this->tool('password-generator', 'password-generator'); }
     public function base64Encoder(): View       { return $this->tool('base64-encoder', 'base64-encoder'); }
     public function colorPalette(): View        { return $this->tool('color-palette', 'color-palette'); }
     public function metaTagPreviewer(): View    { return $this->tool('meta-tag-previewer', 'meta-tag-previewer'); }
 
-    private function tool(string $configKey, string $view): View
+    private function tool(string $configKey, string $view, ?string $initialTool = null): View
     {
         $tool = config("tools.{$configKey}");
 
@@ -56,6 +57,8 @@ class ToolController extends Controller
             'sidebarProducts' => $this->getSidebarProducts($tool['related_tags']),
             'metaTitle'       => $tool['meta_title'],
             'metaDescription' => $tool['meta_description'],
+            'toolName'        => $tool['name'],
+            'initialTool'     => $initialTool,
         ]);
     }
 

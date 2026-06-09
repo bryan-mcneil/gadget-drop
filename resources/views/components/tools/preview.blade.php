@@ -43,9 +43,9 @@
         </div>
         @break
 
-    @case('image-converter')
+    @case('image-editor')
         <div class="rounded-xl bg-gray-950 border border-gray-800 p-4 overflow-hidden select-none">
-            {!! $dot !!}<span class="ml-2 text-gray-600 text-xs">image-converter</span></div>
+            {!! $dot !!}<span class="ml-2 text-gray-600 text-xs">image-editor</span></div>
             <div class="flex gap-3 items-center mb-3">
                 <div class="w-20 h-16 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-600">
                     <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z" /></svg>
@@ -129,28 +129,6 @@
                 <span class="text-xs font-bold text-green-400">✓</span><span class="text-xs text-gray-500">Title 42 chars</span>
                 <span class="mx-1 text-gray-700">·</span>
                 <span class="text-xs font-bold text-green-400">✓</span><span class="text-xs text-gray-500">Desc 98 chars</span>
-            </div>
-        </div>
-        @break
-
-    @case('image-cropper')
-        <div class="rounded-xl bg-gray-950 border border-gray-800 p-4 overflow-hidden select-none">
-            {!! $dot !!}<span class="ml-2 text-gray-600 text-xs">image-cropper</span></div>
-            <div class="flex gap-1.5 mb-3">
-                <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-gray-800 text-gray-500">Free</span>
-                <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-gray-800 text-gray-500">1:1</span>
-                <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-amber-500 text-white">16:9</span>
-                <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-gray-800 text-gray-500">4:3</span>
-                <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-gray-800 text-gray-500">Circle</span>
-            </div>
-            <div class="relative bg-gray-900 rounded-lg overflow-hidden h-20 flex items-center justify-center border border-gray-700">
-                <div class="absolute inset-0 opacity-30" style="background-image: linear-gradient(45deg, #374151 25%, transparent 25%), linear-gradient(-45deg, #374151 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #374151 75%), linear-gradient(-45deg, transparent 75%, #374151 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;"></div>
-                <div class="relative border-2 border-amber-400 w-28 h-16 rounded-sm">
-                    <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-amber-400"></div>
-                    <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-amber-400"></div>
-                    <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-amber-400"></div>
-                    <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-amber-400"></div>
-                </div>
             </div>
         </div>
         @break

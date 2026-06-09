@@ -21,6 +21,16 @@ return [
         'meta_description' => 'Minify JavaScript and CSS instantly in your browser. See exact file size savings.',
         'related_tags'     => ['programming', 'web-development', 'performance'],
     ],
+    'image-editor' => [
+        'name'             => 'Image Editor',
+        'description'      => 'Crop, resize, rotate, and adjust colors in one browser-based editor.',
+        'icon'             => 'photo',
+        'processing'       => 'client',
+        'category'         => 'image',
+        'meta_title'       => 'Free Online Image Editor: Crop, Resize, Adjust Colors | GadgetDrop',
+        'meta_description' => 'Crop, resize, rotate, and adjust colors (exposure, contrast, saturation, temperature, and more) in one free editor. Undo any time, export to JPG, PNG, or WebP. 100% private, nothing is uploaded.',
+        'related_tags'     => ['photography', 'design', 'tech-accessories'],
+    ],
     'image-converter' => [
         'name'             => 'Image Converter',
         'description'      => 'Convert and resize images to JPG, PNG, or WebP in your browser.',
@@ -29,16 +39,6 @@ return [
         'category'         => 'image',
         'meta_title'       => 'Free Image Converter Online | GadgetDrop',
         'meta_description' => 'Convert images to JPG, PNG, or WebP and resize them instantly in your browser. No upload, 100% private.',
-        'related_tags'     => ['photography', 'design', 'tech-accessories'],
-    ],
-    'image-cropper' => [
-        'name'             => 'Image Cropper',
-        'description'      => 'Crop, rotate, and flip images with aspect ratio presets and circle crop.',
-        'icon'             => 'crop',
-        'processing'       => 'client',
-        'category'         => 'image',
-        'meta_title'       => 'Free Image Cropper Online | GadgetDrop',
-        'meta_description' => 'Crop images with free or preset aspect ratios (1:1, 16:9, 4:3), rotate, flip, and circle crop. Runs entirely in your browser.',
         'related_tags'     => ['photography', 'design', 'tech-accessories'],
     ],
     'background-remover' => [

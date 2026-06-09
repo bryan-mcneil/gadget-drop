@@ -16,7 +16,7 @@ Before searching, retrieve the list of products already published on GadgetDrop.
 
 Use the Bash tool to run:
 ```bash
-php -r "echo file_get_contents(getenv('APP_URL') . '/api/reviewed-products', false, stream_context_create(['http' => ['header' => 'X-API-Key: ' . getenv('GADGETDROP_API_KEY')]]));"
+php -r "echo file_get_contents(getenv('API_URL') . '/api/reviewed-products', false, stream_context_create(['http' => ['header' => 'X-API-Key: ' . getenv('GADGETDROP_API_KEY')]]));"
 ```
 
 If the Bash tool is unavailable, use WebFetch:
@@ -34,6 +34,7 @@ Search the web for today's most compelling tech products with Amazon affiliate p
 - Amazon Best Sellers in Electronics
 - Reddit r/gadgets, r/BuyItForLife, r/tech hot posts
 - TechRadar, The Verge, Wirecutter published this week
+- Kotaku, IGN, Polygon (for more gaming and entertainment focus)
 - Any viral or newly released tech products
 
 **Filter for:**
@@ -49,7 +50,8 @@ Pick exactly **4 products**. For each note:
 - Why it's trending (1 sentence)
 - Best post angle / hook
 - Primary target keyword
-- Suggested GadgetDrop category (Audio, Smart Home, Wearables, Accessories, Gaming, Productivity, Photography, etc.)
+- Suggested GadgetDrop category (Computers, Monitors, Smart Home, Gaming, Productivity, Photography, etc.)
+- Hold off on accessories for now (we got a lot already)
 - 3–5 suggested tags
 
 Print to chat: `✅ Phase 1 complete — [Product 1], [Product 2], [Product 3], [Product 4] (checked against N existing products)`
@@ -95,11 +97,12 @@ Each section must be separated by a markdown `---` horizontal rule.
 
 ---
 
-- **Key features** — 3–5 bullets, benefits-first (these become the Pros). Heading flexible: use `## Key Features` if nothing stronger fits, otherwise make it product-specific.
+- **Key features** — 3–5 bullets, benefits-first (these become the Pros). Heading flexible: use `## Key Features` if nothing stronger fits, otherwise make it product-specific. Remember SEO for headings is important so change title when appropriate, to give better SEO
 
 ---
 
 - **Honest take** — one downside or "not for you if…" (builds trust; this becomes the Con). Heading flexible: `## Honest Take`, `## One Thing to Consider`, or product-specific.
+Remember SEO for headings is important so change title when appropriate, to give better SEO
 
 ---
 
@@ -194,6 +197,7 @@ The body field must keep its full markdown formatting (## headings, --- dividers
       "meta_title": "{meta title ≤70 chars}",
       "meta_description": "{meta description 120–155 chars}",
       "focus_keyword": "{primary seo keyword}"
+	  "slug": "{a SEO friendly slug }"
     }
   },
   {same structure for Ken Fujimoto},
@@ -204,7 +208,7 @@ The body field must keep its full markdown formatting (## headings, --- dividers
 ```
 ```
 
-**JSON encoding rules for the body field:** KODEE10","10PCT_48M_CSW8FFJF
+**JSON encoding rules for the body field:**
 - Escape all double quotes as `\"`
 - Encode newlines as `\n`
 - Encode tab characters as `\t`
@@ -214,7 +218,9 @@ After saving the JSON array, append the following section to `daily-drop-output.
 
 ---
 
-## Phase 4 — Video & Social Assets (per product)
+## Phase 4 (Optional) — Video & Social Assets (per product)
+
+Only do this phase if I say to do phase 4
 
 For each of the 4 products, generate the following and append to `daily-drop-output.md` under a `### VIDEO ASSETS` header.
 

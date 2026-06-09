@@ -3,7 +3,7 @@
 @php
     $categories = [
         ['key' => 'developer', 'label' => 'Developer Tools', 'description' => 'Validate, minify, and debug code right in your browser.', 'icon' => 'code-bracket'],
-        ['key' => 'image',     'label' => 'Image Tools',     'description' => 'Convert, resize, and crop images without uploading anything.', 'icon' => 'photo'],
+        ['key' => 'image',     'label' => 'Image Tools',     'description' => 'Edit, convert, and pull colors from images without uploading anything.', 'icon' => 'photo'],
     ];
     $toolsColl = collect($tools);
     $catKeys = collect($categories)->pluck('key');

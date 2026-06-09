@@ -56,7 +56,7 @@
                         </button>
                     </div>
 
-                    <p class="text-xs text-gray-400">Tip: need to crop first? <a href="{{ route('tools.image-cropper') }}" class="text-amber-600 hover:text-amber-700 font-medium">Try the Image Cropper</a></p>
+                    <p class="text-xs text-gray-400">Tip: need to crop first? <a href="{{ route('tools.image-editor') }}" class="text-amber-600 hover:text-amber-700 font-medium">Try the Image Cropper</a></p>
                 </div>
             </template>
 

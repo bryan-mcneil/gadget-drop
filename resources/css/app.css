@@ -69,10 +69,14 @@
     display: none !important;
 }
 
-/* ── Image cropper: round the crop box in circle mode ──────── */
-.cropper-circle-mode .cropper-view-box,
-.cropper-circle-mode .cropper-face {
-    border-radius: 50%;
+/* ── Hide number-input spinner arrows (image editor W/H fields) ─ */
+input[type=number].no-spinner::-webkit-inner-spin-button,
+input[type=number].no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number].no-spinner {
+    -moz-appearance: textfield;
 }
 
 /* ── Hide scrollbar but keep scroll ────────────────────────── */

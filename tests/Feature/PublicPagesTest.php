@@ -39,6 +39,7 @@ class PublicPagesTest extends TestCase
         return [
             ['/tools/json-validator', 'JSON Validator'],
             ['/tools/js-css-minifier', 'Minifier'],
+            ['/tools/image-editor', 'Image Editor'],
             ['/tools/image-converter', 'Image Converter'],
             ['/tools/image-cropper', 'Image Cropper'],
             ['/tools/background-remover', 'Background Remover'],

@@ -46,8 +46,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <label class="text-sm font-semibold text-gray-700">Output</label>
                         <button @click="copyOutput" class="flex items-center gap-1.5 text-xs font-medium text-amber-600 hover:text-amber-700 transition-colors">
-                            <svg x-show="outCopied" class="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                            <span x-text="outCopied ? 'Copied!' : 'Copy'"></span>
+                            Copy
                         </button>
                     </div>
                     <textarea readonly x-model="output" class="w-full min-h-[10rem] font-mono text-sm bg-gray-950 text-amber-400 rounded-xl p-4 resize-y border border-gray-800 focus:outline-none"></textarea>
@@ -72,8 +71,7 @@
                         <div class="flex items-center gap-3">
                             <span class="text-xs text-gray-400" x-text="`${output.length.toLocaleString()} chars`"></span>
                             <button @click="copyOutput" class="flex items-center gap-1.5 text-xs font-medium text-amber-600 hover:text-amber-700 transition-colors">
-                                <svg x-show="outCopied" class="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                                <span x-text="outCopied ? 'Copied!' : 'Copy'"></span>
+                                Copy
                             </button>
                         </div>
                     </div>

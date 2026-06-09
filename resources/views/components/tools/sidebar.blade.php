@@ -1,4 +1,4 @@
-@props(['products' => []])
+@props(['products' => [], 'layout' => 'column'])
 
 @if(count($products) > 0)
     <aside class="space-y-4">
@@ -6,7 +6,7 @@
             <span class="text-xs font-semibold text-amber-700 uppercase tracking-widest">You might also like</span>
             <span class="flex-1 h-px bg-amber-100"></span>
         </div>
-        <div class="space-y-3">
+        <div class="{{ $layout === 'row' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-1 gap-3' : 'space-y-3' }}">
             @foreach($products as $product)
                 <a href="{{ route('affiliate.redirect', $product['id']) }}" target="_blank" rel="nofollow sponsored noopener noreferrer"
                     class="group flex gap-3 bg-white border border-gray-200 rounded-xl p-3 hover:border-amber-300 hover:shadow-sm transition-all duration-200">

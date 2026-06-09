@@ -95,7 +95,21 @@
       "Bash(curl -s -o /dev/null -w \"status=%{http_code}\\\\n\" \"http://gadget-drop.test/posts/fitbit-air-vs-whoop\")",
       "Bash(curl -s \"http://gadget-drop.test/posts/fitbit-air-vs-whoop\")",
       "Bash(grep -oiE '.{0,40}\\(max-h-96|post-body|prose|article-body\\).{0,40}')",
-      "Bash(grep -oiE '<picture[^>]*>.{0,400}')"
+      "Bash(grep -oiE '<picture[^>]*>.{0,400}')",
+      "Bash(php -r \"echo file_get_contents\\(getenv\\('APP_URL'\\) . '/api/reviewed-products', false, stream_context_create\\(['http' => ['header' => 'X-API-Key: ' . getenv\\('GADGETDROP_API_KEY'\\)]]\\)\\);\")",
+      "Bash(php -r \"var_dump\\(file_exists\\('.env'\\)\\);\")",
+      "Bash(curl -s -H \"X-API-Key: 1bfbcda19eae9a9b09fa639ff33a5b8d7b45abd65f8649a8c7e76eb1be535f6e\" http://gadget-drop.test/api/reviewed-products)",
+      "PowerShell(npm run build)",
+      "PowerShell(php artisan test --filter=PublicPagesTest 2>&1)",
+      "PowerShell(curl.exe -s -o NUL -w \"image-converter -> %{http_code} %{redirect_url}\\\\n\" \"http://gadget-drop.test/tools/image-converter\")",
+      "PowerShell(curl.exe -s -o NUL -w \"image-cropper -> %{http_code} %{redirect_url}\\\\n\" \"http://gadget-drop.test/tools/image-cropper\")",
+      "PowerShell(curl.exe -s -o NUL -w \"background-remover -> %{http_code} %{redirect_url}\\\\n\" \"http://gadget-drop.test/tools/background-remover\")",
+      "Bash(cd /c/Users/BryanMcNeil/.claude/projects/c--Users-BryanMcNeil-Herd-gadget-drop/memory && grep -n \"no-em-dashes\\\\|No EM\" MEMORY.md || echo \"not present\")",
+      "Read(//c/Users/BryanMcNeil/.claude/projects/c--Users-BryanMcNeil-Herd-gadget-drop/memory/**)",
+      "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://gadget-drop.test/tools/color-palette\" -UseBasicParsing\\).Content; $matches = [regex]::Matches\\($html, \"Color Harmony|harmonyScheme|generateHarmony|copyHarmonyAs|60-30-10|harmonyPalette\"\\); Write-Host \"Hits: $\\($matches.Count\\)\"; $matches | Select-Object -First 8 | ForEach-Object { Write-Host $_.Value })",
+      "Bash(Get-Content \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\.env\")",
+      "Bash(Select-String \"GADGETDROP_API_KEY\")",
+      "Bash(curl -s -H \"X-API-Key: 1bfbcda19eae9a9b09fa639ff33a5b8d7b45abd65f8649a8c7e76eb1be535f6e\" https://gadgetdrop.tech/api/reviewed-products)"
     ],
     "additionalDirectories": [
       "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"

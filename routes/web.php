@@ -42,13 +42,14 @@ Route::get('/terms',   [PublicController::class, 'terms'])->name('terms');
 Route::get('/tools',               [ToolController::class, 'index'])->name('tools.index');
 Route::get('/tools/json-validator',  [ToolController::class, 'jsonValidator'])->name('tools.json-validator');
 Route::get('/tools/js-css-minifier',  [ToolController::class, 'jsCssMinifier'])->name('tools.js-css-minifier');
-Route::get('/tools/image-converter',  [ToolController::class, 'imageConverter'])->name('tools.image-converter');
-Route::get('/tools/image-cropper',       [ToolController::class, 'imageCropper'])->name('tools.image-cropper');
+Route::get('/tools/image-editor',        [ToolController::class, 'imageEditor'])->name('tools.image-editor');
+Route::get('/tools/image-converter',     [ToolController::class, 'imageConverter'])->name('tools.image-converter');
 Route::get('/tools/background-remover',  [ToolController::class, 'backgroundRemover'])->name('tools.background-remover');
 Route::get('/tools/password-generator',  [ToolController::class, 'passwordGenerator'])->name('tools.password-generator');
 Route::get('/tools/base64-encoder',      [ToolController::class, 'base64Encoder'])->name('tools.base64-encoder');
 Route::get('/tools/color-palette',       [ToolController::class, 'colorPalette'])->name('tools.color-palette');
 Route::get('/tools/meta-tag-previewer',  [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
+Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
 
 // Server-side tools scaffold (Phase 2+)
 Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {

@@ -17,6 +17,10 @@
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.375 3.375 0 0 1 3.375 17.625v-2.25A3.375 3.375 0 0 1 6.75 12H21a3.375 3.375 0 0 1 3.375 3.375v2.25A3.375 3.375 0 0 1 21 21H6.75Z" /></svg>
                     Build from Colors
                 </button>
+                <button @click="tab = 'harmony'" class="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border-b-2 transition-colors -mb-px" :class="tab === 'harmony' ? 'border-amber-500 text-amber-700' : 'border-transparent text-gray-500 hover:text-gray-700'">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>
+                    Color Harmony
+                </button>
             </div>
 
             {{-- Image tab --}}
@@ -48,10 +52,29 @@
                 <div x-show="palette.length > 0 && !loading" class="space-y-4">
                     <div class="flex items-center justify-between">
                         <h2 class="font-bold text-gray-900"><span x-text="palette.length"></span> dominant colors</h2>
-                        <button @click="copyAllHex" class="flex items-center gap-1.5 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg>
-                            Copy all HEX
-                        </button>
+                        <div class="relative" @click.outside="exportMenuOpen = false">
+                            <button @click="exportMenuOpen = !exportMenuOpen"
+                                class="flex items-center gap-1.5 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                                Export
+                                <svg class="w-3 h-3 transition-transform" :class="exportMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div x-show="exportMenuOpen" x-cloak
+                                class="absolute right-0 top-full mt-1 z-20 w-48 bg-white border border-gray-200 rounded-xl shadow-lg py-1 overflow-hidden">
+                                <button @click="copyPaletteAs('hex')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">#HEX</span> HEX list
+                                </button>
+                                <button @click="copyPaletteAs('css')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">CSS</span> CSS variables
+                                </button>
+                                <button @click="copyPaletteAs('tailwind')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">TW</span> Tailwind config
+                                </button>
+                                <button @click="copyPaletteAs('json')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">{}</span> JSON
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex rounded-2xl overflow-hidden h-16 border border-gray-200 shadow-sm">
                         <template x-for="color in palette" :key="color.hex"><div class="flex-1" :style="`background: ${color.hex}`" :title="color.hex"></div></template>
@@ -111,9 +134,29 @@
                     </div>
                     <template x-for="(hex, i) in baseColors" :key="i">
                         <div class="flex items-stretch gap-0">
-                            <div class="flex-shrink-0 w-[72px] flex flex-col items-center justify-center gap-1.5 pr-2">
+                            <div class="relative flex-shrink-0 w-[72px] flex flex-col items-center justify-center gap-1.5 pr-2"
+                                @click.outside="if (rowMenuOpen === i) rowMenuOpen = -1">
                                 <div class="w-8 h-8 rounded-lg shadow-sm border border-white ring-1 ring-gray-200" :style="`background: ${hex}`"></div>
-                                <button @click="copyRowHex(hex)" class="text-[10px] text-gray-400 hover:text-amber-600 font-medium transition-colors leading-tight text-center">Copy row</button>
+                                <button @click="rowMenuOpen = (rowMenuOpen === i ? -1 : i)"
+                                    class="flex items-center gap-0.5 text-[10px] text-gray-400 hover:text-amber-600 font-medium transition-colors leading-tight">
+                                    Export
+                                    <svg class="w-2 h-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                </button>
+                                <div x-show="rowMenuOpen === i" x-cloak
+                                    class="absolute left-0 bottom-full mb-1 z-20 w-40 bg-white border border-gray-200 rounded-xl shadow-lg py-1 overflow-hidden">
+                                    <button @click="copyRowAs(hex, 'hex', i)" class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                        <span class="font-mono text-[10px] text-gray-400 w-7 shrink-0">#HEX</span> HEX scale
+                                    </button>
+                                    <button @click="copyRowAs(hex, 'css', i)" class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                        <span class="font-mono text-[10px] text-gray-400 w-7 shrink-0">CSS</span> CSS vars
+                                    </button>
+                                    <button @click="copyRowAs(hex, 'tailwind', i)" class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                        <span class="font-mono text-[10px] text-gray-400 w-7 shrink-0">TW</span> Tailwind
+                                    </button>
+                                    <button @click="copyRowAs(hex, 'json', i)" class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                        <span class="font-mono text-[10px] text-gray-400 w-7 shrink-0">{}</span> JSON
+                                    </button>
+                                </div>
                             </div>
                             <div class="flex flex-1 rounded-xl overflow-hidden shadow-sm border border-gray-200" style="height: 72px">
                                 <template x-for="sw in scaleFor(hex)" :key="sw.label">
@@ -130,6 +173,107 @@
                 </div>
 
                 <p class="text-xs text-gray-400">Scales are generated by mixing the base color with white (tints) and black (shades). Click a swatch to copy its HEX. "Copy row" copies all 10 shades as a newline-separated list.</p>
+            </div>
+
+            {{-- Harmony tab --}}
+            <div x-show="tab === 'harmony'" x-cloak class="space-y-6">
+                <p class="text-sm text-gray-500">Pick a seed color and a harmony scheme to generate a palette based on color theory.</p>
+
+                {{-- Seed picker + scheme selector --}}
+                <div class="flex flex-wrap items-start gap-5">
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm font-semibold text-gray-700">Seed color</label>
+                        <label class="relative cursor-pointer group">
+                            <span class="block w-10 h-10 rounded-xl border-2 border-white shadow-md ring-1 ring-gray-200 group-hover:ring-amber-400 transition-all" :style="`background: ${harmonySeed}`"></span>
+                            <input type="color" x-model="harmonySeed" @input.debounce.50ms="generateHarmony()" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                        </label>
+                        <span class="font-mono text-sm text-gray-600 w-16" x-text="harmonySeed"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="s in harmonySchemes" :key="s.id">
+                            <button @click="harmonyScheme = s.id; generateHarmony()"
+                                class="px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors"
+                                :class="harmonyScheme === s.id ? 'bg-amber-500 text-white shadow-sm' : 'bg-white border border-gray-300 text-gray-600 hover:border-amber-400'"
+                                x-text="s.label"></button>
+                        </template>
+                    </div>
+                </div>
+
+                {{-- 60-30-10 proportion bar --}}
+                <div x-show="harmonyScheme === '60-30-10' && harmonyPalette.length === 3" class="space-y-2">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Color ratio</p>
+                    <div class="flex h-8 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-center text-xs font-bold" style="width:60%"
+                            :style="`background:${harmonyPalette[0]?.hex}; color:${harmonyPalette[0]?.hex ? 'white' : 'inherit'}`">60%</div>
+                        <div class="flex items-center justify-center text-xs font-bold" style="width:30%"
+                            :style="`background:${harmonyPalette[1]?.hex}; color:white`">30%</div>
+                        <div class="flex items-center justify-center text-xs font-bold" style="width:10%"
+                            :style="`background:${harmonyPalette[2]?.hex}; color:white`">10%</div>
+                    </div>
+                </div>
+
+                {{-- Harmony palette display --}}
+                <div x-show="harmonyPalette.length > 0" class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="font-bold text-gray-900"><span x-text="harmonyPalette.length"></span> colors</h2>
+                        <div class="relative" @click.outside="harmonyExportOpen = false">
+                            <button @click="harmonyExportOpen = !harmonyExportOpen"
+                                class="flex items-center gap-1.5 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                                Export
+                                <svg class="w-3 h-3 transition-transform" :class="harmonyExportOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div x-show="harmonyExportOpen" x-cloak
+                                class="absolute right-0 top-full mt-1 z-20 w-48 bg-white border border-gray-200 rounded-xl shadow-lg py-1 overflow-hidden">
+                                <button @click="copyHarmonyAs('hex')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">#HEX</span> HEX list
+                                </button>
+                                <button @click="copyHarmonyAs('css')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">CSS</span> CSS variables
+                                </button>
+                                <button @click="copyHarmonyAs('tailwind')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">TW</span> Tailwind config
+                                </button>
+                                <button @click="copyHarmonyAs('json')" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors text-left">
+                                    <span class="font-mono text-xs text-gray-400 w-10 shrink-0">{}</span> JSON
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex rounded-2xl overflow-hidden h-16 border border-gray-200 shadow-sm">
+                        <template x-for="color in harmonyPalette" :key="color.hex">
+                            <div class="flex-1" :style="`background: ${color.hex}`" :title="color.hex"></div>
+                        </template>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <template x-for="color in harmonyPalette" :key="color.hex">
+                            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                                <div class="h-20" :style="`background: ${color.hex}`"></div>
+                                <div class="p-3 space-y-1.5">
+                                    <template x-if="color.role">
+                                        <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider pb-0.5 border-b border-gray-100" x-text="color.role"></div>
+                                    </template>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-mono font-bold text-sm text-gray-900" x-text="color.hex"></span>
+                                        <button @click="copySwatch(color.hex)" class="font-mono text-xs text-gray-600 hover:text-amber-700 transition-colors">copy</button>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-mono text-xs text-gray-500" x-text="color.rgb"></span>
+                                        <button @click="copySwatch(color.rgb)" class="font-mono text-xs text-gray-600 hover:text-amber-700 transition-colors">copy</button>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-mono text-xs text-gray-500" x-text="color.hsl"></span>
+                                        <button @click="copySwatch(color.hsl)" class="font-mono text-xs text-gray-600 hover:text-amber-700 transition-colors">copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-400">Palettes are generated in your browser using HSL color math. Analogous and Nature schemes rotate around the color wheel; Complementary pairs opposite hues with lightness variants; 60-30-10 applies the triadic rule with usage proportions. Nothing is uploaded.</p>
             </div>
         </div>
     </x-tools.shell>
