@@ -12,7 +12,7 @@
 <a href="{{ route('posts.show', $post['slug']) }}"
     class="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
     @if(!empty($post['featured_image']))
-        <img src="{{ $post['featured_image'] }}" alt="{{ $post['title'] }}" class="w-full h-44 object-cover" />
+        <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="400" height="176" sizes="(min-width: 768px) 33vw, 100vw" class="w-full h-44 object-cover" />
     @else
         <div class="w-full h-44 flex items-center justify-center {{ $emerald ? 'bg-emerald-50' : 'bg-indigo-50' }}">
             <span class="font-extrabold text-6xl select-none {{ $emerald ? 'text-emerald-200' : 'text-indigo-200' }}">{{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($post['title'], 0, 1)) }}</span>

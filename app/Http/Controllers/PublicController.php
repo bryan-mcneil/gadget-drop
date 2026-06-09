@@ -161,7 +161,6 @@ class PublicController extends Controller
             'heroSlides' => $slides,
             'recentPosts' => Post::published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
-                ->with('categories')
                 ->latest('published_at')
                 ->skip(1)
                 ->take(8)
@@ -597,7 +596,6 @@ class PublicController extends Controller
 
         $posts = Post::published()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
-            ->with('categories')
             ->latest('published_at')
             ->paginate(12)
             ->through(fn ($p) => [

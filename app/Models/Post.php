@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\NavigationData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -33,6 +34,19 @@ class Post extends Model
                 $post->share_code = $code;
             }
         });
+
+        // Bust the cached navigation sections when a post changes, but ignore the
+        // per-view view_count bump (show() increments it on every page load) so a
+        // simple page view doesn't nuke the cache.
+        static::saved(function (Post $post) {
+            $changed = array_keys($post->getChanges());
+            if ($changed !== [] && array_diff($changed, ['view_count', 'updated_at']) === []) {
+                return;
+            }
+            NavigationData::flush();
+        });
+
+        static::deleted(fn () => NavigationData::flush());
     }
 
     protected $casts = [

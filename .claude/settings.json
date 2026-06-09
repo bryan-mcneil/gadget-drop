@@ -86,7 +86,16 @@
       "Bash(php storage/_ogtest3.php)",
       "Bash(php storage/_ogroute.php)",
       "Bash(node -e \"console.log\\(require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")",
-      "Bash(php storage/_def.php)"
+      "Bash(php storage/_def.php)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}  %{content_type}\\\\n\" \"http://gadget-drop.test/storage/uploads/EzkdwkNsqL8UzsFoIejU6zAQPzwyHUBm8DMd1hcl.webp\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}  %{content_type}\\\\n\" \"https://m.media-amazon.com/images/I/611DjYhflAL._AC_SX522_.jpg\")",
+      "Bash(curl -s http://gadget-drop.test/__CMDSUB_OUTPUT__)",
+      "Bash(curl -s \"http://gadget-drop.test/fitbit-air-vs-whoop\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code}\\\\n\" \"http://gadget-drop.test/fitbit-air-vs-whoop\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code}\\\\n\" \"http://gadget-drop.test/posts/fitbit-air-vs-whoop\")",
+      "Bash(curl -s \"http://gadget-drop.test/posts/fitbit-air-vs-whoop\")",
+      "Bash(grep -oiE '.{0,40}\\(max-h-96|post-body|prose|article-body\\).{0,40}')",
+      "Bash(grep -oiE '<picture[^>]*>.{0,400}')"
     ],
     "additionalDirectories": [
       "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"

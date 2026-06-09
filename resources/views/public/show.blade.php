@@ -16,6 +16,19 @@
 @endphp
 
 @section('content')
+    {{-- Preload the post hero (LCP) so it's discovered before CSS/JS parse. --}}
+    @php $lcpSrc = $post['hero_image'] ?? $post['featured_image'] ?? null; @endphp
+    @if($lcpSrc)
+        @push('head')
+            @php $lcpWebp = \App\Support\ResponsiveImage::webpSrcset($lcpSrc); @endphp
+            @if($lcpWebp !== '')
+                <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $lcpWebp }}" imagesizes="(min-width: 1024px) 768px, 100vw" fetchpriority="high">
+            @else
+                <link rel="preload" as="image" href="{{ $lcpSrc }}" fetchpriority="high">
+            @endif
+        @endpush
+    @endif
+
     <x-reading-progress />
 
     <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
@@ -72,7 +85,9 @@
                     :position="$post['hero_image_position'] ?? $post['featured_image_position'] ?? 'center center'"
                     class="w-full rounded-xl max-h-96"
                     wrapper-class="mb-8"
-                    loading="eager" />
+                    sizes="(min-width: 1024px) 768px, 100vw"
+                    loading="eager"
+                    fetchpriority="high" />
             @endif
 
             {{-- Products --}}

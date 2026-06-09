@@ -52,7 +52,7 @@
                             <div class="flex flex-col md:flex-row">
                                 @if(!empty($post['featured_image']))
                                     <div class="md:w-2/5 shrink-0">
-                                        <img src="{{ $post['featured_image'] }}" alt="{{ $post['title'] }}" class="w-full h-56 md:h-full object-cover" style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
+                                        <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" sizes="(min-width: 768px) 40vw, 100vw" class="w-full h-56 md:h-full object-cover" style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
                                     </div>
                                 @endif
                                 <div class="p-6 flex flex-col justify-between gap-4">
@@ -77,7 +77,7 @@
                             <div class="h-1 bg-gradient-to-r from-rose-400 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             @if(!empty($post['featured_image']))
                                 <div class="h-44 overflow-hidden">
-                                    <img src="{{ $post['featured_image'] }}" alt="{{ $post['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
+                                    <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="400" height="176" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
                                 </div>
                             @endif
                             <div class="p-4 space-y-3">

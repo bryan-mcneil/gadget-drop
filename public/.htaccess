@@ -6,6 +6,20 @@
     AddOutputFilterByType DEFLATE font/woff font/woff2 application/font-woff application/font-woff2
 </IfModule>
 
+# Cache static assets served directly by the web server (these bypass PHP, so the
+# CacheViteAssets middleware never runs for them). Build assets and fonts use
+# content-hashed / stable filenames, so they're safe to cache for a year.
+<IfModule mod_headers.c>
+    # Vite build output (content-hashed) + self-hosted fonts
+    <FilesMatch "\.(?:js|mjs|css|woff2?|ttf|otf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # Uploaded images + generated WebP variants (randomised filenames)
+    <FilesMatch "\.(?:webp|avif|jpe?g|png|gif|svg|ico)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

@@ -5,9 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
     plugins: [
         laravel({
-            // app.js  → public site (Alpine + Livewire-driven), tools
-            // app.jsx → admin (Inertia/React, retained during the hybrid)
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/app.jsx'],
+            // app.js   → public site core (Alpine + Livewire-driven), every page
+            // tools.js → free-tool Alpine components, loaded only on /tools/* pages
+            // app.jsx  → admin (Inertia/React, retained during the hybrid)
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/tools.js', 'resources/js/app.jsx'],
             refresh: true,
         }),
         react(),

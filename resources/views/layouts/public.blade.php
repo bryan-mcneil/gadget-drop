@@ -45,13 +45,13 @@
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
         <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-        <!-- Fonts — @font-face lives in app.css (render-blocking) with
-             font-display:optional; preload the woff2 so Figtree is ready
-             at first paint and never swaps in (no FOUT/bold flash). -->
-        <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-400-normal.woff2">
-        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-500-normal.woff2">
-        <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/figtree/files/figtree-latin-600-normal.woff2">
+        <!-- Fonts — self-hosted (public/fonts/figtree). @font-face lives in
+             app.css (render-blocking) with font-display:optional; preload the
+             woff2 so Figtree is ready at first paint and never swaps in
+             (no FOUT/bold flash). Served same-origin, so the CDN caches them. -->
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-400-normal.woff2">
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-500-normal.woff2">
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-600-normal.woff2">
 
         <!-- Google Consent Mode v2 — defaults denied until user accepts -->
         <script>
@@ -86,7 +86,13 @@
 
         @stack('head')
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @php($publicEntries = ['resources/css/app.css', 'resources/js/app.js'])
+        {{-- Tool Alpine components ship only on /tools/* pages so the homepage and
+             articles don't download the heavy image-processing/minifier code. --}}
+        @if(request()->routeIs('tools.*'))
+            @php($publicEntries[] = 'resources/js/tools.js')
+        @endif
+        @vite($publicEntries)
         @livewireStyles
     </head>
     <body class="font-sans antialiased">

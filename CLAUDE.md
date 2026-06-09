@@ -61,13 +61,14 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 
 ## Frontend architecture (read before touching the public site)
 
-- **Two Vite entries** in `vite.config.js`: `resources/js/app.js` (public/Alpine) + `resources/js/app.jsx` (admin/React) — plus `resources/css/app.css`. Both JS entries `import '../css/app.css'`, so global CSS (incl. `@font-face`) applies to both areas. After any change, smoke-test BOTH `/` and `/admin`.
+- **Vite entries** in `vite.config.js`: `resources/js/app.js` (public/Alpine core, every page) + `resources/js/tools.js` (free-tool Alpine components, loaded only on `/tools/*` via a `request()->routeIs('tools.*')` check in `layouts/public.blade.php`) + `resources/js/app.jsx` (admin/React) — plus `resources/css/app.css`. `app.js`/`app.jsx` `import '../css/app.css'` (tools.js does NOT — app.js already loads it on tool pages), so global CSS (incl. `@font-face`) applies everywhere. After any change, smoke-test BOTH `/` and `/admin`. Put tool Alpine components in `tools.js`, core/public ones (header, carousel, share, cookie consent) in `app.js`; both register on `alpine:init`.
 - **Livewire owns Alpine.** Livewire bundles and boots Alpine globally. Register custom Alpine components in `app.js` on the **`alpine:init`** event. **NEVER call `Alpine.start()`** (double-Alpine).
 - **Navigation data** comes from one source: `App\Support\NavigationData::get()` (memoized). It feeds both the Inertia middleware (`HandleInertiaRequests`, for admin) and a View Composer bound to `layouts.public` (for the public site). "Has posts" filters use `whereHas('posts', …)`, **not** `having('posts_count', …)` (the latter errors on sqlite tests).
 - **Markdown** for `post.body` is rendered server-side by `App\Support\ArticleBody::sections()` (CommonMark, `html_input => 'escape'`). It reproduces the old react-markdown thirds-split + `image_1/2/3` injection + custom `<hr>`/`<blockquote>` styling, rendered via `<x-article-body>`. The drop-cap CSS in `app.css` keys on `.post-body > div:first-child .prose p:first-child::first-letter` — preserve that DOM structure.
 - **SEO is server-side.** Controllers call `view()->share('serverMeta', [...])` and (home/post) `view()->share('serverJsonLd', ...)`; `layouts/public.blade.php` emits `<title>`, description, canonical, OG tags, and the JSON-LD block. Every public method sets a per-page `serverMeta` array.
 - **Affiliate disclosure** + cookie consent render on every public page via `layouts/public.blade.php` (`<x-affiliate-disclosure>` / `<x-cookie-consent>`). All Amazon links use `rel="nofollow sponsored"` (or `nofollow noopener`) and route through `route('affiliate.redirect', …)` → `/out/{product}` — never link to Amazon directly in the body.
-- **Fonts (no FOUT):** Figtree `@font-face` rules live in `app.css` (render-blocking) with `font-display: optional`; the `.woff2` files are `<link rel="preload">`ed in both layouts. Do not reintroduce an async font stylesheet (`onload="this.rel='stylesheet'"`) — it caused a bold/flash swap on load.
+- **Fonts (no FOUT):** Figtree is **self-hosted** in `public/fonts/figtree/` (committed). `@font-face` rules live in `app.css` (render-blocking) pointing at `/fonts/figtree/...` with `font-display: optional`; the `.woff2` files are `<link rel="preload">`ed in `layouts/public.blade.php`. Do not reintroduce the external `fonts.bunny.net` origin or an async font stylesheet (`onload="this.rel='stylesheet'"`) — both hurt LCP / cause a bold-flash swap.
+- **Performance:** public listing queries rely on the `posts (status, published_at)` / `(status, view_count)` indexes (migration `2026_06_08_000001`). `NavigationData::get()`, `ArticleBody::sections()`, and the sitemap are cached on the **database** cache store (no Redis on Hostinger); `Post` model `saved`/`deleted` events call `NavigationData::flush()` to bust them — the per-view `view_count` increment is excluded so page views don't nuke the cache. Public images render through `<x-responsive-image>` / `<x-adaptive-image>`, which emit `<picture>` WebP `srcset` from variants that `App\Support\ImageVariants` generates *alongside* originals (never replacing them) on upload and via `php artisan images:optimize`. Static-asset cache lifetimes are set in `public/.htaccess` (build/fonts 1y immutable, images 30d) since those files bypass PHP/`CacheViteAssets`.
 
 ## Build / Tailwind gotchas
 - `npm run build` after editing CSS, JS, **or Blade classes** (Tailwind purges based on content scan).
@@ -92,6 +93,7 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 - **Admin → public links:** from the Inertia/React admin, link to public (Blade) routes with a plain `<a href>`, never Inertia `<Link>` (it XHR-loads the Blade page into Inertia's debug modal).
 - **cropperjs** is pinned to **v1** (`^1.6.2`) — the image-cropper tool uses the v1 API; v2's element API is incompatible.
 - **Livewire 4** defaults to single-file components; this project uses **class-based** components (`app/Livewire/*` + views in `resources/views/livewire/*`).
+- **No Blade directives *inside* a `<x-component>` tag.** The component compiler parses `<x-…>` tags *before* directives, so an `@if … @endif` between a component's attributes breaks compilation — the component never renders and its attributes leak into the page as raw text (this is what once made every `<x-adaptive-image>` hero image vanish). Use **bound `:` attributes** for conditionals (`:width="$width"`, `:style="$cond ? '…' : null"`) — the attribute bag drops `null`/`false` values. Wrapping a whole `<x-…>` tag in `@if`/`@endif` is fine; directives *between its attributes* are not.
 
 ## Expert skills (invoke with /skill-name)
 | Skill | Purpose |
@@ -120,14 +122,17 @@ All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateC
 - JSON-LD structured data: emitted server-side on home + post pages (`serverJsonLd`)
 
 ## Tests
-- `php artisan test`. New migration coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest`, `AffiliateRedirectTest`, `Unit/ArticleBodyTest`.
-- **Pre-existing Breeze failures (not from our work):** `RegistrationTest` (register route intentionally disabled), `AuthenticationTest`/`EmailVerificationTest` (reference `route('dashboard')`; app uses `admin.dashboard`), `ExampleTest` (no `RefreshDatabase`). Getting these green is a tracked cleanup item.
+- `php artisan test` — **suite is fully green (53 tests).** Migration coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest`, `AffiliateRedirectTest`, `Unit/ArticleBodyTest`.
+- The old Breeze scaffold failures were cleaned up: `AuthenticationTest`/`EmailVerificationTest` now assert `route('admin.dashboard')` (the app's real post-login route); `RegistrationTest` now asserts `/register` is intentionally **disabled** (404) rather than testing the removed feature; the redundant `Feature/ExampleTest` was deleted (the homepage is covered by `PublicPagesTest`).
+- `Unit/ArticleBodyTest` is a pure PHPUnit unit test (no Laravel boot) — `ArticleBody::sections()` therefore guards its `Cache::remember` and renders directly if the cache layer isn't bound. Don't add hard facade dependencies to support classes that are unit-tested this way.
 
 ## Deployment (Hostinger)
 - PHP 8.4.19 (production), MySQL 8, Nginx
 - Run: `composer install --no-dev --optimize-autoloader`
 - Run: `php artisan migrate --force && php artisan config:cache && php artisan route:cache`
+- Run once after deploy (and after bulk image imports): `php artisan images:optimize` — backfills WebP variants for existing uploads (idempotent, raises its own memory limit, leaves originals untouched).
 - Pre-build assets locally: `npm run build` → commit `/public/build`
+- Self-hosted fonts live in `public/fonts/figtree/` (committed) — no external font CDN.
 - Nginx `root` → `/public`, `try_files $uri $uri/ /index.php?$query_string`
 - **Livewire** assets are served by Laravel via `@livewireScripts` (v4 serves through a route — no `livewire:publish --assets` needed). Verify `route:cache` doesn't break Livewire's update endpoint.
 

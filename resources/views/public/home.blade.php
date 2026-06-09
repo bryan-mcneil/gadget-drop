@@ -16,6 +16,21 @@
 @endphp
 
 @section('content')
+    {{-- Preload the LCP hero image so the browser fetches it before CSS/JS parse.
+         Match the WebP source the <picture> will pick (when variants exist) to
+         avoid preloading a file the browser won't use. --}}
+    @php $lcp = $heroSlides[0]['post'] ?? null; $lcpSrc = $lcp ? ($lcp['hero_image'] ?? $lcp['featured_image']) : null; @endphp
+    @if($lcpSrc)
+        @push('head')
+            @php $lcpWebp = \App\Support\ResponsiveImage::webpSrcset($lcpSrc); @endphp
+            @if($lcpWebp !== '')
+                <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $lcpWebp }}" imagesizes="100vw" fetchpriority="high">
+            @else
+                <link rel="preload" as="image" href="{{ $lcpSrc }}" fetchpriority="high">
+            @endif
+        @endpush
+    @endif
+
     {{-- ── Hero Carousel ── --}}
     @if(count($heroSlides) > 0)
         @php $count = count($heroSlides); @endphp
@@ -28,7 +43,8 @@
                     style="{{ $i === 0 ? 'opacity:1;z-index:10' : 'opacity:0;z-index:0' }}"
                     :style="active === {{ $i }} ? 'opacity:1;z-index:10' : 'opacity:0;z-index:0'">
                     @if($p['featured_image'])
-                        <img src="{{ $p['hero_image'] ?? $p['featured_image'] }}" alt="" class="absolute inset-0 w-full h-full object-cover"
+                        <x-responsive-image :src="$p['hero_image'] ?? $p['featured_image']" :alt="$p['title']"
+                            sizes="100vw" width="1600" height="520" class="absolute inset-0 w-full h-full object-cover"
                             style="object-position: {{ $p['hero_image_position'] ?? $p['featured_image_position'] ?? 'center center' }}"
                             loading="{{ $i === 0 ? 'eager' : 'lazy' }}" fetchpriority="{{ $i === 0 ? 'high' : 'low' }}" />
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-950/95 via-gray-950/75 to-gray-950/30"></div>
@@ -107,7 +123,7 @@
                     @foreach($categories as $cat)
                         <a href="{{ route('category', $cat['slug']) }}" class="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40">
                             @if($cat['featured_image'])
-                                <img src="{{ $cat['featured_image'] }}" alt="{{ $cat['name'] }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <x-responsive-image :src="$cat['featured_image']" :alt="$cat['name']" loading="lazy" width="224" height="320" sizes="224px" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                             @else
                                 <div class="absolute inset-0 bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center"><span class="text-white/20 font-black text-8xl select-none">{{ \Illuminate\Support\Str::substr($cat['name'], 0, 1) }}</span></div>
                             @endif
@@ -141,7 +157,7 @@
                         <div class="group flex-shrink-0 w-52 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
                             <div class="relative bg-gray-50 flex items-center justify-center h-44 overflow-hidden">
                                 @if($product['image_url'])
-                                    <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" loading="lazy" class="max-h-36 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
+                                    <x-responsive-image :src="$product['image_url']" :alt="$product['name']" loading="lazy" sizes="208px" class="max-h-36 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
                                 @else
                                     <div class="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-6xl select-none">G</span></div>
                                 @endif
@@ -195,7 +211,7 @@
                         <div class="absolute inset-0 rounded-3xl bg-indigo-600/20 blur-2xl scale-90 pointer-events-none"></div>
                         <div class="relative rounded-3xl overflow-hidden border border-white/5 bg-white/[0.04] backdrop-blur-sm p-8 flex items-center justify-center min-h-[260px]">
                             @if($sp['image_url'])
-                                <img src="{{ $sp['image_url'] }}" alt="{{ $sp['name'] }}" class="max-h-56 max-w-full w-auto object-contain drop-shadow-2xl" />
+                                <x-responsive-image :src="$sp['image_url']" :alt="$sp['name']" loading="lazy" sizes="(min-width: 768px) 40vw, 90vw" class="max-h-56 max-w-full w-auto object-contain drop-shadow-2xl" />
                             @else
                                 <span class="text-white/10 font-black text-[8rem] leading-none select-none">G</span>
                             @endif
@@ -303,7 +319,7 @@
 
             @if($bnImg)
                 <div class="pt-1">
-                    <img src="{{ $bnImg }}" alt="{{ $bn['title'] }}" class="w-full object-cover"
+                    <x-responsive-image :src="$bnImg" :alt="$bn['title']" loading="lazy" sizes="100vw" class="w-full object-cover"
                         style="height: 460px; object-position: {{ $bn['hero_image_position'] ?? $bn['featured_image_position'] ?? 'center center' }}; mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 92%); -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 92%);" />
                 </div>
             @endif
@@ -333,7 +349,7 @@
 
     {{-- ── Tools ── --}}
     @if(count($tools) > 0)
-        @php $featured = $tools[0]; $rest = array_slice($tools->all(), 1); @endphp
+        @php $featured = $tools[0]; $rest = array_slice($tools, 1); @endphp
         <section class="bg-gray-100 py-16 relative overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>

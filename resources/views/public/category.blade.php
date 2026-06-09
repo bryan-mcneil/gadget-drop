@@ -63,7 +63,7 @@
                             <a href="{{ route('posts.show', $post['slug']) }}" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
                                 <div class="relative overflow-hidden bg-indigo-50">
                                     @if($post['featured_image'])
-                                        <img src="{{ $post['featured_image'] }}" alt="{{ $post['title'] }}" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
+                                        <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="400" height="192" sizes="(min-width: 640px) 400px, 100vw" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
                                     @else
                                         <div class="w-full h-48 bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center"><span class="text-indigo-300 font-black text-5xl select-none">G</span></div>
                                     @endif
