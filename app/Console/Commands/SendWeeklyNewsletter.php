@@ -14,6 +14,8 @@ class SendWeeklyNewsletter extends Command
 
     public function handle(): void
     {
+		$this->info('Starting process...');
+
         $subscribers = Subscriber::all();
 
         if ($subscribers->isEmpty()) {
