@@ -6,6 +6,7 @@ use App\Support\NavigationData;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        // Force https for all generated URLs (sitemap, canonical, OG) in production
+        // so a proxy/CDN reporting http can't leak http:// links and split SEO signals.
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
 
         RateLimiter::for('tools', function (Request $request) {
             return Limit::perMinute(30)->by($request->ip());
