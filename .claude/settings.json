@@ -109,7 +109,18 @@
       "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://gadget-drop.test/tools/color-palette\" -UseBasicParsing\\).Content; $matches = [regex]::Matches\\($html, \"Color Harmony|harmonyScheme|generateHarmony|copyHarmonyAs|60-30-10|harmonyPalette\"\\); Write-Host \"Hits: $\\($matches.Count\\)\"; $matches | Select-Object -First 8 | ForEach-Object { Write-Host $_.Value })",
       "Bash(Get-Content \"C:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\.env\")",
       "Bash(Select-String \"GADGETDROP_API_KEY\")",
-      "Bash(curl -s -H \"X-API-Key: 1bfbcda19eae9a9b09fa639ff33a5b8d7b45abd65f8649a8c7e76eb1be535f6e\" https://gadgetdrop.tech/api/reviewed-products)"
+      "Bash(curl -s -H \"X-API-Key: 1bfbcda19eae9a9b09fa639ff33a5b8d7b45abd65f8649a8c7e76eb1be535f6e\" https://gadgetdrop.tech/api/reviewed-products)",
+      "Bash(php -l app/Support/ImageVariants.php)",
+      "PowerShell(php -l app/Support/ImageVariants.php)",
+      "PowerShell(php artisan vendor:publish --tag=laravel-pagination)",
+      "Bash(grep -n 'previousPageUrl\\\\|nextPageUrl\\\\|\\\\$url' resources/views/vendor/pagination/tailwind.blade.php)",
+      "PowerShell(php artisan test --compact 2>&1)",
+      "PowerShell(php artisan view:clear)",
+      "PowerShell(php artisan images:optimize)",
+      "Bash(curl -s -o /dev/null -w \"home warm: %{time_starttransfer}s\\\\n\" http://gadget-drop.test/)",
+      "Bash(curl -s -o /dev/null -w \"home warm2: %{time_starttransfer}s\\\\n\" http://gadget-drop.test/)",
+      "PowerShell(php artisan schedule:list)",
+      "PowerShell(php artisan cache:prune-expired)"
     ],
     "additionalDirectories": [
       "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"

@@ -16,6 +16,13 @@ return [
 
     'gadgetdrop_api_key' => env('GADGETDROP_API_KEY'),
 
+    // Google AdSense — disabled by default. Flip ADSENSE_ENABLED=true in .env to
+    // restore the script tag, resource hints, and <x-ad-unit> slots site-wide.
+    'adsense' => [
+        'enabled' => env('ADSENSE_ENABLED', false),
+        'client'  => 'ca-pub-3856395634564582',
+    ],
+
     'amazon' => [
         'affiliate_tag'  => env('AMAZON_AFFILIATE_TAG'),
         'pa_access_key'  => env('AMAZON_PA_ACCESS_KEY'),

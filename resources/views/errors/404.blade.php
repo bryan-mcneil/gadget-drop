@@ -23,8 +23,8 @@
                 This page doesn't exist or may have been moved. Try the homepage or search for what you're looking for.
             </p>
             <div class="flex items-center justify-center gap-3 flex-wrap">
-                <a href="{{ route('home') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">Back to home</a>
-                <a href="{{ route('search') }}" class="border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">Search posts</a>
+                <a href="{{ route('home') }}" wire:navigate class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">Back to home</a>
+                <a href="{{ route('search') }}" wire:navigate class="border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">Search posts</a>
             </div>
         </div>
     </div>

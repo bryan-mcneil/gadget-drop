@@ -12,7 +12,7 @@
 
         <div class="relative z-10 max-w-6xl mx-auto px-4 py-14 w-full">
             <nav class="flex items-center gap-1.5 text-xs text-gray-500 mb-5">
-                <a href="{{ route('home') }}" class="hover:text-indigo-400 transition-colors">Home</a>
+                <a href="{{ route('home') }}" wire:navigate class="hover:text-indigo-400 transition-colors">Home</a>
                 <svg class="w-3 h-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 <span class="text-gray-300 font-medium">{{ $category['name'] }}</span>
             </nav>
@@ -45,7 +45,7 @@
                         </div>
                         <p class="text-lg font-bold text-gray-900">No drops yet</p>
                         <p class="text-sm text-gray-400 mt-1 mb-6">Check back soon, we're always adding new picks.</p>
-                        <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">← Back to Home</a>
+                        <a href="{{ route('home') }}" wire:navigate class="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">← Back to Home</a>
                     </div>
                 @else
                     <div class="flex items-center justify-between mb-8">
@@ -60,7 +60,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         @foreach($posts as $post)
-                            <a href="{{ route('posts.show', $post['slug']) }}" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                            <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
                                 <div class="relative overflow-hidden bg-indigo-50">
                                     @if($post['featured_image'])
                                         <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="400" height="192" sizes="(min-width: 640px) 400px, 100vw" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -104,7 +104,7 @@
                     <ul class="space-y-0.5">
                         @foreach($categories as $cat)
                             <li>
-                                <a href="{{ route('category', $cat['slug']) }}"
+                                <a href="{{ route('category', $cat['slug']) }}" wire:navigate
                                     class="flex items-center justify-between group py-1.5 px-2 rounded-lg text-sm transition-colors {{ $cat['slug'] === $category['slug'] ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50' }}">
                                     <span>{{ $cat['name'] }}</span>
                                     <svg class="w-3.5 h-3.5 flex-shrink-0 transition-colors {{ $cat['slug'] === $category['slug'] ? 'text-indigo-400' : 'text-gray-300 group-hover:text-indigo-400' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>

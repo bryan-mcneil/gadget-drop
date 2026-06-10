@@ -5,7 +5,7 @@
 
 <div class="flex gap-4 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
     @if(!empty($product['image_url']))
-        <img src="{{ $product['image_url'] }}" alt="Product photo: {{ $product['name'] }}" loading="lazy"
+        <img src="{{ $product['image_url'] }}" alt="Product photo: {{ $product['name'] }}" loading="lazy" width="128" height="128"
             class="w-32 h-32 object-contain rounded-lg flex-shrink-0" />
     @endif
     <div class="flex-1 min-w-0">

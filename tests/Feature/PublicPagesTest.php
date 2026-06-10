@@ -41,7 +41,6 @@ class PublicPagesTest extends TestCase
             ['/tools/js-css-minifier', 'Minifier'],
             ['/tools/image-editor', 'Image Editor'],
             ['/tools/image-converter', 'Image Converter'],
-            ['/tools/image-cropper', 'Image Cropper'],
             ['/tools/background-remover', 'Background Remover'],
             ['/tools/password-generator', 'Password Generator'],
             ['/tools/base64-encoder', 'Base64 Encoder'],

@@ -40,6 +40,8 @@ class OptimizeImages extends Command
                 ImageVariants::SOURCE_EXTENSIONS,
                 true,
             ))
+            // Generated variants are .webp too — never treat them as sources.
+            ->reject(fn ($f) => ImageVariants::isVariant($f))
             ->values();
 
         if ($images->isEmpty()) {

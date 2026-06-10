@@ -53,7 +53,7 @@
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Popular Tags</p>
                         <div class="flex flex-wrap justify-center gap-2">
                             @foreach(collect($popularTags)->take(24) as $tag)
-                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
+                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" wire:navigate class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Try these tags</p>
                         <div class="flex flex-wrap justify-center gap-2">
                             @foreach(collect($popularTags)->take(12) as $tag)
-                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
+                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" wire:navigate class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                 <x-search-label>Categories</x-search-label>
                 <div class="flex flex-wrap gap-2 mt-4">
                     @foreach($categories as $cat)
-                        <a href="{{ route('category', $cat['slug']) }}" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-indigo-200 hover:shadow-md text-sm font-semibold text-gray-800 hover:text-indigo-700 transition-all group">
+                        <a href="{{ route('category', $cat['slug']) }}" wire:navigate class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-indigo-200 hover:shadow-md text-sm font-semibold text-gray-800 hover:text-indigo-700 transition-all group">
                             {{ $cat['name'] }}
                             <span class="text-xs font-medium text-gray-400 group-hover:text-indigo-400 transition-colors bg-gray-50 group-hover:bg-indigo-50 px-1.5 py-0.5 rounded-full">{{ $cat['posts_count'] }}</span>
                         </a>
@@ -100,7 +100,7 @@
                 <x-search-label>Tags</x-search-label>
                 <div class="flex flex-wrap gap-2 mt-4">
                     @foreach($tags as $tag)
-                        <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" class="text-sm bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
+                        <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" wire:navigate class="text-sm bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
                     @endforeach
                 </div>
             </section>
@@ -111,7 +111,7 @@
                 <x-search-label>{{ count($posts) }} Post{{ count($posts) !== 1 ? 's' : '' }}</x-search-label>
                 <div class="mt-4 space-y-4">
                     @foreach($posts as $post)
-                        <a href="{{ route('posts.show', $post['slug']) }}" class="group flex gap-4 items-start bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-xl transition-shadow duration-300">
+                        <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate class="group flex gap-4 items-start bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-xl transition-shadow duration-300">
                             <div class="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-indigo-50">
                                 @if(!empty($post['featured_image']))
                                     <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="96" height="96" sizes="96px" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />

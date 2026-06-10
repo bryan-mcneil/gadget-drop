@@ -40,10 +40,11 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="icon" href="/favicon.ico" sizes="any">
 
+        @if(config('services.adsense.enabled'))
         <!-- Resource hints for third-party origins -->
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+        @endif
 
         <!-- Fonts — self-hosted (public/fonts/figtree). @font-face lives in
              app.css (render-blocking) with font-display:optional; preload the
@@ -76,9 +77,11 @@
             }
         </script>
 
+        @if(config('services.adsense.enabled'))
         <!-- Google AdSense -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3856395634564582"
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('services.adsense.client') }}"
             crossorigin="anonymous"></script>
+        @endif
 
         @isset($serverJsonLd)
         <script type="application/ld+json">{!! $serverJsonLd !!}</script>

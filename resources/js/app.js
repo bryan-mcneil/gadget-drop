@@ -87,14 +87,22 @@ document.addEventListener('alpine:init', () => {
     /* ── Reading progress bar (post page) ────────────────────── */
     Alpine.data('readingProgress', () => ({
         progress: 0,
+        onScroll: null,
         init() {
             this.update();
-            window.addEventListener('scroll', () => this.update(), { passive: true });
+            // Keep the handler reference so destroy() can detach it — with
+            // wire:navigate the component is torn down on every page swap and
+            // an anonymous listener would leak once per navigation.
+            this.onScroll = () => this.update();
+            window.addEventListener('scroll', this.onScroll, { passive: true });
         },
         update() {
             const doc = document.documentElement;
             const total = doc.scrollHeight - doc.clientHeight;
             this.progress = total > 0 ? (doc.scrollTop / total) * 100 : 0;
+        },
+        destroy() {
+            if (this.onScroll) window.removeEventListener('scroll', this.onScroll);
         },
     }));
 
@@ -168,16 +176,9 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-/* ── AdSense: push slots after each Livewire navigation/render ─ */
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('ins.adsbygoogle:not([data-ad-status])').forEach(() => {
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {
-            /* slot already initialised */
-        }
-    });
-});
+/* AdSense is currently disabled (config services.adsense.enabled). If it is
+   re-enabled, slots on pages reached via wire:navigate must be re-pushed from a
+   `livewire:navigated` listener (DOMContentLoaded does not re-fire on swaps). */
 
 /* ── Global click/touch ripple effect ────────────────────────── */
 (function ripple() {

@@ -53,7 +53,7 @@
         <x-legal-section title="Newsletter">
             <p>
                 By subscribing to the GadgetDrop newsletter, you consent to receive weekly email digests. You can unsubscribe at any time using the link in any email or by visiting
-                <a href="{{ route('unsubscribe') }}" class="text-indigo-600 underline">GadgetDrop.tech/unsubscribe</a>.
+                <a href="{{ route('unsubscribe') }}" wire:navigate class="text-indigo-600 underline">GadgetDrop.tech/unsubscribe</a>.
                 We will not share your email address with any third party.
             </p>
         </x-legal-section>
@@ -94,7 +94,7 @@
             <p>
                 Questions about these terms? Email us at
                 <a href="mailto:hello@gadgetdrop.tech" class="text-indigo-600 underline">hello@gadgetdrop.tech</a>
-                or visit our <a href="{{ route('contact') }}" class="text-indigo-600 underline">contact page</a>.
+                or visit our <a href="{{ route('contact') }}" wire:navigate class="text-indigo-600 underline">contact page</a>.
             </p>
         </x-legal-section>
     </div>

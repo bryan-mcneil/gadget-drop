@@ -9,7 +9,7 @@
                 You've been removed from the GadgetDrop list.<br />
                 No more emails from us, we promise.
             </p>
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 mt-4 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">← Back to GadgetDrop</a>
+            <a href="{{ route('home') }}" wire:navigate class="inline-flex items-center gap-1.5 mt-4 text-sm text-indigo-600 hover:text-indigo-700 font-semibold transition-colors">← Back to GadgetDrop</a>
         </div>
     @else
         <div>
@@ -42,7 +42,7 @@
 
             <p class="text-center mt-6 text-xs text-gray-400">
                 Changed your mind?
-                <a href="{{ route('home') }}" class="text-indigo-600 hover:underline font-medium">Go back to GadgetDrop</a>
+                <a href="{{ route('home') }}" wire:navigate class="text-indigo-600 hover:underline font-medium">Go back to GadgetDrop</a>
             </p>
         </div>
     @endif

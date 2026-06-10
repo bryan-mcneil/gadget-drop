@@ -29,7 +29,7 @@
                 </div>
                 <p class="text-2xl font-bold text-white mt-1">You're in!</p>
                 <p class="text-indigo-200 text-base">Watch your inbox for our weekly drop.</p>
-                <a href="{{ route('unsubscribe') }}" class="text-xs text-white/30 hover:text-white/60 transition-colors mt-2 inline-block">Unsubscribe anytime →</a>
+                <a href="{{ route('unsubscribe') }}" wire:navigate class="text-xs text-white/30 hover:text-white/60 transition-colors mt-2 inline-block">Unsubscribe anytime →</a>
             </div>
         @else
             <form wire:submit="subscribe" class="flex gap-2 max-w-md mx-auto">

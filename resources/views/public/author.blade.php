@@ -19,7 +19,7 @@
         <div class="relative max-w-4xl mx-auto px-4 py-16 flex flex-col sm:flex-row items-center sm:items-start gap-8">
             <div class="flex-shrink-0">
                 @if(!empty($author['avatar_url']))
-                    <img src="{{ $author['avatar_url'] }}" alt="{{ $author['name'] }}" class="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-xl" />
+                    <x-responsive-image :src="$author['avatar_url']" :alt="$author['name']" sizes="112px" width="112" height="112" class="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-xl" />
                 @else
                     <div class="w-28 h-28 rounded-full ring-4 ring-white shadow-xl bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center">
                         <span class="text-white font-extrabold text-5xl leading-none select-none">{{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($author['name'], 0, 1)) }}</span>
@@ -45,7 +45,7 @@
 
                 <p class="mt-4 text-xs text-gray-400 max-w-sm text-center sm:text-left">
                     {{ $author['name'] }} is a GadgetDrop editorial persona: a distinct writing voice maintained by the GadgetDrop team.
-                    <a href="{{ route('about') }}" class="underline hover:text-gray-600">Learn more →</a>
+                    <a href="{{ route('about') }}" wire:navigate class="underline hover:text-gray-600">Learn more →</a>
                 </p>
             </div>
         </div>

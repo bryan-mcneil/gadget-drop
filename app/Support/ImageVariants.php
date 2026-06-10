@@ -26,11 +26,20 @@ class ImageVariants
     private const QUALITY = 80;
 
     /** Source extensions we generate variants for (animated gif excluded). */
-    public const SOURCE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
+    public const SOURCE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
 
     public static function supported(): bool
     {
         return function_exists('imagewebp') && function_exists('imagecreatefromstring');
+    }
+
+    /**
+     * Whether a path is itself a generated variant (e.g. x-480.webp). Variants
+     * must never be treated as sources, or x-480.webp would spawn x-480-480.webp.
+     */
+    public static function isVariant(string $relPath): bool
+    {
+        return (bool) preg_match('/-(?:' . implode('|', self::WIDTHS) . ')\.webp$/i', $relPath);
     }
 
     /**
@@ -48,7 +57,7 @@ class ImageVariants
 
         $info = pathinfo($relPath);
         $ext  = strtolower($info['extension'] ?? '');
-        if (! in_array($ext, self::SOURCE_EXTENSIONS, true)) {
+        if (! in_array($ext, self::SOURCE_EXTENSIONS, true) || self::isVariant($relPath)) {
             return [];
         }
 

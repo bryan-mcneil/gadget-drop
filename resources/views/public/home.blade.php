@@ -77,7 +77,7 @@
                             <p class="mt-4 text-gray-300 text-base md:text-lg leading-relaxed max-w-xl line-clamp-2">{{ $p['excerpt'] }}</p>
                         @endif
                         <div class="mt-7 flex items-center gap-4">
-                            <a href="{{ route('posts.show', $p['slug']) }}"
+                            <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate
                                 class="inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-lg transition-colors {{ $p['type'] === 'tech_news' ? 'bg-rose-600 hover:bg-rose-500' : ($p['type'] === 'tech_tip' ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-indigo-600 hover:bg-indigo-500') }}">
                                 {{ $p['type'] === 'tech_news' ? 'Read the Story' : ($p['type'] === 'tech_tip' ? 'Read the Tip' : 'Read the Drop') }}
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="flex gap-5 overflow-x-auto scrollbar-hide pb-2" style="touch-action: pan-x;">
                     @foreach($categories as $cat)
-                        <a href="{{ route('category', $cat['slug']) }}" class="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40">
+                        <a href="{{ route('category', $cat['slug']) }}" wire:navigate class="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40">
                             @if($cat['featured_image'])
                                 <x-responsive-image :src="$cat['featured_image']" :alt="$cat['name']" loading="lazy" width="224" height="320" sizes="224px" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                             @else
@@ -175,7 +175,7 @@
                                         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                                     </a>
                                     @if(!empty($product['post_slug']))
-                                        <a href="{{ route('posts.show', $product['post_slug']) }}" class="flex items-center justify-center gap-1 w-full py-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
+                                        <a href="{{ route('posts.show', $product['post_slug']) }}" wire:navigate class="flex items-center justify-center gap-1 w-full py-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
                                             Read the Drop
                                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                                         </a>
@@ -230,7 +230,7 @@
                             </div>
                         @endif
                         <div class="flex flex-wrap items-center gap-3 pt-1">
-                            <a href="{{ route('posts.show', $spPost['slug']) }}" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm border border-white/10">
+                            <a href="{{ route('posts.show', $spPost['slug']) }}" wire:navigate class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm border border-white/10">
                                 Read the Drop
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                             </a>
@@ -261,7 +261,7 @@
                             <p class="text-xs text-gray-400 mt-0.5 tracking-wide">The latest from GadgetDrop</p>
                         </div>
                     </div>
-                    <a href="{{ route('search') }}" class="text-sm text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1 transition-colors">
+                    <a href="{{ route('search') }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1 transition-colors">
                         View all
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </a>
@@ -282,7 +282,7 @@
                     <ul class="space-y-1">
                         @foreach($categories as $cat)
                             <li>
-                                <a href="{{ route('category', $cat['slug']) }}" class="flex items-center justify-between group py-1 text-sm text-gray-700 hover:text-indigo-600 transition-colors">
+                                <a href="{{ route('category', $cat['slug']) }}" wire:navigate class="flex items-center justify-between group py-1 text-sm text-gray-700 hover:text-indigo-600 transition-colors">
                                     <span>{{ $cat['name'] }}</span>
                                     <svg class="w-3.5 h-3.5 text-gray-300 group-hover:text-indigo-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                                 </a>
@@ -299,7 +299,7 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             @foreach(collect($popularTags)->take(20) as $tag)
-                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
+                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" wire:navigate class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -338,7 +338,7 @@
                     <p class="text-indigo-200/60 text-base md:text-lg leading-relaxed max-w-2xl line-clamp-2 mb-5">{{ $bn['excerpt'] }}</p>
                 @endif
                 <div class="flex items-center gap-3 text-xs text-indigo-400/60 mb-8"><span>{{ $fmtNewsDate($bn['published_at']) }}</span></div>
-                <a href="{{ route('posts.show', $bn['slug']) }}" class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white font-bold px-7 py-3 rounded-xl transition-colors shadow-lg shadow-rose-950/50">
+                <a href="{{ route('posts.show', $bn['slug']) }}" wire:navigate class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white font-bold px-7 py-3 rounded-xl transition-colors shadow-lg shadow-rose-950/50">
                     Read the Story
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </a>

@@ -47,7 +47,7 @@
                     @endphp
 
                     @if($featured)
-                        <a href="{{ route('posts.show', $post['slug']) }}" class="sm:col-span-2 lg:col-span-3 group block bg-white rounded-2xl border border-rose-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                        <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate class="sm:col-span-2 lg:col-span-3 group block bg-white rounded-2xl border border-rose-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
                             <div class="h-1.5 bg-gradient-to-r from-rose-500 via-red-500 to-rose-400"></div>
                             <div class="flex flex-col md:flex-row">
                                 @if(!empty($post['featured_image']))
@@ -73,7 +73,7 @@
                             </div>
                         </a>
                     @else
-                        <a href="{{ route('posts.show', $post['slug']) }}" class="group block bg-white rounded-xl border border-gray-200 hover:border-rose-200 shadow-sm hover:shadow-md transition-all overflow-hidden">
+                        <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate class="group block bg-white rounded-xl border border-gray-200 hover:border-rose-200 shadow-sm hover:shadow-md transition-all overflow-hidden">
                             <div class="h-1 bg-gradient-to-r from-rose-400 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             @if(!empty($post['featured_image']))
                                 <div class="h-44 overflow-hidden">

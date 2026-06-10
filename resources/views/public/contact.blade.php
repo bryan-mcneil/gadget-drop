@@ -48,7 +48,7 @@
 
         <p class="text-center text-xs text-gray-400">
             For privacy-related requests please see our
-            <a href="{{ route('privacy') }}" class="text-indigo-500 hover:underline">Privacy Policy</a>.
+            <a href="{{ route('privacy') }}" wire:navigate class="text-indigo-500 hover:underline">Privacy Policy</a>.
         </p>
     </div>
 @endsection

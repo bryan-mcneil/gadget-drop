@@ -72,7 +72,7 @@
         <section class="space-y-3 text-center">
             <h2 class="text-xl font-bold text-gray-900">Get in touch</h2>
             <p class="text-gray-500">Questions, corrections, or partnership enquiries? We'd love to hear from you.</p>
-            <a href="{{ route('contact') }}"
+            <a href="{{ route('contact') }}" wire:navigate
                 class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors">
                 Contact us →
             </a>

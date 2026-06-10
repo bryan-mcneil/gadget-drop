@@ -17,7 +17,7 @@
         <div class="h-16 flex items-center gap-4">
 
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="font-extrabold text-xl text-gray-900 tracking-tight shrink-0 mr-2">
+            <a href="{{ route('home') }}" wire:navigate class="font-extrabold text-xl text-gray-900 tracking-tight shrink-0 mr-2">
                 Gadget<span class="text-indigo-600">Drop</span>
             </a>
 
@@ -94,11 +94,11 @@
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 @foreach($trending as $i => $p)
-                    <a href="{{ route('posts.show', $p['slug']) }}" @click="activeMenu = null"
+                    <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate @click="activeMenu = null"
                         class="flex gap-3 items-start group p-2 rounded-xl hover:bg-indigo-100/60 transition -m-2">
                         <div class="relative flex-shrink-0">
                             @if($p['featured_image'])
-                                <img src="{{ $p['featured_image'] }}" alt="{{ $p['title'] }}" class="w-16 h-16 rounded-lg object-cover" />
+                                <x-responsive-image :src="$p['featured_image']" :alt="$p['title']" sizes="64px" loading="lazy" width="64" height="64" class="w-16 h-16 rounded-lg object-cover" />
                             @else
                                 <div class="w-16 h-16 rounded-lg bg-indigo-50 flex items-center justify-center"><span class="text-indigo-300 font-bold text-xl">G</span></div>
                             @endif
@@ -130,7 +130,7 @@
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 @foreach($latestTechTips as $i => $p)
-                    <a href="{{ route('posts.show', $p['slug']) }}" @click="activeMenu = null"
+                    <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate @click="activeMenu = null"
                         class="flex gap-3 items-start group p-2 rounded-xl hover:bg-emerald-100/60 transition -m-2">
                         <div class="relative flex-shrink-0">
                             @if($i === 0)<span class="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-emerald-600 pb-0.5">Latest</span>@endif
@@ -160,11 +160,11 @@
                 <svg class="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" /></svg>
                 <span class="text-xs font-semibold text-rose-700 uppercase tracking-widest">Latest Tech News</span>
                 <span class="flex-1 h-px bg-rose-100"></span>
-                <a href="{{ route('news') }}" @click="activeMenu = null" class="text-xs font-medium text-rose-500 hover:text-rose-700 transition-colors">All news →</a>
+                <a href="{{ route('news') }}" wire:navigate @click="activeMenu = null" class="text-xs font-medium text-rose-500 hover:text-rose-700 transition-colors">All news →</a>
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 @foreach($latestNews as $i => $p)
-                    <a href="{{ route('posts.show', $p['slug']) }}" @click="activeMenu = null"
+                    <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate @click="activeMenu = null"
                         class="flex gap-3 items-start group p-2 rounded-xl hover:bg-rose-100/60 transition -m-2">
                         <div class="relative flex-shrink-0">
                             @if($i === 0)<span class="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-rose-600 pb-0.5">Latest</span>@endif
@@ -229,7 +229,7 @@
         </div>
 
         <nav class="px-2 py-2">
-            <a href="{{ route('home') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg">Home</a>
+            <a href="{{ route('home') }}" wire:navigate class="flex items-center px-3 py-3 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg">Home</a>
 
             {{-- Trending accordion --}}
             <div class="border-t border-gray-50">
@@ -243,10 +243,10 @@
                     <ul class="space-y-1 py-1">
                         @foreach($trending as $i => $p)
                             <li>
-                                <a href="{{ route('posts.show', $p['slug']) }}" class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-indigo-50">
+                                <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-indigo-50">
                                     <span class="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold {{ $i === 0 ? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-500' }}">{{ $i === 0 ? '★' : $i + 1 }}</span>
                                     @if($p['featured_image'])
-                                        <img src="{{ $p['featured_image'] }}" alt="{{ $p['title'] }}" class="w-10 h-10 rounded-md object-cover flex-shrink-0" />
+                                        <x-responsive-image :src="$p['featured_image']" :alt="$p['title']" sizes="40px" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-md object-cover flex-shrink-0" />
                                     @else
                                         <div class="w-10 h-10 rounded-md bg-indigo-50 flex-shrink-0 flex items-center justify-center"><span class="text-indigo-300 font-bold">G</span></div>
                                     @endif
@@ -274,7 +274,7 @@
                     <ul class="space-y-1 py-1">
                         @foreach($latestTechTips as $i => $p)
                             <li>
-                                <a href="{{ route('posts.show', $p['slug']) }}" class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-emerald-50">
+                                <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-emerald-50">
                                     <div class="w-8 h-8 rounded-md flex-shrink-0 flex items-center justify-center {{ $i === 0 ? 'bg-emerald-500' : 'bg-white border border-emerald-200' }}">
                                         <svg class="w-3.5 h-3.5 {{ $i === 0 ? 'text-white' : 'text-emerald-500' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                     </div>
@@ -303,7 +303,7 @@
                     <ul class="space-y-1 py-1">
                         @foreach($latestNews as $i => $p)
                             <li>
-                                <a href="{{ route('posts.show', $p['slug']) }}" class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-rose-50">
+                                <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-rose-50">
                                     <div class="w-8 h-8 rounded-md flex-shrink-0 flex items-center justify-center {{ $i === 0 ? 'bg-rose-500' : 'bg-white border border-rose-200' }}">
                                         <svg class="w-3.5 h-3.5 {{ $i === 0 ? 'text-white' : 'text-rose-400' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" /></svg>
                                     </div>
@@ -312,7 +312,7 @@
                             </li>
                         @endforeach
                     </ul>
-                    <a href="{{ route('news') }}" class="block mt-2 text-xs font-medium text-rose-600 hover:text-rose-800 px-2 pb-2">View all news →</a>
+                    <a href="{{ route('news') }}" wire:navigate class="block mt-2 text-xs font-medium text-rose-600 hover:text-rose-800 px-2 pb-2">View all news →</a>
                 </div>
             </div>
             @endif

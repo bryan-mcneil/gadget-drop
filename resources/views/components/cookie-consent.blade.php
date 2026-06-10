@@ -11,7 +11,7 @@
             <p class="text-xs text-gray-500 leading-relaxed">
                 GadgetDrop uses cookies for advertising (Google AdSense) and affiliate link tracking.
                 Non-essential cookies are only set with your consent.
-                <a href="{{ route('cookies') }}" class="text-indigo-500 underline hover:text-indigo-700">Cookie Policy</a>
+                <a href="{{ route('cookies') }}" wire:navigate class="text-indigo-500 underline hover:text-indigo-700">Cookie Policy</a>
             </p>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto">

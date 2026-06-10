@@ -27,9 +27,9 @@
             <ul class="space-y-4">
                 @foreach($posts as $p)
                     <li class="group">
-                        <a href="{{ route('posts.show', $p['slug']) }}" class="flex gap-3 items-start">
+                        <a href="{{ route('posts.show', $p['slug']) }}" wire:navigate class="flex gap-3 items-start">
                             @if(!empty($p['featured_image']))
-                                <img src="{{ $p['featured_image'] }}" alt="{{ $p['title'] }}" loading="lazy"
+                                <x-responsive-image :src="$p['featured_image']" :alt="$p['title']" sizes="56px" loading="lazy" width="56" height="56"
                                     class="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-gray-100" />
                             @else
                                 <div class="w-14 h-14 rounded-lg {{ $c['placeholder'] }} flex-shrink-0 flex items-center justify-center">

@@ -1,6 +1,6 @@
 @props(['post'])
 
-<a href="{{ route('posts.show', $post['slug']) }}"
+<a href="{{ route('posts.show', $post['slug']) }}" wire:navigate
     class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
     <div class="relative overflow-hidden bg-indigo-50">
         @if(!empty($post['featured_image']))

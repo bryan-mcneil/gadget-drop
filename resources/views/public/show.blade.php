@@ -59,7 +59,7 @@
                         @endif
                     @endif
                     @foreach($post['categories'] as $c)
-                        <a href="{{ route('category', $c['slug']) }}" class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full font-medium">{{ $c['name'] }}</a>
+                        <a href="{{ route('category', $c['slug']) }}" wire:navigate class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full font-medium">{{ $c['name'] }}</a>
                     @endforeach
                 </div>
                 <h1 class="text-3xl font-extrabold text-gray-900 leading-tight">{{ $post['title'] }}</h1>
@@ -162,7 +162,7 @@
                 <div class="mt-8 flex items-start gap-4 bg-white border border-gray-200 rounded-xl p-5">
                     <a href="{{ $authorHref }}" class="flex-shrink-0">
                         @if(!empty($post['user']['avatar_url']))
-                            <img src="{{ $post['user']['avatar_url'] }}" alt="{{ $post['user']['name'] }}" loading="lazy"
+                            <x-responsive-image :src="$post['user']['avatar_url']" :alt="$post['user']['name']" sizes="56px" loading="lazy" width="56" height="56"
                                 class="w-14 h-14 rounded-full object-cover ring-2 ring-indigo-100 hover:ring-indigo-300 transition" />
                         @else
                             <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center ring-2 ring-indigo-100 hover:ring-indigo-300 transition">
@@ -197,9 +197,11 @@
                 <x-sidebar-section title="Recent Drops" :posts="$recentPosts" empty-label="No other posts yet." />
             @endif
 
-            <div class="min-h-[250px]">
-                <x-ad-unit slot="YOUR_AD_SLOT_ID" />
-            </div>
+            @if(config('services.adsense.enabled'))
+                <div class="min-h-[250px]">
+                    <x-ad-unit slot="YOUR_AD_SLOT_ID" />
+                </div>
+            @endif
 
             @if($post['type'] === 'tech_news')
                 <x-sidebar-section title="From Same Tags" :posts="$tagPosts" :empty-label="null" color="rose" />

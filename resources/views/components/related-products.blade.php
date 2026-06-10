@@ -24,7 +24,7 @@
                 <a href="{{ route('affiliate.redirect', ['product' => $p['id'], 'post' => $postId]) }}"
                     target="_blank" rel="nofollow sponsored" class="flex items-center gap-3 group">
                     @if(!empty($p['image_url']))
-                        <img src="{{ $p['image_url'] }}" alt="{{ $p['name'] }}" loading="lazy"
+                        <img src="{{ $p['image_url'] }}" alt="{{ $p['name'] }}" loading="lazy" width="48" height="48"
                             class="w-12 h-12 rounded-lg object-contain bg-gray-50 flex-shrink-0" />
                     @else
                         <div class="w-12 h-12 rounded-lg bg-orange-50 flex-shrink-0 flex items-center justify-center">
