@@ -628,6 +628,48 @@ class PublicController extends Controller
         ]);
     }
 
+    public function tag(Tag $tag): View
+    {
+        $tagData = [
+            'id'   => $tag->id,
+            'name' => $tag->name,
+            'slug' => $tag->slug,
+        ];
+
+        $posts = Post::published()
+            ->whereHas('tags', fn ($q) => $q->where('tags.id', $tag->id))
+            ->latest('published_at')
+            ->paginate(12)
+            ->through(fn ($p) => [
+                'id'             => $p->id,
+                'type'           => $p->type,
+                'title'          => $p->title,
+                'slug'           => $p->slug,
+                'excerpt'        => $p->excerpt,
+                'featured_image' => $p->featured_image,
+                'published_at'   => $p->published_at?->toDateString(),
+            ]);
+
+        $categories = Category::whereHas('posts', fn ($q) => $q->published())
+            ->withCount(['posts' => fn ($q) => $q->published()])
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'featured_image']);
+
+        view()->share('serverMeta', [
+            'title'       => "#{$tag->name} | GadgetDrop",
+            'description' => "Browse #{$tag->name} posts on GadgetDrop. {$posts->total()} post" . ($posts->total() !== 1 ? 's' : '') . " tagged.",
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('tag', $tag->slug),
+        ]);
+
+        return view('public.tag', [
+            'tag'        => $tagData,
+            'posts'      => $posts,
+            'categories' => $categories,
+        ]);
+    }
+
     public function search(Request $request): View
     {
         $query = trim($request->get('q', ''));

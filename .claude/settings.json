@@ -120,7 +120,9 @@
       "Bash(curl -s -o /dev/null -w \"home warm: %{time_starttransfer}s\\\\n\" http://gadget-drop.test/)",
       "Bash(curl -s -o /dev/null -w \"home warm2: %{time_starttransfer}s\\\\n\" http://gadget-drop.test/)",
       "PowerShell(php artisan schedule:list)",
-      "PowerShell(php artisan cache:prune-expired)"
+      "PowerShell(php artisan cache:prune-expired)",
+      "Bash(Select-String -Path \"c:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\.env\" -Pattern \".\")",
+      "Bash(Select-Object -First 5)"
     ],
     "additionalDirectories": [
       "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"

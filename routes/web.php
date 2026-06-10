@@ -30,6 +30,7 @@ Route::get('/og/posts/{post:slug}.jpg', [OgImageController::class, 'post'])->nam
 Route::get('/og/default.jpg', [OgImageController::class, 'default'])->name('og.default');
 Route::get('/og/preview', [OgImageController::class, 'preview'])->name('og.preview');
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
+Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');

@@ -298,8 +298,8 @@
                             Popular Tags
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            @foreach(collect($popularTags)->take(20) as $tag)
-                                <a href="{{ route('search') }}?q={{ urlencode($tag['name']) }}" wire:navigate class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
+                            @foreach(collect($popularTags)->take(10) as $tag)
+                                <a href="{{ route('tag', $tag['slug']) }}" wire:navigate class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-medium transition-colors">#{{ $tag['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -349,7 +349,13 @@
 
     {{-- ── Tools ── --}}
     @if(count($tools) > 0)
-        @php $featured = $tools[0]; $rest = array_slice($tools, 1); @endphp
+        @php
+            $toolsMap = collect($tools)->keyBy('slug');
+            $featuredSlugs = ['image-editor', 'background-remover', 'color-palette', 'meta-tag-previewer'];
+            $featuredTools = collect($featuredSlugs)->map(fn ($s) => $toolsMap->get($s))->filter()->values()->all();
+            $featured = $featuredTools[0] ?? $tools[0];
+            $rest = array_slice($featuredTools, 1);
+        @endphp
         <section class="bg-gray-100 py-16 relative overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>

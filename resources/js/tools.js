@@ -8,6 +8,17 @@
  | every page, including the tool pages.
  */
 
+// Re-push AdSense slots after wire:navigate swaps (DOMContentLoaded doesn't re-fire).
+document.addEventListener('livewire:navigated', () => {
+    if (window.adsbygoogle) {
+        document.querySelectorAll('.adsbygoogle').forEach(el => {
+            if (!el.getAttribute('data-adsbygoogle-status')) {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            }
+        });
+    }
+});
+
 document.addEventListener('alpine:init', () => {
     const Alpine = window.Alpine;
 

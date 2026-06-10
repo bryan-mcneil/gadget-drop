@@ -16,11 +16,13 @@ return [
 
     'gadgetdrop_api_key' => env('GADGETDROP_API_KEY'),
 
-    // Google AdSense — disabled by default. Flip ADSENSE_ENABLED=true in .env to
-    // restore the script tag, resource hints, and <x-ad-unit> slots site-wide.
+    // Google AdSense — flip ADSENSE_ENABLED=true in .env to enable.
+    // Ad slots only appear on /tools/* pages. Update tools_slot once AdSense
+    // approves the site and you create an ad unit in the AdSense dashboard.
     'adsense' => [
-        'enabled' => env('ADSENSE_ENABLED', false),
-        'client'  => 'ca-pub-3856395634564582',
+        'enabled'     => env('ADSENSE_ENABLED', false),
+        'client'      => 'ca-pub-3856395634564582',
+        'tools_slot'  => env('ADSENSE_TOOLS_SLOT', ''),
     ],
 
     'amazon' => [

@@ -45,6 +45,13 @@
     @endif
 </div>
 
+{{-- Ad unit — tools pages only --}}
+@if(config('services.adsense.enabled'))
+<div class="max-w-[100rem] mx-auto px-4 pb-8">
+    <x-ad-unit slot="{{ config('services.adsense.tools_slot') }}" format="horizontal" class="text-center" />
+</div>
+@endif
+
 {{-- Toast container (rendered once per tool page). Driven by Alpine.store('toast'). --}}
 <div x-data x-cloak class="fixed bottom-6 inset-x-0 z-[60] flex flex-col items-center gap-2 px-4 pointer-events-none">
     <template x-for="t in $store.toast.items" :key="t.id">

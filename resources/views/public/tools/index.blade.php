@@ -69,4 +69,10 @@
             <p class="text-sm text-gray-500 max-w-lg mx-auto">Every tool on this page runs entirely in your browser. Your code, JSON, and images never leave your device. No accounts, no limits, no cost.</p>
         </div>
     </div>
+
+    @if(config('services.adsense.enabled'))
+    <div class="max-w-[100rem] mx-auto px-4 pb-16">
+        <x-ad-unit slot="{{ config('services.adsense.tools_slot') }}" format="horizontal" class="text-center" />
+    </div>
+    @endif
 @endsection

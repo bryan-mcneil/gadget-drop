@@ -128,7 +128,7 @@
             @if(count($post['tags']) > 0)
                 <div class="mt-8 flex flex-wrap gap-2">
                     @foreach($post['tags'] as $tag)
-                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full font-medium">#{{ $tag['name'] }}</span>
+                        <a href="{{ route('tag', $tag['slug']) }}" wire:navigate class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full font-medium hover:bg-indigo-100 hover:text-indigo-700 transition-colors">#{{ $tag['name'] }}</a>
                     @endforeach
                 </div>
             @endif
@@ -197,11 +197,7 @@
                 <x-sidebar-section title="Recent Drops" :posts="$recentPosts" empty-label="No other posts yet." />
             @endif
 
-            @if(config('services.adsense.enabled'))
-                <div class="min-h-[250px]">
-                    <x-ad-unit slot="YOUR_AD_SLOT_ID" />
-                </div>
-            @endif
+
 
             @if($post['type'] === 'tech_news')
                 <x-sidebar-section title="From Same Tags" :posts="$tagPosts" :empty-label="null" color="rose" />
