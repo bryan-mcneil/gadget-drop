@@ -11,13 +11,18 @@ set -euo pipefail
 PHP=/opt/alt/php84/usr/bin/php
 APP_ROOT=/home/u746229724/domains/gadgetdrop.tech/public_html
 
+# Run composer through the PHP 8.4 binary: the bare `composer` command uses the
+# server default PHP (8.1), which fails the platform check. Shell aliases from
+# .bashrc do not apply inside scripts, so the path must be explicit here.
+COMPOSER_BIN=$(command -v composer)
+
 cd "$APP_ROOT"
 
 echo "==> Pulling latest code (fast-forward only)"
 git pull --ff-only
 
-echo "==> Installing composer dependencies"
-composer install --no-dev --optimize-autoloader --no-interaction
+echo "==> Installing composer dependencies (PHP 8.4)"
+$PHP "$COMPOSER_BIN" install --no-dev --optimize-autoloader --no-interaction
 
 echo "==> Running migrations"
 $PHP artisan migrate --force
