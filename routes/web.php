@@ -72,8 +72,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('tech-tips', [TechTipController::class, 'index'])->name('tech-tips.index');
     Route::get('tech-tips/search', [TechTipController::class, 'search'])->name('tech-tips.search');
     Route::get('tech-tips/prepare', [TechTipController::class, 'prepare'])->name('tech-tips.prepare');
+    Route::post('tech-tips/prompt', [TechTipController::class, 'buildPrompt'])->name('tech-tips.prompt');
     Route::post('tech-tips/generate', [TechTipController::class, 'generate'])->name('tech-tips.generate');
     Route::get('daily-drop', [DailyDropController::class, 'index'])->name('daily-drop.index');
+    Route::post('daily-drop/prompt', [DailyDropController::class, 'buildPrompt'])->name('daily-drop.prompt');
     Route::post('daily-drop/generate', [DailyDropController::class, 'generate'])->name('daily-drop.generate');
     Route::get('news', [NewsController::class, 'index'])->name('news.index');
     Route::post('news/prompt', [NewsController::class, 'buildPrompt'])->name('news.prompt');

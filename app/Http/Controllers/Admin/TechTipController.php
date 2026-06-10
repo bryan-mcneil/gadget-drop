@@ -20,7 +20,7 @@ class TechTipController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/TechTips/Index', [
-            'authors' => \App\Models\User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name']),
+            'authors' => \App\Models\User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'voice']),
         ]);
     }
 
@@ -46,6 +46,32 @@ class TechTipController extends Controller
     }
 
     /**
+     * Build the Claude prompt from manual inputs and return it for copy/paste.
+     */
+    public function buildPrompt(Request $request): JsonResponse
+    {
+        $request->validate([
+            'source_urls'    => 'nullable|string',
+            'source_content' => 'nullable|string|max:10000',
+            'editor_notes'   => 'nullable|string|max:3000',
+            'user_id'        => 'required|exists:users,id',
+        ]);
+
+        $author = \App\Models\User::findOrFail($request->user_id);
+        $urls   = array_values(array_filter(array_map('trim', explode("\n", $request->source_urls ?? ''))));
+
+        $prompt = $this->generator->buildPrompt(
+            urls:          $urls,
+            sourceContent: $request->source_content ?? '',
+            editorNotes:   $request->editor_notes ?? '',
+            authorName:    $author->name,
+            authorVoice:   $author->voice ?? '',
+        );
+
+        return response()->json(['prompt' => $prompt]);
+    }
+
+    /**
      * Fetch the Reddit thread and return the formatted prompt for the admin to paste into claude.ai.
      */
     public function prepare(Request $request): JsonResponse
@@ -55,8 +81,20 @@ class TechTipController extends Controller
         try {
             ['post' => $post, 'comments' => $comments] = $this->reddit->fetchThread($request->permalink);
 
+            $commentsText = collect($comments)
+                ->map(fn ($c, $i) => ($i + 1) . ". [Score: {$c['score']}]\n{$c['body']}")
+                ->implode("\n\n---\n\n");
+
+            $redditPrompt = $this->generator->buildPrompt(
+                urls:          [$post['url']],
+                sourceContent: "r/{$post['subreddit']}\nTitle: {$post['title']}\nPost: {$post['selftext']}\n\nTop answers:\n{$commentsText}",
+                editorNotes:   '',
+                authorName:    'GadgetDrop',
+                authorVoice:   '',
+            );
+
             return response()->json([
-                'prompt'     => $this->generator->buildPrompt($post, $comments),
+                'prompt'     => $redditPrompt,
                 'source_url' => $post['url'],
                 'title'      => $post['title'],
             ]);
