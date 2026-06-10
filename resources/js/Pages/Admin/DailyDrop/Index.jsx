@@ -107,7 +107,7 @@ export default function DailyDropIndex({ authors = [] }) {
                 {/* Step 1: Build Prompt */}
                 <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-xs font-bold flex items-center justify-center shrink-0">1</span>
+                        <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0">1</span>
                         <h3 className="text-sm font-semibold text-gray-800">Build the Claude Prompt</h3>
                     </div>
 
@@ -122,7 +122,7 @@ export default function DailyDropIndex({ authors = [] }) {
                                 value={userId}
                                 onChange={e => setUserId(e.target.value)}
                                 required
-                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500">
+                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Select author</option>
                                 {authors.map(a => (
                                     <option key={a.id} value={a.id}>{a.name}</option>
@@ -141,10 +141,10 @@ export default function DailyDropIndex({ authors = [] }) {
                                 onChange={e => setProductUrl(e.target.value)}
                                 placeholder="https://www.amazon.com/dp/B0XXXXXXXXX"
                                 required
-                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500"
+                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"
                             />
                             {parsedAsin && (
-                                <p className="text-xs text-amber-600 font-medium">
+                                <p className="text-xs text-indigo-600 font-medium">
                                     ASIN detected: {parsedAsin}
                                 </p>
                             )}
@@ -160,7 +160,7 @@ export default function DailyDropIndex({ authors = [] }) {
                                 onChange={e => setSourceContent(e.target.value)}
                                 placeholder="Paste the Amazon listing description, customer reviews, spec sheet, or any article about this product..."
                                 rows={8}
-                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                         </div>
 
@@ -174,7 +174,7 @@ export default function DailyDropIndex({ authors = [] }) {
                                 onChange={e => setEditorNotes(e.target.value)}
                                 placeholder="e.g. Budget-conscious audience. Emphasize the price drop. Compare to the previous model."
                                 rows={3}
-                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                         </div>
 
@@ -187,7 +187,7 @@ export default function DailyDropIndex({ authors = [] }) {
                         <button
                             type="submit"
                             disabled={building || !productUrl.trim() || !userId}
-                            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white
+                            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white
                                        px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-40">
                             {building ? <><Spinner />Building prompt...</> : <>
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -229,7 +229,7 @@ export default function DailyDropIndex({ authors = [] }) {
                 {/* Step 2: Paste JSON */}
                 <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-xs font-bold flex items-center justify-center shrink-0">2</span>
+                        <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0">2</span>
                         <h3 className="text-sm font-semibold text-gray-800">Paste Claude's JSON &amp; Create Draft</h3>
                     </div>
 
@@ -248,7 +248,7 @@ export default function DailyDropIndex({ authors = [] }) {
                                 placeholder={'{\n  "title": "...",\n  "excerpt": "...",\n  "body": "...",\n  "type": "article",\n  "author_name": "...",\n  "category_name": "...",\n  "tag_names": [...],\n  "product_asin": "B0XXXXXXXXX",\n  "rating": 4.5,\n  "pros": [...],\n  "cons": [...],\n  "seo": { "score": 85, "meta_title": "...", "meta_description": "...", "focus_keyword": "...", "slug": "..." }\n}'}
                                 rows={20}
                                 required
-                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                             {postCount !== null && (
                                 <p className="text-xs text-gray-400">
@@ -266,7 +266,7 @@ export default function DailyDropIndex({ authors = [] }) {
                         <button
                             type="submit"
                             disabled={importing || !jsonResponse.trim()}
-                            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white
+                            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white
                                        px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-40">
                             {importing ? (
                                 <><Spinner />Importing draft...</>
@@ -300,7 +300,7 @@ export default function DailyDropIndex({ authors = [] }) {
                                     <a
                                         href={route('admin.posts.edit', post.id)}
                                         className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium
-                                                   text-amber-600 hover:text-amber-800 transition-colors">
+                                                   text-indigo-600 hover:text-indigo-800 transition-colors">
                                         Edit draft
                                         <ArrowRightIcon className="w-3.5 h-3.5" />
                                     </a>

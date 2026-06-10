@@ -95,7 +95,7 @@ export default function TechTipsIndex({ authors = [] }) {
                 {/* Step 1: Build Prompt */}
                 <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0">1</span>
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold flex items-center justify-center shrink-0">1</span>
                         <h3 className="text-sm font-semibold text-gray-800">Build the Claude Prompt</h3>
                     </div>
 
@@ -110,7 +110,7 @@ export default function TechTipsIndex({ authors = [] }) {
                                 value={userId}
                                 onChange={e => setUserId(e.target.value)}
                                 required
-                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500">
                                 <option value="">Select author</option>
                                 {authors.map(a => (
                                     <option key={a.id} value={a.id}>{a.name}</option>
@@ -128,7 +128,7 @@ export default function TechTipsIndex({ authors = [] }) {
                                 onChange={e => setSourceUrls(e.target.value)}
                                 placeholder={"https://reddit.com/r/techsupport/comments/...\nhttps://support.microsoft.com/..."}
                                 rows={3}
-                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
 
@@ -142,7 +142,7 @@ export default function TechTipsIndex({ authors = [] }) {
                                 onChange={e => setSourceContent(e.target.value)}
                                 placeholder="Paste the Reddit thread, article text, forum post, or any source content here..."
                                 rows={8}
-                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
 
@@ -156,14 +156,14 @@ export default function TechTipsIndex({ authors = [] }) {
                                 onChange={e => setEditorNotes(e.target.value)}
                                 placeholder="e.g. Focus on the Windows 11 fix. Audience is non-technical. Lead with the quickest solution."
                                 rows={3}
-                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                                className="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={building || !userId}
-                            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white
+                            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white
                                        px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-40">
                             {building ? <><Spinner />Building prompt...</> : <>
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -205,7 +205,7 @@ export default function TechTipsIndex({ authors = [] }) {
                 {/* Step 2: Paste JSON */}
                 <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0">2</span>
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold flex items-center justify-center shrink-0">2</span>
                         <h3 className="text-sm font-semibold text-gray-800">Paste Claude's JSON &amp; Create Draft</h3>
                     </div>
 
@@ -221,7 +221,7 @@ export default function TechTipsIndex({ authors = [] }) {
                                 value={sourceUrl}
                                 onChange={e => setSourceUrl(e.target.value)}
                                 placeholder="https://reddit.com/r/techsupport/comments/..."
-                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border-gray-300 rounded-lg shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         </div>
 
@@ -236,7 +236,7 @@ export default function TechTipsIndex({ authors = [] }) {
                                 placeholder={'{\n  "title": "...",\n  "excerpt": "...",\n  "body": "...",\n  "category_name": "...",\n  "tag_names": [...],\n  "seo": { "score": 85, "meta_title": "...", "meta_description": "...", "focus_keyword": "...", "slug": "..." }\n}'}
                                 rows={16}
                                 required
-                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                                className="w-full font-mono text-xs text-gray-700 border border-gray-300 rounded-lg p-3 bg-gray-50 resize-y focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
 
@@ -249,7 +249,7 @@ export default function TechTipsIndex({ authors = [] }) {
                         <button
                             type="submit"
                             disabled={creating || !jsonResponse.trim()}
-                            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white
+                            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white
                                        px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-40">
                             {creating ? (
                                 <><Spinner />Creating draft...</>
