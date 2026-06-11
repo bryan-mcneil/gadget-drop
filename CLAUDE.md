@@ -100,6 +100,11 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 ## Expert skills (invoke with /skill-name)
 | Skill | Purpose |
 |---|---|
+| `/daily-drop` | Pipeline status router: reports which drop step to run next |
+| `/drop-research` | Drop step 1: find 4 products, save `daily-drop/research.md` |
+| `/drop-write N` | Drop step 2: write 4 voice posts for product N, save `daily-drop/product-N.md` |
+| `/drop-assemble` | Drop step 3: build the import JSON via `php bin/daily-drop-build.php` |
+| `/drop-video` | Drop step 4 (optional): YouTube scripts + social captions |
 | `/research` | Find today's trending tech products worth covering |
 | `/write-post` | Draft a full publish-ready post for a product |
 | `/seo-review` | Audit a post for first-page Google ranking |
@@ -107,12 +112,16 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 | `/frontend-review` | Blade/Alpine/Livewire (public) & React (admin) UX + performance review |
 | `/test` | Generate PHPUnit feature tests |
 
+The daily-drop pipeline passes state through files (`daily-drop/research.md` → `daily-drop/product-N.md` → `bin/daily-drop-build.php` → `daily-drop-output.md`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps). The model never writes the final JSON; the build script parses, validates, and assembles it.
+
 ## Typical daily workflow
-1. `/research` — find today's product
-2. `/write-post` — draft the post content
-3. Log into `/admin` → create post → attach products, categories, tags
-4. `/seo-review` — review and tweak before publishing
-5. Publish
+1. `/drop-research` — find today's 4 products
+2. `/drop-write 1` … `/drop-write 4` — write the posts (each can be its own cheap session)
+3. `/drop-assemble` — build `daily-drop-output.md`
+4. Log into `/admin/daily-drop` → paste the JSON array → preview → import all as drafts
+5. Review drafts, publish
+
+For one-off posts outside the pipeline: `/research` → `/write-post` → create the post in `/admin` → `/seo-review` → publish.
 
 ## Affiliate click tracking
 All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateClick` then redirects (tag appended automatically). Never link directly to Amazon in the post body — always use `route('affiliate.redirect', …)`.

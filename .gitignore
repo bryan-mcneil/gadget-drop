@@ -13,6 +13,7 @@
 /.vscode
 /.zed
 /auth.json
+/daily-drop/
 /node_modules
 # public/build is committed on purpose: assets are built locally (npm run build)
 # and deployed atomically with the code via git pull (see bin/deploy.sh).

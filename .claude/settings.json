@@ -122,7 +122,15 @@
       "PowerShell(php artisan schedule:list)",
       "PowerShell(php artisan cache:prune-expired)",
       "Bash(Select-String -Path \"c:\\\\Users\\\\BryanMcNeil\\\\Herd\\\\gadget-drop\\\\.env\" -Pattern \".\")",
-      "Bash(Select-Object -First 5)"
+      "Bash(Select-Object -First 5)",
+      "Bash(php -r \"echo file_get_contents\\('https://gadgetdrop.tech/api/reviewed-products', false, stream_context_create\\(['http' => ['header' => 'X-API-Key: 1bfbcda19eae9a9b09fa639ff33a5b8d7b45abd65f8649a8c7e76eb1be535f6e']]\\)\\);\")",
+      "WebFetch(domain:the-gadgeteer.com)",
+      "Bash(php bin/daily-drop-build.php)",
+      "PowerShell(php bin/daily-drop-build.php)",
+      "PowerShell(php artisan tinker --execute=\"$posts = app\\(App\\\\Services\\\\DailyDropImporterService::class\\)->parseJson\\(file_get_contents\\('daily-drop/output.json'\\)\\); echo 'parseJson OK: ' . count\\($posts\\) . ' posts, first title: ' . $posts[0]['title'];\")",
+      "PowerShell(php artisan tinker --execute='$posts = app\\(App\\\\Services\\\\DailyDropImporterService::class\\)->parseJson\\(file_get_contents\\(\"daily-drop/output.json\"\\)\\); echo \"parseJson OK: \" . count\\($posts\\) . \" posts, first title: \" . $posts[0][\"title\"];')",
+      "PowerShell(php daily-drop/validate-tmp.php)",
+      "PowerShell(git checkout -- daily-drop-output.md)"
     ],
     "additionalDirectories": [
       "c:\\Users\\BryanMcNeil\\Herd\\gadget-drop\\resources\\js\\Pages\\Admin"
