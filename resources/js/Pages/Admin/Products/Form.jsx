@@ -6,13 +6,17 @@ export default function ProductForm({ product, categories }) {
     const editing = !!product;
 
     const { data, setData, post, put, processing, errors } = useForm({
-        name:          product?.name ?? '',
-        asin:          product?.asin ?? '',
-        affiliate_url: product?.affiliate_url ?? '',
-        image_url:     product?.image_url ?? '',
-        price:         product?.price ?? '',
-        description:   product?.description ?? '',
-        category_id:   product?.category_id ?? '',
+        name:                 product?.name ?? '',
+        brand:                product?.brand ?? '',
+        asin:                 product?.asin ?? '',
+        gtin:                 product?.gtin ?? '',
+        affiliate_url:        product?.affiliate_url ?? '',
+        image_url:            product?.image_url ?? '',
+        price:                product?.price ?? '',
+        amazon_rating:        product?.amazon_rating ?? '',
+        amazon_review_count:  product?.amazon_review_count ?? '',
+        description:          product?.description ?? '',
+        category_id:          product?.category_id ?? '',
     });
 
     function handleSubmit(e) {
@@ -30,10 +34,16 @@ export default function ProductForm({ product, categories }) {
             <Head title={editing ? 'Edit Product' : 'Add Product'} />
 
             <form onSubmit={handleSubmit} className="py-8 px-4 max-w-2xl mx-auto space-y-5">
+                {/* Core fields */}
                 <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-5">
                     <Field label="Product Name *" error={errors.name}>
                         <input type="text" value={data.name} onChange={(e) => setData('name', e.target.value)}
                             className="w-full border-gray-300 rounded-lg shadow-sm" />
+                    </Field>
+
+                    <Field label="Brand" error={errors.brand}>
+                        <input type="text" value={data.brand} onChange={(e) => setData('brand', e.target.value)}
+                            className="w-full border-gray-300 rounded-lg shadow-sm" placeholder="e.g. Anker, Sony, Apple" />
                     </Field>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -77,6 +87,33 @@ export default function ProductForm({ product, categories }) {
                         <textarea rows={4} value={data.description} onChange={(e) => setData('description', e.target.value)}
                             className="w-full border-gray-300 rounded-lg shadow-sm text-sm" />
                     </Field>
+                </div>
+
+                {/* Google Rich Results / SEO fields */}
+                <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-5">
+                    <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Google Rich Results</h3>
+                    <p className="text-xs text-gray-500 -mt-2">Used in Product JSON-LD for merchant listing and review snippets.</p>
+
+                    <Field label="GTIN (UPC / EAN / barcode)" error={errors.gtin}>
+                        <input type="text" value={data.gtin} onChange={(e) => setData('gtin', e.target.value)}
+                            className="w-full border-gray-300 rounded-lg shadow-sm font-mono text-sm"
+                            placeholder="12-digit UPC or 13-digit EAN" maxLength={14} />
+                    </Field>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <Field label="Amazon Rating (0–5)" error={errors.amazon_rating}>
+                            <input type="number" step="0.1" min="0" max="5" value={data.amazon_rating}
+                                onChange={(e) => setData('amazon_rating', e.target.value)}
+                                className="w-full border-gray-300 rounded-lg shadow-sm"
+                                placeholder="e.g. 4.5" />
+                        </Field>
+                        <Field label="Amazon Review Count" error={errors.amazon_review_count}>
+                            <input type="number" step="1" min="0" value={data.amazon_review_count}
+                                onChange={(e) => setData('amazon_review_count', e.target.value)}
+                                className="w-full border-gray-300 rounded-lg shadow-sm"
+                                placeholder="e.g. 1842" />
+                        </Field>
+                    </div>
                 </div>
 
                 <div className="flex gap-3">

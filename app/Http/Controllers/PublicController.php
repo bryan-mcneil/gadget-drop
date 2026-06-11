@@ -260,9 +260,10 @@ class PublicController extends Controller
                 'description'         => $p->description,
                 'price'               => $p->price,
                 'image_url'           => $p->image_url,
-                'brand'               => $p->brand               ?? null,
-                'amazon_rating'       => $p->amazon_rating       ?? null,
-                'amazon_review_count' => $p->amazon_review_count ?? null,
+                'brand'               => $p->brand,
+                'gtin'                => $p->gtin,
+                'amazon_rating'       => $p->amazon_rating,
+                'amazon_review_count' => $p->amazon_review_count,
             ]),
             'seo_meta' => $post->seoMeta ? [
                 'meta_title'       => $post->seoMeta->meta_title,
@@ -496,17 +497,18 @@ class PublicController extends Controller
             $p = (array) $p;
 
             $product = [
-                '@type'  => 'Product',
-                'name'   => $p['name'],
+                '@type'                  => 'Product',
+                'name'                   => $p['name'],
                 'hasMerchantReturnPolicy' => $amazonReturnPolicy,
                 'offers' => [
-                    '@type'           => 'Offer',
-                    'priceCurrency'   => 'USD',
-                    'availability'    => 'https://schema.org/InStock',
-                    'itemCondition'   => 'https://schema.org/NewCondition',
-                    'url'             => "{$base}/out/{$p['id']}",
-                    'seller'          => ['@type' => 'Organization', 'name' => 'Amazon'],
-                    'shippingDetails' => $amazonShipping,
+                    '@type'                  => 'Offer',
+                    'priceCurrency'          => 'USD',
+                    'availability'           => 'https://schema.org/InStock',
+                    'itemCondition'          => 'https://schema.org/NewCondition',
+                    'url'                    => "{$base}/out/{$p['id']}",
+                    'seller'                 => ['@type' => 'Organization', 'name' => 'Amazon'],
+                    'shippingDetails'        => $amazonShipping,
+                    'hasMerchantReturnPolicy' => $amazonReturnPolicy,
                 ],
             ];
 
@@ -515,6 +517,17 @@ class PublicController extends Controller
             if ($p['image_url'] ?? null)   $product['image']       = $p['image_url'];
             if (isset($p['price']) && $p['price'] !== null) {
                 $product['offers']['price'] = (float) $p['price'];
+            }
+            if ($p['gtin'] ?? null) {
+                $gtin     = preg_replace('/\D/', '', $p['gtin']);
+                $gtinProp = match(strlen($gtin)) {
+                    8       => 'gtin8',
+                    12      => 'gtin12',
+                    13      => 'gtin13',
+                    14      => 'gtin14',
+                    default => 'gtin',
+                };
+                $product[$gtinProp] = $gtin;
             }
 
             if (($p['amazon_rating'] ?? null) && ($p['amazon_review_count'] ?? null)) {

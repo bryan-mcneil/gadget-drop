@@ -38,13 +38,17 @@ class ProductController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'name'          => 'required|string|max:255',
-            'asin'          => 'nullable|string|max:20',
-            'affiliate_url' => 'required|url',
-            'image_url'     => 'nullable|url',
-            'price'         => 'nullable|numeric|min:0',
-            'description'   => 'nullable|string',
-            'category_id'   => 'nullable|exists:categories,id',
+            'name'                => 'required|string|max:255',
+            'brand'               => 'nullable|string|max:100',
+            'asin'                => 'nullable|string|max:20',
+            'gtin'                => 'nullable|string|max:14|regex:/^\d+$/',
+            'affiliate_url'       => 'required|url',
+            'image_url'           => 'nullable|url',
+            'price'               => 'nullable|numeric|min:0',
+            'amazon_rating'       => 'nullable|numeric|min:0|max:5',
+            'amazon_review_count' => 'nullable|integer|min:0',
+            'description'         => 'nullable|string',
+            'category_id'         => 'nullable|exists:categories,id',
         ]);
 
         Product::create($data);
@@ -63,13 +67,17 @@ class ProductController extends Controller
     public function update(Request $request, Product $product): RedirectResponse
     {
         $data = $request->validate([
-            'name'          => 'required|string|max:255',
-            'asin'          => 'nullable|string|max:20',
-            'affiliate_url' => 'required|url',
-            'image_url'     => 'nullable|url',
-            'price'         => 'nullable|numeric|min:0',
-            'description'   => 'nullable|string',
-            'category_id'   => 'nullable|exists:categories,id',
+            'name'                => 'required|string|max:255',
+            'brand'               => 'nullable|string|max:100',
+            'asin'                => 'nullable|string|max:20',
+            'gtin'                => 'nullable|string|max:14|regex:/^\d+$/',
+            'affiliate_url'       => 'required|url',
+            'image_url'           => 'nullable|url',
+            'price'               => 'nullable|numeric|min:0',
+            'amazon_rating'       => 'nullable|numeric|min:0|max:5',
+            'amazon_review_count' => 'nullable|integer|min:0',
+            'description'         => 'nullable|string',
+            'category_id'         => 'nullable|exists:categories,id',
         ]);
 
         $product->update($data);
