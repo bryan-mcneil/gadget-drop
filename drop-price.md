@@ -87,9 +87,11 @@ Production cron is hourly, so the puzzle locks within the first UTC hour; the re
 
 ---
 
-## Phase 3 — Server-side game logic (`App\Support\DropPrice`)
+## Phase 3 — Server-side game logic (`App\Support\DropPrice`) ✅ DONE
 
 **Goal:** A pure, tested class that evaluates a guess **without exposing the price**, plus the cached fetch of today's puzzle.
+
+**Built:** `app/Support/DropPrice.php` with `evaluate()` (pure ordinal scoring) + `today()`. `evaluate()` returns exactly `['direction','band','won']` — no `pct`/distance key ever leaves the method. `today()` resolves the **latest locked puzzle dated today-or-earlier** (`whereNotNull('locked_at')->whereDate('date','<=',today)->orderByDesc('date')->first()`) — a single query that returns today's once locked and otherwise the most recent prior puzzle during the pre-cron gap, while never serving an unlocked future preset or a future-dated row. Cached on the DB store via `Cache::remember('dropprice.today', now()->endOfDay(), …)` (busts at the UTC day boundary; the lock command also `Cache::forget`s it), wrapped in try/catch so a broken cache layer degrades to a live DB read. Verified by `tests/Unit/DropPriceTest.php` (6 pure tests: exact win, direction symmetry, inclusive warm boundary at 9/10/25/26%, over-vs-under symmetry, never-falsely-won, and an assertion that the result shape carries no distance key). `today()`'s resolution/fallback is covered by the Phase 8 Livewire + PublicPages feature tests (it needs a booted DB). Suite green at **76 tests**.
 
 **New file:** `app/Support/DropPrice.php`.
 
