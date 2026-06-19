@@ -494,6 +494,10 @@ document.addEventListener('alpine:init', () => {
         // Only compute on open if nothing has been primed yet, which avoids the "Calculating" flash.
         openSave() { this.modalOpen = true; if (this.sm_outputSize === null && !this.sm_estimating) this.$nextTick(() => this.smEstimate()); },
         closeSave() { this.modalOpen = false; },
+        // Drop the primed estimate/blob so the next openSave/smDownload recomputes from the
+        // CURRENT canvas. Call whenever the source content changes (new image, resize, etc.);
+        // without this the modal keeps serving the first image's cached blob.
+        smInvalidate() { this._sm_blob = null; this.sm_outputSize = null; },
         smSetFormat(id) { this.sm_format = id; this._sm_blob = null; this.smEstimateDebounced(); },
         smSetQuality(q) { this.sm_quality = q; this._sm_blob = null; this.smEstimateDebounced(); },
         smEstimateDebounced() { clearTimeout(this._sm_debounce); this._sm_debounce = setTimeout(() => this.smEstimate(), 300); },
@@ -898,6 +902,7 @@ document.addEventListener('alpine:init', () => {
         handleFile(detail) {
             this.image = detail;
             this.modalOpen = false;
+            this.smInvalidate();
             const img = new Image();
             img.onload = () => {
                 this.natW = img.naturalWidth; this.natH = img.naturalHeight;
@@ -909,11 +914,13 @@ document.addEventListener('alpine:init', () => {
             this.width = val;
             const n = parseInt(val, 10);
             if (this.aspectLocked && this.natW && !isNaN(n) && n > 0) this.height = String(Math.round(n * (this.natH / this.natW)));
+            this.smInvalidate();
         },
         onHeight(val) {
             this.height = val;
             const n = parseInt(val, 10);
             if (this.aspectLocked && this.natH && !isNaN(n) && n > 0) this.width = String(Math.round(n * (this.natW / this.natH)));
+            this.smInvalidate();
         },
         getCanvas() {
             const img = this.$refs.preview;
@@ -926,7 +933,7 @@ document.addEventListener('alpine:init', () => {
             return canvas;
         },
         saveName() { return this.image?.name ?? 'image'; },
-        reset() { this.image = null; this.width = ''; this.height = ''; this.modalOpen = false; },
+        reset() { this.image = null; this.width = ''; this.height = ''; this.modalOpen = false; this.smInvalidate(); },
         fmtBytes: smFmtBytes,
     }));
 
