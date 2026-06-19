@@ -84,6 +84,107 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
+    /* ── Home category carousel ──────────────────────────────────
+       Drag-to-scroll cards, prev/next arrows, and a custom progress
+       bar (the native scrollbar is hidden via .scrollbar-hide). All
+       listeners are Alpine x-on directives (incl. the .window ones),
+       so Livewire's navigate teardown cleans them up — no manual
+       addEventListener, so no destroy() needed. */
+    Alpine.data('categoryCarousel', () => ({
+        canLeft: false,
+        canRight: false,
+        scrollable: false,
+        thumbWidth: 100, // % of the bar the thumb fills
+        thumbLeft: 0, // % offset of the thumb from the left
+        // card drag-to-scroll
+        cardDragging: false,
+        moved: false,
+        startX: 0,
+        startScroll: 0,
+        // progress-bar drag
+        barDragging: false,
+        init() {
+            // scrollWidth is known immediately (cards carry width/height),
+            // but wait a tick so layout is settled before measuring.
+            this.$nextTick(() => this.update());
+        },
+        update() {
+            const el = this.$refs.track;
+            if (!el) return;
+            const max = el.scrollWidth - el.clientWidth;
+            this.scrollable = max > 1;
+            this.canLeft = el.scrollLeft > 1;
+            this.canRight = el.scrollLeft < max - 1;
+            const ratio = el.scrollWidth > 0 ? el.clientWidth / el.scrollWidth : 1;
+            this.thumbWidth = Math.min(100, ratio * 100);
+            this.thumbLeft = max > 0 ? (el.scrollLeft / max) * (100 - this.thumbWidth) : 0;
+        },
+        page(dir) {
+            const el = this.$refs.track;
+            if (el) el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: 'smooth' });
+        },
+        // Translate a vertical mouse wheel into horizontal scroll (the natural
+        // desktop gesture). Leave horizontal trackpad deltas to the browser, and
+        // release at the ends so the page can still scroll vertically past us.
+        onWheel(e) {
+            const el = this.$refs.track;
+            if (!el || e.deltaY === 0) return;
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // trackpad already pans
+            const max = el.scrollWidth - el.clientWidth;
+            if (max <= 0) return;
+            const atStart = el.scrollLeft <= 0;
+            const atEnd = el.scrollLeft >= max - 1;
+            if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;
+            e.preventDefault();
+            el.scrollLeft += e.deltaY;
+        },
+        // ── drag the cards directly ──
+        cardDown(e) {
+            this.cardDragging = true;
+            this.moved = false;
+            this.startX = e.pageX;
+            this.startScroll = this.$refs.track.scrollLeft;
+        },
+        // ── click/drag the progress bar to seek ──
+        barTo(e) {
+            const el = this.$refs.track;
+            const bar = this.$refs.bar;
+            if (!el || !bar) return;
+            const rect = bar.getBoundingClientRect();
+            const max = el.scrollWidth - el.clientWidth;
+            let pct = (e.clientX - rect.left) / rect.width;
+            pct = Math.max(0, Math.min(1, pct));
+            el.scrollLeft = pct * max;
+        },
+        barDown(e) {
+            e.preventDefault(); // don't start a text selection
+            this.barDragging = true;
+            this.barTo(e);
+        },
+        // ── shared window-level move/up (handles both drags) ──
+        onMove(e) {
+            if (this.cardDragging) {
+                const dx = e.pageX - this.startX;
+                if (Math.abs(dx) > 4) this.moved = true; // past the click threshold
+                this.$refs.track.scrollLeft = this.startScroll - dx;
+            } else if (this.barDragging) {
+                this.barTo(e);
+            }
+        },
+        onUp() {
+            this.cardDragging = false;
+            this.barDragging = false;
+        },
+        // Swallow the click that ends a drag so we don't follow the link.
+        onClick(e) {
+            if (this.moved) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.moved = false;
+            }
+        },
+    }));
+
     /* ── Reading progress bar (post page) ────────────────────── */
     Alpine.data('readingProgress', () => ({
         progress: 0,

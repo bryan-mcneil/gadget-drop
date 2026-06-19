@@ -114,27 +114,69 @@
             <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px); background-size: 28px 28px;"></div>
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
-            <div class="relative max-w-[96rem] mx-auto px-4">
-                <div class="flex items-center gap-3 mb-7">
-                    <span class="w-6 h-px bg-indigo-500"></span>
-                    <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-[0.2em]">Browse by Category</h2>
+            <div class="relative max-w-[96rem] mx-auto px-4"
+                x-data="categoryCarousel()"
+                @mousemove.window="onMove($event)" @mouseup.window="onUp()" @resize.window="update()">
+                <div class="flex items-end justify-between gap-4 mb-7">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-px bg-indigo-500"></span>
+                        <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-[0.2em]">Browse by Category</h2>
+                    </div>
+                    {{-- Prev/next arrows (pointer devices; mobile users swipe). Dim at the ends. --}}
+                    <div class="hidden sm:flex items-center gap-2 transition-opacity duration-300"
+                        x-cloak :class="scrollable ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                        <button type="button" @click="page(-1)" :disabled="!canLeft" aria-label="Scroll categories left"
+                            class="w-9 h-9 rounded-full border border-white/10 bg-white/5 text-white flex items-center justify-center transition-all duration-200 hover:bg-white/15 hover:border-white/25 active:scale-95 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <button type="button" @click="page(1)" :disabled="!canRight" aria-label="Scroll categories right"
+                            class="w-9 h-9 rounded-full border border-white/10 bg-white/5 text-white flex items-center justify-center transition-all duration-200 hover:bg-white/15 hover:border-white/25 active:scale-95 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex gap-5 overflow-x-auto scrollbar-hide pb-2" style="touch-action: pan-x;">
-                    @foreach($categories as $cat)
-                        <a href="{{ route('category', $cat['slug']) }}" wire:navigate class="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40">
-                            @if($cat['featured_image'])
-                                <x-responsive-image :src="$cat['featured_image']" :alt="$cat['name']" loading="lazy" width="224" height="320" sizes="224px" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                            @else
-                                <div class="absolute inset-0 bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center"><span class="text-white/20 font-black text-8xl select-none">{{ \Illuminate\Support\Str::substr($cat['name'], 0, 1) }}</span></div>
-                            @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/20 to-transparent transition-opacity duration-300 group-hover:opacity-90"></div>
-                            <div class="absolute bottom-0 left-0 right-0 px-4 py-4 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                                <p class="text-white font-bold text-base leading-tight tracking-wide">{{ $cat['name'] }}</p>
-                                <div class="mt-1.5 h-0.5 w-0 bg-indigo-400 rounded-full transition-all duration-300 group-hover:w-8"></div>
-                            </div>
-                            <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 group-hover:ring-indigo-500/50 transition-all duration-300"></div>
-                        </a>
-                    @endforeach
+
+                <div class="relative">
+                    {{-- Edge fades hint there's more in either direction. --}}
+                    <div class="pointer-events-none absolute inset-y-0 left-0 w-12 z-10 bg-gradient-to-r from-[#0d0d2b] to-transparent transition-opacity duration-300"
+                        x-cloak :class="canLeft ? 'opacity-100' : 'opacity-0'"></div>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 w-12 z-10 bg-gradient-to-l from-[#0a0f1e] to-transparent transition-opacity duration-300"
+                        x-cloak :class="canRight ? 'opacity-100' : 'opacity-0'"></div>
+
+                    <div x-ref="track" @scroll.passive="update()" @wheel="onWheel($event)"
+                        @mousedown="cardDown($event)" @click.capture="onClick($event)" @dragstart.prevent
+                        class="flex gap-5 overflow-x-auto scrollbar-hide pb-1 cursor-grab select-none"
+                        :class="cardDragging && 'cursor-grabbing'" style="touch-action: pan-x;">
+                        @foreach($categories as $cat)
+                            <a href="{{ route('category', $cat['slug']) }}" wire:navigate draggable="false" class="group relative flex-shrink-0 w-56 h-80 rounded-2xl overflow-hidden block shadow-lg shadow-black/40">
+                                @if($cat['featured_image'])
+                                    <x-responsive-image :src="$cat['featured_image']" :alt="$cat['name']" loading="lazy" width="224" height="320" sizes="224px" draggable="false" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                @else
+                                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center"><span class="text-white/20 font-black text-8xl select-none">{{ \Illuminate\Support\Str::substr($cat['name'], 0, 1) }}</span></div>
+                                @endif
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/20 to-transparent transition-opacity duration-300 group-hover:opacity-90"></div>
+                                <div class="absolute bottom-0 left-0 right-0 px-4 py-4 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                                    <p class="text-white font-bold text-base leading-tight tracking-wide">{{ $cat['name'] }}</p>
+                                    <div class="mt-1.5 h-0.5 w-0 bg-indigo-400 rounded-full transition-all duration-300 group-hover:w-8"></div>
+                                </div>
+                                <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 group-hover:ring-indigo-500/50 transition-all duration-300"></div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Custom progress bar: shows position + is click/drag seekable. --}}
+                <div class="mt-5 flex items-center gap-4 transition-opacity duration-300"
+                    x-cloak :class="scrollable ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                    <div x-ref="bar" @mousedown="barDown($event)" aria-hidden="true"
+                        class="group relative flex-1 h-1.5 rounded-full bg-white/10 cursor-pointer">
+                        <div class="absolute inset-y-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 shadow-[0_0_8px_rgba(99,102,241,0.5)] group-hover:from-indigo-400 group-hover:to-purple-400"
+                            style="width: 100%; left: 0" :style="`width: ${thumbWidth}%; left: ${thumbLeft}%`"></div>
+                    </div>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-medium text-indigo-300/40 uppercase tracking-wider whitespace-nowrap select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-3 3 3 3m8-6l3 3-3 3" /></svg>
+                        Drag to explore
+                    </span>
                 </div>
             </div>
         </section>
