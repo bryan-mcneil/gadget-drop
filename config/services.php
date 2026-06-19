@@ -22,7 +22,7 @@ return [
     'adsense' => [
         'enabled'     => env('ADSENSE_ENABLED', false),
         'client'      => 'ca-pub-3856395634564582',
-        'tools_slot'  => env('ADSENSE_TOOLS_SLOT', ''),
+        'tools_slot'  => env('ADSENSE_TOOLS_SLOT', '8271358369'),
     ],
 
     'amazon' => [
