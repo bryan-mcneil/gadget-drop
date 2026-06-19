@@ -103,6 +103,9 @@ document.addEventListener('alpine:init', () => {
         startScroll: 0,
         // progress-bar drag
         barDragging: false,
+        // timestamp of the last page (vertical) scroll — used to keep the
+        // horizontal wheel-scroll secondary to an in-progress page scroll.
+        lastPageScrollAt: 0,
         init() {
             // scrollWidth is known immediately (cards carry width/height),
             // but wait a tick so layout is settled before measuring.
@@ -123,15 +126,24 @@ document.addEventListener('alpine:init', () => {
             const el = this.$refs.track;
             if (el) el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: 'smooth' });
         },
+        // Record page (vertical) scrolls so the wheel handler can tell an
+        // in-progress page scroll apart from a deliberate hover-and-wheel.
+        onPageScroll() {
+            this.lastPageScrollAt = Date.now();
+        },
         // Translate a vertical mouse wheel into horizontal scroll (the natural
-        // desktop gesture). Leave horizontal trackpad deltas to the browser, and
-        // release at the ends so the page can still scroll vertically past us.
+        // desktop gesture) — but keep it SECONDARY to the page scroll. While the
+        // user is actively scrolling the page vertically, a continuous wheel pass
+        // crossing the strip flows straight through; horizontal only engages once
+        // the page has been still for a moment (a deliberate hover + wheel). Also
+        // release at the ends so the page can keep scrolling past us.
         onWheel(e) {
             const el = this.$refs.track;
             if (!el || e.deltaY === 0) return;
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // trackpad already pans
             const max = el.scrollWidth - el.clientWidth;
             if (max <= 0) return;
+            if (Date.now() - this.lastPageScrollAt < 300) return; // page still in motion
             const atStart = el.scrollLeft <= 0;
             const atEnd = el.scrollLeft >= max - 1;
             if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;

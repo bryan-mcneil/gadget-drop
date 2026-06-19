@@ -116,7 +116,8 @@
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
             <div class="relative max-w-[96rem] mx-auto px-4"
                 x-data="categoryCarousel()"
-                @mousemove.window="onMove($event)" @mouseup.window="onUp()" @resize.window="update()">
+                @mousemove.window="onMove($event)" @mouseup.window="onUp()" @resize.window="update()"
+                @scroll.window.passive="onPageScroll()">
                 <div class="flex items-end justify-between gap-4 mb-7">
                     <div class="flex items-center gap-3">
                         <span class="w-6 h-px bg-indigo-500"></span>
