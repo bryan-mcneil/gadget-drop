@@ -146,7 +146,7 @@ class PublicController extends Controller
         }
 
         view()->share('serverMeta', [
-            'title'       => 'GadgetDrop | Daily Tech Picks, Gadget Reviews & Buying Guides',
+            'title'       => 'GadgetDrop | Daily Tech Picks, Reviews & Buying Guides',
             'description' => 'Daily tech picks, gadget reviews, and buying guides. Find the best gear at the best price, delivered fresh every day.',
             'og_image'    => null,
             'og_type'     => 'website',
@@ -391,7 +391,7 @@ class PublicController extends Controller
                 'name'          => 'GadgetDrop',
                 'alternateName' => ['GDT', 'Tech Drop', 'GadgetDrop Tech'],
                 'url'          => $base,
-                'logo'         => ['@type' => 'ImageObject', 'url' => "{$base}/favicon.svg"],
+                'logo'         => ['@type' => 'ImageObject', 'url' => "{$base}/favicon-96x96.png", 'width' => 96, 'height' => 96],
                 'description'  => 'GadgetDrop is a daily tech picks and gadget review site covering consumer electronics available on Amazon.',
                 'contactPoint' => ['@type' => 'ContactPoint', 'email' => 'hello@gadgetdrop.tech', 'contactType' => 'customer service'],
             ],
@@ -469,7 +469,7 @@ class PublicController extends Controller
             'publisher'        => [
                 '@type' => 'Organization',
                 'name'  => 'GadgetDrop',
-                'logo'  => ['@type' => 'ImageObject', 'url' => "{$base}/favicon.svg"],
+                'logo'  => ['@type' => 'ImageObject', 'url' => "{$base}/favicon-96x96.png", 'width' => 96, 'height' => 96],
             ],
         ];
 

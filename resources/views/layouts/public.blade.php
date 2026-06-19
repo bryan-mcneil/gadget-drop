@@ -36,9 +36,12 @@
         <link rel="canonical" href="{{ $serverMeta['canonical'] ?? url()->current() }}">
         @endisset
 
-        <!-- Favicon -->
+        <!-- Favicons / app icons — .ico is what Google Search & older browsers
+             request by host convention; svg/png for crisp modern rendering. -->
+        <link rel="icon" href="/favicon.ico" sizes="48x48">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         @if(config('services.adsense.enabled'))
         <!-- Resource hints for third-party origins -->
