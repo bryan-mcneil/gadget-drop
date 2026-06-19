@@ -20,7 +20,7 @@ return [
     // Ad slots only appear on /tools/* pages. Update tools_slot once AdSense
     // approves the site and you create an ad unit in the AdSense dashboard.
     'adsense' => [
-        'enabled'     => env('ADSENSE_ENABLED', false),
+        'enabled'     => env('ADSENSE_ENABLED', true),
         'client'      => 'ca-pub-3856395634564582',
         'tools_slot'  => env('ADSENSE_TOOLS_SLOT', '8271358369'),
     ],
