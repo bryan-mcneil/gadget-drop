@@ -153,6 +153,27 @@
                 </div>
             </div>
 
+            {{-- Un-applied crop guard: Export pressed while a crop box is still pending --}}
+            <div x-show="cropWarn" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" @keydown.escape.window="cropWarnDismiss()">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="cropWarnDismiss()"></div>
+                <div class="relative bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-md p-6 text-white">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/15 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <h2 class="text-base font-semibold text-gray-100">Apply your crop first?</h2>
+                            <p class="mt-1 text-sm text-gray-400">You've drawn a crop area but haven't pressed <span class="font-semibold text-gray-200">Apply crop</span>. Export now and you'll get the full, uncropped image.</p>
+                        </div>
+                    </div>
+                    <div class="mt-5 flex flex-col sm:flex-row sm:justify-end gap-2">
+                        <button @click="cropWarnDismiss()" class="px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-700 text-gray-300 hover:border-gray-500 transition-colors">Keep editing</button>
+                        <button @click="cropWarnExport()" class="px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-700 text-gray-300 hover:border-gray-500 transition-colors">Export without cropping</button>
+                        <button @click="cropWarnApply()" class="px-4 py-2.5 text-sm font-semibold rounded-xl bg-amber-500 hover:bg-amber-400 text-white transition-colors">Apply crop &amp; export</button>
+                    </div>
+                </div>
+            </div>
+
             <x-tools.save-modal />
         </div>
     </x-tools.shell>

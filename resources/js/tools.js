@@ -492,7 +492,9 @@ document.addEventListener('alpine:init', () => {
         // The estimate is primed ahead of time (smEstimateDebounced fires whenever the
         // canvas content / format / quality changes), so the modal shows a size instantly.
         // Only compute on open if nothing has been primed yet, which avoids the "Calculating" flash.
-        openSave() { this.modalOpen = true; if (this.sm_outputSize === null && !this.sm_estimating) this.$nextTick(() => this.smEstimate()); },
+        // `beforeSave` (optional, defined by the consuming tool) can intercept the open to
+        // warn about an un-applied edit. Returning false cancels opening the modal.
+        openSave() { if (this.beforeSave && this.beforeSave() === false) return; this.modalOpen = true; if (this.sm_outputSize === null && !this.sm_estimating) this.$nextTick(() => this.smEstimate()); },
         closeSave() { this.modalOpen = false; },
         // Drop the primed estimate/blob so the next openSave/smDownload recomputes from the
         // CURRENT canvas. Call whenever the source content changes (new image, resize, etc.);
@@ -624,6 +626,8 @@ document.addEventListener('alpine:init', () => {
         aspectKey: 'Free',
         _cropper: null,
         _Cropper: null,
+        cropWarn: false,        // export-pressed-with-a-pending-crop confirmation dialog
+        _skipCropWarn: false,   // one-shot bypass once the user has chosen how to proceed
 
         // resize
         rsWidth: '', rsHeight: '', rsLock: true,
@@ -792,6 +796,24 @@ document.addEventListener('alpine:init', () => {
             this._destroyCropper();
             this.commit(src, { tool: 'crop' }, () => this.enterTool('crop'));
         },
+        // It's easy to shape a crop box and hit Export without pressing "Apply crop" —
+        // the working image is still uncropped, so the export would silently ignore the
+        // selection. Detect a pending crop (box meaningfully smaller/offset vs. the base)
+        // and prompt instead of exporting the wrong thing.
+        _hasUnappliedCrop() {
+            if (this.activeTool !== 'crop' || !this._cropper) return false;
+            const d = this._cropper.getData(true);   // crop box in natural-image px (rounded)
+            const tol = 3;
+            return d.x > tol || d.y > tol || d.width < this._baseW - tol || d.height < this._baseH - tol;
+        },
+        beforeSave() {
+            if (this._skipCropWarn) { this._skipCropWarn = false; return true; }
+            if (this._hasUnappliedCrop()) { this.cropWarn = true; return false; }
+            return true;
+        },
+        cropWarnApply() { this.cropWarn = false; this._skipCropWarn = true; this.applyCrop(); this.smInvalidate(); this.openSave(); },
+        cropWarnExport() { this.cropWarn = false; this._skipCropWarn = true; this.openSave(); },
+        cropWarnDismiss() { this.cropWarn = false; },
 
         /* ---- Resize ---- */
         onRsWidth(v) {
