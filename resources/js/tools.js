@@ -973,18 +973,59 @@ document.addEventListener('alpine:init', () => {
         const queue = new Uint32Array(size);
         let qHead = 0, qTail = 0;
         const enqueue = (px) => { if (visited[px]) return; if (dist(px * 4) <= fullTol) { visited[px] = 1; queue[qTail++] = px; } };
+        // Drain the current queue, fading each reached pixel (full transparency in
+        // the core, feathered alpha in the tolerance→fullTol band).
+        const flood = () => {
+            while (qHead < qTail) {
+                const px = queue[qHead++], i = px * 4, d = dist(i);
+                if (d <= tolerance) data[i + 3] = 0;
+                else data[i + 3] = Math.round(((d - tolerance) / feather) * data[i + 3]);
+                const x = px % w, y = (px - x) / w;
+                if (x > 0) enqueue(px - 1);
+                if (x < w - 1) enqueue(px + 1);
+                if (y > 0) enqueue(px - w);
+                if (y < h - 1) enqueue(px + w);
+            }
+        };
+
+        // Pass 1 — flood inward from the four image edges. This clears the outer
+        // background but, by design, never reaches white that is fully enclosed by
+        // the subject (e.g. the hole in the middle of a ring).
         for (let x = 0; x < w; x++) { enqueue(x); enqueue((h - 1) * w + x); }
         for (let y = 1; y < h - 1; y++) { enqueue(y * w); enqueue(y * w + w - 1); }
-        while (qHead < qTail) {
-            const px = queue[qHead++], i = px * 4, d = dist(i);
-            if (d <= tolerance) data[i + 3] = 0;
-            else data[i + 3] = Math.round(((d - tolerance) / feather) * data[i + 3]);
-            const x = px % w, y = (px - x) / w;
-            if (x > 0) enqueue(px - 1);
-            if (x < w - 1) enqueue(px + 1);
-            if (y > 0) enqueue(px - w);
-            if (y < h - 1) enqueue(px + w);
+        flood();
+
+        // Pass 2 — seed fresh floods from enclosed pockets of pure white that pass 1
+        // missed, then grow them outward with the same feathering. Deliberately
+        // conservative: a seed must sit at the centre of a solid disk of near-pure
+        // white (tighter than the removal tolerance), so a white highlight or a
+        // small white speck on the product can't trigger a hole-punch.
+        const coreTol = Math.min(tolerance * 0.5, 24);
+        const core2 = coreTol * coreTol;
+        const isCore = (px) => { const i = px * 4; const dr = data[i] - tr, dg = data[i + 1] - tg, db = data[i + 2] - tb; return dr * dr + dg * dg + db * db <= core2; };
+        const seedR = Math.max(2, Math.round(Math.min(w, h) * 0.01)); // ≈1% of the short side
+        const seedR2 = seedR * seedR;
+        const solidDisk = (cx, cy) => {
+            for (let dy = -seedR; dy <= seedR; dy++) {
+                const yy = cy + dy; if (yy < 0 || yy >= h) return false;
+                for (let dx = -seedR; dx <= seedR; dx++) {
+                    if (dx * dx + dy * dy > seedR2) continue;
+                    const xx = cx + dx; if (xx < 0 || xx >= w) return false;
+                    if (!isCore(yy * w + xx)) return false;
+                }
+            }
+            return true;
+        };
+        for (let y = seedR; y < h - seedR; y++) {
+            for (let x = seedR; x < w - seedR; x++) {
+                const px = y * w + x;
+                if (visited[px] || data[px * 4 + 3] === 0) continue; // already handled by an earlier flood
+                if (!isCore(px) || !solidDisk(x, y)) continue;       // not a confident interior-white seed
+                enqueue(px);
+                flood();
+            }
         }
+
         ctx.putImageData(imageData, 0, 0);
     };
     Alpine.data('backgroundRemover', () => ({
@@ -996,10 +1037,14 @@ document.addEventListener('alpine:init', () => {
         processing: false,
         sampling: false,
         _img: null,
+        brushMode: null,    // null | 'restore' | 'erase' — touch-up brush on the result
+        brushSize: 32,      // brush diameter in on-screen px
+        _painting: false,
+        _lastX: 0, _lastY: 0,
         presets: [['Clean white', 20], ['White + light shadow', 40], ['White + heavy shadow', 65]],
         get targetHex() { return brToHex(this.target); },
         handleFile(detail) {
-            this.image = detail; this.resultUrl = null; this.sampling = false; this.target = { r: 255, g: 255, b: 255 };
+            this.image = detail; this.resultUrl = null; this.sampling = false; this.brushMode = null; this.target = { r: 255, g: 255, b: 255 };
             const img = new Image();
             img.onload = () => { this._img = img; this.runProcess(img, { r: 255, g: 255, b: 255 }, 32); };
             img.src = detail.src;
@@ -1015,6 +1060,7 @@ document.addEventListener('alpine:init', () => {
                     ctx.drawImage(img, 0, 0);
                     brApplyRemoval(ctx, canvas.width, canvas.height, tgt, tol);
                     this.resultUrl = canvas.toDataURL('image/png');
+                    this.smInvalidate();   // re-process replaces the canvas → drop any cached export blob
                 } finally { this.processing = false; }
             }, 20);
         },
@@ -1034,7 +1080,61 @@ document.addEventListener('alpine:init', () => {
         },
         getCanvas() { return this.$refs.resultCanvas; },
         saveName() { return this.image?.name ?? 'image'; },
-        newImage() { this.image = null; this.resultUrl = null; this.sampling = false; this.target = { r: 255, g: 255, b: 255 }; this.tolerance = 32; this._img = null; },
+        newImage() { this.image = null; this.resultUrl = null; this.sampling = false; this.brushMode = null; this.target = { r: 255, g: 255, b: 255 }; this.tolerance = 32; this._img = null; this.smInvalidate(); },
+
+        /* ── Touch-up brush ──────────────────────────────────────
+           The flood remover only knows colour, so a white part of the product that
+           touches the white backdrop (e.g. a white shelf bar) gets eaten with the
+           background. The brush adds the missing signal — a human one. "Restore"
+           paints the original pixels back over the result; "Erase" knocks out
+           background the flood missed. Both edit the visible result canvas directly,
+           so getCanvas()/export pick the changes up. */
+        toggleBrush(mode) { this.brushMode = this.brushMode === mode ? null : mode; },
+        _evtToCanvas(e) {
+            const c = this.$refs.resultCanvas, rect = c.getBoundingClientRect();
+            const scale = c.width / rect.width;   // natural px per on-screen px
+            return { x: (e.clientX - rect.left) * scale, y: (e.clientY - rect.top) * (c.height / rect.height), scale };
+        },
+        _stamp(x, y, scale) {
+            const ctx = this.$refs.resultCanvas.getContext('2d');
+            const r = Math.max(1, (this.brushSize * scale) / 2);
+            ctx.save();
+            if (this.brushMode === 'erase') {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+            } else {
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.clip();
+                ctx.drawImage(this._img, 0, 0);   // restores original colour + full opacity inside the circle
+            }
+            ctx.restore();
+        },
+        _paintTo(x, y, scale) {
+            // Stamp circles along the segment from the last point so fast drags stay continuous.
+            const dx = x - this._lastX, dy = y - this._lastY;
+            const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / Math.max(1, (this.brushSize * scale) / 4)));
+            for (let i = 1; i <= steps; i++) this._stamp(this._lastX + (dx * i) / steps, this._lastY + (dy * i) / steps, scale);
+        },
+        brushDown(e) {
+            if (!this.brushMode || !this._img) return;
+            e.preventDefault();
+            this._painting = true;
+            const p = this._evtToCanvas(e);
+            this._lastX = p.x; this._lastY = p.y;
+            this._stamp(p.x, p.y, p.scale);
+            this.$refs.resultCanvas.setPointerCapture?.(e.pointerId);
+        },
+        brushMove(e) {
+            if (!this._painting) return;
+            e.preventDefault();
+            const p = this._evtToCanvas(e);
+            this._paintTo(p.x, p.y, p.scale);
+            this._lastX = p.x; this._lastY = p.y;
+        },
+        brushUp() {
+            if (!this._painting) return;
+            this._painting = false;
+            this.smInvalidate();   // canvas changed → re-encode on next save/estimate
+        },
     }));
 
     /* ── Tool: Image Cropper (lazy-loads cropperjs) ──────────── */
