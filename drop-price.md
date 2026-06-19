@@ -57,22 +57,23 @@ All column types are sqlite-safe → **no `DB::getDriverName()` guard needed** (
 
 ---
 
-## Phase 2 — Daily selection command + schedule
+## Phase 2 — Daily selection command + schedule ✅ DONE
 
-**Goal:** Lock the next puzzle automatically at a UTC minute :00, with eligibility, repeat-avoidance, sequential numbering, and an admin override.
+**Goal:** Lock the next puzzle automatically at a UTC minute :00, with eligibility, **unique-forever** product selection (sets up a replay archive), sequential numbering, and an admin override.
 
 **New file:** `app/Console/Commands/LockDailyDropPrice.php` (signature `dropprice:lock {--product=} {--date=}`). **Modify:** `routes/console.php`.
 
 **`handle()`:**
-1. Target date = today (UTC). If a puzzle already exists for it → exit idempotently (the hourly cron may fire twice).
-2. **Eligible products:** `Product` with non-empty `image_url`, `price > 0`, attached via `post_products` to a **published** post (`status='published'`, `published_at <= now()`), excluding the last ~30 puzzles' `product_id`, `inRandomOrder()->first()`.
-3. **Snapshot price as whole dollars:** `(int) round((float) $product->price)` — document "rounds to nearest dollar" (a $199.99 item's answer = 200).
-4. `puzzle_number = (max ?? 0) + 1`.
-5. Insert puzzle row with snapshots, `locked_at = now()`.
-6. `Cache::forget('dropprice.today')` so the homepage picks it up.
-7. No eligible product → **log a warning, don't throw** (keep yesterday's puzzle; homepage must never 500).
+1. Target date = today (UTC) (or `--date`). Already-locked puzzle for it → exit idempotently (the hourly cron may fire twice).
+2. **Eligible products:** `Product` with non-empty `image_url`, `price > 0`, attached via `post_products` to a **published** post (`whereHas('posts', fn($q) => $q->published())`).
+3. **Unique-forever selection** *(revised from the original "recent 30" window, 2026-06-19):* exclude **every** product that has ever been a puzzle (`whereNotIn('id', <all used product_ids>)`, derived from `drop_price_puzzles` — no extra column; the puzzles table *is* the "used" flag). Every puzzle is therefore a distinct product, so the planned **replay archive is never spoiled**. The daily-drop pipeline adds ~4 products/day vs 1 consumed, so the pool rarely runs dry; if it does, fall back to the **least-recently-used** eligible product (`leastRecentlyUsedProduct()`) so the homepage never repeats yesterday.
+4. **Snapshot price as whole dollars:** `(int) round((float) $product->price)` — rounds to nearest dollar (a $199.99 item's answer = 200).
+5. `puzzle_number = (max ?? 0) + 1`, assigned **at lock time** (see preset note).
+6. Insert puzzle row with snapshots, `locked_at = now()`.
+7. `Cache::forget('dropprice.today')` so the homepage picks it up.
+8. No eligible product at all → **log a warning, don't throw** (keep yesterday's puzzle; homepage must never 500).
 
-**Admin override (data-level):** a row pre-created with `is_preset = true` for a future date is respected by the command (keeps the admin's product choice; re-snapshots price at lock). The `--product=ID --date=YYYY-MM-DD` options create such a row from the CLI — this **is** the v1 override mechanism (no UI needed).
+**Admin override (data-level):** a row pre-created with `is_preset = true` for a future date is respected by the command (keeps the admin's product choice; re-snapshots price at lock). The `--product=ID --date=YYYY-MM-DD` options create such a row from the CLI — this **is** the v1 override mechanism (no UI needed). A future date stays **queued (unlocked, `puzzle_number` null)**; a today/past date locks immediately. **`puzzle_number` was made nullable** (migration 000001) so a queued preset has no number until it locks on its date — keeping numbering chronological even when presets are queued ahead.
 
 **Schedule (`routes/console.php`), at minute :00 per the hourly-cron rule:**
 ```php
@@ -80,7 +81,9 @@ Schedule::command('dropprice:lock')->dailyAt('00:00');
 ```
 Production cron is hourly, so the puzzle locks within the first UTC hour; the read layer (Phase 3) falls back to the latest puzzle in the gap.
 
-**Verify:** feature test — eligible vs ineligible (no image / price 0 / unpublished / recently-used) selection; sequential number; one row/date; integer price; idempotent re-run; `--product`/`--date` preset respected.
+**Verified:** `tests/Feature/DropPriceCommandTest.php` (11 tests) — eligible vs ineligible (no image / price 0 / unpublished / no post); unique-forever exclusion; LRU fallback when the pool is dry; sequential number; one row/date; integer price; idempotent re-run; preset queued-unlocked / today-instant / queued-then-locked; unknown preset product fails. Suite green at 70.
+
+> **Future phase — replay archive:** players revisit older puzzles (e.g. `/drop-price/{number}`). The data model already supports it (each puzzle snapshots name/image/price/number; `evaluate()` is puzzle-agnostic; localStorage keyed by puzzle_number). Unique-forever selection (above) is what keeps replays un-spoiled.
 
 ---
 

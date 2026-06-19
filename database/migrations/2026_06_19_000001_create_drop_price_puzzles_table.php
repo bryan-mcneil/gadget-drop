@@ -10,8 +10,11 @@ return new class extends Migration
     {
         Schema::create('drop_price_puzzles', function (Blueprint $table) {
             $table->id();
-            // Sequential, human-facing number — "Drop Price #142".
-            $table->unsignedInteger('puzzle_number')->unique();
+            // Sequential, human-facing number — "Drop Price #142". Nullable because a
+            // future-dated admin preset is queued before it has a number; the number is
+            // assigned (max+1) only when the puzzle is actually locked for its date, so
+            // numbering stays chronological even when presets are queued ahead of time.
+            $table->unsignedInteger('puzzle_number')->nullable()->unique();
             // One puzzle per UTC date.
             $table->date('date')->unique();
             // The product the puzzle is based on. nullOnDelete so deleting a
