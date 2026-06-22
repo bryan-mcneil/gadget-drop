@@ -214,13 +214,22 @@ $puzzle = \App\Support\DropPrice::today();
 
 ---
 
-## Phase 9 — Build / deploy / caching
+## Phase 9 — Build / deploy / caching ✅ DONE
 
 - **Tailwind purge:** band emojis are content (safe), but any band-keyed **color classes** (e.g. `bg-sky-100 / bg-amber-100 / bg-rose-100 / bg-emerald-100` for the meter) must appear **literally** in Blade or `app.js` so the purge scan keeps them. `npm run build` after editing Blade/JS/CSS.
 - **DB-cache:** `DropPrice::today()` uses `Cache::remember` on the database store (no Redis); the lock command + any override `Cache::forget('dropprice.today')`; TTL must not outlive the UTC day. `cache:prune-expired` (05:00) already sweeps it.
 - **Schedule at :00:** `dropprice:lock` → `dailyAt('00:00')` UTC (hourly-cron compliant). Locks within the first UTC hour; homepage falls back to latest puzzle meanwhile.
 - **`wire:navigate`:** the `dropPrice` Alpine component cleans up in `destroy()` (or uses `.window` x-on bindings); the Livewire island re-mounts per swap without duplicate listeners.
 - **Smoke both `/` and `/admin`**; grep rendered `/` HTML to confirm the price never appears pre-reveal.
+
+**Verified (2026-06-22):**
+- `npm run build` → exit 0 (16.98s). Public CSS `app-mvN-UnzR.css`, admin bundle `app-DVY9e7wx.js`.
+- **Purge:** confirmed in the built CSS — grid `grid-cols-5`/`col-span-3`/`col-span-2`, all four band families (`bg-sky-100`/`text-amber-700`/`ring-rose-200`/`bg-emerald-100`), and admin badge `bg-purple-100`/`text-purple-700` all survived.
+- **DB-cache TTL:** `config/app.php` timezone is `UTC`, so `today()`'s `now()->endOfDay()` TTL expires exactly at UTC midnight (cannot outlive the UTC day); busted early by the lock command's `Cache::forget`. The `DropPriceTodayTest` cache-contract test proves forget→re-resolve.
+- **Local end-to-end:** applied the 3 pending Phase 1 migrations to local MySQL `gadget_drop`, then `dropprice:lock` → "Locked Drop Price #1 for 2026-06-22: Sony INZONE H6 Air ($200)".
+- **Live `/` (HTTP 200):** game renders (Drop Price #1, "Guess the Amazon price", Sony INZONE H6 Air), grid classes present in HTML. **Secrecy:** Livewire snapshot has `revealPrice:null` + `affiliateProductId:null`; no reveal markup ("The price was"/"See it on Amazon"/"Nailed it") pre-finish; puzzle product shows name+thumbnail only (no price card — Phase 6 Top Picks/Spotlight exclusion holds); the only `$200` on the page is unrelated editorial copy about earbuds.
+- **Live `/admin`:** → 302 `/login`; `/login` → 200, mounts Inertia `#app` loading the fresh `app-DVY9e7wx.js` bundle (admin React stack boots on new assets).
+- **Suite:** `php artisan test` → 94 passed, 309 assertions.
 
 ---
 
