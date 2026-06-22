@@ -5,6 +5,10 @@
     $darkBg = 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)';
     $spotlightBg = 'linear-gradient(160deg, #050510 0%, #0c0c1d 45%, #0e0b1f 100%)';
 
+    // On lg the carousel shares the hero band 60/40 with the Drop Price game, so
+    // it renders at ~60vw there; full width below (and when there's no puzzle).
+    $heroSizes = $dropPrice ? '(min-width: 1024px) 60vw, 100vw' : '100vw';
+
     $isWithin24h = function ($iso) {
         if (!$iso) return false;
         try { return \Illuminate\Support\Carbon::parse($iso)->gt(now()->subDay()); } catch (\Throwable $e) { return false; }
@@ -24,19 +28,21 @@
         @push('head')
             @php $lcpWebp = \App\Support\ResponsiveImage::webpSrcset($lcpSrc); @endphp
             @if($lcpWebp !== '')
-                <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $lcpWebp }}" imagesizes="100vw" fetchpriority="high">
+                <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $lcpWebp }}" imagesizes="{{ $heroSizes }}" fetchpriority="high">
             @else
                 <link rel="preload" as="image" href="{{ $lcpSrc }}" fetchpriority="high">
             @endif
         @endpush
     @endif
 
-    {{-- ── Hero Carousel ── --}}
+    {{-- ── Hero band: carousel (60%) + Drop Price game (40%) on lg; stacked
+            carousel-first on mobile ── --}}
     @if(count($heroSlides) > 0)
         @php $count = count($heroSlides); @endphp
+        <div class="grid grid-cols-1 {{ $dropPrice ? 'lg:grid-cols-5' : '' }}">
         <section x-data="heroCarousel({{ $count }})" @mouseenter="paused = true" @mouseleave="paused = false"
             @touchstart.passive="touchStart($event)" @touchend.passive="touchEnd($event)"
-            class="relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
+            class="{{ $dropPrice ? 'lg:col-span-3' : '' }} relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
             @foreach($heroSlides as $i => $slide)
                 @php $p = $slide['post']; @endphp
                 <div class="absolute inset-0 transition-opacity duration-700"
@@ -44,7 +50,7 @@
                     :style="active === {{ $i }} ? 'opacity:1;z-index:10' : 'opacity:0;z-index:0'">
                     @if($p['featured_image'])
                         <x-responsive-image :src="$p['hero_image'] ?? $p['featured_image']" :alt="$p['title']"
-                            sizes="100vw" width="1600" height="520" class="absolute inset-0 w-full h-full object-cover"
+                            :sizes="$heroSizes" width="1600" height="520" class="absolute inset-0 w-full h-full object-cover"
                             style="object-position: {{ $p['hero_image_position'] ?? $p['featured_image_position'] ?? 'center center' }}"
                             loading="{{ $i === 0 ? 'eager' : 'lazy' }}" fetchpriority="{{ $i === 0 ? 'high' : 'low' }}" />
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-950/95 via-gray-950/75 to-gray-950/30"></div>
@@ -106,6 +112,16 @@
                 <div class="absolute top-4 right-4 z-20 text-xs text-white/50 tabular-nums"><span x-text="active + 1"></span> / {{ $count }}</div>
             @endif
         </section>
+
+        @if($dropPrice)
+            {{-- Drop Price game island (40% on lg, below the carousel on mobile).
+                 Display-only props — the secret answer is read server-side by the
+                 Livewire component, never passed here. --}}
+            <div class="lg:col-span-2 flex flex-col p-4 md:p-5" style="background: {{ $heroBg }}">
+                @livewire('drop-price', ['number' => $dropPrice['number'], 'name' => $dropPrice['name'], 'image' => $dropPrice['image']])
+            </div>
+        @endif
+        </div>
     @endif
 
     {{-- ── Categories strip ── --}}

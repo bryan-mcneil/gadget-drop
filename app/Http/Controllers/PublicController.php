@@ -94,6 +94,13 @@ class PublicController extends Controller
             $slides[] = ['label' => 'Latest Tech News', 'post' => $fmt($latestNewsPost)];
         }
 
+        // Drop Price — resolve today's puzzle up front so its product can be kept
+        // OUT of the price-bearing homepage sections below. The game shows the
+        // product openly but hides the price; if that same product appeared in
+        // Top Picks / Spotlight with its price, it would spoil the answer.
+        $puzzle = \App\Support\DropPrice::today();
+        $puzzleProductId = $puzzle?->affiliate_product_id;
+
         // Top Picks — up to 6 unique products from recent articles (no tech tips or news)
         $topPickPosts = Post::published()
             ->whereNotIn('type', ['tech_tip', 'tech_news'])
@@ -107,7 +114,7 @@ class PublicController extends Controller
         $topPicks = [];
         foreach ($topPickPosts as $tp) {
             $product = $tp->products->first();
-            if ($product && ! in_array($product->id, $seenProductIds)) {
+            if ($product && $product->id !== $puzzleProductId && ! in_array($product->id, $seenProductIds)) {
                 $seenProductIds[] = $product->id;
                 $api = $this->resolveApiData($product->asin);
                 $topPicks[] = [
@@ -130,7 +137,8 @@ class PublicController extends Controller
             ->first(['id', 'title', 'slug']);
 
         $spotlight = null;
-        if ($spotlightPost && $spotlightPost->products->isNotEmpty()) {
+        if ($spotlightPost && $spotlightPost->products->isNotEmpty()
+            && $spotlightPost->products->first()->id !== $puzzleProductId) {
             $sp  = $spotlightPost->products->first();
             $api = $this->resolveApiData($sp->asin);
             $spotlight = [
@@ -157,8 +165,18 @@ class PublicController extends Controller
 
         $nav = NavigationData::get();
 
+        // DISPLAY-ONLY facts for the game island ($puzzle resolved above). Never
+        // pass the price: the secret answer is read server-side by the Livewire
+        // component on demand; the browser only ever receives number/name/image.
+        $dropPrice = $puzzle ? [
+            'number' => $puzzle->puzzle_number,
+            'name'   => $puzzle->product_name,
+            'image'  => $puzzle->product_image_url,
+        ] : null;
+
         return view('public.home', [
             'heroSlides' => $slides,
+            'dropPrice'  => $dropPrice,
             'recentPosts' => Post::published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
                 ->latest('published_at')
