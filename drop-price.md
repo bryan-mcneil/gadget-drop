@@ -200,14 +200,17 @@ $puzzle = \App\Support\DropPrice::today();
 
 ---
 
-## Phase 8 — Tests (keep the sqlite suite green)
+## Phase 8 — Tests (keep the sqlite suite green) ✅ DONE
 
-- **`tests/Unit/DropPriceTest.php`** — `evaluate()` band boundaries + direction symmetry.
-- **`tests/Feature/Livewire/DropPriceTest.php`** — mount hides price (`assertDontSee`); wrong guess keeps it hidden; exact guess → `won`/`finished` + reveal price + CTA route; 4 wrong → loss reveal; `save()` valid → `success` + `assertDatabaseHas('subscribers')` + result row; duplicate → `duplicate`, no 2nd subscriber; invalid/decimal/0/negative guess → `assertHasErrors`; `guess()` after finish is a no-op.
-- **`tests/Feature/DropPriceCommandTest.php`** — eligibility filtering, sequential number, one/date, integer price, idempotency, `--product`/`--date` preset.
-- **Extend `PublicPagesTest`** — `/` with a seeded puzzle returns 200, renders name + "Drop Price #", and **does not contain the price string**.
+- **`tests/Unit/DropPriceTest.php`** — `evaluate()` band boundaries + direction symmetry. *(landed Phase 3)*
+- **`tests/Feature/Livewire/DropPriceTest.php`** — mount hides price (`assertDontSee`); wrong guess keeps it hidden; exact guess → `won`/`finished` + reveal price + CTA route; 4 wrong → loss reveal; `save()` valid → `success` + `assertDatabaseHas('subscribers')` + result row; duplicate → `duplicate`, no 2nd subscriber; invalid/decimal/0/negative guess → `assertHasErrors`; `guess()` after finish is a no-op. *(landed Phase 4)*
+- **`tests/Feature/DropPriceCommandTest.php`** — eligibility filtering, sequential number, one/date, integer price, idempotency, `--product`/`--date` preset. *(landed Phase 2)*
+- **Extend `PublicPagesTest`** — `/` with a seeded puzzle returns 200, renders name + "Drop Price #", and **does not contain the price string**. *(landed Phase 6)*
+- **`tests/Feature/Admin/DashboardTest.php`** — the read-only admin panel prop. *(landed Phase 7)*
 
-**Verify:** `php artisan test` fully green on sqlite.
+**Built (this phase's gap):** the listed files all landed alongside their feature phases, leaving one untested seam — `DropPrice::today()`, which the pure `Unit\DropPriceTest` can't reach (no Laravel boot). Added **`tests/Feature/DropPriceTodayTest.php`** (6 tests): resolves the latest locked puzzle dated today; falls back to the most recent prior puzzle before today's is locked (the cron-gap case); excludes an unlocked future preset; never serves a future-dated row; null when nothing is locked; and the cache contract — `today()` caches, a later lock is stale until `Cache::forget('dropprice.today')` re-resolves (mirrors the lock command).
+
+**Verify:** `php artisan test` fully green on sqlite — **94 passed, 309 assertions.**
 
 ---
 
