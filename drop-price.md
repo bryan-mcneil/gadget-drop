@@ -108,9 +108,11 @@ Production cron is hourly, so the puzzle locks within the first UTC hour; the re
 
 ---
 
-## Phase 4 — Livewire component + view (the secrecy boundary)
+## Phase 4 — Livewire component + view (the secrecy boundary) ✅ DONE
 
 **Goal:** The interactive game — tracks 4 guesses server-side, never renders the price pre-reveal, reuses the Subscriber flow to save, shows the reveal CTA.
+
+**Built:** `app/Livewire/DropPrice.php` + `resources/views/livewire/drop-price.blade.php`. The secret answer is **never a public property** — `guess()` reads it on demand via `DropPrice::today()->price`, scores it through `DropPrice::evaluate()`, and pushes only an ordinal row (`['guess','direction','band']`) onto the public `$results`. `revealPrice`/`affiliateProductId` stay `null` until the game finishes (a win, or `MAX_GUESSES` reached); only then are they set and a `dropprice-finished` event (ordinal data only — won/number/guesses/results) is dispatched for Phase 5's Alpine. `guess()` validates `required|integer|min:1|max:100000` and no-ops once finished. `save()` mirrors `JoinTheDrop` (firstOrCreate by email → `success`/`duplicate`/`error`) then `syncStreak()`: client streak counters are sanitized (`max(0,(int))`), bests/totals `max`-merged, and written with **`forceFill()->save()`** because the streak columns are intentionally non-fillable (a plain `update()` silently drops them — caught in testing); if the game is finished it upserts today's `drop_price_results` row with **server-computed** `won`/`guesses_used`/`closest_miss_pct` (the miss % is derived from the player's own stored guesses, never shipped as a live hint). View reveals the price only inside `@if($finished)`; CTA is `route('affiliate.redirect', $affiliateProductId)` `target="_blank" rel="nofollow sponsored"` + `<x-affiliate-disclosure>`; product image via `<x-responsive-image>`; band colour classes written literally (`bg-sky-100`/`bg-amber-100`/`bg-rose-100`/`bg-emerald-100` + rings) so the Tailwind purge keeps them. Verified by `tests/Feature/Livewire/DropPriceTest.php` (8 tests — mount hides price, wrong guess stays ordinal + hidden, exact guess reveals + CTA + dispatch, 4-wrong loss reveal, post-finish no-op, 0/negative validation, save subscribes + result row, duplicate syncs without a 2nd subscriber). Suite green at **84 tests**.
 
 **New files:** `app/Livewire/DropPrice.php`, `resources/views/livewire/drop-price.blade.php`.
 
