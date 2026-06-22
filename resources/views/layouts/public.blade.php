@@ -56,6 +56,7 @@
         <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-400-normal.woff2">
         <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-500-normal.woff2">
         <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-600-normal.woff2">
+        <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/figtree/figtree-latin-700-normal.woff2">
 
         <!-- Google Consent Mode v2 — defaults denied until user accepts -->
         <script>

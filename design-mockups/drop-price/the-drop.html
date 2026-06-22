@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drop Price — The Drop</title>
+<style>
+  @font-face{font-family:'Figtree';font-weight:400;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-400-normal.woff2") format("woff2");}
+  @font-face{font-family:'Figtree';font-weight:500;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-500-normal.woff2") format("woff2");}
+  @font-face{font-family:'Figtree';font-weight:600;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-600-normal.woff2") format("woff2");}
+
+  :root{
+    --band:#030309; --text:#E6EDEA; --muted:#6B7B74;
+    --phos:#34D399; --phos-dim:#173a2d; --amber:#FBBF24; --amazon:#F97316;
+    --mono:'Cascadia Mono','Consolas','SF Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Figtree',sans-serif;background:var(--band);color:var(--text);
+    -webkit-font-smoothing:antialiased;padding:34px 34px 60px;width:1240px}
+  .caption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#41504a;
+    font-weight:600;margin:0 0 12px 2px}
+
+  .row{display:flex;gap:0;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .carousel{flex:3;min-height:540px;position:relative;
+    background:radial-gradient(120% 120% at 20% 10%,#0c1416 0%,#030309 60%);
+    display:flex;flex-direction:column;justify-content:center;padding:48px;overflow:hidden}
+  .carousel .ey{color:#3a7d63;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;opacity:.7}
+  .carousel h2{font-size:40px;font-weight:600;line-height:1.08;max-width:440px;opacity:.3}
+  .carousel .ph{position:absolute;right:-40px;bottom:-30px;width:300px;height:300px;border-radius:30px;
+    background:linear-gradient(135deg,#10201b,#060a09);opacity:.5}
+  .carousel .tag{position:absolute;left:48px;bottom:40px;color:#2f4a40;font-size:13px;font-weight:600}
+
+  /* ── The game module — borderless, melts into the band ───────── */
+  .gamewrap{flex:2;background:var(--band);display:flex;padding:30px 26px}
+  .panel{flex:1;display:flex;flex-direction:column;position:relative}
+
+  .status{display:flex;align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);
+    padding-bottom:14px;border-bottom:1px solid rgba(52,211,153,.12)}
+  .status .live{display:flex;align-items:center;gap:7px;color:var(--phos)}
+  .status .live i{width:7px;height:7px;border-radius:50%;background:var(--phos);
+    box-shadow:0 0 8px var(--phos);font-style:normal}
+  .status .id{color:var(--muted)}
+
+  /* the masked LCD readout = signature */
+  .stage{padding:26px 0 8px;text-align:center}
+  .well{position:relative;display:inline-flex;align-items:center;gap:10px;
+    padding:20px 26px;border-radius:14px;background:#04140d;
+    box-shadow:inset 0 0 0 1px rgba(52,211,153,.18),inset 0 0 34px rgba(0,0,0,.7);overflow:hidden}
+  .well::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(180deg,rgba(52,211,153,.045) 0 2px,transparent 2px 4px)}
+  .cur{font-family:var(--mono);font-size:40px;color:var(--phos-dim);font-weight:700}
+  .cell{font-family:var(--mono);font-size:40px;font-weight:700;width:30px;text-align:center;
+    color:var(--phos-dim);position:relative}
+  .cell.mask{color:transparent}
+  .cell.mask::before{content:"";position:absolute;left:3px;right:3px;top:14%;bottom:14%;
+    border-radius:3px;background:repeating-linear-gradient(90deg,#0e2b20 0 6px,#0a201880 6px 9px)}
+  .lockcap{margin-top:13px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted)}
+
+  .device{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:16px;color:var(--muted)}
+  .device .ic{width:30px;height:30px;border-radius:8px;background:#0b1714;
+    box-shadow:inset 0 0 0 1px rgba(52,211,153,.12);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .device span{font-size:13px;font-weight:500;color:#9fb1a9}
+
+  .log{margin:22px 0 0;display:flex;flex-direction:column;gap:7px}
+  .lg{display:flex;align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:14px;padding:10px 14px;border-radius:10px;
+    background:rgba(52,211,153,.04);box-shadow:inset 0 0 0 1px rgba(52,211,153,.07)}
+  .lg .bid{display:flex;align-items:center;gap:12px}
+  .lg .bid b{color:var(--text);font-weight:700}
+  .lg .dir{color:var(--amber);font-size:12px;letter-spacing:.04em}
+  .pips{display:flex;gap:4px}
+  .pip{width:8px;height:8px;border-radius:50%;background:#13241e;box-shadow:inset 0 0 0 1px rgba(52,211,153,.18)}
+  .pip.on1{background:#2563eb;box-shadow:0 0 6px rgba(37,99,235,.6)}
+  .pip.on2{background:var(--amber);box-shadow:0 0 6px rgba(251,191,36,.6)}
+  .pip.on3{background:#fb4d3d;box-shadow:0 0 6px rgba(251,77,61,.6)}
+
+  .entry{margin-top:auto;padding-top:20px}
+  .field{display:flex;gap:9px}
+  .inp{flex:1;position:relative;display:flex;align-items:center;
+    background:#04120c;border-radius:11px;box-shadow:inset 0 0 0 1px rgba(52,211,153,.16);padding:0 14px}
+  .inp .d{font-family:var(--mono);color:var(--phos);font-size:18px;font-weight:700;margin-right:8px}
+  .inp input{flex:1;border:0;background:transparent;color:var(--text);font-family:var(--mono);
+    font-size:18px;font-weight:700;padding:14px 0;outline:none}
+  .inp input::placeholder{color:#2f4a40}
+  .enter{flex:none;width:54px;border:0;border-radius:11px;cursor:pointer;
+    background:transparent;color:var(--phos);font-size:20px;
+    box-shadow:inset 0 0 0 1.5px var(--phos)}
+  .count{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em}
+  .count b{color:var(--phos)}
+
+  /* reveal */
+  .well.on{box-shadow:inset 0 0 0 1px rgba(52,211,153,.45),inset 0 0 34px rgba(0,0,0,.6),0 0 30px rgba(52,211,153,.18)}
+  .cell.lit,.cur.lit{color:var(--phos);text-shadow:0 0 10px rgba(52,211,153,.6)}
+  .verdict{font-family:var(--mono);font-size:14px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--phos);text-align:center;margin-bottom:4px}
+  .vmeta{text-align:center;font-size:13px;color:var(--muted);margin-bottom:8px}
+  .cta{margin-top:20px;display:block;text-decoration:none;text-align:center;
+    background:var(--amazon);color:#190a00;font-weight:700;font-size:15px;padding:14px;border-radius:11px}
+  .disc{margin-top:10px;font-size:11px;color:#41504a;text-align:center}
+  .share{margin-top:13px;display:block;width:100%;background:rgba(52,211,153,.08);
+    color:var(--phos);border:0;border-radius:11px;padding:12px;font-weight:600;font-size:14px;font-family:var(--mono);cursor:pointer;
+    box-shadow:inset 0 0 0 1px rgba(52,211,153,.2)}
+  .save{margin-top:16px;padding-top:16px;border-top:1px solid rgba(52,211,153,.12)}
+  .save b{font-size:14px}.save p{font-size:12px;color:var(--muted);margin:3px 0 11px}
+  .save .field input{flex:1;padding:11px 13px;border-radius:10px;border:0;background:#04120c;color:var(--text);
+    font-family:var(--mono);font-size:14px;box-shadow:inset 0 0 0 1px rgba(52,211,153,.16)}
+  .save .field button{padding:0 18px;border:0;border-radius:10px;background:var(--phos);color:#04140d;font-weight:700;cursor:pointer;font-family:'Figtree'}
+
+  .grid2{display:flex;gap:34px;margin-top:46px;align-items:flex-start}
+  .col{flex:1}
+  .pad{padding:26px;background:var(--band)}
+  .mobile{width:392px}
+</style>
+</head>
+<body>
+
+  <p class="caption">B · The Drop — desktop, mid-game (hero band, 60 / 40)</p>
+  <div class="row">
+    <div class="carousel">
+      <div class="ey">— Featured Drop</div>
+      <h2>The carousel keeps the band's editorial half</h2>
+      <div class="ph"></div>
+      <div class="tag">60% carousel · existing hero</div>
+    </div>
+    <div class="gamewrap">
+      <div class="panel">
+        <div class="status">
+          <span>DROP&nbsp;PRICE</span>
+          <span class="id">//142</span>
+          <span class="live"><i></i> LIVE</span>
+        </div>
+        <div class="stage">
+          <div class="well">
+            <span class="cur">$</span>
+            <span class="cell mask"></span><span class="cell mask"></span>
+            <span class="cell">,</span>
+            <span class="cell mask"></span><span class="cell mask"></span><span class="cell mask"></span>
+          </div>
+          <div class="lockcap">PRICE LOCKED · 4 GUESSES TO CRACK IT</div>
+        </div>
+        <div class="device">
+          <div class="ic">🎧</div><span>Sony INZONE H6 Air gaming headset</span>
+        </div>
+        <div class="log">
+          <div class="lg">
+            <span class="bid"><b>$150</b><span class="dir">▼ LOWER</span></span>
+            <span class="pips"><span class="pip on1"></span><span class="pip"></span><span class="pip"></span></span>
+          </div>
+          <div class="lg">
+            <span class="bid"><b>$099</b><span class="dir">▼ LOWER</span></span>
+            <span class="pips"><span class="pip on2"></span><span class="pip on2"></span><span class="pip"></span></span>
+          </div>
+          <div class="lg">
+            <span class="bid"><b>$095</b><span class="dir">▼ LOWER</span></span>
+            <span class="pips"><span class="pip on3"></span><span class="pip on3"></span><span class="pip on3"></span></span>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="field">
+            <div class="inp"><span class="d">$</span><input placeholder="enter guess"></div>
+            <button class="enter">▶</button>
+          </div>
+          <div class="count">GUESS <b>4</b> / 4 · getting warmer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="col">
+      <p class="caption">B · reveal — the readout powers on</p>
+      <div class="pad" style="max-width:472px;border-radius:14px">
+        <div class="panel">
+          <div class="status">
+            <span>DROP&nbsp;PRICE</span><span class="id">//142</span>
+            <span class="live"><i></i> SOLVED</span>
+          </div>
+          <div class="stage">
+            <div class="verdict">▸ Nailed it</div>
+            <div class="vmeta">Cracked in 4 guesses.</div>
+            <div class="well on">
+              <span class="cur lit">$</span>
+              <span class="cell lit">0</span><span class="cell lit">8</span>
+              <span class="cell lit">9</span>
+            </div>
+            <div class="lockcap" style="color:var(--phos)">TODAY'S DROP PRICE</div>
+          </div>
+          <a class="cta" href="#">See it on Amazon →</a>
+          <div class="disc">We earn a commission from qualifying purchases.</div>
+          <button class="share">⧉ SHARE RESULT</button>
+          <div class="save">
+            <b>Save your streak</b>
+            <p>Get tomorrow's drop in your inbox — never lose your stats.</p>
+            <div class="field">
+              <input placeholder="you@email.com">
+              <button>Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="flex:none">
+      <p class="caption">B · mobile (≤ lg, full width below carousel)</p>
+      <div class="pad mobile" style="border-radius:14px">
+        <div class="panel">
+          <div class="status"><span>DROP&nbsp;PRICE</span><span class="id">//142</span><span class="live"><i></i> LIVE</span></div>
+          <div class="stage">
+            <div class="well">
+              <span class="cur">$</span>
+              <span class="cell mask"></span><span class="cell mask"></span><span class="cell">,</span>
+              <span class="cell mask"></span><span class="cell mask"></span><span class="cell mask"></span>
+            </div>
+            <div class="lockcap">PRICE LOCKED · 4 GUESSES</div>
+          </div>
+          <div class="device"><div class="ic">🎧</div><span>Sony INZONE H6 Air</span></div>
+          <div class="log">
+            <div class="lg"><span class="bid"><b>$150</b><span class="dir">▼ LOWER</span></span><span class="pips"><span class="pip on1"></span><span class="pip"></span><span class="pip"></span></span></div>
+            <div class="lg"><span class="bid"><b>$099</b><span class="dir">▼ LOWER</span></span><span class="pips"><span class="pip on2"></span><span class="pip on2"></span><span class="pip"></span></span></div>
+          </div>
+          <div class="entry">
+            <div class="field"><div class="inp"><span class="d">$</span><input placeholder="enter guess"></div><button class="enter">▶</button></div>
+            <div class="count">GUESS <b>3</b> / 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

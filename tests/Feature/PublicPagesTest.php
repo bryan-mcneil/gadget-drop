@@ -109,7 +109,7 @@ class PublicPagesTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('Guess the Amazon price', false) // the game island rendered
+            ->assertSee('Guess today\'s price', false)   // the game island rendered
             ->assertSee('Secret Mystery Widget', false)  // product shown openly (no price)
             ->assertDontSee('4242')                      // the snapshot answer, never
             ->assertDontSee('4,242');                    // …nor leaked via Top Picks / Spotlight

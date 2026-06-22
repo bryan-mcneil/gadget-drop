@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drop Price — Heat-Seek</title>
+<style>
+  /* Real brand font, loaded from the repo's own woff2 (offline). */
+  @font-face{font-family:'Figtree';font-weight:400;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-400-normal.woff2") format("woff2");}
+  @font-face{font-family:'Figtree';font-weight:500;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-500-normal.woff2") format("woff2");}
+  @font-face{font-family:'Figtree';font-weight:600;font-display:block;
+    src:url("file:///C:/Users/xbmcn/Documents/Code/gadget-drop/public/fonts/figtree/figtree-latin-600-normal.woff2") format("woff2");}
+
+  :root{
+    --page:#050510; --panel:#0E1326; --ring:rgba(148,163,184,.12);
+    --text:#F1F5F9; --muted:#8A93A6;
+    --cold:#38BDF8; --warm:#FB923C; --hot:#FF4D4D; --gold:#FACC15;
+    --amazon:#F97316;
+    /* condensed technical numeral face — stand-in for a self-hosted DIN/Oswald */
+    --num:'Bahnschrift','DIN Condensed','Oswald',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Figtree',sans-serif;background:var(--page);color:var(--text);
+    -webkit-font-smoothing:antialiased;padding:34px 34px 60px;width:1240px}
+  .caption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#5a6275;
+    font-weight:600;margin:0 0 12px 2px}
+  .row{display:flex;gap:0;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .carousel{flex:3;min-height:520px;position:relative;
+    background:radial-gradient(120% 120% at 20% 10%,#161a36 0%,#070710 60%);
+    display:flex;flex-direction:column;justify-content:center;padding:48px;overflow:hidden}
+  .carousel .ey{color:#7c83ff;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;opacity:.5}
+  .carousel h2{font-size:40px;font-weight:600;line-height:1.08;max-width:440px;opacity:.32}
+  .carousel .ph{position:absolute;right:-40px;bottom:-30px;width:300px;height:300px;border-radius:30px;
+    background:linear-gradient(135deg,#222845,#101027);opacity:.25}
+  .carousel .tag{position:absolute;left:48px;bottom:40px;color:#48506a;font-size:13px;font-weight:600;letter-spacing:.04em}
+
+  /* ── The game panel ───────────────────────────────────────── */
+  .gamewrap{flex:2;background:var(--page);display:flex;padding:14px}
+  .panel{flex:1;display:flex;flex-direction:column;background:var(--panel);
+    border-radius:16px;box-shadow:inset 0 0 0 1px var(--ring);overflow:hidden;position:relative}
+  .panel::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--cold),var(--warm),var(--hot),var(--gold))}
+
+  .head{padding:22px 22px 16px}
+  .eyebrow{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+  .brand .dot{font-size:15px}
+  .no{font-family:var(--num);font-size:15px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+  .sub{margin-top:9px;font-size:14px;color:var(--muted)}
+
+  .product{display:flex;align-items:center;gap:12px;padding:0 22px 16px}
+  .thumb{width:46px;height:46px;border-radius:11px;flex:none;
+    background:#161c33;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    display:flex;align-items:center;justify-content:center;font-size:22px}
+  .pname{font-size:15px;font-weight:600;line-height:1.25}
+
+  .arena{display:flex;gap:16px;padding:4px 22px 18px;flex:1}
+
+  /* mercury heat column = the signature */
+  .track{position:relative;width:14px;border-radius:999px;background:rgba(255,255,255,.06);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);margin-bottom:22px}
+  .fill{position:absolute;left:0;right:0;bottom:0;border-radius:999px;
+    background:linear-gradient(to top,var(--cold),var(--warm),var(--hot));
+    box-shadow:0 0 14px rgba(255,77,77,.45)}
+  .bulb{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);
+    width:26px;height:26px;border-radius:50%;background:var(--hot);
+    box-shadow:0 0 16px rgba(255,77,77,.55),inset 0 0 0 1px rgba(255,255,255,.12)}
+  .ticks{position:absolute;left:22px;top:0;bottom:0;display:flex;flex-direction:column;
+    justify-content:space-between;font-size:9px;color:#4b5266}
+
+  .play{flex:1;display:flex;flex-direction:column}
+  .guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+  .guess{display:flex;align-items:center;justify-content:space-between;
+    background:rgba(255,255,255,.035);border-radius:11px;padding:9px 12px}
+  .bid{display:flex;align-items:baseline;gap:9px}
+  .bid b{font-family:var(--num);font-weight:700;font-size:20px;letter-spacing:.01em;
+    font-variant-numeric:tabular-nums}
+  .aim{font-size:12px;color:var(--muted);font-weight:500}
+  .band{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
+    padding:3px 9px;border-radius:999px}
+  .b-cold{color:#7dd3fc;background:rgba(56,189,248,.13)}
+  .b-warm{color:#fdba74;background:rgba(251,146,60,.14)}
+  .b-hot{color:#fda4af;background:rgba(255,77,77,.15)}
+
+  .inputzone{margin-top:auto}
+  .field{display:flex;gap:9px}
+  .inp{flex:1;position:relative}
+  .inp span{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    font-family:var(--num);font-weight:700;font-size:18px;color:var(--muted)}
+  .inp input{width:100%;padding:14px 14px 14px 30px;border-radius:12px;border:0;
+    background:#080c1a;color:var(--text);font-family:var(--num);font-weight:700;font-size:19px;
+    letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .inp input::placeholder{color:#3f4762}
+  .go{flex:none;padding:0 22px;border:0;border-radius:12px;cursor:pointer;
+    background:var(--gold);color:#1a1500;font-weight:700;font-size:14px;letter-spacing:.04em;
+    text-transform:uppercase;font-family:'Figtree'}
+  .meter{display:flex;align-items:center;gap:6px;margin-top:13px}
+  .dash{height:5px;flex:1;border-radius:999px;background:rgba(255,255,255,.1)}
+  .dash.on{background:linear-gradient(90deg,var(--warm),var(--hot))}
+  .left{margin-left:6px;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
+
+  /* reveal state */
+  .panel.win{background:
+    radial-gradient(120% 80% at 50% 0%,rgba(250,204,21,.16),transparent 60%),var(--panel)}
+  .panel.win::before{background:var(--gold)}
+  .reveal{padding:30px 24px 26px;text-align:center;display:flex;flex-direction:column;flex:1}
+  .verdict{font-size:26px;font-weight:600;color:var(--gold)}
+  .vmeta{margin-top:6px;font-size:13px;color:var(--muted)}
+  .wasl{margin-top:22px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .price{font-family:var(--num);font-weight:700;font-size:64px;line-height:1;letter-spacing:.01em;
+    margin-top:6px;color:var(--text);font-variant-numeric:tabular-nums}
+  .cta{margin-top:22px;display:block;text-decoration:none;text-align:center;
+    background:var(--amazon);color:#190a00;font-weight:700;font-size:15px;padding:14px;border-radius:12px}
+  .disc{margin-top:10px;font-size:11px;color:#5a6275}
+  .share{margin-top:14px;display:block;width:100%;background:rgba(255,255,255,.06);
+    color:var(--text);border:0;border-radius:12px;padding:12px;font-weight:600;font-size:14px;font-family:'Figtree';cursor:pointer}
+  .save{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+  .save b{font-size:14px}.save p{font-size:12px;color:var(--muted);margin:3px 0 11px}
+  .save .field input{flex:1;padding:11px 13px;border-radius:11px;border:0;background:#080c1a;color:var(--text);
+    font-family:'Figtree';font-size:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .save .field button{padding:0 18px;border:0;border-radius:11px;background:var(--gold);color:#1a1500;font-weight:700;cursor:pointer}
+
+  .grid2{display:flex;gap:34px;margin-top:46px}
+  .mobile{width:392px}
+  .mobile .panel{border-radius:16px}
+  .col{flex:1}
+</style>
+</head>
+<body>
+
+  <p class="caption">A · Heat-Seek — desktop, mid-game (hero band, 60 / 40)</p>
+  <div class="row">
+    <div class="carousel">
+      <div class="ey">— Featured Drop</div>
+      <h2>The carousel keeps the band's editorial half</h2>
+      <div class="ph"></div>
+      <div class="tag">60% carousel · existing hero</div>
+    </div>
+    <div class="gamewrap">
+      <div class="panel">
+        <div class="head">
+          <div class="eyebrow">
+            <div class="brand"><span class="dot">🌡️</span> Drop Price</div>
+            <div class="no">No.142</div>
+          </div>
+          <div class="sub">Guess today's price in 4 tries.</div>
+        </div>
+        <div class="product">
+          <div class="thumb">🎧</div>
+          <div class="pname">Sony INZONE H6 Air gaming headset</div>
+        </div>
+        <div class="arena">
+          <div class="track" style="min-height:200px">
+            <div class="fill" style="height:74%"></div>
+            <div class="bulb"></div>
+          </div>
+          <div class="play">
+            <div class="guesses">
+              <div class="guess">
+                <div class="bid"><b>$150</b><span class="aim">↓ aim lower</span></div>
+                <span class="band b-cold">🥶 Freezing</span>
+              </div>
+              <div class="guess">
+                <div class="bid"><b>$99</b><span class="aim">↓ aim lower</span></div>
+                <span class="band b-warm">😊 Warm</span>
+              </div>
+              <div class="guess">
+                <div class="bid"><b>$95</b><span class="aim">↓ aim lower</span></div>
+                <span class="band b-hot">🔥 Hot</span>
+              </div>
+            </div>
+            <div class="inputzone">
+              <div class="field">
+                <div class="inp"><span>$</span><input placeholder="your guess" value=""></div>
+                <button class="go">Guess</button>
+              </div>
+              <div class="meter">
+                <span class="dash on"></span><span class="dash on"></span>
+                <span class="dash on"></span><span class="dash"></span>
+                <span class="left">1 left</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="col">
+      <p class="caption">A · reveal &amp; win — the heat tops out gold</p>
+      <div class="panel win" style="max-width:470px">
+        <div class="reveal">
+          <div class="verdict">🎯 Nailed it</div>
+          <div class="vmeta">You read the market in 4 tries.</div>
+          <div class="wasl">The drop was</div>
+          <div class="price">$89</div>
+          <a class="cta" href="#">See it on Amazon →</a>
+          <div class="disc">We earn a commission from qualifying purchases.</div>
+          <button class="share">📋 Share your result</button>
+          <div class="save">
+            <b>Save your streak</b>
+            <p>Get tomorrow's drop in your inbox — never lose your stats.</p>
+            <div class="field">
+              <input placeholder="you@email.com">
+              <button>Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="flex:none">
+      <p class="caption">A · mobile (≤ lg, full width below carousel)</p>
+      <div class="mobile">
+        <div class="panel">
+          <div class="head">
+            <div class="eyebrow">
+              <div class="brand"><span class="dot">🌡️</span> Drop Price</div>
+              <div class="no">No.142</div>
+            </div>
+            <div class="sub">Guess today's price in 4 tries.</div>
+          </div>
+          <div class="product"><div class="thumb">🎧</div><div class="pname">Sony INZONE H6 Air</div></div>
+          <div class="arena">
+            <div class="track" style="min-height:150px"><div class="fill" style="height:48%;background:linear-gradient(to top,var(--cold),var(--warm))"></div><div class="bulb" style="background:var(--warm);box-shadow:0 0 16px rgba(251,146,60,.5)"></div></div>
+            <div class="play">
+              <div class="guesses">
+                <div class="guess"><div class="bid"><b>$150</b><span class="aim">↓ lower</span></div><span class="band b-cold">🥶</span></div>
+                <div class="guess"><div class="bid"><b>$99</b><span class="aim">↓ lower</span></div><span class="band b-warm">😊</span></div>
+              </div>
+              <div class="inputzone">
+                <div class="field"><div class="inp"><span>$</span><input placeholder="your guess"></div><button class="go">Guess</button></div>
+                <div class="meter"><span class="dash on"></span><span class="dash on"></span><span class="dash"></span><span class="dash"></span><span class="left">2 left</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
