@@ -188,13 +188,15 @@ $puzzle = \App\Support\DropPrice::today();
 
 ---
 
-## Phase 7 — Admin preview/override (minimal in v1; full UI later)
+## Phase 7 — Admin preview/override (minimal in v1; full UI later) ✅ DONE
 
 **Goal:** Let an admin preview/override the upcoming puzzle. Admin is React/Inertia under `/admin` — keep small.
 
 **v1 slice:** the `dropprice:lock --product=ID --date=YYYY-MM-DD` CLI override (built in Phase 2) + optionally a read-only "Today's Drop Price: #142 — {product} — ${price}" panel on the existing admin dashboard (admin-only, so showing price is fine).
 
 **Later phase:** a full Inertia screen to queue/preview/re-roll puzzles with a product picker (sets `is_preset` rows) — deferred, not needed to launch.
+
+**Built:** `DashboardController::index()` now passes a `dropPrice` prop = `['today' => …, 'upcoming' => …]` via a private `dropPriceSummary()`. `today` (from `DropPrice::today()`) carries number, product name, image, **price** (the answer — fine to show, admin-only), date, `is_preset`, `product_id`, and engagement counts (`plays`/`wins` from `DropPriceResult` for the puzzle). `upcoming` is the next future-dated row if one exists (only created by a CLI `--date` preset; may still be unlocked → `puzzle_number` null) so a queued override is verifiable from the dashboard. The CLI remains the only override action — this panel is strictly read-only. New `DropPricePanel` component in `resources/js/Pages/Admin/Dashboard.jsx`: image thumbnail, `#number`, preset badge, product name (links to `admin.products.edit` when `product_id` set), "Answer $X · N plays · N wins", a "View on site ↗" plain `<a href="/" target="_blank">` (NOT Inertia `<Link>` — it's a public Blade route), an empty state prompting `php artisan dropprice:lock`, and an "Up next" footer row when `upcoming` is present. Verified by `tests/Feature/Admin/DashboardTest.php` (3 tests, Inertia `assertInertia` on the `dropPrice` prop: today's answer+counts, null when none locked, queued future preset surfaced). Suite green at **88 tests**. (Admin JSX visual smoke deferred to Phase 9's `npm run build` + `/admin` check.)
 
 ---
 

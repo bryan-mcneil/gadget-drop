@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 
-export default function Dashboard({ stats, recentPosts }) {
+export default function Dashboard({ stats, recentPosts, dropPrice }) {
     const statCards = [
         { label: 'Total Posts', value: stats.posts, href: route('admin.posts.index') },
         { label: 'Published', value: stats.published, href: route('admin.posts.index') },
@@ -24,6 +24,9 @@ export default function Dashboard({ stats, recentPosts }) {
                         </Link>
                     ))}
                 </div>
+
+                {/* Drop Price — read-only daily-game summary (admin-only, so the answer price is shown) */}
+                <DropPricePanel dropPrice={dropPrice} />
 
                 {/* Quick actions */}
                 <div className="flex gap-3">
@@ -91,5 +94,84 @@ function StatusBadge({ status }) {
         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${colors[status] ?? colors.draft}`}>
             {status}
         </span>
+    );
+}
+
+const money = (n) =>
+    typeof n === 'number' ? `$${n.toLocaleString('en-US')}` : '—';
+
+function DropPricePanel({ dropPrice }) {
+    const today = dropPrice?.today ?? null;
+    const upcoming = dropPrice?.upcoming ?? null;
+
+    return (
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="font-semibold text-gray-800">💰 Drop Price</h3>
+                <a href="/" target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-indigo-600 hover:underline">View on site ↗</a>
+            </div>
+
+            {today ? (
+                <div className="px-6 py-5 flex items-center gap-4">
+                    {today.image ? (
+                        <img src={today.image} alt={today.name}
+                            className="h-16 w-16 rounded-lg object-cover bg-gray-100 shrink-0" />
+                    ) : (
+                        <div className="h-16 w-16 rounded-lg bg-gray-100 shrink-0" />
+                    )}
+
+                    <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-gray-500">
+                                #{today.number ?? '—'}
+                            </span>
+                            {today.is_preset && (
+                                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                                    preset
+                                </span>
+                            )}
+                            <span className="text-xs text-gray-400">{today.date}</span>
+                        </div>
+                        <p className="font-medium text-gray-900 truncate">
+                            {today.product_id ? (
+                                <Link href={route('admin.products.edit', today.product_id)}
+                                    className="hover:text-indigo-600">{today.name}</Link>
+                            ) : (
+                                today.name
+                            )}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-0.5">
+                            Answer <span className="font-semibold text-gray-700">{money(today.price)}</span>
+                            <span className="mx-2 text-gray-300">·</span>
+                            {today.plays} {today.plays === 1 ? 'play' : 'plays'}
+                            <span className="mx-2 text-gray-300">·</span>
+                            {today.wins} {today.wins === 1 ? 'win' : 'wins'}
+                        </p>
+                    </div>
+                </div>
+            ) : (
+                <div className="px-6 py-5 text-sm text-gray-500">
+                    No puzzle locked yet. Run{' '}
+                    <code className="px-1 py-0.5 rounded bg-gray-100 text-gray-700">php artisan dropprice:lock</code>.
+                </div>
+            )}
+
+            {upcoming && (
+                <div className="px-6 py-3 border-t border-gray-100 bg-gray-50 text-sm text-gray-500 flex items-center gap-2">
+                    <span className="font-medium text-gray-600">Up next</span>
+                    <span className="text-gray-400">{upcoming.date}</span>
+                    <span className="text-gray-300">·</span>
+                    <span className="truncate">{upcoming.name}</span>
+                    <span className="text-gray-300">·</span>
+                    <span>{money(upcoming.price)}</span>
+                    {upcoming.is_preset && (
+                        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                            queued
+                        </span>
+                    )}
+                </div>
+            )}
+        </div>
     );
 }
