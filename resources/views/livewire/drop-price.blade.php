@@ -10,7 +10,15 @@
     $remaining = \App\Support\DropPrice::MAX_GUESSES - count($results);
 @endphp
 
-<div class="flex flex-col h-full rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden">
+{{-- The Alpine `dropPrice` layer (app.js) owns the client state: localStorage
+     streak, one-play-per-day lockout, and the spoiler-free share. It learns the
+     round is over from the server-dispatched `dropprice-finished` event — which
+     carries ordinal data only, never the price. --}}
+<div
+    x-data="dropPrice({ number: {{ $puzzleNumber }}, max: {{ \App\Support\DropPrice::MAX_GUESSES }}, shareUrl: @js(url('/')) })"
+    @dropprice-finished.window="onFinished($event.detail)"
+    class="flex flex-col h-full rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden"
+>
     {{-- Header --}}
     <div class="px-5 pt-5 pb-4 border-b border-gray-100">
         <div class="flex items-center justify-between">
@@ -56,30 +64,42 @@
     {{-- Input / reveal --}}
     <div class="px-5 py-4 mt-auto">
         @if(! $finished)
-            <form wire:submit="guess" class="flex gap-2">
-                <div class="relative flex-1">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
-                    <input type="number" wire:model="guess" min="1" max="100000" step="1" inputmode="numeric" required
-                        placeholder="Your guess"
-                        class="w-full pl-7 pr-3 py-3 rounded-xl text-sm text-gray-900 bg-gray-50 ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            {{-- Live input — hidden once Alpine restores a same-day lockout. --}}
+            <div x-show="!alreadyPlayed">
+                <form wire:submit="guess" class="flex gap-2">
+                    <div class="relative flex-1">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
+                        <input type="number" wire:model="guess" min="1" max="100000" step="1" inputmode="numeric" required
+                            placeholder="Your guess"
+                            class="w-full pl-7 pr-3 py-3 rounded-xl text-sm text-gray-900 bg-gray-50 ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    </div>
+                    <button type="submit" wire:loading.attr="disabled" wire:target="guess"
+                        class="flex-shrink-0 px-5 py-3 bg-indigo-600 text-white font-bold text-sm rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-60 whitespace-nowrap">
+                        <span wire:loading.remove wire:target="guess">Guess</span>
+                        <span wire:loading wire:target="guess">…</span>
+                    </button>
+                </form>
+                <div class="mt-3 flex items-center gap-1.5">
+                    @for($i = 0; $i < \App\Support\DropPrice::MAX_GUESSES; $i++)
+                        <span @class([
+                            'h-1.5 flex-1 rounded-full',
+                            'bg-indigo-500' => $i < count($results),
+                            'bg-gray-200' => $i >= count($results),
+                        ])></span>
+                    @endfor
+                    <span class="ml-2 text-xs font-medium text-gray-400 whitespace-nowrap">{{ $remaining }} left</span>
                 </div>
-                <button type="submit" wire:loading.attr="disabled" wire:target="guess"
-                    class="flex-shrink-0 px-5 py-3 bg-indigo-600 text-white font-bold text-sm rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-60 whitespace-nowrap">
-                    <span wire:loading.remove wire:target="guess">Guess</span>
-                    <span wire:loading wire:target="guess">…</span>
-                </button>
-            </form>
-            <div class="mt-3 flex items-center gap-1.5">
-                @for($i = 0; $i < \App\Support\DropPrice::MAX_GUESSES; $i++)
-                    <span @class([
-                        'h-1.5 flex-1 rounded-full',
-                        'bg-indigo-500' => $i < count($results),
-                        'bg-gray-200' => $i >= count($results),
-                    ])></span>
-                @endfor
-                <span class="ml-2 text-xs font-medium text-gray-400 whitespace-nowrap">{{ $remaining }} left</span>
+                @error('guess') <p class="mt-2 text-sm text-rose-600">{{ $message }}</p> @enderror
             </div>
-            @error('guess') <p class="mt-2 text-sm text-rose-600">{{ $message }}</p> @enderror
+
+            {{-- Lockout — already played today, restored from localStorage (no price). --}}
+            <div x-show="alreadyPlayed" x-cloak class="text-center">
+                <p class="text-2xl font-extrabold" :class="won ? 'text-emerald-600' : 'text-gray-900'"
+                    x-text="won ? '🎯 Solved it!' : 'Played today'"></p>
+                <p class="mt-1 text-sm text-gray-500">You've already played today's drop.</p>
+                <p class="mt-3 text-2xl tracking-widest" x-text="emojiRows"></p>
+                <p class="mt-4 text-xs text-gray-400">Next drop: #<span x-text="number + 1"></span> at midnight UTC.</p>
+            </div>
         @else
             {{-- Reveal — the FIRST point the price appears in the DOM --}}
             <div class="text-center">
@@ -104,29 +124,41 @@
                     </div>
                 @endif
             </div>
-
-            {{-- Save your streak (= newsletter subscribe) --}}
-            <div class="mt-5 pt-5 border-t border-gray-100">
-                @if($saveStatus === 'success')
-                    <p class="text-center text-sm font-bold text-emerald-600">✓ Streak saved — watch your inbox.</p>
-                @elseif($saveStatus === 'duplicate')
-                    <p class="text-center text-sm font-semibold text-gray-600">You're already on the list — streak synced.</p>
-                @else
-                    <p class="text-center text-sm font-bold text-gray-900">Save your streak</p>
-                    <p class="text-center text-xs text-gray-500 mb-3">Get the daily drop &amp; never lose your stats.</p>
-                    <form wire:submit="save" class="flex gap-2">
-                        <input type="email" wire:model="email" placeholder="your@email.com" required
-                            class="flex-1 px-3 py-2.5 rounded-xl text-sm text-gray-900 bg-gray-50 ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                        <button type="submit" wire:loading.attr="disabled" wire:target="save"
-                            class="flex-shrink-0 px-4 py-2.5 bg-indigo-600 text-white font-bold text-sm rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-60 whitespace-nowrap">
-                            <span wire:loading.remove wire:target="save">Save</span>
-                            <span wire:loading wire:target="save">…</span>
-                        </button>
-                    </form>
-                    @error('email') <p class="mt-2 text-sm text-rose-600">{{ $message }}</p> @enderror
-                    @if($saveStatus === 'error') <p class="mt-2 text-sm text-rose-600">Something went wrong. Please try again.</p> @endif
-                @endif
-            </div>
         @endif
+
+        {{-- Share (Alpine) — appears once the round is finished, either path.
+             Spoiler-free: emoji bands + day number + URL, never the price. --}}
+        <div x-show="finished" x-cloak class="mt-4">
+            <button type="button" x-on:click="share()"
+                class="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gray-900 text-white font-bold text-sm rounded-xl hover:bg-gray-800 transition-colors">
+                <span x-show="!copied">📋 Share your result</span>
+                <span x-show="copied" x-cloak>Copied to clipboard ✓</span>
+            </button>
+        </div>
+
+        {{-- Save your streak (= newsletter subscribe). Shown once finished AND
+             worth saving (a win, or a 2+ day streak). The submit passes the
+             localStorage counters straight into the server save() action. --}}
+        <div x-show="finished && showSavePrompt" x-cloak class="mt-5 pt-5 border-t border-gray-100">
+            @if($saveStatus === 'success')
+                <p class="text-center text-sm font-bold text-emerald-600">✓ Streak saved — watch your inbox.</p>
+            @elseif($saveStatus === 'duplicate')
+                <p class="text-center text-sm font-semibold text-gray-600">You're already on the list — streak synced.</p>
+            @else
+                <p class="text-center text-sm font-bold text-gray-900">Save your streak</p>
+                <p class="text-center text-xs text-gray-500 mb-3">Get the daily drop &amp; never lose your stats.</p>
+                <form x-on:submit.prevent="$wire.save(stats)" class="flex gap-2">
+                    <input type="email" wire:model="email" placeholder="your@email.com" required
+                        class="flex-1 px-3 py-2.5 rounded-xl text-sm text-gray-900 bg-gray-50 ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <button type="submit" wire:loading.attr="disabled" wire:target="save"
+                        class="flex-shrink-0 px-4 py-2.5 bg-indigo-600 text-white font-bold text-sm rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-60 whitespace-nowrap">
+                        <span wire:loading.remove wire:target="save">Save</span>
+                        <span wire:loading wire:target="save">…</span>
+                    </button>
+                </form>
+                @error('email') <p class="mt-2 text-sm text-rose-600">{{ $message }}</p> @enderror
+                @if($saveStatus === 'error') <p class="mt-2 text-sm text-rose-600">Something went wrong. Please try again.</p> @endif
+            @endif
+        </div>
     </div>
 </div>

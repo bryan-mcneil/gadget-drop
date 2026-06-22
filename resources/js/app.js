@@ -84,6 +84,171 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
+    /* ── Drop Price daily game (client state) ──────────────────────
+       The day's answer (the price) NEVER reaches the browser before the
+       reveal — every guess is scored server-side in the Livewire
+       `drop-price` component. This Alpine layer owns ONLY client state:
+       the localStorage play-streak, the one-play-per-day lockout, and the
+       spoiler-free share text. It learns a round ended from the Livewire
+       `dropprice-finished` event, which carries ordinal data only (won /
+       number / guess count / band rows) — never the price. The binding is
+       a declarative x-on (.window) so Livewire's wire:navigate teardown
+       cleans it up; the lone manual handle (the copied timer) is cleared
+       in destroy(). */
+    Alpine.data('dropPrice', ({ number, max = 4, shareUrl = '' }) => ({
+        number,
+        max,
+        shareUrl,
+        stats: null,
+        alreadyPlayed: false, // finished THIS puzzle on a previous visit (lockout)
+        justFinished: false, // finished it during this visit (live reveal)
+        won: false,
+        guesses: 0,
+        emojiRows: '',
+        copied: false,
+        copyTimer: null,
+
+        // The default shape for a player who has never played.
+        fresh() {
+            return {
+                v: 1,
+                lastPlayedNumber: null,
+                lastPlayedDate: null,
+                playStreak: 0,
+                bestPlayStreak: 0,
+                winStreak: 0,
+                bestWinStreak: 0,
+                totalPlays: 0,
+                totalWins: 0,
+                lastWon: false,
+                lastGuesses: 0,
+                lastResultEmoji: '',
+            };
+        },
+
+        init() {
+            this.load();
+            // One-play-per-day lockout: if this exact puzzle is already
+            // recorded as played, restore the finished view instead of the
+            // input. UX only — replaying leaks nothing (the answer never ships).
+            if (this.stats.lastPlayedNumber === this.number) {
+                this.alreadyPlayed = true;
+                this.won = this.stats.lastWon;
+                this.guesses = this.stats.lastGuesses;
+                this.emojiRows = this.stats.lastResultEmoji;
+            }
+        },
+
+        load() {
+            try {
+                const raw = localStorage.getItem('gadgetdrop_dropprice');
+                this.stats = raw ? { ...this.fresh(), ...JSON.parse(raw) } : this.fresh();
+            } catch (e) {
+                this.stats = this.fresh();
+            }
+        },
+
+        persist() {
+            try {
+                localStorage.setItem('gadgetdrop_dropprice', JSON.stringify(this.stats));
+            } catch (e) {
+                /* private mode / quota — the streak just won't persist */
+            }
+        },
+
+        get finished() {
+            return this.alreadyPlayed || this.justFinished;
+        },
+
+        // Prompt to save (= subscribe) after any win, or once a 2+ day habit
+        // is worth preserving.
+        get showSavePrompt() {
+            return this.won || (this.stats ? this.stats.playStreak : 0) >= 2;
+        },
+
+        // UTC day key — the puzzle resets at midnight UTC.
+        todayKey() {
+            return new Date().toISOString().slice(0, 10);
+        },
+        dayGap(from, to) {
+            return Math.round((Date.parse(to) - Date.parse(from)) / 86400000);
+        },
+
+        buildRows(results) {
+            const emoji = { freezing: '🥶', warm: '😊', hot: '🔥', nailed: '🎯' };
+            return (results || []).map((r) => emoji[r.band] || '⬜').join(' ');
+        },
+
+        // Livewire signalled the round is over (ordinal data only).
+        onFinished(detail) {
+            // Idempotency: never count the same puzzle twice (a stray re-dispatch
+            // or same-session replay) — just refresh the live view.
+            if (this.stats.lastPlayedNumber !== detail.number) {
+                const today = this.todayKey();
+                const consecutive =
+                    this.stats.lastPlayedDate &&
+                    this.dayGap(this.stats.lastPlayedDate, today) === 1;
+
+                this.stats.playStreak = consecutive ? this.stats.playStreak + 1 : 1;
+                this.stats.totalPlays += 1;
+
+                if (detail.won) {
+                    this.stats.totalWins += 1;
+                    this.stats.winStreak = consecutive ? this.stats.winStreak + 1 : 1;
+                } else {
+                    this.stats.winStreak = 0;
+                }
+
+                this.stats.bestPlayStreak = Math.max(this.stats.bestPlayStreak, this.stats.playStreak);
+                this.stats.bestWinStreak = Math.max(this.stats.bestWinStreak, this.stats.winStreak);
+
+                this.stats.lastPlayedNumber = detail.number;
+                this.stats.lastPlayedDate = today;
+                this.stats.lastWon = detail.won;
+                this.stats.lastGuesses = detail.guesses;
+                this.stats.lastResultEmoji = this.buildRows(detail.results);
+                this.persist();
+            }
+
+            this.justFinished = true;
+            this.won = detail.won;
+            this.guesses = detail.guesses;
+            this.emojiRows = this.buildRows(detail.results);
+        },
+
+        shareText() {
+            const score = this.won ? `${this.guesses}/${this.max}` : `X/${this.max}`;
+            const flag = this.won ? '🎯' : '❌';
+            return `Drop Price #${this.number} ${flag} ${score}\n${this.emojiRows}\n${this.shareUrl}`;
+        },
+
+        share() {
+            const text = this.shareText();
+            if (typeof navigator !== 'undefined' && navigator.share) {
+                navigator.share({ title: 'Drop Price', text }).catch(() => {});
+                return;
+            }
+            this.copy(text);
+        },
+
+        copy(text) {
+            const payload = text || this.shareText();
+            if (!navigator.clipboard) return;
+            navigator.clipboard
+                .writeText(payload)
+                .then(() => {
+                    this.copied = true;
+                    clearTimeout(this.copyTimer);
+                    this.copyTimer = setTimeout(() => (this.copied = false), 2000);
+                })
+                .catch(() => {});
+        },
+
+        destroy() {
+            clearTimeout(this.copyTimer);
+        },
+    }));
+
     /* ── Home category carousel ──────────────────────────────────
        Drag-to-scroll cards, prev/next arrows, and a custom progress
        bar (the native scrollbar is hidden via .scrollbar-hide). All
