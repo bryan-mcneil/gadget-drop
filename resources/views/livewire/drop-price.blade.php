@@ -107,17 +107,17 @@
                 @endif
 
                 <div class="mt-auto">
-                    <form wire:submit="guess" class="flex gap-2">
+                    <form wire:submit="submitGuess" class="flex gap-2">
                         <div class="relative flex-1">
                             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-bold">$</span>
                             <input type="number" wire:model="guess" min="1" max="100000" step="1" inputmode="numeric" required
                                 placeholder="your guess"
-                                class="w-full pl-7 pr-3 py-3 rounded-xl text-[15px] font-bold tabular-nums text-slate-100 bg-[#080c1a] ring-1 ring-white/10 placeholder:font-normal placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+                                class="no-spinner w-full pl-7 pr-3 py-3 rounded-xl text-[15px] font-bold tabular-nums text-slate-100 bg-[#080c1a] ring-1 ring-white/10 placeholder:font-normal placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
                         </div>
-                        <button type="submit" wire:loading.attr="disabled" wire:target="guess"
+                        <button type="submit" wire:loading.attr="disabled" wire:target="submitGuess"
                             class="flex-shrink-0 px-5 py-3 bg-yellow-400 text-yellow-950 font-bold text-sm uppercase tracking-wide rounded-xl hover:bg-yellow-300 transition-colors disabled:opacity-60 whitespace-nowrap">
-                            <span wire:loading.remove wire:target="guess">Guess</span>
-                            <span wire:loading wire:target="guess">…</span>
+                            <span wire:loading.remove wire:target="submitGuess">Guess</span>
+                            <span wire:loading wire:target="submitGuess">…</span>
                         </button>
                     </form>
                     <div class="mt-3 flex items-center gap-1.5">

@@ -69,7 +69,7 @@ class DropPriceTest extends TestCase
 
         $component = $this->mountFor($puzzle)
             ->set('guess', 100)          // far below 347 → freezing, aim higher
-            ->call('guess')
+            ->call('submitGuess')
             ->assertSet('finished', false)
             ->assertDontSee((string) self::ANSWER)
             ->assertSee('aim higher');
@@ -86,7 +86,7 @@ class DropPriceTest extends TestCase
 
         $this->mountFor($puzzle)
             ->set('guess', self::ANSWER)
-            ->call('guess')
+            ->call('submitGuess')
             ->assertSet('won', true)
             ->assertSet('finished', true)
             ->assertSet('revealPrice', self::ANSWER)
@@ -103,7 +103,7 @@ class DropPriceTest extends TestCase
         $component = $this->mountFor($puzzle);
 
         foreach ([100, 150, 200, 250] as $g) {
-            $component->set('guess', $g)->call('guess');
+            $component->set('guess', $g)->call('submitGuess');
         }
 
         $component
@@ -119,9 +119,9 @@ class DropPriceTest extends TestCase
 
         $component = $this->mountFor($puzzle)
             ->set('guess', self::ANSWER)
-            ->call('guess')                 // wins, finished
+            ->call('submitGuess')                 // wins, finished
             ->set('guess', 1)
-            ->call('guess');                // ignored
+            ->call('submitGuess');                // ignored
 
         $this->assertCount(1, $component->get('results'));
     }
@@ -132,7 +132,7 @@ class DropPriceTest extends TestCase
 
         $this->mountFor($puzzle)
             ->set('guess', 0)
-            ->call('guess')
+            ->call('submitGuess')
             ->assertHasErrors(['guess'])
             ->assertSet('finished', false);
     }
@@ -143,7 +143,7 @@ class DropPriceTest extends TestCase
 
         $this->mountFor($puzzle)
             ->set('guess', self::ANSWER)
-            ->call('guess')
+            ->call('submitGuess')
             ->set('email', 'player@example.com')
             ->call('save', ['playStreak' => 3, 'bestPlayStreak' => 5, 'totalPlays' => 9, 'totalWins' => 4])
             ->assertSet('saveStatus', 'success');
@@ -166,10 +166,10 @@ class DropPriceTest extends TestCase
         Subscriber::create(['email' => 'dupe@example.com', 'token' => 'x', 'ip_address' => '127.0.0.1']);
 
         $this->mountFor($puzzle)
-            ->set('guess', 100)->call('guess')
-            ->set('guess', 120)->call('guess')
-            ->set('guess', 140)->call('guess')
-            ->set('guess', 160)->call('guess')   // 4 wrong → finished, lost
+            ->set('guess', 100)->call('submitGuess')
+            ->set('guess', 120)->call('submitGuess')
+            ->set('guess', 140)->call('submitGuess')
+            ->set('guess', 160)->call('submitGuess')   // 4 wrong → finished, lost
             ->set('email', 'dupe@example.com')
             ->call('save')
             ->assertSet('saveStatus', 'duplicate');

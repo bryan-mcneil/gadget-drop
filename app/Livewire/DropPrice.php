@@ -66,7 +66,7 @@ class DropPrice extends Component
         $this->productImage = $image;
     }
 
-    public function guess(): void
+    public function submitGuess(): void
     {
         // No-op once the game is over or all guesses are spent.
         if ($this->finished || count($this->results) >= DropPriceGame::MAX_GUESSES) {
