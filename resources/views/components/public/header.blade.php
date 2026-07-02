@@ -4,7 +4,9 @@
     $trending       = $navigation['trending'] ?? [];
     $latestTechTips = $navigation['latestTechTips'] ?? [];
     $latestNews     = $navigation['latestNews'] ?? [];
-    $tools          = $navigation['tools'] ?? [];
+    // Tools were de-emphasised for the AdSense review (de-indexed, footer-only).
+    // "Guides" surfaces only once a Guides category exists so the link never 404s.
+    $guides         = collect($navigation['categories'] ?? [])->firstWhere('slug', 'guides');
 @endphp
 
 <header x-data="siteHeader"
@@ -46,14 +48,14 @@
                     News
                     <svg class="w-3.5 h-3.5 transition-transform" :class="activeMenu === 'news' && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-                {{-- Tools --}}
-                <button @click="toggle('tools')"
-                    class="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
-                    :class="activeMenu === 'tools' ? 'bg-amber-50 text-amber-700' : 'text-gray-600 hover:text-amber-600 hover:bg-amber-50'">
-                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" /></svg>
-                    Tools
-                    <svg class="w-3.5 h-3.5 transition-transform" :class="activeMenu === 'tools' && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
+                {{-- Guides (shown once a "Guides" category exists) --}}
+                @if($guides)
+                    <a href="{{ route('category', 'guides') }}" wire:navigate
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                        Guides
+                    </a>
+                @endif
             </nav>
 
             <div class="flex-1"></div>
@@ -183,39 +185,7 @@
         @endif
     </div>
 
-    {{-- Tools --}}
-    <div x-show="activeMenu === 'tools'" x-cloak class="hidden md:block absolute top-full left-0 right-0 bg-white shadow-xl z-40">
-        <div class="h-0.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300"></div>
-        @if(count($tools) === 0)
-            <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-400">No tools available yet.</div>
-        @else
-        <div class="bg-amber-50/40"><div class="max-w-6xl mx-auto px-4 py-6">
-            <div class="flex items-center gap-2 mb-6">
-                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" /></svg>
-                <span class="text-xs font-semibold text-amber-700 uppercase tracking-widest">Free Online Tools</span>
-                <span class="flex-1 h-px bg-amber-100"></span>
-                <a href="{{ route('tools.index') }}" @click="activeMenu = null" class="text-xs font-medium text-amber-500 hover:text-amber-700 transition-colors">All tools →</a>
-            </div>
-            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                @foreach($tools as $i => $tool)
-                    <a href="{{ route('tools.' . $tool['slug']) }}" @click="activeMenu = null"
-                        class="flex gap-3 items-start group p-2 rounded-xl hover:bg-amber-100/60 transition -m-2">
-                        <div class="relative flex-shrink-0">
-                            @if($i === 0)<span class="absolute bottom-full inset-x-0 text-center text-xs font-semibold text-amber-600 pb-0.5">New</span>@endif
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center {{ $i === 0 ? 'bg-amber-500 shadow-sm' : 'bg-white border border-amber-200' }}">
-                                <svg class="w-4 h-4 {{ $i === 0 ? 'text-white' : 'text-amber-500' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" /></svg>
-                            </div>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-sm font-medium text-gray-800 group-hover:text-amber-700 leading-snug transition-colors line-clamp-1">{{ $tool['name'] }}</p>
-                            <p class="text-xs text-gray-400 mt-0.5 line-clamp-1">{{ $tool['description'] }}</p>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        </div></div>
-        @endif
-    </div>
+    {{-- Tools megamenu removed during the AdSense review (tools de-indexed; footer link retained). --}}
 
     {{-- ── Mobile menu ── --}}
     <div x-show="mobileOpen" x-cloak class="md:hidden border-t border-gray-100 bg-white max-h-[80vh] overflow-y-auto">
@@ -230,6 +200,12 @@
 
         <nav class="px-2 py-2">
             <a href="{{ route('home') }}" wire:navigate class="flex items-center px-3 py-3 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg">Home</a>
+            @if($guides)
+            <a href="{{ route('category', 'guides') }}" wire:navigate class="flex items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg">
+                <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                Guides
+            </a>
+            @endif
 
             {{-- Trending accordion --}}
             <div class="border-t border-gray-50">
@@ -317,38 +293,7 @@
             </div>
             @endif
 
-            {{-- Tools accordion --}}
-            @if(count($tools) > 0)
-            <div class="border-t border-gray-50">
-                <button @click="toggleMobileSection('tools')"
-                    class="flex items-center justify-between w-full px-3 py-3 text-sm font-medium rounded-lg transition-colors"
-                    :class="mobileSection === 'tools' ? 'text-amber-700 bg-amber-50' : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50'">
-                    <span class="flex items-center gap-2">
-                        <svg class="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" /></svg>
-                        Tools
-                    </span>
-                    <svg class="w-4 h-4 transition-transform" :class="mobileSection === 'tools' && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div x-show="mobileSection === 'tools'" x-cloak class="px-3 pb-1">
-                    <ul class="space-y-1 py-1">
-                        @foreach($tools as $tool)
-                            <li>
-                                <a href="{{ route('tools.' . $tool['slug']) }}" class="flex gap-3 items-center px-2 py-2 rounded-lg hover:bg-amber-50">
-                                    <div class="w-8 h-8 rounded-md flex-shrink-0 flex items-center justify-center bg-white border border-amber-200">
-                                        <svg class="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l5.654-4.654m5.598-2.167A9.027 9.027 0 0 1 9.496 3.28c-1.586.068-3.07.817-4.188 2.015L4.5 6.122" /></svg>
-                                    </div>
-                                    <div class="min-w-0">
-                                        <p class="text-sm text-gray-700 font-medium">{{ $tool['name'] }}</p>
-                                        <p class="text-xs text-gray-400 line-clamp-1">{{ $tool['description'] }}</p>
-                                    </div>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <a href="{{ route('tools.index') }}" class="block mt-2 text-xs font-medium text-amber-600 hover:text-amber-800 px-2 pb-2">View all tools →</a>
-                </div>
-            </div>
-            @endif
+            {{-- Tools accordion removed during the AdSense review (tools de-indexed; footer link retained). --}}
         </nav>
     </div>
 </header>

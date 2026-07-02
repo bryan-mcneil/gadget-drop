@@ -28,7 +28,7 @@
             </div>
 
             <div class="text-center sm:text-left min-w-0">
-                <p class="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-1">GadgetDrop Writer</p>
+                <p class="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-1">Founder &amp; Editor</p>
                 <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">{{ $author['name'] }}</h1>
 
                 @if(!empty($author['bio']))
@@ -44,8 +44,8 @@
                 </div>
 
                 <p class="mt-4 text-xs text-gray-400 max-w-sm text-center sm:text-left">
-                    {{ $author['name'] }} is a GadgetDrop editorial persona: a distinct writing voice maintained by the GadgetDrop team.
-                    <a href="{{ route('about') }}" wire:navigate class="underline hover:text-gray-600">Learn more →</a>
+                    Founder and editor of GadgetDrop, writing plain-English reviews and buying advice.
+                    <a href="{{ route('about') }}" wire:navigate class="underline hover:text-gray-600">More about GadgetDrop →</a>
                 </p>
             </div>
         </div>

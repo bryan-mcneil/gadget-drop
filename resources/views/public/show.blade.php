@@ -102,27 +102,9 @@
             {{-- Body — split into thirds with inline images between sections --}}
             <x-article-body :sections="$sections" />
 
-            {{-- Repeat CTA after body --}}
-            @if(count($post['products']) > 0)
-                <div class="mt-10 pt-8 border-t border-gray-100">
-                    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Check Current Prices</h2>
-                    <div class="space-y-3">
-                        @foreach($post['products'] as $product)
-                            <div class="flex items-center justify-between gap-4 bg-gray-50 rounded-xl px-5 py-3">
-                                <div class="min-w-0">
-                                    <p class="font-semibold text-gray-900 text-sm truncate">{{ $product['name'] }}</p>
-                                    @if(!empty($product['price']))<p class="text-sm text-gray-500">${{ $product['price'] }}</p>@endif
-                                </div>
-                                <a href="{{ route('affiliate.redirect', ['product' => $product['id'], 'post' => $post['id']]) }}"
-                                    target="_blank" rel="nofollow sponsored"
-                                    class="flex-shrink-0 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
-                                    View on Amazon →
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+            {{-- Verdict summary (rating + pros/cons). Editorial depth, no extra CTA —
+                 the single product card above the body is the one affiliate link. --}}
+            <x-verdict-box :post="$post" />
 
             {{-- Tags --}}
             @if(count($post['tags']) > 0)

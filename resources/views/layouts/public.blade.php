@@ -6,6 +6,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ $serverMeta['title'] ?? config('app.name', 'GadgetDrop') }}</title>
+        @if(!empty($serverMeta['noindex']))
+        <meta name="robots" content="noindex, follow">
+        @endif
         @isset($serverMeta)
         @if(!empty($serverMeta['description']))
         <meta name="description" content="{{ $serverMeta['description'] }}">

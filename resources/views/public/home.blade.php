@@ -226,17 +226,21 @@
                             </div>
                             <div class="p-4 flex flex-col flex-1">
                                 <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2 flex-1">{{ $product['name'] }}</h3>
-                                <div class="mt-4 space-y-2">
-                                    <a href="{{ route('affiliate.redirect', $product['id']) }}" target="_blank" rel="nofollow noopener"
-                                        class="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-xs font-bold text-gray-900 transition-all duration-200 hover:scale-[1.02] shadow-sm hover:shadow-amber-300/50"
-                                        style="background: linear-gradient(135deg, #FFB84D 0%, #FF9900 100%)">
-                                        View on Amazon
-                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                                    </a>
+                                {{-- Route shoppers into the review first (editorial, not an affiliate
+                                     bridge). Falls back to the Amazon link only when there's no post. --}}
+                                <div class="mt-4">
                                     @if(!empty($product['post_slug']))
-                                        <a href="{{ route('posts.show', $product['post_slug']) }}" wire:navigate class="flex items-center justify-center gap-1 w-full py-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
-                                            Read the Drop
+                                        <a href="{{ route('posts.show', $product['post_slug']) }}" wire:navigate
+                                            class="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:scale-[1.02] shadow-sm">
+                                            Read review
                                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('affiliate.redirect', $product['id']) }}" target="_blank" rel="nofollow noopener"
+                                            class="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-xs font-bold text-gray-900 transition-all duration-200 hover:scale-[1.02] shadow-sm"
+                                            style="background: linear-gradient(135deg, #FFB84D 0%, #FF9900 100%)">
+                                            View on Amazon
+                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                                         </a>
                                     @endif
                                 </div>

@@ -25,6 +25,9 @@ class ToolController extends Controller
             'og_image'    => null,
             'og_type'     => 'website',
             'canonical'   => route('tools.index'),
+            // Kept reachable (footer) but de-indexed during the AdSense review so the
+            // site is judged on its editorial content, not generic utilities.
+            'noindex'     => true,
         ]);
 
         return view('public.tools.index', ['tools' => $tools]);
@@ -51,6 +54,7 @@ class ToolController extends Controller
             'og_image'    => null,
             'og_type'     => 'website',
             'canonical'   => route('tools.' . $configKey),
+            'noindex'     => true,
         ]);
 
         return view("public.tools.{$view}", [

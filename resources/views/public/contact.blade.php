@@ -21,9 +21,9 @@
             </div>
             <h2 class="text-lg font-bold text-gray-900">Email us</h2>
             <p class="text-gray-500 text-sm">The fastest way to reach us. We aim to reply within 2 business days.</p>
-            <a href="mailto:hello@gadgetdrop.tech"
+            <a href="mailto:{{ config('site.author.email') }}"
                 class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl transition-colors text-sm">
-                hello@gadgetdrop.tech
+                {{ config('site.author.email') }}
             </a>
         </div>
 

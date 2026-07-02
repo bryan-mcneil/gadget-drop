@@ -33,6 +33,10 @@ Route::get('/category/{category:slug}', [PublicController::class, 'category'])->
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
+// Legacy fictional-persona author URLs → 301 to the single real author.
+foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
+    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/' . config('site.author.slug'));
+}
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about',   [PublicController::class, 'about'])->name('about');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
