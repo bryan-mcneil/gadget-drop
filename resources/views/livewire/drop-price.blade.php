@@ -49,7 +49,12 @@
      div: Livewire never replaces the root across morphs, which is what keeps the
      Alpine state alive from guess to guess. --}}
 <div
-    x-data="dropPrice({ number: {{ $puzzleNumber }}, max: {{ \App\Support\DropPrice::MAX_GUESSES }}, shareUrl: @js(url('/')) })"
+    x-data="dropPrice({
+        number: {{ $puzzleNumber }},
+        max: {{ \App\Support\DropPrice::MAX_GUESSES }},
+        shareUrl: @js($puzzleId ? route('drop-price.show', $puzzleNumber) : url('/')),
+        isArchive: {{ $puzzleId ? 'true' : 'false' }},
+    })"
     @dropprice-finished.window="onFinished($event.detail)"
     class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center text-slate-100"
 >
@@ -72,7 +77,7 @@
         </div>
 
         <h2 class="text-xl md:text-2xl font-extrabold leading-snug max-w-sm">{{ $productName }}</h2>
-        <p class="mt-2 text-sm text-slate-400">Guess today's price in {{ \App\Support\DropPrice::MAX_GUESSES }} tries.</p>
+        <p class="mt-2 text-sm text-slate-400">Guess {!! $puzzleId ? "this drop's" : "today's" !!} price in {{ \App\Support\DropPrice::MAX_GUESSES }} tries.</p>
     </div>
 
     {{-- ── Thermometer + board ── --}}
@@ -172,10 +177,10 @@
                 {{-- ── Lockout: already played today, restored from localStorage (no price). ── --}}
                 <div x-show="alreadyPlayed" x-cloak wire:key="dp-lockout" class="flex-1 flex flex-col items-center justify-center text-center">
                     <p class="text-3xl font-extrabold" :class="won ? 'text-yellow-400' : 'text-slate-100'"
-                        x-text="won ? '🎯 Solved it!' : 'Played today'"></p>
-                    <p class="mt-1.5 text-sm text-slate-400">You've already played today's drop.</p>
+                        x-text="won ? '🎯 Solved it!' : (isArchive ? 'Already played' : 'Played today')"></p>
+                    <p class="mt-1.5 text-sm text-slate-400" x-text="isArchive ? 'You already played this archive drop.' : 'You\'ve already played today\'s drop.'"></p>
                     <p class="mt-5 text-3xl tracking-[0.3em]" x-text="emojiRows"></p>
-                    <p class="mt-6 text-xs text-slate-500">Next drop: #<span x-text="number + 1"></span> at midnight UTC.</p>
+                    <p class="mt-6 text-xs text-slate-500" x-show="!isArchive">Next drop: #<span x-text="number + 1"></span> at midnight UTC.</p>
                 </div>
             @else
                 {{-- ── Reveal: the FIRST point the price enters the DOM ── --}}
@@ -185,7 +190,7 @@
                         <p class="mt-1.5 text-sm text-slate-400">You read the market in {{ count($results) }} {{ \Illuminate\Support\Str::plural('try', count($results)) }}.</p>
                     @else
                         <p class="text-3xl font-extrabold text-slate-100">So close</p>
-                        <p class="mt-1.5 text-sm text-slate-400">Better luck on tomorrow's drop.</p>
+                        <p class="mt-1.5 text-sm text-slate-400">{!! $puzzleId ? 'Nice try — take a swing at another past drop.' : "Better luck on tomorrow's drop." !!}</p>
                     @endif
 
                     <p class="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">The drop was</p>
@@ -240,6 +245,10 @@
                         @if($saveStatus === 'error') <p class="mt-2 text-sm text-rose-400">Something went wrong. Please try again.</p> @endif
                     @endif
                 </div>
+
+                <p class="mt-5 text-center text-xs">
+                    <a href="{{ route('drop-price.index') }}" wire:navigate class="text-slate-400 hover:text-yellow-300 font-semibold transition-colors">See past drops →</a>
+                </p>
             </div>
         </div>
     </div>

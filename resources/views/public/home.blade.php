@@ -191,16 +191,11 @@
          Display-only props — the secret answer is read server-side by the
          Livewire component, never passed here. ── --}}
     @if($dropPrice)
-        <section class="relative overflow-hidden text-slate-100" style="background: {{ $heroBg }}">
-            {{-- Heat-spectrum hairline — the seam between the categories and the game. --}}
-            <div class="absolute inset-x-0 top-0 h-px" style="background:linear-gradient(90deg,transparent,#38BDF8 18%,#FB923C 45%,#FF4D4D 72%,#FACC15 88%,transparent)"></div>
-            {{-- Ambient heat glows. --}}
-            <div class="pointer-events-none absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-sky-500/10 blur-3xl"></div>
-            <div class="pointer-events-none absolute -bottom-24 right-10 w-80 h-80 rounded-full bg-rose-500/10 blur-3xl"></div>
+        <x-drop-price.band>
             <div class="relative max-w-6xl mx-auto px-4 py-10 md:py-14">
                 @livewire('drop-price', ['number' => $dropPrice['number'], 'name' => $dropPrice['name'], 'image' => $dropPrice['image']])
             </div>
-        </section>
+        </x-drop-price.band>
     @endif
 
     {{-- ── Top Picks ── --}}

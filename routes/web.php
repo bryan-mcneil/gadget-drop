@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\DailyDropController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\TechTipController;
+use App\Http\Controllers\DropPriceController;
 use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
@@ -31,6 +32,8 @@ Route::get('/og/default.jpg', [OgImageController::class, 'default'])->name('og.d
 Route::get('/og/preview', [OgImageController::class, 'preview'])->name('og.preview');
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
+Route::get('/drop-price', [DropPriceController::class, 'index'])->name('drop-price.index');
+Route::get('/drop-price/{puzzle:puzzle_number}', [DropPriceController::class, 'show'])->name('drop-price.show');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 // Legacy fictional-persona author URLs → 301 to the single real author.

@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Cache;
 /**
  * Server-side game logic for the homepage "Drop Price" daily game.
  *
- * Two responsibilities, kept deliberately separate:
+ * Responsibilities, kept deliberately separate:
  *  - {@see self::evaluate()} is pure, side-effect-free math that scores a guess.
  *    It returns ORDINAL feedback only (a direction + a closeness band) and NEVER
  *    the dollar distance or percentage, because its result is rendered to the
  *    browser. The secret answer is read server-side at call time and never leaves.
  *  - {@see self::today()} resolves (and caches) the puzzle the homepage should
  *    serve right now.
+ *  - {@see self::findPlayable()} resolves a specific archive puzzle by id under
+ *    the same playability guard.
  *
  * The hard product constraint: the day's price is the secret answer and must
  * never reach the client before the reveal. Keep it that way — do not add a
@@ -77,7 +79,7 @@ class DropPrice
     {
         try {
             return Cache::remember('dropprice.today', now()->endOfDay(), fn () => self::resolveToday());
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return self::resolveToday();
         }
     }
@@ -90,9 +92,25 @@ class DropPrice
     private static function resolveToday(): ?DropPricePuzzle
     {
         return DropPricePuzzle::query()
-            ->whereNotNull('locked_at')
-            ->whereDate('date', '<=', now()->toDateString())
+            ->playable()
             ->orderByDesc('date')
             ->first();
+    }
+
+    /**
+     * A specific playable puzzle by primary key — the same guard as today()
+     * (locked, not future-dated), via the shared DropPricePuzzle::playable()
+     * scope. Used by the Livewire component to resolve an archive puzzle from
+     * a client-supplied id — never trust that id blindly; an unlocked/queued
+     * preset id resolves to null here, exactly like a tampered id would for
+     * today().
+     *
+     * Deliberately uncached (unlike today()): archive traffic fans out across
+     * many distinct ids, so a per-id cache entry buys little for a single
+     * indexed primary-key lookup.
+     */
+    public static function findPlayable(int $id): ?DropPricePuzzle
+    {
+        return DropPricePuzzle::query()->playable()->find($id);
     }
 }

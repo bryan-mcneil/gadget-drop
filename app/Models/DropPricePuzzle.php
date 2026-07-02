@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,5 +37,25 @@ class DropPricePuzzle extends Model
     public function results(): HasMany
     {
         return $this->hasMany(DropPriceResult::class);
+    }
+
+    /**
+     * Rows the public may ever be served: locked, and dated today or earlier.
+     * An unlocked queued preset or a future-dated row must never surface —
+     * their price is still a secret answer for a day that hasn't happened.
+     * The single source of this rule for queries; {@see self::isPlayable()}
+     * is its in-memory twin — keep the two in sync.
+     */
+    public function scopePlayable(Builder $query): Builder
+    {
+        return $query
+            ->whereNotNull('locked_at')
+            ->whereDate('date', '<=', now()->toDateString());
+    }
+
+    /** In-memory twin of {@see self::scopePlayable()} for an already-loaded row. */
+    public function isPlayable(): bool
+    {
+        return $this->locked_at !== null && $this->date->lte(today());
     }
 }

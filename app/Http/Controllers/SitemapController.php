@@ -19,7 +19,8 @@ class SitemapController extends Controller
         $xml = Cache::remember('sitemap.xml', now()->addDay(), function () {
             $sitemap = Sitemap::create()
                 ->add(Url::create(route('home'))->setPriority(1.0)->setChangeFrequency('daily'))
-                ->add(Url::create(route('news'))->setPriority(0.9)->setChangeFrequency('daily'));
+                ->add(Url::create(route('news'))->setPriority(0.9)->setChangeFrequency('daily'))
+                ->add(Url::create(route('drop-price.index'))->setPriority(0.7)->setChangeFrequency('daily'));
 
             Post::published()
                 ->latest('published_at')

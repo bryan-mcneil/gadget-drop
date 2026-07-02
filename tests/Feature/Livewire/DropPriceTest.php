@@ -53,6 +53,16 @@ class DropPriceTest extends TestCase
         ]);
     }
 
+    private function mountArchive(DropPricePuzzle $puzzle)
+    {
+        return Livewire::test(DropPrice::class, [
+            'number'   => $puzzle->puzzle_number,
+            'name'     => $puzzle->product_name,
+            'image'    => $puzzle->product_image_url,
+            'puzzleId' => $puzzle->id,
+        ]);
+    }
+
     public function test_mount_shows_display_facts_but_never_the_price(): void
     {
         $puzzle = $this->lockedPuzzle();
@@ -186,6 +196,114 @@ class DropPriceTest extends TestCase
             'drop_price_puzzle_id' => $puzzle->id,
             'won'                  => false,
             'guesses_used'         => DropPriceGame::MAX_GUESSES,
+        ]);
+    }
+
+    /** A locked puzzle at an explicit number/date/price, for archive-vs-today tests. */
+    private function puzzleAt(int $number, string $date, int $price): DropPricePuzzle
+    {
+        $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
+
+        $product = Product::create([
+            'category_id'   => $category->id,
+            'name'          => "Archive Gizmo {$number}",
+            'affiliate_url' => 'https://www.amazon.com/dp/B00TEST',
+            'image_url'     => 'https://example.com/img.jpg',
+            'price'         => $price,
+            'description'   => 'A test gadget.',
+        ]);
+
+        return DropPricePuzzle::create([
+            'puzzle_number'        => $number,
+            'date'                 => $date,
+            'product_id'           => $product->id,
+            'price'                => $price,
+            'product_name'         => $product->name,
+            'product_image_url'    => $product->image_url,
+            'affiliate_product_id' => $product->id,
+            'locked_at'            => now(),
+        ]);
+    }
+
+    public function test_mounting_with_a_puzzle_id_scores_against_that_puzzle_not_today(): void
+    {
+        $todayPrice   = 829;
+        $archivePrice = 613;
+
+        $today   = $this->puzzleAt(2, now()->toDateString(), $todayPrice);
+        $archive = $this->puzzleAt(1, now()->subDay()->toDateString(), $archivePrice);
+
+        $this->mountArchive($archive)
+            ->set('guess', $archivePrice)
+            ->call('submitGuess')
+            ->assertSet('won', true)
+            ->assertSet('revealPrice', $archivePrice)
+            ->assertDontSee((string) $todayPrice);
+
+        $this->assertNotSame($today->id, $archive->id);
+    }
+
+    public function test_a_puzzle_id_pointing_at_an_unlocked_preset_is_a_safe_no_op(): void
+    {
+        $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
+        $product = Product::create([
+            'category_id'   => $category->id,
+            'name'          => 'Future Gizmo',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00TEST',
+            'image_url'     => 'https://example.com/img.jpg',
+            'price'         => 999,
+            'description'   => 'A test gadget.',
+        ]);
+
+        // Queued future preset — has a product/price but is deliberately unlocked.
+        $preset = DropPricePuzzle::create([
+            'puzzle_number'        => null,
+            'date'                 => now()->addDays(2)->toDateString(),
+            'product_id'           => $product->id,
+            'price'                => 999,
+            'product_name'         => $product->name,
+            'product_image_url'    => $product->image_url,
+            'affiliate_product_id' => $product->id,
+            'locked_at'            => null,
+            'is_preset'            => true,
+        ]);
+
+        $component = Livewire::test(DropPrice::class, [
+            'number'   => 1,
+            'name'     => 'Future Gizmo',
+            'image'    => $product->image_url,
+            'puzzleId' => $preset->id,
+        ])
+            ->set('guess', 999)
+            ->call('submitGuess')
+            ->assertSet('finished', false)
+            ->assertDontSee('999');
+
+        $this->assertCount(0, $component->get('results'));
+    }
+
+    public function test_save_with_a_puzzle_id_records_the_result_against_that_puzzle_not_today(): void
+    {
+        $today   = $this->puzzleAt(2, now()->toDateString(), 829);
+        $archive = $this->puzzleAt(1, now()->subDay()->toDateString(), 613);
+
+        $this->mountArchive($archive)
+            ->set('guess', 613)
+            ->call('submitGuess')
+            ->set('email', 'archive-player@example.com')
+            ->call('save')
+            ->assertSet('saveStatus', 'success');
+
+        $subscriber = Subscriber::where('email', 'archive-player@example.com')->sole();
+
+        $this->assertDatabaseHas('drop_price_results', [
+            'subscriber_id'        => $subscriber->id,
+            'drop_price_puzzle_id' => $archive->id,
+            'won'                  => true,
+        ]);
+        $this->assertDatabaseMissing('drop_price_results', [
+            'subscriber_id'        => $subscriber->id,
+            'drop_price_puzzle_id' => $today->id,
         ]);
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Models\DropPricePuzzle;
 use App\Models\DropPriceResult;
 use App\Models\Subscriber;
 use App\Support\DropPrice as DropPriceGame;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -27,6 +29,19 @@ class DropPrice extends Component
     public string $productName;
 
     public string $productImage;
+
+    /**
+     * Which puzzle to score against. Null (the default) = today's live puzzle —
+     * the home page's existing @livewire(...) call omits this and behaves
+     * byte-for-byte as before. Set only by the archive show route. #[Locked]
+     * prevents the browser from ever rewriting it via $wire.set; on top of
+     * that, it is never trusted directly — every use goes through
+     * resolvePuzzle(), which re-validates against DropPrice::findPlayable()'s
+     * guard on every call, so even a bypassed lock could never surface an
+     * unlocked/future preset's price.
+     */
+    #[Locked]
+    public ?int $puzzleId = null;
 
     /** The current guess being typed (client-visible — it's the player's own input). */
     public ?int $guess = null;
@@ -59,11 +74,27 @@ class DropPrice extends Component
     /** null | 'success' | 'duplicate' | 'error' */
     public ?string $saveStatus = null;
 
-    public function mount(int $number, string $name, string $image): void
+    public function mount(int $number, string $name, string $image, ?int $puzzleId = null): void
     {
         $this->puzzleNumber = $number;
         $this->productName  = $name;
         $this->productImage = $image;
+        $this->puzzleId     = $puzzleId;
+    }
+
+    /**
+     * The puzzle to score against right now. $puzzleId is #[Locked] (the
+     * browser can't rewrite it), but this still re-validates on every call
+     * rather than trusting it outright — a mismatched id pointing at an
+     * unlocked/future preset resolves to null here exactly like
+     * DropPrice::today() would, and every caller already treats null as a
+     * safe no-op.
+     */
+    private function resolvePuzzle(): ?DropPricePuzzle
+    {
+        return $this->puzzleId !== null
+            ? DropPriceGame::findPlayable($this->puzzleId)
+            : DropPriceGame::today();
     }
 
     public function submitGuess(): void
@@ -75,7 +106,7 @@ class DropPrice extends Component
 
         $this->validate(['guess' => 'required|integer|min:1|max:100000']);
 
-        $puzzle = DropPriceGame::today();
+        $puzzle = $this->resolvePuzzle();
 
         // Defensive: if the puzzle vanished mid-session there is nothing to score.
         if ($puzzle === null) {
@@ -141,7 +172,7 @@ class DropPrice extends Component
             if ($this->saveStatus === 'success') {
                 $this->email = '';
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->saveStatus = 'error';
         }
     }
@@ -174,7 +205,7 @@ class DropPrice extends Component
             return;
         }
 
-        $puzzle = DropPriceGame::today();
+        $puzzle = $this->resolvePuzzle();
 
         if ($puzzle === null) {
             return;

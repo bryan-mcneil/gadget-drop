@@ -27,6 +27,7 @@ class PublicPagesTest extends TestCase
             'news'      => ['/news', 'Tech News'],
             'search'    => ['/search', 'Find your next drop'],
             'tools'     => ['/tools', 'Online Tools'],
+            'drop-price-archive' => ['/drop-price', 'Drop Price Archive'],
             'unsubscribe' => ['/unsubscribe', 'Unsubscribe'],
         ];
     }

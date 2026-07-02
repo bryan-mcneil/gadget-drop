@@ -40,6 +40,40 @@ function legacyCopy(text) {
     return ok;
 }
 
+/* Shared localStorage schema for the Drop Price game AND the archive grid
+   decorator (dropPriceArchiveGrid) — top-level so both Alpine components can
+   read it without duplicating logic (same reasoning as copyText/legacyCopy). */
+function freshDropPriceStats() {
+    return {
+        v: 1,
+        lastPlayedNumber: null,
+        lastPlayedDate: null,
+        playStreak: 0,
+        bestPlayStreak: 0,
+        winStreak: 0,
+        bestWinStreak: 0,
+        totalPlays: 0,
+        totalWins: 0,
+        lastWon: false,
+        lastGuesses: 0,
+        lastResultEmoji: '',
+        // {[puzzleNumber]: {won, guesses, resultEmoji}} — every puzzle ever
+        // finished, live or archive. New key: old visitors' saved JSON simply
+        // lacks it, so the merge below defaults it to {} with no explicit
+        // migration/versioning logic needed.
+        playedNumbers: {},
+    };
+}
+
+function loadDropPriceStats() {
+    try {
+        const raw = localStorage.getItem('gadgetdrop_dropprice');
+        return raw ? { ...freshDropPriceStats(), ...JSON.parse(raw) } : freshDropPriceStats();
+    } catch (e) {
+        return freshDropPriceStats();
+    }
+}
+
 document.addEventListener('alpine:init', () => {
     const Alpine = window.Alpine;
 
@@ -123,10 +157,11 @@ document.addEventListener('alpine:init', () => {
        a declarative x-on (.window) so Livewire's wire:navigate teardown
        cleans it up; the lone manual handle (the copied timer) is cleared
        in destroy(). */
-    Alpine.data('dropPrice', ({ number, max = 5, shareUrl = '' }) => ({
+    Alpine.data('dropPrice', ({ number, max = 5, shareUrl = '', isArchive = false }) => ({
         number,
         max,
         shareUrl,
+        isArchive,
         stats: null,
         alreadyPlayed: false, // finished THIS puzzle on a previous visit (lockout)
         justFinished: false, // finished it during this visit (live reveal)
@@ -137,43 +172,27 @@ document.addEventListener('alpine:init', () => {
         copyTimer: null,
         rafId: null,
 
-        // The default shape for a player who has never played.
-        fresh() {
-            return {
-                v: 1,
-                lastPlayedNumber: null,
-                lastPlayedDate: null,
-                playStreak: 0,
-                bestPlayStreak: 0,
-                winStreak: 0,
-                bestWinStreak: 0,
-                totalPlays: 0,
-                totalWins: 0,
-                lastWon: false,
-                lastGuesses: 0,
-                lastResultEmoji: '',
-            };
-        },
-
         init() {
-            this.load();
-            // One-play-per-day lockout: if this exact puzzle is already
-            // recorded as played, restore the finished view instead of the
-            // input. UX only — replaying leaks nothing (the answer never ships).
-            if (this.stats.lastPlayedNumber === this.number) {
+            this.stats = loadDropPriceStats();
+            // One-play-per-puzzle lockout: restore the finished view instead of
+            // the input if this exact puzzle is already recorded as played. UX
+            // only — replaying leaks nothing (the answer never ships). The live
+            // puzzle only ever remembers the single most recent play
+            // (lastPlayedNumber); an archive puzzle looks itself up in the
+            // permanent playedNumbers map instead.
+            if (this.isArchive) {
+                const record = this.stats.playedNumbers[this.number];
+                if (record) {
+                    this.alreadyPlayed = true;
+                    this.won = record.won;
+                    this.guesses = record.guesses;
+                    this.emojiRows = record.resultEmoji;
+                }
+            } else if (this.stats.lastPlayedNumber === this.number) {
                 this.alreadyPlayed = true;
                 this.won = this.stats.lastWon;
                 this.guesses = this.stats.lastGuesses;
                 this.emojiRows = this.stats.lastResultEmoji;
-            }
-        },
-
-        load() {
-            try {
-                const raw = localStorage.getItem('gadgetdrop_dropprice');
-                this.stats = raw ? { ...this.fresh(), ...JSON.parse(raw) } : this.fresh();
-            } catch (e) {
-                this.stats = this.fresh();
             }
         },
 
@@ -210,39 +229,52 @@ document.addEventListener('alpine:init', () => {
 
         // Livewire signalled the round is over (ordinal data only).
         onFinished(detail) {
-            // Idempotency: never count the same puzzle twice (a stray re-dispatch
-            // or same-session replay) — just refresh the live view.
-            if (this.stats.lastPlayedNumber !== detail.number) {
-                const today = this.todayKey();
-                const consecutive =
-                    this.stats.lastPlayedDate &&
-                    this.dayGap(this.stats.lastPlayedDate, today) === 1;
+            const rows = this.buildRows(detail.results);
 
-                this.stats.playStreak = consecutive ? this.stats.playStreak + 1 : 1;
+            // Idempotency guard, keyed off playedNumbers (every puzzle ever
+            // finished) rather than lastPlayedNumber (which only ever
+            // remembers the single most recent LIVE play) — this always runs,
+            // archive or not, so a live win still shows "played" once that
+            // puzzle ages into the archive tomorrow.
+            if (!this.stats.playedNumbers[detail.number]) {
                 this.stats.totalPlays += 1;
+                if (detail.won) this.stats.totalWins += 1;
 
-                if (detail.won) {
-                    this.stats.totalWins += 1;
-                    this.stats.winStreak = consecutive ? this.stats.winStreak + 1 : 1;
-                } else {
-                    this.stats.winStreak = 0;
+                this.stats.playedNumbers[detail.number] = {
+                    won: detail.won,
+                    guesses: detail.guesses,
+                    resultEmoji: rows,
+                };
+
+                // Calendar-day streak math is LIVE-puzzle-only — an archive
+                // replay must never affect it, or binge-playing old puzzles
+                // would fake a multi-day streak.
+                if (!this.isArchive) {
+                    const today = this.todayKey();
+                    const consecutive =
+                        this.stats.lastPlayedDate &&
+                        this.dayGap(this.stats.lastPlayedDate, today) === 1;
+
+                    this.stats.playStreak = consecutive ? this.stats.playStreak + 1 : 1;
+                    this.stats.winStreak = detail.won ? (consecutive ? this.stats.winStreak + 1 : 1) : 0;
+
+                    this.stats.bestPlayStreak = Math.max(this.stats.bestPlayStreak, this.stats.playStreak);
+                    this.stats.bestWinStreak = Math.max(this.stats.bestWinStreak, this.stats.winStreak);
+
+                    this.stats.lastPlayedNumber = detail.number;
+                    this.stats.lastPlayedDate = today;
+                    this.stats.lastWon = detail.won;
+                    this.stats.lastGuesses = detail.guesses;
+                    this.stats.lastResultEmoji = rows;
                 }
 
-                this.stats.bestPlayStreak = Math.max(this.stats.bestPlayStreak, this.stats.playStreak);
-                this.stats.bestWinStreak = Math.max(this.stats.bestWinStreak, this.stats.winStreak);
-
-                this.stats.lastPlayedNumber = detail.number;
-                this.stats.lastPlayedDate = today;
-                this.stats.lastWon = detail.won;
-                this.stats.lastGuesses = detail.guesses;
-                this.stats.lastResultEmoji = this.buildRows(detail.results);
                 this.persist();
             }
 
             this.justFinished = true;
             this.won = detail.won;
             this.guesses = detail.guesses;
-            this.emojiRows = this.buildRows(detail.results);
+            this.emojiRows = rows;
         },
 
         // Reveal flourish: count the price up to its real value. The server-
@@ -298,6 +330,29 @@ document.addEventListener('alpine:init', () => {
         destroy() {
             clearTimeout(this.copyTimer);
             cancelAnimationFrame(this.rafId);
+        },
+    }));
+
+    /* ── Drop Price archive grid decorator ──────────────────────────
+       The grid itself is real server-rendered Blade (SEO/crawlability); this
+       only annotates it post-mount with the visitor's OWN localStorage play
+       history — it never renders the list, and needs no destroy() (no manual
+       listeners/timers). */
+    Alpine.data('dropPriceArchiveGrid', () => ({
+        init() {
+            const stats = loadDropPriceStats();
+            this.$el.querySelectorAll('[data-puzzle-number]').forEach((card) => {
+                const record = stats.playedNumbers[card.dataset.puzzleNumber];
+                if (!record) return;
+                const badge = card.querySelector('[data-played-badge]');
+                if (!badge) return;
+                badge.hidden = false;
+                badge.textContent = record.won ? 'Played · Won 🎯' : 'Played ✓';
+                if (record.won) {
+                    badge.classList.remove('bg-white/90', 'ring-gray-200', 'text-gray-600');
+                    badge.classList.add('bg-emerald-100', 'text-emerald-700', 'ring-emerald-200');
+                }
+            });
         },
     }));
 

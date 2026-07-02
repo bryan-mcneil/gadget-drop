@@ -10,6 +10,7 @@
                  registers its Alpine components on alpine:init, which a wire:navigate
                  visit never re-fires. --}}
             <a href="{{ route('tools.index') }}" class="hover:text-amber-600 transition-colors font-medium">Tools</a>
+            <a href="{{ route('drop-price.index') }}" wire:navigate class="hover:text-gray-600 transition-colors">Drop Price Archive</a>
             <a href="{{ route('about') }}"   wire:navigate class="hover:text-gray-600 transition-colors">About</a>
             <a href="{{ route('contact') }}" wire:navigate class="hover:text-gray-600 transition-colors">Contact</a>
             <a href="{{ route('privacy') }}" wire:navigate class="hover:text-gray-600 transition-colors">Privacy Policy</a>
