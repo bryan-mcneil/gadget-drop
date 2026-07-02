@@ -7,7 +7,7 @@
 
 ## Context
 
-GadgetDrop is an Amazon-affiliate site whose business depends on **organic traffic → return visits → affiliate clicks**. Right now there's no reason for a visitor to come back tomorrow. **Drop Price** is a Wordle-style daily game on the homepage: guess a mystery gadget's Amazon price in 4 tries. It exists to:
+GadgetDrop is an Amazon-affiliate site whose business depends on **organic traffic → return visits → affiliate clicks**. Right now there's no reason for a visitor to come back tomorrow. **Drop Price** is a Wordle-style daily game on the homepage: guess a mystery gadget's Amazon price in 5 tries. It exists to:
 
 1. **Build a daily habit** (a fresh puzzle every day = a reason to return),
 2. **Capture emails** by letting players *save their streak* (which also subscribes them to the existing newsletter), and
@@ -95,7 +95,7 @@ Production cron is hourly, so the puzzle locks within the first UTC hour; the re
 
 **New file:** `app/Support/DropPrice.php`.
 
-**Tunable constants:** `BAND_FREEZING = 0.25`, `BAND_WARM = 0.10`, `MAX_GUESSES = 4`.
+**Tunable constants:** `BAND_FREEZING = 0.25`, `BAND_WARM = 0.10`, `MAX_GUESSES = 5`.
 
 **`evaluate(int $guess, int $answer): array`** → `['direction' => 'higher'|'lower'|'equal', 'band' => 'freezing'|'warm'|'hot'|'nailed', 'won' => bool]`.
 - `won = $guess === $answer` → band `nailed`, direction `equal`.

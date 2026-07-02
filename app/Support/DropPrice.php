@@ -29,7 +29,7 @@ class DropPrice
     public const BAND_WARM = 0.10;
 
     /** Guesses allowed before the game is lost. */
-    public const MAX_GUESSES = 4;
+    public const MAX_GUESSES = 5;
 
     /**
      * Score a single guess against the secret answer.

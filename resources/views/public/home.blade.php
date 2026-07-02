@@ -5,9 +5,9 @@
     $darkBg = 'linear-gradient(135deg, #0d0d2b 0%, #0f0a1e 50%, #0a0f1e 100%)';
     $spotlightBg = 'linear-gradient(160deg, #050510 0%, #0c0c1d 45%, #0e0b1f 100%)';
 
-    // On lg the carousel shares the hero band 60/40 with the Drop Price game, so
-    // it renders at ~60vw there; full width below (and when there's no puzzle).
-    $heroSizes = $dropPrice ? '(min-width: 1024px) 60vw, 100vw' : '100vw';
+    // The hero carousel always spans the full width (the Drop Price game lives
+    // in its own band below it), so the LCP image renders at ~100vw everywhere.
+    $heroSizes = '100vw';
 
     $isWithin24h = function ($iso) {
         if (!$iso) return false;
@@ -35,14 +35,12 @@
         @endpush
     @endif
 
-    {{-- ── Hero band: carousel (60%) + Drop Price game (40%) on lg; stacked
-            carousel-first on mobile ── --}}
+    {{-- ── Hero carousel (full width) ── --}}
     @if(count($heroSlides) > 0)
         @php $count = count($heroSlides); @endphp
-        <div class="grid grid-cols-1 {{ $dropPrice ? 'lg:grid-cols-5' : '' }}">
         <section x-data="heroCarousel({{ $count }})" @mouseenter="paused = true" @mouseleave="paused = false"
             @touchstart.passive="touchStart($event)" @touchend.passive="touchEnd($event)"
-            class="{{ $dropPrice ? 'lg:col-span-3' : '' }} relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
+            class="relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
             @foreach($heroSlides as $i => $slide)
                 @php $p = $slide['post']; @endphp
                 <div class="absolute inset-0 transition-opacity duration-700"
@@ -112,16 +110,6 @@
                 <div class="absolute top-4 right-4 z-20 text-xs text-white/50 tabular-nums"><span x-text="active + 1"></span> / {{ $count }}</div>
             @endif
         </section>
-
-        @if($dropPrice)
-            {{-- Drop Price game island (40% on lg, below the carousel on mobile).
-                 Display-only props — the secret answer is read server-side by the
-                 Livewire component, never passed here. --}}
-            <div class="lg:col-span-2 flex flex-col p-4 md:p-5" style="background: {{ $heroBg }}">
-                @livewire('drop-price', ['number' => $dropPrice['number'], 'name' => $dropPrice['name'], 'image' => $dropPrice['image']])
-            </div>
-        @endif
-        </div>
     @endif
 
     {{-- ── Categories strip ── --}}
@@ -195,6 +183,22 @@
                         Drag to explore
                     </span>
                 </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- ── Drop Price game band: full width, directly under the category strip.
+         Display-only props — the secret answer is read server-side by the
+         Livewire component, never passed here. ── --}}
+    @if($dropPrice)
+        <section class="relative overflow-hidden text-slate-100" style="background: {{ $heroBg }}">
+            {{-- Heat-spectrum hairline — the seam between the categories and the game. --}}
+            <div class="absolute inset-x-0 top-0 h-px" style="background:linear-gradient(90deg,transparent,#38BDF8 18%,#FB923C 45%,#FF4D4D 72%,#FACC15 88%,transparent)"></div>
+            {{-- Ambient heat glows. --}}
+            <div class="pointer-events-none absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-sky-500/10 blur-3xl"></div>
+            <div class="pointer-events-none absolute -bottom-24 right-10 w-80 h-80 rounded-full bg-rose-500/10 blur-3xl"></div>
+            <div class="relative max-w-6xl mx-auto px-4 py-10 md:py-14">
+                @livewire('drop-price', ['number' => $dropPrice['number'], 'name' => $dropPrice['name'], 'image' => $dropPrice['image']])
             </div>
         </section>
     @endif

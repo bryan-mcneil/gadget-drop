@@ -136,3 +136,23 @@ input[type=number].no-spinner {
     margin-top: 0.06em;
     color: #4f46e5;
 }
+
+/* ── Drop Price game band (home) ────────────────────────────────
+   Keyframes for the product-stage heat aura, the guess-row entrance,
+   and the price reveal. Consumed from Blade via literal animate-[…]
+   arbitrary utilities (purge-safe), each paired with
+   motion-reduce:animate-none. Kept top-level on purpose — custom CSS
+   inside @layer is tree-shaken like utilities. */
+@keyframes heat-breathe {
+    0%, 100% { transform: scale(0.95); opacity: 0.55; }
+    50%      { transform: scale(1.05); opacity: 0.85; }
+}
+@keyframes guess-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-pop {
+    0%   { opacity: 0; transform: scale(0.85); }
+    60%  { transform: scale(1.03); }
+    100% { opacity: 1; transform: scale(1); }
+}

@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire;
 
 use App\Livewire\DropPrice;
 use App\Models\Category;
+use App\Support\DropPrice as DropPriceGame;
 use App\Models\DropPricePuzzle;
 use App\Models\Product;
 use App\Models\Subscriber;
@@ -96,14 +97,18 @@ class DropPriceTest extends TestCase
             ->assertSee('nofollow sponsored', false);
     }
 
-    public function test_four_wrong_guesses_ends_the_game_and_reveals_the_price(): void
+    public function test_exhausting_all_guesses_ends_the_game_and_reveals_the_price(): void
     {
         $puzzle = $this->lockedPuzzle();
 
         $component = $this->mountFor($puzzle);
 
-        foreach ([100, 150, 200, 250] as $g) {
-            $component->set('guess', $g)->call('submitGuess');
+        // All wrong (well below 347); the game must stay live until the final one.
+        for ($i = 1; $i <= DropPriceGame::MAX_GUESSES; $i++) {
+            if ($i === DropPriceGame::MAX_GUESSES) {
+                $component->assertSet('finished', false);
+            }
+            $component->set('guess', 100 + 10 * $i)->call('submitGuess');
         }
 
         $component
@@ -165,11 +170,13 @@ class DropPriceTest extends TestCase
         $puzzle = $this->lockedPuzzle();
         Subscriber::create(['email' => 'dupe@example.com', 'token' => 'x', 'ip_address' => '127.0.0.1']);
 
-        $this->mountFor($puzzle)
-            ->set('guess', 100)->call('submitGuess')
-            ->set('guess', 120)->call('submitGuess')
-            ->set('guess', 140)->call('submitGuess')
-            ->set('guess', 160)->call('submitGuess')   // 4 wrong → finished, lost
+        $component = $this->mountFor($puzzle);
+
+        for ($i = 1; $i <= DropPriceGame::MAX_GUESSES; $i++) {   // all wrong → finished, lost
+            $component->set('guess', 100 + 10 * $i)->call('submitGuess');
+        }
+
+        $component
             ->set('email', 'dupe@example.com')
             ->call('save')
             ->assertSet('saveStatus', 'duplicate');
@@ -178,7 +185,7 @@ class DropPriceTest extends TestCase
         $this->assertDatabaseHas('drop_price_results', [
             'drop_price_puzzle_id' => $puzzle->id,
             'won'                  => false,
-            'guesses_used'         => 4,
+            'guesses_used'         => DropPriceGame::MAX_GUESSES,
         ]);
     }
 }

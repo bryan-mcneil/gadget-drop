@@ -12,6 +12,34 @@ import '../css/app.css';
  | ship the (large) tool/image-processing code.
  */
 
+/* Clipboard write that also works outside secure contexts (navigator.clipboard
+   only exists on HTTPS/localhost — not on http://gadget-drop.test in local dev).
+   Resolves true only when the text actually reached the clipboard. */
+function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).then(() => true).catch(() => legacyCopy(text));
+    }
+    return Promise.resolve(legacyCopy(text));
+}
+
+function legacyCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', 'readonly');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    let ok = false;
+    try {
+        ok = document.execCommand('copy');
+    } catch (e) {
+        ok = false;
+    }
+    ta.remove();
+    return ok;
+}
+
 document.addEventListener('alpine:init', () => {
     const Alpine = window.Alpine;
 
@@ -95,7 +123,7 @@ document.addEventListener('alpine:init', () => {
        a declarative x-on (.window) so Livewire's wire:navigate teardown
        cleans it up; the lone manual handle (the copied timer) is cleared
        in destroy(). */
-    Alpine.data('dropPrice', ({ number, max = 4, shareUrl = '' }) => ({
+    Alpine.data('dropPrice', ({ number, max = 5, shareUrl = '' }) => ({
         number,
         max,
         shareUrl,
@@ -107,6 +135,7 @@ document.addEventListener('alpine:init', () => {
         emojiRows: '',
         copied: false,
         copyTimer: null,
+        rafId: null,
 
         // The default shape for a player who has never played.
         fresh() {
@@ -216,6 +245,26 @@ document.addEventListener('alpine:init', () => {
             this.emojiRows = this.buildRows(detail.results);
         },
 
+        // Reveal flourish: count the price up to its real value. The server-
+        // rendered text is already the final price, so reduced motion (or any
+        // bail-out) simply leaves it untouched. Post-reveal only — the price is
+        // in the DOM by the time this runs.
+        countUp(el) {
+            const target = parseInt(el.dataset.price, 10);
+            if (!Number.isFinite(target)) return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const duration = 900;
+            const from = Math.max(1, Math.round(target * 0.35));
+            const start = performance.now();
+            const tick = (now) => {
+                const t = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                el.textContent = '$' + Math.round(from + (target - from) * eased).toLocaleString('en-US');
+                if (t < 1) this.rafId = requestAnimationFrame(tick);
+            };
+            this.rafId = requestAnimationFrame(tick);
+        },
+
         shareText() {
             const score = this.won ? `${this.guesses}/${this.max}` : `X/${this.max}`;
             const flag = this.won ? '🎯' : '❌';
@@ -224,28 +273,31 @@ document.addEventListener('alpine:init', () => {
 
         share() {
             const text = this.shareText();
-            if (typeof navigator !== 'undefined' && navigator.share) {
-                navigator.share({ title: 'Drop Price', text }).catch(() => {});
+            // Native share sheet on touch devices only; on desktop the button
+            // promises "Copied to clipboard ✓", so copying IS the share. A user
+            // dismissing the sheet (AbortError) is a cancel, not a failure.
+            const touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+            if (touch && navigator.share) {
+                navigator.share({ title: 'Drop Price', text }).catch((e) => {
+                    if (!e || e.name !== 'AbortError') this.copy(text);
+                });
                 return;
             }
             this.copy(text);
         },
 
         copy(text) {
-            const payload = text || this.shareText();
-            if (!navigator.clipboard) return;
-            navigator.clipboard
-                .writeText(payload)
-                .then(() => {
-                    this.copied = true;
-                    clearTimeout(this.copyTimer);
-                    this.copyTimer = setTimeout(() => (this.copied = false), 2000);
-                })
-                .catch(() => {});
+            copyText(text || this.shareText()).then((ok) => {
+                if (!ok) return;
+                this.copied = true;
+                clearTimeout(this.copyTimer);
+                this.copyTimer = setTimeout(() => (this.copied = false), 2000);
+            });
         },
 
         destroy() {
             clearTimeout(this.copyTimer);
+            cancelAnimationFrame(this.rafId);
         },
     }));
 
@@ -392,7 +444,8 @@ document.addEventListener('alpine:init', () => {
             navigator.share({ title, url: shortUrl }).catch(() => {});
         },
         copy() {
-            navigator.clipboard.writeText(shortUrl).then(() => {
+            copyText(shortUrl).then((ok) => {
+                if (!ok) return;
                 this.copied = true;
                 setTimeout(() => (this.copied = false), 2000);
             });
