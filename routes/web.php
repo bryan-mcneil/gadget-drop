@@ -30,8 +30,14 @@ Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts
 Route::get('/og/posts/{post:slug}.jpg', [OgImageController::class, 'post'])->name('og.posts.show');
 Route::get('/og/default.jpg', [OgImageController::class, 'default'])->name('og.default');
 Route::get('/og/preview', [OgImageController::class, 'preview'])->name('og.preview');
+// Retired category slugs (consolidated into bigger hubs) → 301 to their target.
+// Registered before the catch-all category route so they win.
+foreach (config('site.category_map', []) as $oldCategorySlug => $newCategorySlug) {
+    Route::permanentRedirect("/category/{$oldCategorySlug}", "/category/{$newCategorySlug}");
+}
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
+Route::get('/deals', [\App\Http\Controllers\DealsController::class, 'index'])->name('deals');
 Route::get('/drop-price', [DropPriceController::class, 'index'])->name('drop-price.index');
 Route::get('/drop-price/{puzzle:puzzle_number}', [DropPriceController::class, 'show'])->name('drop-price.show');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
@@ -42,6 +48,7 @@ foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
 }
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about',   [PublicController::class, 'about'])->name('about');
+Route::get('/how-we-review', [PublicController::class, 'howWeReview'])->name('how-we-review');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/cookies', [PublicController::class, 'cookies'])->name('cookies');
@@ -74,6 +81,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('posts', PostController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
+    Route::get('prices', [\App\Http\Controllers\Admin\PriceController::class, 'index'])->name('prices.index');
+    Route::post('prices/{product}', [\App\Http\Controllers\Admin\PriceController::class, 'update'])->name('prices.update');
+    Route::post('prices/{product}/confirm', [\App\Http\Controllers\Admin\PriceController::class, 'confirm'])->name('prices.confirm');
     Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('tags', TagController::class)->except(['show', 'create', 'edit']);
     Route::post('images', [ImageController::class, 'store'])->name('images.store');

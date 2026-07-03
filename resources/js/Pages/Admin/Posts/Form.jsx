@@ -6,7 +6,7 @@ import ImageUploader from '@/Components/ImageUploader';
 function toDatetimeLocal(val) {
     if (!val) return new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
     if (val.includes('T')) return val.slice(0, 16);
-    if (val.length === 10)  return val + 'T00:00';
+    if (val.length === 10) return val + 'T00:00';
     return val.slice(0, 16);
 }
 
@@ -14,36 +14,37 @@ export default function PostForm({ post, categories, tags, products, authors }) 
     const editing = !!post;
 
     const { data, setData, post: submit, put, processing, errors } = useForm({
-        type:            post?.type ?? 'article',
-        title:           post?.title ?? '',
-        slug:            post?.slug ?? '',
-        excerpt:         post?.excerpt ?? '',
-        body:            post?.body ?? '',
-        source_url:      post?.source_url ?? '',
-        featured_image:          post?.featured_image ?? '',
-        featured_image_fit:      post?.featured_image_fit ?? 'cover',
+        type: post?.type ?? 'article',
+        title: post?.title ?? '',
+        slug: post?.slug ?? '',
+        excerpt: post?.excerpt ?? '',
+        body: post?.body ?? '',
+        source_url: post?.source_url ?? '',
+        featured_image: post?.featured_image ?? '',
+        featured_image_fit: post?.featured_image_fit ?? 'cover',
         featured_image_position: post?.featured_image_position ?? 'center center',
-        hero_image:              post?.hero_image ?? '',
-        hero_image_position:     post?.hero_image_position ?? 'center center',
-        image_1:             post?.image_1 ?? '',
-        image_1_fit:         post?.image_1_fit ?? 'cover',
-        image_2:             post?.image_2 ?? '',
-        image_2_fit:         post?.image_2_fit ?? 'cover',
-        image_3:             post?.image_3 ?? '',
-        image_3_fit:         post?.image_3_fit ?? 'cover',
-        status:          post?.status ?? 'draft',
-        published_at:    toDatetimeLocal(post?.published_at),
-        user_id:         post?.user_id ?? '',
-        category_ids:    post?.categories?.map((c) => c.id) ?? [],
-        tag_ids:         post?.tags?.map((t) => t.id) ?? [],
-        product_ids:     post?.products?.map((p) => p.id) ?? [],
-        rating:          post?.rating ?? null,
-        pros:            post?.pros   ?? [],
-        cons:            post?.cons   ?? [],
+        hero_image: post?.hero_image ?? '',
+        hero_image_position: post?.hero_image_position ?? 'center center',
+        image_1: post?.image_1 ?? '',
+        image_1_fit: post?.image_1_fit ?? 'cover',
+        image_2: post?.image_2 ?? '',
+        image_2_fit: post?.image_2_fit ?? 'cover',
+        image_3: post?.image_3 ?? '',
+        image_3_fit: post?.image_3_fit ?? 'cover',
+        status: post?.status ?? 'draft',
+        published_at: toDatetimeLocal(post?.published_at),
+        user_id: post?.user_id ?? '',
+        category_ids: post?.categories?.map((c) => c.id) ?? [],
+        tag_ids: post?.tags?.map((t) => t.id) ?? [],
+        product_ids: post?.products?.map((p) => p.id) ?? [],
+        rating: post?.rating ?? null,
+        pros: post?.pros ?? [],
+        cons: post?.cons ?? [],
         seo: {
-            meta_title:       post?.seo_meta?.meta_title ?? '',
+            meta_title: post?.seo_meta?.meta_title ?? '',
             meta_description: post?.seo_meta?.meta_description ?? '',
-            focus_keyword:    post?.seo_meta?.focus_keyword ?? '',
+            focus_keyword: post?.seo_meta?.focus_keyword ?? '',
+            noindex: post?.seo_meta?.noindex ?? false,
         },
     });
 
@@ -127,6 +128,16 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                                     onChange={(e) => setData('seo', { ...data.seo, focus_keyword: e.target.value })}
                                     className="w-full border-gray-300 rounded-lg shadow-sm text-sm" placeholder="e.g. best wireless earbuds 2025" />
                             </Field>
+                            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                                <input type="checkbox" checked={!!data.seo.noindex}
+                                    onChange={(e) => setData('seo', { ...data.seo, noindex: e.target.checked })}
+                                    className="mt-0.5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                                <span className="text-sm text-gray-600">
+                                    <span className="font-medium text-gray-800">Noindex this post</span> — stays live for
+                                    readers but is removed from Google's index and the sitemap (for thin/legacy posts
+                                    not worth deleting).
+                                </span>
+                            </label>
                         </div>
                     </div>
 
@@ -135,7 +146,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
                         {/* Author */}
                         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
                             <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">Author</h3>
-                            <Field label="Written by" error={errors.user_id}>
+                            <Field label="Edited by" error={errors.user_id}>
                                 <select value={data.user_id} onChange={(e) => setData('user_id', e.target.value)}
                                     className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
                                     <option value="">Select author</option>
@@ -337,11 +348,10 @@ function StarPicker({ value, onChange }) {
                         key={v}
                         type="button"
                         onClick={() => onChange(numVal === v ? null : v)}
-                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-colors ${
-                            numVal === v
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-colors ${numVal === v
                                 ? 'bg-amber-400 text-white'
                                 : 'bg-gray-100 text-gray-600 hover:bg-amber-100 hover:text-amber-700'
-                        }`}>
+                            }`}>
                         {v}
                     </button>
                 ))}
@@ -361,7 +371,7 @@ function StarPicker({ value, onChange }) {
 function ListEditor({ items, onChange, placeholder, color = 'gray' }) {
     const [draft, setDraft] = useState('');
 
-    const dotColor  = color === 'emerald' ? 'bg-emerald-400' : color === 'rose' ? 'bg-rose-400' : 'bg-gray-400';
+    const dotColor = color === 'emerald' ? 'bg-emerald-400' : color === 'rose' ? 'bg-rose-400' : 'bg-gray-400';
     const addBtnCls = color === 'emerald'
         ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
         : color === 'rose'
@@ -417,18 +427,17 @@ function FitToggle({ value, onChange }) {
         <div className="flex items-center gap-1.5 mt-1.5">
             <span className="text-xs text-gray-400">Display:</span>
             {[
-                { val: 'cover',   label: 'Crop to fill' },
+                { val: 'cover', label: 'Crop to fill' },
                 { val: 'contain', label: 'Show full image' },
             ].map(({ val, label }) => (
                 <button
                     key={val}
                     type="button"
                     onClick={() => onChange(val)}
-                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                        value === val
+                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${value === val
                             ? 'bg-indigo-600 text-white'
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}>
+                        }`}>
                     {label}
                 </button>
             ))}
@@ -437,14 +446,14 @@ function FitToggle({ value, onChange }) {
 }
 
 const FOCAL_POINTS = [
-    { label: 'Top left',     value: 'left top' },
-    { label: 'Top center',   value: 'center top' },
-    { label: 'Top right',    value: 'right top' },
-    { label: 'Left',         value: 'left center' },
-    { label: 'Center',       value: 'center center' },
-    { label: 'Right',        value: 'right center' },
-    { label: 'Bottom left',  value: 'bottom left' },
-    { label: 'Bottom center',value: 'center bottom' },
+    { label: 'Top left', value: 'left top' },
+    { label: 'Top center', value: 'center top' },
+    { label: 'Top right', value: 'right top' },
+    { label: 'Left', value: 'left center' },
+    { label: 'Center', value: 'center center' },
+    { label: 'Right', value: 'right center' },
+    { label: 'Bottom left', value: 'bottom left' },
+    { label: 'Bottom center', value: 'center bottom' },
     { label: 'Bottom right', value: 'right bottom' },
 ];
 
@@ -472,11 +481,10 @@ function FocalPointPicker({ image, value, onChange }) {
                                 type="button"
                                 title={fp.label}
                                 onClick={() => onChange(fp.value)}
-                                className={`transition-all ${
-                                    value === fp.value
+                                className={`transition-all ${value === fp.value
                                         ? 'bg-indigo-500/60'
                                         : 'bg-transparent hover:bg-white/30'
-                                }`}
+                                    }`}
                             >
                                 {value === fp.value && (
                                     <span className="flex items-center justify-center w-full h-full">
@@ -528,7 +536,7 @@ function CheckboxGroup({ label, items, selected, onToggle, renderLabel }) {
         ? items.filter(item =>
             selected.includes(item.id) ||
             getLabel(item).toLowerCase().includes(query.toLowerCase())
-          )
+        )
         : items;
 
     const hiddenSelectedCount = query.trim()

@@ -5,7 +5,7 @@ The daily content pipeline is split into small steps so each one can run in a ch
 | Step | Command | Input | Output |
 |---|---|---|---|
 | 1 | `/drop-research` | web + reviewed-products API | `daily-drop/research.md` (4 products) |
-| 2 | `/drop-write N` (N = 1-4, optional voice name for one post) | `daily-drop/research.md` | `daily-drop/product-N.md` (4 voice posts) |
+| 2 | `/drop-write N` (N = 1-4) | `daily-drop/research.md` | `daily-drop/product-N.md` (ONE post per product, byline Bryan McNeil — the 4-voice system is retired) |
 | 3 | `/drop-assemble` | `daily-drop/product-*.md` | `daily-drop-output.md` via `php bin/daily-drop-build.php` |
 | 4 | `/drop-video N\|all` (optional) | research + product files | video/social sections appended to output |
 

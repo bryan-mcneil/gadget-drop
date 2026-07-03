@@ -102,7 +102,7 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 |---|---|
 | `/daily-drop` | Pipeline status router: reports which drop step to run next |
 | `/drop-research` | Drop step 1: find 4 products, save `daily-drop/research.md` |
-| `/drop-write N` | Drop step 2: write 4 voice posts for product N, save `daily-drop/product-N.md` |
+| `/drop-write N` | Drop step 2: write ONE research-based post for product N (byline Bryan McNeil; the 4-persona system is retired), save `daily-drop/product-N.md` |
 | `/drop-assemble` | Drop step 3: build the import JSON via `php bin/daily-drop-build.php` |
 | `/drop-video` | Drop step 4 (optional): YouTube scripts + social captions |
 | `/research` | Find today's trending tech products worth covering |
@@ -115,16 +115,24 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 The daily-drop pipeline passes state through files (`daily-drop/research.md` → `daily-drop/product-N.md` → `bin/daily-drop-build.php` → `daily-drop-output.md`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps). The model never writes the final JSON; the build script parses, validates, and assembles it.
 
 ## Typical daily workflow
-1. `/drop-research` — find today's 4 products
-2. `/drop-write 1` … `/drop-write 4` — write the posts (each can be its own cheap session)
+1. `/drop-research` — find today's 4 products (research.md now includes `ALTERNATIVES` for internal linking)
+2. `/drop-write 1` … `/drop-write 4` — one deep post per product, real byline (each can be its own cheap session)
 3. `/drop-assemble` — build `daily-drop-output.md`
 4. Log into `/admin/daily-drop` → paste the JSON array → preview → import all as drafts
-5. Review drafts, publish
+5. Review drafts, add images, publish
+6. `/admin/prices` — 5-minute pass on the stalest products: open the Amazon link, type the new price (records a snapshot) or hit "Unchanged" (refreshes the checked-at stamp). This keeps every "Price checked {date}" label and the `/deals` feed honest.
 
 For one-off posts outside the pipeline: `/research` → `/write-post` → create the post in `/admin` → `/seo-review` → publish.
 
 ## Affiliate click tracking
-All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateClick` then redirects (tag appended automatically). Never link directly to Amazon in the post body — always use `route('affiliate.redirect', …)`.
+All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateClick` then redirects (tag appended automatically). Never link directly to Amazon in the post body — always use `route('affiliate.redirect', …)`. (The current post template goes further: NO Amazon links in the body at all — the `<x-product-card>` above the article is the single affiliate CTA; `bin/daily-drop-build.php` warns on in-body Amazon links.)
+
+## Price intelligence (the site's unique value layer)
+- **Snapshots**: `product_price_snapshots` (price, `source`: manual|canopy|pa_api|drop_price|import|initial). `App\Observers\ProductObserver` appends a snapshot on any price change and stamps `products.price_checked_at`; commands set `ProductObserver::$source` first so provenance is recorded.
+- **Math**: `App\Support\PriceIntel` (db-cached 6h, defensive like `DropPrice`) — 30/90-day low/avg/high over a carry-forward daily series, verdict tiers (lowest/good/typical/elevated). **Honesty gates**: stats + verdicts are null until ≥3 snapshots spanning ≥14 days; a flat price is "typical", never "lowest". `PriceIntel::flush($id)` busts the per-product key + the `/deals` feed.
+- **Surfaces**: `<x-price-history>` under each product card on review pages ("Price checked {date}" always; sparkline + verdict once gated stats exist — no extra CTA, single-CTA rule holds); `/deals` (indexable, in sitemap/nav) lists products ≥5% below their tracked 90-day average with a published review; the Drop Price game locks one real price per day (backfill source).
+- **Refresh sources**, in priority order (`prices:refresh`, scheduled 06:00): PA-API via `AmazonProductService` when configured → **Canopy API** (`CanopyApiService`, `CANOPY_API_KEY`) on the FREE tier only — hard budget guards (`daily_limit` 3/day + `monthly_budget` 90/mo counted on the db cache) keep it structurally $0; no card on the Canopy account → explicit no-op. Manual backstop: `/admin/prices`. **Never scrape Amazon** (Associates OA violation → account termination).
+- One-time setup on prod: `php artisan prices:backfill` (imports Drop Price puzzle history + initial snapshots).
 
 ## SEO
 - `SeoMeta` model is 1:1 with `Post` — edit via the post form's SEO panel
@@ -133,7 +141,8 @@ All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateC
 - JSON-LD structured data: emitted server-side on home + post pages (`serverJsonLd`)
 
 ## Tests
-- `php artisan test` — **suite is fully green (59 tests).** Coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest`, `AffiliateRedirectTest`, `Unit/ArticleBodyTest`, `ImageVariantsTest` (webp sources + variant-of-variant guard), `PublicLayoutTest` (AdSense flag off/on, wire:navigate present).
+- `php artisan test` — **suite is fully green (175 tests).** Coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest` + `Livewire/ContactFormTest` (honeypot/throttle/mail), `AffiliateRedirectTest`, `Unit/ArticleBodyTest`, `ImageVariantsTest` (webp sources + variant-of-variant guard), `PublicLayoutTest` (AdSense flag off/on, wire:navigate present), `AdsensePrepTest` (tools noindex, single CTA, persona 301s), `ThinPageCleanupTest` + `SitemapTest` (tag/category/post noindex rules, ≥3-post category threshold), `ConsolidateCategoriesTest`, `FlagClaimsCommandTest`, `PriceSnapshotTest` + `PriceHistoryWidgetTest` + `DealsPageTest` + `RefreshPricesCommandTest` + `Admin/PricesAdminTest` (the price-intelligence layer), DropPrice suites.
+- The sqlite test schema's posts.type CHECK predates `tech_news` (that enum widening is a guarded MySQL-only migration) — tests must not insert/update posts to type `tech_news`; use `tech_tip` to exercise non-article branches.
 - The old Breeze scaffold failures were cleaned up: `AuthenticationTest`/`EmailVerificationTest` now assert `route('admin.dashboard')` (the app's real post-login route); `RegistrationTest` now asserts `/register` is intentionally **disabled** (404) rather than testing the removed feature; the redundant `Feature/ExampleTest` was deleted (the homepage is covered by `PublicPagesTest`).
 - `Unit/ArticleBodyTest` is a pure PHPUnit unit test (no Laravel boot) — `ArticleBody::sections()` therefore guards its `Cache::remember` and renders directly if the cache layer isn't bound. Don't add hard facade dependencies to support classes that are unit-tested this way.
 
@@ -142,7 +151,7 @@ All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateC
 - Hostinger CDN ("hcdn") fronts the site (Business plan and above). WebP compression and Smart Image Optimization toggles are ON in hPanel, but they do NOT resize oversized originals in practice: responsive variants from `ImageVariants` are the real fix. After a deploy that changes assets/HTML, purge the CDN cache in hPanel (Performance, CDN).
 - **Deploy = build locally, commit, then run `bash bin/deploy.sh` on the server over SSH.** The script does: `git pull --ff-only`, `composer install --no-dev --optimize-autoloader`, `migrate --force`, `php artisan optimize` (config + routes + views + events), `images:optimize`. Rollback for cache issues: `php artisan optimize:clear`.
 - Pre-build assets locally: `npm run build` then commit `/public/build` (NOT gitignored; git pull delivers code + assets atomically; no File Manager uploads).
-- **Scheduler/cron:** one hPanel cron runs `php artisan schedule:run` HOURLY at minute 0 (`0 * * * * /opt/alt/php84/usr/bin/php /home/u746229724/domains/gadgetdrop.tech/public_html/artisan schedule:run`), not every minute, to save shared-hosting CPU. Therefore every task in `routes/console.php` MUST be scheduled at minute `:00` (times are UTC). Current tasks: `newsletter:send` Fridays 14:00, `images:optimize` daily 04:00 (self-healing variant backfill), `cache:prune-expired` daily 05:00 (the database cache store never sweeps expired rows it does not re-read).
+- **Scheduler/cron:** one hPanel cron runs `php artisan schedule:run` HOURLY at minute 0 (`0 * * * * /opt/alt/php84/usr/bin/php /home/u746229724/domains/gadgetdrop.tech/public_html/artisan schedule:run`), not every minute, to save shared-hosting CPU. Therefore every task in `routes/console.php` MUST be scheduled at minute `:00` (times are UTC). Current tasks: `dropprice:lock` daily 00:00, `images:optimize` daily 04:00 (self-healing variant backfill), `cache:prune-expired` daily 05:00 (the database cache store never sweeps expired rows it does not re-read), `prices:refresh` daily 06:00 (PA-API → Canopy → no-op; budget-guarded), `newsletter:send` Fridays 14:00.
 - Self-hosted fonts live in `public/fonts/figtree/` (committed) — no external font CDN.
 - **Livewire** assets are served by Laravel via `@livewireScripts` (v4 serves through a route — no `livewire:publish --assets` needed). Verify `route:cache` doesn't break Livewire's update endpoint (Join the Drop form) after the first cached-routes deploy.
 

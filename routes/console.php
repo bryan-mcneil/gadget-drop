@@ -26,3 +26,7 @@ Schedule::command('cache:prune-expired')->dailyAt('05:00');
 // Lock the day's Drop Price puzzle. Hourly cron means it runs within the first
 // UTC hour; the read layer falls back to the latest puzzle until then.
 Schedule::command('dropprice:lock')->dailyAt('00:00');
+
+// Refresh tracked product prices (PA-API when configured, else Canopy's free
+// tier, else an explicit no-op). Budget guards live in the command/service.
+Schedule::command('prices:refresh')->dailyAt('06:00');

@@ -34,6 +34,19 @@ return [
         'pa_region'      => env('AMAZON_PA_REGION', 'us-east-1'),
     ],
 
+    /*
+    | Canopy API (canopyapi.co) — interim Amazon product data for the price
+    | tracker until PA-API access unlocks (3 qualifying sales). Free-tier-only
+    | by design: stay on the Hobby plan (100 req/mo, no card attached) and keep
+    | both budget knobs below that ceiling so cost is structurally $0.
+    | daily_limit=3 ≈ every product refreshed roughly weekly at ~25 products.
+    */
+    'canopy' => [
+        'api_key'        => env('CANOPY_API_KEY'),
+        'monthly_budget' => (int) env('CANOPY_MONTHLY_BUDGET', 90),
+        'daily_limit'    => (int) env('CANOPY_DAILY_LIMIT', 3),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

@@ -116,6 +116,56 @@ class DropPriceArchiveTest extends TestCase
             ->assertSee('No past drops yet');
     }
 
+    /** Seed N saved results (each needs its own subscriber), alternating win/loss. */
+    private function seedResults(int $count): void
+    {
+        $puzzle = $this->puzzle(['date' => now()->subDays(10)->toDateString(), 'product_name' => 'Stats Gadget']);
+
+        foreach (range(1, $count) as $i) {
+            $subscriber = \App\Models\Subscriber::create([
+                'email'      => "player{$i}@example.com",
+                'token'      => "token-{$i}",
+                'ip_address' => '127.0.0.1',
+            ]);
+
+            \App\Models\DropPriceResult::create([
+                'drop_price_puzzle_id' => $puzzle->id,
+                'subscriber_id'        => $subscriber->id,
+                'won'                  => $i % 2 === 0,
+                'guesses_used'         => 3,
+                'closest_miss_pct'     => 5,
+                'played_on'            => now()->subDays(10)->toDateString(),
+            ]);
+        }
+    }
+
+    public function test_index_hides_aggregate_stats_below_the_play_threshold(): void
+    {
+        $this->seedResults(\App\Http\Controllers\DropPriceController::MIN_PLAYS_FOR_STATS - 1);
+
+        $this->get('/drop-price')
+            ->assertOk()
+            ->assertDontSee('tracked plays');
+    }
+
+    public function test_index_shows_aggregate_stats_at_the_play_threshold(): void
+    {
+        $this->seedResults(\App\Http\Controllers\DropPriceController::MIN_PLAYS_FOR_STATS);
+
+        $this->get('/drop-price')
+            ->assertOk()
+            ->assertSee('tracked plays')
+            ->assertSee('solve rate');
+    }
+
+    public function test_index_explains_the_game_with_real_prose(): void
+    {
+        $this->get('/drop-price')
+            ->assertOk()
+            ->assertSee('daily guessing game', false)
+            ->assertSee('price tracking', false);
+    }
+
     // ── Show ───────────────────────────────────────────────────────
 
     public function test_show_renders_a_past_locked_puzzle_without_leaking_the_price(): void

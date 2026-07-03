@@ -56,6 +56,12 @@
                         Guides
                     </a>
                 @endif
+                {{-- Deals — tracked price drops --}}
+                <a href="{{ route('deals') }}" wire:navigate
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" /></svg>
+                    Deals
+                </a>
             </nav>
 
             <div class="flex-1"></div>
@@ -206,6 +212,10 @@
                 Guides
             </a>
             @endif
+            <a href="{{ route('deals') }}" wire:navigate class="flex items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded-lg">
+                <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" /></svg>
+                Deals
+            </a>
 
             {{-- Trending accordion --}}
             <div class="border-t border-gray-50">

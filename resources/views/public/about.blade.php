@@ -30,12 +30,12 @@
         <h2 class="text-xl font-bold text-gray-900">Who's behind GadgetDrop</h2>
         <p class="text-gray-600 leading-relaxed">
             GadgetDrop is written and edited by {{ config('site.author.name') }}.
-            {{-- TODO (personalise — keep it true): replace the next sentence with your own
-                     background: how long you've followed consumer tech, what you actually use,
-                     and why you started the site. --}}
-            I'm a lifelong tech enthusiast who got tired of "reviews" that just reword the spec sheet,
-            so I started GadgetDrop to write the plain-English buying advice I wished existed:
-            who a gadget is really for, where it falls short, and when you're better off keeping your money.
+            I started it because most gadget "reviews" online are the spec sheet reworded, topped with an
+            affiliate link. My routine here is unglamorous and daily: pick the products worth talking about,
+            read owner feedback in bulk, check what the professional testers actually measured, and log the
+            real Amazon price so the site knows whether today's number is a deal or a markup. The result is
+            plain-English buying advice: who a gadget is really for, where it falls short, and when you're
+            better off keeping your money.
         </p>
         <p class="text-gray-600 leading-relaxed">
             Everything on this site is published under my name and I stand behind all of it. You can browse every
@@ -47,9 +47,11 @@
     <section class="space-y-4">
         <h2 class="text-xl font-bold text-gray-900">How we choose and evaluate products</h2>
         <p class="text-gray-600 leading-relaxed">
-            Picks are based on hands-on use where I have it, plus manufacturer specifications, verified-purchase owner
-            reviews, professional reviews, and wider community discussion. When a verdict leans on research rather than
-            long-term personal testing, I say so in the article instead of implying experience I don't have.
+            Picks are based on manufacturer specifications, verified-purchase owner reviews read in volume,
+            professional reviews, wider community discussion, and our own price tracking — hands-on use only
+            where I actually have it, and the article says which. The full process, including how ratings are
+            assigned and where the price data comes from, is documented on
+            <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
         <p class="text-gray-600 leading-relaxed">
             I use AI tools to help with drafting and research, but every post is personally reviewed, fact-checked, and

@@ -20,9 +20,15 @@ class SitemapController extends Controller
             $sitemap = Sitemap::create()
                 ->add(Url::create(route('home'))->setPriority(1.0)->setChangeFrequency('daily'))
                 ->add(Url::create(route('news'))->setPriority(0.9)->setChangeFrequency('daily'))
-                ->add(Url::create(route('drop-price.index'))->setPriority(0.7)->setChangeFrequency('daily'));
+                ->add(Url::create(route('deals'))->setPriority(0.8)->setChangeFrequency('daily'))
+                ->add(Url::create(route('drop-price.index'))->setPriority(0.7)->setChangeFrequency('daily'))
+                ->add(Url::create(route('about'))->setPriority(0.5)->setChangeFrequency('monthly'))
+                ->add(Url::create(route('how-we-review'))->setPriority(0.5)->setChangeFrequency('monthly'));
 
             Post::published()
+                // Posts flagged noindex in the SEO panel stay out of the sitemap
+                // so the two signals agree.
+                ->whereDoesntHave('seoMeta', fn ($q) => $q->where('noindex', true))
                 ->latest('published_at')
                 ->select(['id', 'slug', 'published_at', 'updated_at'])
                 ->chunkById(500, fn ($posts) => $posts->each(fn ($post) => $sitemap->add(
@@ -32,11 +38,16 @@ class SitemapController extends Controller
                         ->setChangeFrequency('weekly')
                 )));
 
-            Category::all(['slug'])->each(fn ($cat) => $sitemap->add(
-                Url::create(route('category', $cat->slug))
-                    ->setPriority(0.6)
-                    ->setChangeFrequency('weekly')
-            ));
+            // Only categories with enough published posts to be a real landing page.
+            // Below the threshold the page is a thin link grid — it also renders
+            // noindex (PublicController::category), so the two signals agree.
+            Category::whereHas('posts', fn ($q) => $q->published(), '>=', Category::SITEMAP_MIN_POSTS)
+                ->get(['slug'])
+                ->each(fn ($cat) => $sitemap->add(
+                    Url::create(route('category', $cat->slug))
+                        ->setPriority(0.6)
+                        ->setChangeFrequency('weekly')
+                ));
 
             return $sitemap->render();
         });

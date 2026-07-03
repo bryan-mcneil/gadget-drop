@@ -5,7 +5,7 @@ GadgetDrop daily content pipeline, **step 3**. The posts already exist as struct
 
 ## Steps
 
-1. **Preflight**: list `daily-drop/product-*.md`. The full daily drop has products 1 through 4. If some are missing, tell the user which ones and ask whether to build a partial drop or stop so they can run `/drop-write N` first.
+1. **Preflight**: list `daily-drop/product-*.md`. The full daily drop has products 1 through 4, ONE post each (4 posts total — the old 4-voices-per-product output is retired; the validator warns on multi-post files). If some are missing, tell the user which ones and ask whether to build a partial drop or stop so they can run `/drop-write N` first.
 
 2. **Build**: run with the Bash tool from the project root:
    ```bash

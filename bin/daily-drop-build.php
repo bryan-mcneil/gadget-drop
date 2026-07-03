@@ -109,6 +109,24 @@ const BANNED_PHRASES = [
     'is designed to',
 ];
 
+// Phrases that claim first-hand testing the site doesn't do. Reviews are
+// research-based (see /how-we-review) — mirror of config/content.php
+// 'testing_claim_phrases' (this script runs without Laravel, so keep the two
+// lists in sync by hand when editing either).
+const TESTING_CLAIM_PHRASES = [
+    'we tested', 'i tested', 'we test ', 'our testing', 'our tests',
+    'after testing', 'weeks of testing', 'days of testing',
+    'we measured', 'i measured', 'our measurements', 'reviewer measurements',
+    'we benchmarked', 'our benchmarks', 'in our lab', 'our lab',
+    'hands-on test', 'we put it through', 'we ran it', 'we ran the',
+    'independent testing', "we've been using", "i've been using",
+    'in my testing', 'in our testing', 'during testing, we',
+    'during our review, we found',
+];
+
+// The one real author (mirror of config/site.php 'author.name').
+const SITE_AUTHOR = 'Bryan McNeil';
+
 function len(string $s): int
 {
     return function_exists('mb_strlen') ? mb_strlen($s) : strlen($s);
@@ -156,9 +174,21 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
         $warnings[] = "{$label}: no CONS bullets";
     }
 
+    if (($p['AUTHOR'] ?? '') !== SITE_AUTHOR) {
+        $warnings[] = "{$label}: AUTHOR '" . ($p['AUTHOR'] ?? '') . "' is not '" . SITE_AUTHOR . "' (single real byline — personas are retired)";
+    }
+
     $wordCount = str_word_count(strip_tags($p['BODY']));
-    if ($wordCount < 500 || $wordCount > 1300) {
-        $warnings[] = "{$label}: body is ~{$wordCount} words (want 600-1200)";
+    if ($wordCount < 800 || $wordCount > 1600) {
+        $warnings[] = "{$label}: body is ~{$wordCount} words (want 900-1500)";
+    }
+
+    if (! str_contains($p['BODY'], '](/posts/')) {
+        $warnings[] = "{$label}: no internal review link in body (the How-it-compares section should link 1-2 alternatives)";
+    }
+
+    if (preg_match('~\]\(https?://(www\.)?amazon\.~i', $p['BODY'])) {
+        $warnings[] = "{$label}: raw Amazon link in body — the product card is the single affiliate CTA; drop in-body Amazon links";
     }
 
     // Content scans: em dashes + banned phrases
@@ -175,6 +205,12 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
     foreach (BANNED_PHRASES as $phrase) {
         if (str_contains($scanLower, $phrase)) {
             $warnings[] = "{$label}: banned phrase \"{$phrase}\"";
+        }
+    }
+
+    foreach (TESTING_CLAIM_PHRASES as $phrase) {
+        if (str_contains($scanLower, $phrase)) {
+            $warnings[] = "{$label}: testing claim \"{$phrase}\" — reviews are research-based; rewrite to owner/spec framing";
         }
     }
 
@@ -230,6 +266,8 @@ foreach ($files as $file) {
 
     if ($n === 0) {
         $warnings[] = "{$name}: no ===POST=== blocks found";
+    } elseif ($n > 1) {
+        $warnings[] = "{$name}: {$n} ===POST=== blocks — the pipeline is one post per product now (multi-voice was retired)";
     }
 }
 

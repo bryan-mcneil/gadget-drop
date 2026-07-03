@@ -32,7 +32,7 @@ class TechNewsGeneratorService
             : '';
 
         return <<<PROMPT
-You are writing a "Tech News" article for GadgetDrop, a popular tech gadget and tips website.
+You are writing a "Tech News" article for GadgetDrop, a gadget review site whose readers are BUYERS. GadgetDrop news covers consumer-gadget launches, price cuts, restocks, and spec refreshes — the news a person deciding what to buy actually needs. It does NOT cover general gaming/entertainment news with no buying angle.
 
 {$voiceBlock}
 
@@ -44,16 +44,17 @@ You are writing a "Tech News" article for GadgetDrop, a popular tech gadget and 
 {$trendingBlock}
 
 **Task:**
-Write a compelling, well-structured tech news article based on the source material above. Do not fabricate facts — stick only to what the sources cover.
+Write a tech news article based on the source material above that adds real value beyond the source: what this means for someone about to spend money. Do not fabricate facts — stick only to what the sources cover. If the story has NO plausible purchase decision attached (e.g. pure entertainment news), say so instead of writing the article.
 
 **Writing Guidelines:**
 - Title: News-style headline, clear and factual. Under 80 characters.
 - Lead paragraph: Answer who/what/when/why upfront (inverted pyramid)
-- Body structure: Key facts → Context/Background → What it means for readers → optional ## What's Next
+- Body structure: Key facts → Context/Background → What it means for buyers → **required closing section `## Buy or Wait?`** with a practical, opinionated recommendation (buy now / wait for the refresh / skip and get X instead)
 - Use **bold** for key terms, product names, and company names on first mention
-- Keep body 300–550 words — punchy and scannable
-- Tone: informed tech journalist, not hype. Let the facts speak.
-- No affiliate product pitches — this is news, not a review
+- Keep body 400–700 words — punchy and scannable
+- Tone: informed tech journalist, not hype. Let the facts speak; the Buy or Wait section is where the opinion lives.
+- No affiliate product pitches in the body — the analysis IS the value
+- Never claim first-hand testing ("we tested", "our measurements") — attribute claims to the source, the spec sheet, or owner feedback
 
 Respond with ONLY a valid JSON object — no markdown fences, no explanation, raw JSON only:
 {

@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\DropPricePuzzle;
+use App\Models\DropPriceResult;
 use App\Support\DropPrice;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 
 class DropPriceController extends Controller
 {
+    /**
+     * Aggregate play stats only become public once there's enough volume to
+     * mean something — results only exist for players who saved a streak with
+     * their email, so tiny counts would read as fake social proof.
+     */
+    public const MIN_PLAYS_FOR_STATS = 25;
+
     public function index(): View
     {
         // Exclude the currently-ACTIVE puzzle by id, not by date < today — this
@@ -29,6 +38,16 @@ class DropPriceController extends Controller
                 'product_image_url' => $p->product_image_url,
             ]);
 
+        $stats = Cache::remember('dropprice.stats', now()->addHour(), function () {
+            $totalPlays = DropPriceResult::count();
+
+            return [
+                'totalPuzzles' => DropPricePuzzle::query()->playable()->count(),
+                'totalPlays'   => $totalPlays,
+                'winRate'      => $totalPlays > 0 ? (int) round(DropPriceResult::avg('won') * 100) : null,
+            ];
+        });
+
         view()->share('serverMeta', [
             'title'       => 'Drop Price Archive | GadgetDrop',
             'description' => 'Replay every past Drop Price puzzle. Guess what it sold for — no spoilers, no time pressure.',
@@ -37,7 +56,11 @@ class DropPriceController extends Controller
             'canonical'   => route('drop-price.index'),
         ]);
 
-        return view('public.drop-price.index', ['puzzles' => $puzzles]);
+        return view('public.drop-price.index', [
+            'puzzles'   => $puzzles,
+            'stats'     => $stats,
+            'showStats' => $stats['totalPlays'] >= self::MIN_PLAYS_FOR_STATS,
+        ]);
     }
 
     public function show(DropPricePuzzle $puzzle): View|RedirectResponse

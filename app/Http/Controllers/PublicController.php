@@ -14,6 +14,7 @@ use App\Support\NavigationData;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -282,6 +283,12 @@ class PublicController extends Controller
                 'gtin'                => $p->gtin,
                 'amazon_rating'       => $p->amazon_rating,
                 'amazon_review_count' => $p->amazon_review_count,
+                // Tracked-price history for the <x-price-history> widget.
+                // Only meaningful on review-type posts, and null until the
+                // product has a price.
+                'price_intel'         => in_array($post->type, ['tech_tip', 'tech_news'])
+                    ? null
+                    : \App\Support\PriceIntel::stats($p->id),
             ]),
             'seo_meta' => $post->seoMeta ? [
                 'meta_title'       => $post->seoMeta->meta_title,
@@ -289,6 +296,7 @@ class PublicController extends Controller
                 'canonical_url'    => $post->seoMeta->canonical_url,
                 'og_image'         => $post->seoMeta->og_image,
                 'focus_keyword'    => $post->seoMeta->focus_keyword,
+                'noindex'          => (bool) $post->seoMeta->noindex,
             ] : null,
             'rating' => $post->rating,
             'pros'   => $post->pros ?? [],
@@ -398,6 +406,28 @@ class PublicController extends Controller
         ]);
     }
 
+    /**
+     * Person node for the site's single real author, referenced from the
+     * Organization (founder) and article/review author blocks via @id.
+     */
+    private function authorPersonJsonLd(): array
+    {
+        $base   = url('');
+        $slug   = config('site.author.slug');
+        $person = [
+            '@type' => 'Person',
+            '@id'   => "{$base}/author/{$slug}#person",
+            'name'  => config('site.author.name'),
+            'url'   => "{$base}/author/{$slug}",
+        ];
+
+        if (! empty(config('site.author.same_as'))) {
+            $person['sameAs'] = config('site.author.same_as');
+        }
+
+        return $person;
+    }
+
     private function buildHomeJsonLd(): string
     {
         $base = url('');
@@ -412,7 +442,9 @@ class PublicController extends Controller
                 'logo'         => ['@type' => 'ImageObject', 'url' => "{$base}/favicon-96x96.png", 'width' => 96, 'height' => 96],
                 'description'  => 'GadgetDrop is a daily tech picks and gadget review site covering consumer electronics available on Amazon.',
                 'contactPoint' => ['@type' => 'ContactPoint', 'email' => 'hello@gadgetdrop.tech', 'contactType' => 'customer service'],
+                'founder'      => ['@id' => url('') . '/author/' . config('site.author.slug') . '#person'],
             ],
+            $this->authorPersonJsonLd(),
             [
                 '@type'         => 'WebSite',
                 '@id'           => "{$base}/#website",
@@ -445,6 +477,9 @@ class PublicController extends Controller
             'og_image_alt' => $d['title'],
             'og_type'     => 'article',
             'canonical'   => ($seo['canonical_url']     ?? null) ?: (url("/posts/{$d['slug']}")),
+            // Per-post editorial noindex (admin SEO panel) — thin/legacy posts
+            // can stay live for readers while leaving the index.
+            'noindex'     => ($seo['noindex'] ?? false) ?: null,
         ];
     }
 
@@ -500,9 +535,13 @@ class PublicController extends Controller
         if ($d['user']['name'] ?? null) {
             $article['author'] = [
                 '@type' => 'Person',
+                '@id'   => "{$base}/author/{$d['user']['slug']}#person",
                 'name'  => $d['user']['name'],
                 'url'   => "{$base}/author/{$d['user']['slug']}",
             ];
+            if (($d['user']['slug'] ?? null) === config('site.author.slug') && ! empty(config('site.author.same_as'))) {
+                $article['author']['sameAs'] = config('site.author.same_as');
+            }
         }
 
         $keywords = collect($d['tags'] ?? [])->pluck('name')->implode(', ');
@@ -561,11 +600,12 @@ class PublicController extends Controller
             if ($d['rating'] ?? null) {
                 $review = [
                     '@type'         => 'Review',
-                    'author'        => [
+                    'author'        => array_filter([
                         '@type' => 'Person',
+                        '@id'   => isset($d['user']['slug']) ? "{$base}/author/{$d['user']['slug']}#person" : null,
                         'name'  => $d['user']['name'] ?? 'GadgetDrop Editorial',
                         'url'   => isset($d['user']['slug']) ? "{$base}/author/{$d['user']['slug']}" : null,
-                    ],
+                    ]),
                     'datePublished' => $d['published_at_iso'] ?? null,
                     'reviewRating'  => [
                         '@type'       => 'Rating',
@@ -646,10 +686,15 @@ class PublicController extends Controller
 
         view()->share('serverMeta', [
             'title'       => "{$category->name} | GadgetDrop",
-            'description' => "Browse {$category->name} reviews, picks, and buying guides on GadgetDrop. {$posts->total()} posts and counting.",
+            'description' => $category->description
+                ? Str::limit(strip_tags($category->description), 155)
+                : "Browse {$category->name} reviews, picks, and buying guides on GadgetDrop. {$posts->total()} posts and counting.",
             'og_image'    => null,
             'og_type'     => 'website',
             'canonical'   => route('category', $category->slug),
+            // Thin category pages (few posts) stay reachable but out of the index —
+            // same threshold that gates sitemap inclusion.
+            'noindex'     => $posts->total() < Category::SITEMAP_MIN_POSTS,
         ]);
 
         return view('public.category', [
@@ -692,6 +737,9 @@ class PublicController extends Controller
             'og_image'    => null,
             'og_type'     => 'website',
             'canonical'   => route('tag', $tag->slug),
+            // Tag pages are pure link grids with no unique prose — useful for
+            // browsing, thin for the index. Kept crawlable (noindex, follow).
+            'noindex'     => true,
         ]);
 
         return view('public.tag', [
@@ -771,6 +819,19 @@ class PublicController extends Controller
         ]);
 
         return view('public.about');
+    }
+
+    public function howWeReview(): View
+    {
+        view()->share('serverMeta', [
+            'title'       => 'How We Review Products | GadgetDrop',
+            'description' => 'How GadgetDrop researches products, assigns ratings, and tracks real Amazon prices over time — and exactly what our reviews are (and are not) based on.',
+            'og_image'    => null,
+            'og_type'     => 'website',
+            'canonical'   => route('how-we-review'),
+        ]);
+
+        return view('public.how-we-review');
     }
 
     public function privacy(): View

@@ -11,7 +11,11 @@ class SeoMeta extends Model
 
     protected $fillable = [
         'post_id', 'meta_title', 'meta_description',
-        'focus_keyword', 'og_image', 'canonical_url',
+        'focus_keyword', 'og_image', 'canonical_url', 'noindex',
+    ];
+
+    protected $casts = [
+        'noindex' => 'boolean',
     ];
 
     public function post(): BelongsTo

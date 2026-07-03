@@ -12,20 +12,23 @@
     </div>
 
     <div class="max-w-2xl mx-auto px-4 py-14 space-y-8">
-        {{-- Main contact card --}}
-        <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center space-y-4">
-            <div class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center mx-auto">
-                <svg class="w-7 h-7 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-            </div>
-            <h2 class="text-lg font-bold text-gray-900">Email us</h2>
-            <p class="text-gray-500 text-sm">The fastest way to reach us. We aim to reply within 2 business days.</p>
-            <a href="mailto:{{ config('site.author.email') }}"
-                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl transition-colors text-sm">
-                {{ config('site.author.email') }}
-            </a>
+        <div class="space-y-3">
+            <p class="text-gray-600 leading-relaxed text-sm">
+                Every message here goes straight to {{ config('site.author.name') }} — the person who researches
+                and writes the site — not a ticket queue. Corrections get priority: if a spec, price, or claim in an
+                article is wrong, it typically gets fixed within a day of a good report (link the article, say what's
+                off, and include a source if you have one). Product tips and partnership notes are welcome too.
+            </p>
         </div>
+
+        {{-- Contact form --}}
+        @livewire('contact-form')
+
+        {{-- Direct email fallback --}}
+        <p class="text-center text-sm text-gray-500">
+            Prefer plain email?
+            <a href="mailto:{{ config('site.author.email') }}" class="text-indigo-600 font-semibold hover:underline">{{ config('site.author.email') }}</a>
+        </p>
 
         {{-- Reason cards --}}
         <div class="grid sm:grid-cols-3 gap-4">

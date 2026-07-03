@@ -81,12 +81,20 @@ class DailyDropImporterService
             }
         }
 
-        // Resolve category (find or create)
+        // Resolve category (find or create). Retired slugs are mapped to their
+        // consolidated hub first (config site.category_map) so imports can't
+        // resurrect a category that categories:consolidate merged away.
         $categoryId = null;
         if (! empty($data['category_name'])) {
+            $categorySlug = $this->slugify($data['category_name']);
+            $categorySlug = config("site.category_map.{$categorySlug}", $categorySlug);
+
             $category   = Category::firstOrCreate(
-                ['slug' => $this->slugify($data['category_name'])],
-                ['name' => $data['category_name']],
+                ['slug' => $categorySlug],
+                ['name' => config("site.category_renames.{$categorySlug}")
+                    ?? ($categorySlug === $this->slugify($data['category_name'])
+                        ? $data['category_name']
+                        : \Illuminate\Support\Str::of($categorySlug)->replace('-', ' ')->title()->toString())],
             );
             $categoryId = $category->id;
         }
@@ -200,6 +208,12 @@ You are writing a product review post for GadgetDrop, a popular tech gadget and 
 **Task:**
 Write a compelling, publish-ready product review post that ranks on Google and drives purchase decisions. Do not fabricate specs or prices -- use only the source content provided.
 
+**Honesty rules (non-negotiable):**
+- GadgetDrop reviews are research-based (see the site's /how-we-review page). NEVER claim first-hand testing: no "we tested", "our testing", "our measurements", "we measured", "in our lab", "hands-on test", "we benchmarked", "we've been using", "in my/our testing", "independent testing".
+- Attribute instead: "verified-purchase owners consistently report...", "on paper the spec sheet claims X; owner feedback puts it closer to Y", "professional testers measured...".
+- Never invent price history ("was \$199" style claims). Qualitative price positioning only; the site renders its own tracked-price widget.
+- Name at least one real downside a buyer should know before paying.
+
 **Post Structure (separate each section with a markdown --- horizontal rule):**
 
 - **Hook paragraph** -- relatable problem or surprising fact. No heading. Never "In this article we will..."
@@ -214,11 +228,19 @@ Write a compelling, publish-ready product review post that ranks on Google and d
 
 ---
 
-- **Key features** -- 3-5 bullets, benefits-first. Make the heading product-specific for SEO (## Key Features is a last resort).
+- **Key features in context** -- 3-5 bullets, benefits-first; each ties a spec to a real-world outcome. Make the heading product-specific for SEO (## Key Features is a last resort).
 
 ---
 
-- **Honest take** -- one genuine downside or "not for you if..." (builds trust). Product-specific heading.
+- **Price context** -- 1 short paragraph: where the price sits for the category, what you pay for vs. the step-down option, and that the live tracked price renders in the product card on the page. Qualitative only, no invented numbers.
+
+---
+
+- **How it compares** -- name 1-2 real alternatives, one sentence each on when the alternative is the better buy. If an alternative has a GadgetDrop review, link it inline as a site-relative markdown link: [our X review](/posts/slug).
+
+---
+
+- **Honest take** -- one genuine downside or "not for you if..." (builds trust). Product-specific heading. Sourced honestly (owner-feedback patterns, spec limits).
 
 ---
 
@@ -229,11 +251,11 @@ Write a compelling, publish-ready product review post that ranks on Google and d
 
 ---
 
-- **Verdict** -- punchy 2-sentence wrap-up.
+- **Verdict** -- punchy 2-sentence wrap-up with a clear buy / wait / skip lean.
 
 ---
 
-- **CTA** -- a markdown link: [Check the current price on Amazon ->](https://www.amazon.com/dp/{$asin})
+- **Closing nudge** -- 1-2 sentences, NO link. The product card above the article is the site's single affiliate CTA; never put an Amazon link in the body.
 
 **Writing Rules:**
 - Active voice, no filler words ("very", "really", "truly")
@@ -243,7 +265,7 @@ Write a compelling, publish-ready product review post that ranks on Google and d
 - Vary sentence length: mix short punchy sentences with longer explanatory ones
 - One concrete number or comparison per section beats three vague adjectives
 - If a sentence could appear unchanged in any product review, rewrite it to be specific to this product
-- Body: 600-1000 words
+- Body: 900-1500 words (one deep post, not a thin summary)
 
 **SEO Rules (apply before writing the JSON -- revise if score is below 75):**
 - Title: 50-65 characters, focus keyword near the start, compelling
@@ -275,7 +297,7 @@ Respond with ONLY a valid JSON object -- no markdown fences, no explanation, raw
   "body": "Full markdown body -- ## headings, --- dividers, **bold** preserved as a single JSON string",
   "type": "article",
   "author_name": "{$authorName}",
-  "category_name": "one of: Audio, Smart Home, Wearables, Gaming, Accessories, Productivity, Photography, Computers, Monitors, or best-fit category",
+  "category_name": "one of: Audio & Home Theater, Smart Home, Computers, Gaming, Wearables, Cameras (the consolidated set -- pick the best fit, do not invent new categories)",
   "tag_names": ["tag1", "tag2", "tag3", "tag4", "tag5"],
   "product_asin": "{$asin}",
   "rating": 4.2,

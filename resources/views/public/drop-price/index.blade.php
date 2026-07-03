@@ -15,7 +15,25 @@
                 <span class="text-base leading-none">🌡️</span> Drop Price
             </span>
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight max-w-2xl">Archive</h1>
-            <p class="mt-4 text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">Replay every past puzzle — no spoilers, no time pressure.</p>
+            <p class="mt-4 text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
+                Drop Price is GadgetDrop's daily guessing game: one real gadget, five guesses at its Amazon
+                price, and a thermometer that tells you how close you're running. Every answer is a genuine
+                price we recorded on the day the puzzle locked — the same price tracking that powers our
+                reviews — so playing the archive doubles as a tour of what tech actually costs.
+            </p>
+            <p class="mt-3 text-slate-400 text-sm leading-relaxed max-w-xl">
+                Replay any past drop below. No spoilers, no time pressure, and your streak only counts on today's puzzle.
+            </p>
+
+            @if($showStats)
+                <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-300">
+                    <span><strong class="text-yellow-400 font-extrabold tabular-nums">{{ number_format($stats['totalPuzzles']) }}</strong> puzzles</span>
+                    <span><strong class="text-yellow-400 font-extrabold tabular-nums">{{ number_format($stats['totalPlays']) }}</strong> tracked plays</span>
+                    @if($stats['winRate'] !== null)
+                        <span><strong class="text-yellow-400 font-extrabold tabular-nums">{{ $stats['winRate'] }}%</strong> solve rate</span>
+                    @endif
+                </div>
+            @endif
 
             <a href="{{ route('home') }}" wire:navigate
                 class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-yellow-400 hover:text-yellow-300 transition-colors">
