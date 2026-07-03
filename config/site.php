@@ -48,9 +48,15 @@ return [
         'accessories'  => 'computers',
         'tvs'          => 'audio',
         'photography'  => 'cameras',
+        // Near-miss slugs the importer's firstOrCreate resurrected after the
+        // original merge (the map only knew `tvs`/`audio-home-theater`).
+        'tv'           => 'audio',
+        'home-theater' => 'audio',
         // Slug alias: the display name "Audio & Home Theater" slugifies to
         // audio-home-theater, but the canonical slug stays `audio`.
         'audio-home-theater' => 'audio',
+        // Slug alias for the "Computers & Accessories" display name.
+        'computers-accessories' => 'computers',
     ],
 
     /*
@@ -58,6 +64,40 @@ return [
     | (slug stays stable so indexed URLs keep working).
     */
     'category_renames' => [
-        'audio' => 'Audio & Home Theater',
+        'audio'     => 'Audio & Home Theater',
+        'computers' => 'Computers & Accessories',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Item-level re-homes (post-consolidation cleanup)
+    |--------------------------------------------------------------------------
+    | The bulk merge left individual items in the wrong hub (wearables dumped
+    | into Computers, a record player stand likewise). Consumed by
+    | categories:rehome (App\Console\Commands\RehomeCategoryItems), which moves
+    | the product AND swaps the category on its linked posts. Keyed by exact
+    | product name — stable across dev/prod, unlike IDs.
+    */
+    'category_rehome' => [
+        'Google Fitbit Air'      => 'wearables',
+        'Garmin Forerunner 165'  => 'wearables',
+        'Garmin Forerunner® 170' => 'wearables',
+        'RingConn Gen 2'         => 'wearables',
+        'Record Player Stand'    => 'audio',
+    ],
+
+    /*
+    | Category attachments for posts with no product to follow (tech tips and
+    | news that were never categorized). Post slug => category slug; attach
+    | only, nothing is detached. Also consumed by categories:rehome.
+    */
+    'category_rehome_posts' => [
+        'learn-new-tools-or-master-the-fundamental' => 'computers',
+        'computer-tricks-most-people-dont-know'     => 'computers',
+        'personal-cybersecurity-best-practices'     => 'computers',
+        'sysadmin-tips-and-tricks-that-save-time'   => 'computers',
+        'hidden-iphone-hacks'                       => 'computers',
+        'underrated-open-source-tools'              => 'computers',
+        'new-pokemon-pitch-black-set'               => 'gaming',
     ],
 ];

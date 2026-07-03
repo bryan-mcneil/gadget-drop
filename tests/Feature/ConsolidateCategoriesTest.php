@@ -100,4 +100,18 @@ class ConsolidateCategoriesTest extends TestCase
         $this->assertTrue($post->categories->pluck('slug')->contains('audio'));
         $this->assertDatabaseMissing('categories', ['slug' => 'audio-home-theater']);
     }
+
+    public function test_importer_maps_the_computers_display_name_to_the_computers_slug(): void
+    {
+        $user = User::factory()->create();
+
+        $post = app(DailyDropImporterService::class)->importOne([
+            'title'         => 'Imported Power Bank Post',
+            'body'          => 'Body copy.',
+            'category_name' => 'Computers & Accessories',
+        ], $user->id);
+
+        $this->assertTrue($post->categories->pluck('slug')->contains('computers'));
+        $this->assertDatabaseMissing('categories', ['slug' => 'computers-accessories']);
+    }
 }

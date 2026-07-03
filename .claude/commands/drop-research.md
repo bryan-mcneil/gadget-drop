@@ -61,7 +61,7 @@ PRICE: {approximate price, e.g. $129}
 TRENDING: {why it's trending, 1 sentence}
 ANGLE: {best post angle / hook}
 KEYWORD: {primary target keyword}
-CATEGORY: {one of: Audio & Home Theater | Smart Home | Computers | Gaming | Wearables | Cameras — the consolidated set, do not invent new categories}
+CATEGORY: {one of: Audio & Home Theater | Smart Home | Computers & Accessories | Gaming | Wearables | Cameras — the consolidated set, do not invent new categories}
 TAGS: {tag1 | tag2 | tag3 | tag4 | tag5}
 ALTERNATIVES: {1-2 comparable products for the "How it compares" section. Prefer ones from the reviewed-products list so the post can link them: "{name} | /posts/{post_slug}" — or "{name} | no-review" for an unreviewed rival}
 

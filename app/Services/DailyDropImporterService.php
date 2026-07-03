@@ -297,7 +297,7 @@ Respond with ONLY a valid JSON object -- no markdown fences, no explanation, raw
   "body": "Full markdown body -- ## headings, --- dividers, **bold** preserved as a single JSON string",
   "type": "article",
   "author_name": "{$authorName}",
-  "category_name": "one of: Audio & Home Theater, Smart Home, Computers, Gaming, Wearables, Cameras (the consolidated set -- pick the best fit, do not invent new categories)",
+  "category_name": "one of: Audio & Home Theater, Smart Home, Computers & Accessories, Gaming, Wearables, Cameras (the consolidated set -- pick the best fit, do not invent new categories)",
   "tag_names": ["tag1", "tag2", "tag3", "tag4", "tag5"],
   "product_asin": "{$asin}",
   "rating": 4.2,

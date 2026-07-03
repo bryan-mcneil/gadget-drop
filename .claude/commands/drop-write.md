@@ -117,7 +117,7 @@ AUTHOR: Bryan McNeil
 TITLE: {50–65 chars, contains keyword}
 EXCERPT: {120–155 chars}
 TYPE: article
-CATEGORY: {one of: Audio & Home Theater | Smart Home | Computers | Gaming | Wearables | Cameras — from research.md, adjust only if clearly wrong}
+CATEGORY: {one of: Audio & Home Theater | Smart Home | Computers & Accessories | Gaming | Wearables | Cameras — from research.md, adjust only if clearly wrong}
 TAGS: {tag1 | tag2 | tag3 | tag4 | tag5}
 ASIN: {B0XXXXXXXXX from research.md}
 RATING: {one of 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5 — honest editorial score; everything being 4.5+ destroys credibility}
