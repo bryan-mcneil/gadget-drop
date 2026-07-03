@@ -4,7 +4,7 @@
 {{-- Hero --}}
 <div class="bg-white border-b border-gray-100">
     <div class="max-w-6xl mx-auto px-4 py-14">
-        <p class="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-3">Price Drops</p>
+        <p class="text-xs font-semibold text-sky-600 uppercase tracking-widest mb-3">Price Drops</p>
         <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
             Drops we actually tracked
         </h1>
@@ -48,7 +48,7 @@
                         <div class="flex items-start justify-between gap-2">
                             <a href="{{ route('posts.show', $deal['post_slug']) }}" wire:navigate
                                 class="font-bold text-gray-900 leading-snug hover:text-indigo-600 transition-colors line-clamp-2">{{ $deal['name'] }}</a>
-                            <span class="shrink-0 text-[11px] font-bold px-2 py-1 rounded-full bg-emerald-100 text-emerald-800 tabular-nums">−{{ round($deal['drop_pct']) }}%</span>
+                            <span class="shrink-0 text-[11px] font-bold px-2 py-1 rounded-full bg-sky-100 text-sky-800 tabular-nums">−{{ round($deal['drop_pct']) }}%</span>
                         </div>
 
                         <div class="flex items-baseline gap-2 tabular-nums">
@@ -57,7 +57,7 @@
                         </div>
 
                         @if(count($deal['points']) > 1)
-                            <svg viewBox="0 0 240 48" class="w-full h-10 text-emerald-500" preserveAspectRatio="none" aria-hidden="true">
+                            <svg viewBox="0 0 240 48" class="w-full h-10 text-sky-500" preserveAspectRatio="none" aria-hidden="true">
                                 <polyline points="{{ \App\Support\PriceIntel::sparklinePoints($deal['points']) }}"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -65,7 +65,7 @@
 
                         <p class="text-xs text-gray-400">
                             @if($deal['verdict'] === 'lowest')
-                                <span class="text-emerald-700 font-semibold">Lowest price we've tracked.</span>
+                                <span class="text-sky-700 font-semibold">Lowest price we've tracked.</span>
                             @endif
                             Checked {{ \Illuminate\Support\Carbon::parse($deal['checked_at'])->diffForHumans() }}
                         </p>

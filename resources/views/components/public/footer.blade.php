@@ -1,31 +1,61 @@
-<footer class="bg-white border-t border-gray-200 py-8 text-xs text-gray-400">
-    <div class="max-w-6xl mx-auto px-4">
-        {{-- What this site is — site-wide prose for humans and crawlers (lives here, not on the homepage) --}}
-        <p class="max-w-2xl mx-auto sm:mx-0 text-center sm:text-left text-gray-500 leading-relaxed">
-            <span class="font-semibold text-gray-600">GadgetDrop</span> finds the consumer tech worth buying — and tracks what it really costs.
-            Every review is <a href="{{ route('how-we-review') }}" wire:navigate class="underline decoration-gray-300 hover:text-gray-600 hover:decoration-gray-400 transition-colors">research-based and price-tracked</a>:
-            who a gadget is for, where it falls short, and whether <a href="{{ route('deals') }}" wire:navigate class="underline decoration-gray-300 hover:text-emerald-600 hover:decoration-emerald-300 transition-colors">today's price is actually a deal</a>.
-        </p>
-    </div>
-    <div class="max-w-6xl mx-auto px-4 mt-5 pt-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p>
-            © {{ date('Y') }} GadgetDrop.tech ·
-            GadgetDrop participates in the Amazon Associates program.
-            We earn a small commission on qualifying purchases.
-        </p>
-        <nav class="flex items-center gap-4 shrink-0">
-            {{-- Tools links stay full page loads: tools.js only ships on /tools/* and
-                 registers its Alpine components on alpine:init, which a wire:navigate
-                 visit never re-fires. --}}
-            <a href="{{ route('tools.index') }}" class="hover:text-amber-600 transition-colors font-medium">Tools</a>
-            <a href="{{ route('deals') }}" wire:navigate class="hover:text-emerald-600 transition-colors">Deals</a>
-            <a href="{{ route('drop-price.index') }}" wire:navigate class="hover:text-gray-600 transition-colors">Drop Price Archive</a>
-            <a href="{{ route('about') }}"   wire:navigate class="hover:text-gray-600 transition-colors">About</a>
-            <a href="{{ route('how-we-review') }}" wire:navigate class="hover:text-gray-600 transition-colors">How We Review</a>
-            <a href="{{ route('contact') }}" wire:navigate class="hover:text-gray-600 transition-colors">Contact</a>
-            <a href="{{ route('privacy') }}" wire:navigate class="hover:text-gray-600 transition-colors">Privacy Policy</a>
-            <a href="{{ route('cookies') }}" wire:navigate class="hover:text-gray-600 transition-colors">Cookie Policy</a>
-            <a href="{{ route('terms') }}"   wire:navigate class="hover:text-gray-600 transition-colors">Terms</a>
-        </nav>
+<footer class="relative bg-slate-900 text-gray-400">
+    {{-- Signature: the header megamenus' per-section gradient rules, compressed
+         into one hairline — the whole site's colour system (brand · deals · news). --}}
+    <div class="h-0.5 bg-gradient-to-r from-indigo-500 via-sky-400 to-rose-400"></div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="grid gap-10 md:grid-cols-12">
+
+            {{-- Brand + site-wide prose (lives here, not on the homepage, for humans and crawlers) --}}
+            <div class="md:col-span-5">
+                <a href="{{ route('home') }}" wire:navigate class="font-extrabold text-xl tracking-tight text-white">
+                    Gadget<span class="text-indigo-400">Drop</span>
+                </a>
+                <p class="mt-4 max-w-sm text-sm leading-relaxed text-gray-400">
+                    Finds the consumer tech worth buying — and tracks what it really costs.
+                    Every review is <a href="{{ route('how-we-review') }}" wire:navigate class="text-gray-300 underline decoration-gray-600 underline-offset-2 hover:text-white hover:decoration-gray-400 transition-colors">research-based and price-tracked</a>:
+                    who a gadget is for, where it falls short, and whether <a href="{{ route('deals') }}" wire:navigate class="text-gray-300 underline decoration-gray-600 underline-offset-2 hover:text-sky-300 hover:decoration-sky-400 transition-colors">today's price is actually a deal</a>.
+                </p>
+            </div>
+
+            {{-- Link columns --}}
+            <div class="grid grid-cols-3 gap-8 md:col-span-7">
+                <div>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Explore</h3>
+                    <ul class="mt-4 space-y-3 text-sm">
+                        <li><a href="{{ route('deals') }}" wire:navigate class="text-gray-400 hover:text-sky-300 transition-colors">Deals</a></li>
+                        <li><a href="{{ route('drop-price.index') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Drop Price Archive</a></li>
+                        {{-- Tools stays a full page load: tools.js only ships on /tools/* and
+                             registers its Alpine components on alpine:init, which a
+                             wire:navigate visit never re-fires. --}}
+                        <li><a href="{{ route('tools.index') }}" class="text-gray-400 hover:text-amber-300 transition-colors">Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Company</h3>
+                    <ul class="mt-4 space-y-3 text-sm">
+                        <li><a href="{{ route('about') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="{{ route('how-we-review') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">How We Review</a></li>
+                        <li><a href="{{ route('contact') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Legal</h3>
+                    <ul class="mt-4 space-y-3 text-sm">
+                        <li><a href="{{ route('privacy') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="{{ route('cookies') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="{{ route('terms') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {{-- Bottom bar --}}
+        <div class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+            <p>© {{ date('Y') }} GadgetDrop.tech</p>
+            <p class="text-center sm:text-right">
+                As an Amazon Associate we earn from qualifying purchases.
+            </p>
+        </div>
     </div>
 </footer>
