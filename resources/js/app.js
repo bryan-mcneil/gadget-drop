@@ -214,6 +214,36 @@ document.addEventListener('alpine:init', () => {
             return this.won || (this.stats ? this.stats.playStreak : 0) >= 2;
         },
 
+        /* The thermometer + aura are server-rendered from the component's own
+           $results, which are empty on a return visit (the play lives only in
+           localStorage) — so on the lockout screen these bindings replay the
+           stored result onto the meter. Ordinal only (band emoji + won), never
+           the price. The maps mirror $heatPct/$heatColor/$heatGlow/$auraColor
+           in resources/views/livewire/drop-price.blade.php — keep in sync. */
+        heatRank() {
+            if (!this.alreadyPlayed) return null; // live play: server style wins
+            if (this.won) return 4;
+            const rows = this.emojiRows || '';
+            return rows.includes('🔥') ? 3 : rows.includes('😊') ? 2 : rows.includes('🥶') ? 1 : 0;
+        },
+        heatStyle(part) {
+            const rank = this.heatRank();
+            if (rank === null) return {};
+            const color = ['#475569', '#38BDF8', '#FB923C', '#FF4D4D', '#FACC15'][rank];
+            const glow = ['rgba(71,85,105,.25)', 'rgba(56,189,248,.45)', 'rgba(251,146,60,.5)', 'rgba(255,77,77,.55)', 'rgba(250,204,21,.55)'][rank];
+            if (part === 'fill') {
+                return {
+                    height: [8, 28, 56, 82, 100][rank] + '%',
+                    background: rank === 0 ? '#334155' : `linear-gradient(to top, #38BDF8, ${color})`,
+                    boxShadow: `0 0 14px ${glow}`,
+                };
+            }
+            if (part === 'bulb') {
+                return { backgroundColor: color, boxShadow: `0 0 18px ${glow}` };
+            }
+            return { backgroundColor: ['#312E81', '#38BDF8', '#FB923C', '#FF4D4D', '#FACC15'][rank] };
+        },
+
         // UTC day key — the puzzle resets at midnight UTC.
         todayKey() {
             return new Date().toISOString().slice(0, 10);

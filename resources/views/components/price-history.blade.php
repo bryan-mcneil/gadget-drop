@@ -30,7 +30,7 @@
                 <p class="text-2xl font-extrabold text-gray-900 tabular-nums">${{ number_format($stats['current'], 2) }}</p>
                 @if($stats['checked_at'])
                     <p class="text-xs text-gray-500 mt-0.5">
-                        Price checked {{ \Illuminate\Support\Carbon::parse($stats['checked_at'])->diffForHumans() }} — confirm the final price at checkout.
+                        Price checked {{ \Illuminate\Support\Carbon::parse($stats['checked_at'])->diffForHumans() }}. Confirm the final price at checkout.
                     </p>
                 @endif
             </div>
@@ -55,7 +55,7 @@
             </div>
         @elseif($stats['tracking_since'])
             <p class="mt-2 text-xs text-gray-400">
-                We started tracking this price {{ \Illuminate\Support\Carbon::parse($stats['tracking_since'])->diffForHumans() }} — trend stats appear once there's enough history to be honest about.
+                We started tracking this price {{ \Illuminate\Support\Carbon::parse($stats['tracking_since'])->diffForHumans() }}. Trend stats appear once there's enough history.
             </p>
         @endif
     </div>

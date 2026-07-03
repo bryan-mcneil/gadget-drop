@@ -70,7 +70,7 @@
 
         <div class="relative mt-8 mb-8">
             <div class="absolute -inset-8 rounded-full blur-3xl opacity-70 transition-colors duration-700 motion-reduce:transition-none animate-[heat-breathe_5s_ease-in-out_infinite] motion-reduce:animate-none"
-                style="background-color: {{ $auraColor }}"></div>
+                style="background-color: {{ $auraColor }}" :style="heatStyle('aura')"></div>
             <x-responsive-image :src="$productImage" :alt="$productName" sizes="(min-width: 1024px) 288px, 208px"
                 width="288" height="288"
                 class="relative w-52 md:w-60 lg:w-72 max-w-full object-contain drop-shadow-2xl" />
@@ -83,14 +83,18 @@
     {{-- ── Thermometer + board ── --}}
     <div class="lg:col-span-7 flex gap-4 md:gap-6 min-w-0">
         {{-- Mercury thermometer (server-computed; decorative — the band pills
-             carry the same information for assistive tech). --}}
+             carry the same information for assistive tech). On a RETURN visit
+             the server's $results are empty (the play lives in localStorage),
+             so the Alpine heatStyle() bindings replay the stored result over
+             the cold server state — during live play they return {} and the
+             server styles win. --}}
         <div class="flex gap-3 flex-none" aria-hidden="true">
             <div class="relative w-5 mb-7 rounded-full bg-white/[0.06] ring-1 ring-white/[0.06]">
                 <div class="absolute inset-0 rounded-full opacity-[0.13]" style="background:linear-gradient(to top,#38BDF8,#FB923C,#FF4D4D,#FACC15)"></div>
                 <div class="absolute inset-x-0 bottom-0 rounded-full transition-[height] duration-500 ease-out motion-reduce:transition-none"
-                    style="height:{{ $heatPct }}%; background:{{ $heatFill }}; box-shadow:0 0 14px {{ $heatGlow }}"></div>
+                    style="height:{{ $heatPct }}%; background:{{ $heatFill }}; box-shadow:0 0 14px {{ $heatGlow }}" :style="heatStyle('fill')"></div>
                 <div class="absolute left-1/2 -bottom-3 -translate-x-1/2 w-8 h-8 rounded-full ring-1 ring-white/15 transition-colors duration-500 motion-reduce:transition-none"
-                    style="background:{{ $heatColor }}; box-shadow:0 0 18px {{ $heatGlow }}"></div>
+                    style="background:{{ $heatColor }}; box-shadow:0 0 18px {{ $heatGlow }}" :style="heatStyle('bulb')"></div>
             </div>
             {{-- Band scale — where the mercury lands per band; doubles as a
                  how-to-play legend. Hidden on the smallest screens. --}}
