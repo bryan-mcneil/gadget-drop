@@ -1,11 +1,11 @@
-# /drop-research — Daily Drop Step 1: Find 4 Products
+# /drop-research — Daily Drop Step 1: Find Today's Product (1 primary + 1 backup)
 
 ## Context
-GadgetDrop (gadgetdrop.tech) is an Amazon affiliate site for tech and gadgets. This is **step 1 of the daily content pipeline**. You research today's 4 best products and save them to `daily-drop/research.md`. Later steps (`/drop-write`, `/drop-assemble`) read that file, so this command needs no prior conversation context. Keep chat output to short status lines; all content goes to the file.
+GadgetDrop (gadgetdrop.tech) is an Amazon affiliate site for tech and gadgets. This is **step 1 of the daily content pipeline** (cadence: ONE review per day — see `CONTENT-GUIDELINES.md`). You research today's best product plus one backup and save them to `daily-drop/research.md`. Later steps (`/drop-write`, `/drop-assemble`) read that file, so this command needs no prior conversation context. Keep chat output to short status lines; all content goes to the file.
 
 ## Preflight
 1. If `daily-drop/research.md` already exists and its `DATE:` line is today, tell the user research is already done for today and ask whether to redo it (overwrite) or keep the existing picks. Stop and wait for the answer.
-2. If any `daily-drop/product-*.md` files exist, they belong to a previous run. Tell the user and ask whether to delete them before continuing. Do not delete without confirmation.
+2. If any `daily-drop/product-*.md`, `tip-*.md`, or `news-*.md` files exist, they belong to a previous run. Tell the user and ask whether to delete them before continuing. Do not delete without confirmation. (When running unattended as the scheduled cloud agent, delete them yourself — a fresh branch means a fresh day.)
 
 ## Step 1 — Fetch already-reviewed products
 
@@ -44,7 +44,7 @@ Search the web for today's most compelling tech products with Amazon affiliate p
 - NOT already in the reviewed-products list from Step 1
 - No accessories for now (we have plenty already)
 
-Pick exactly **4 products**.
+Pick exactly **2 products**: PRODUCT 1 is today's review; PRODUCT 2 is the backup in case the primary turns out to be a dud at write time (ASIN wrong, price out of range, listing gone). Put the stronger pick first.
 
 ## Step 3 — Save the research file
 
@@ -66,20 +66,14 @@ TAGS: {tag1 | tag2 | tag3 | tag4 | tag5}
 ALTERNATIVES: {1-2 comparable products for the "How it compares" section. Prefer ones from the reviewed-products list so the post can link them: "{name} | /posts/{post_slug}" — or "{name} | no-review" for an unreviewed rival}
 
 ===PRODUCT 2===
-{same fields}
-
-===PRODUCT 3===
-{same fields}
-
-===PRODUCT 4===
-{same fields}
+{same fields — the backup pick}
 ```
 
 ## Done
 
 Print to chat, nothing more:
 ```
-✅ Research complete — [Product 1], [Product 2], [Product 3], [Product 4] (checked against N existing products)
+✅ Research complete — [Product 1] (backup: [Product 2]) (checked against N existing products)
 Saved to daily-drop/research.md
 Next: run /drop-write 1 (you can /handoff to a cheaper model first — each step reads its input from disk)
 ```

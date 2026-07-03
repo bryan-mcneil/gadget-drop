@@ -42,4 +42,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * The single real site author (config site.author). All new content is
+     * attributed to this account; falls back to the authenticated user so a
+     * misconfigured slug can't block imports.
+     */
+    public static function siteAuthor(): ?User
+    {
+        return static::where('slug', config('site.author.slug'))->first()
+            ?? auth()->user();
+    }
 }

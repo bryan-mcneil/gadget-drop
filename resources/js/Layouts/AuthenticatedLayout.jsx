@@ -57,22 +57,16 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Categories
                                 </NavLink>
                                 <NavLink
+                                    href={route('admin.tags.index')}
+                                    active={route().current('admin.tags.*')}
+                                >
+                                    Tags
+                                </NavLink>
+                                <NavLink
                                     href={route('admin.daily-drop.index')}
                                     active={route().current('admin.daily-drop.*')}
                                 >
-                                    Daily Drop
-                                </NavLink>
-                                <NavLink
-                                    href={route('admin.tech-tips.index')}
-                                    active={route().current('admin.tech-tips.*')}
-                                >
-                                    Tech Tips
-                                </NavLink>
-                                <NavLink
-                                    href={route('admin.news.index')}
-                                    active={route().current('admin.news.*')}
-                                >
-                                    News
+                                    Import
                                 </NavLink>
                                 <NavLink
                                     href={route('admin.newsletter.index')}
@@ -209,22 +203,16 @@ export default function AuthenticatedLayout({ header, children }) {
                             Categories
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
+                            href={route('admin.tags.index')}
+                            active={route().current('admin.tags.*')}
+                        >
+                            Tags
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
                             href={route('admin.daily-drop.index')}
                             active={route().current('admin.daily-drop.*')}
                         >
-                            Daily Drop
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('admin.tech-tips.index')}
-                            active={route().current('admin.tech-tips.*')}
-                        >
-                            Tech Tips
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('admin.news.index')}
-                            active={route().current('admin.news.*')}
-                        >
-                            News
+                            Import
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route('admin.newsletter.index')}

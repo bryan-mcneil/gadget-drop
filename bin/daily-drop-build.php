@@ -3,20 +3,23 @@
 /**
  * Daily Drop build script.
  *
- * Parses daily-drop/product-*.md (plain structured markdown written by /drop-write)
- * and assembles the final JSON array for the /admin/daily-drop importer.
+ * Parses the pipeline's structured markdown files in daily-drop/:
+ *   product-*.md  (reviews,   /drop-write,  TYPE article)
+ *   tip-*.md      (tech tips, /drop-tip,    TYPE tech_tip)
+ *   news-*.md     (tech news, /drop-news,   TYPE tech_news)
+ * and assembles the final JSON array for `php artisan posts:import`
+ * (or the /admin/daily-drop Import page as browser fallback).
  *
- * Writes:
- *   - daily-drop-output.md   (human file: date header + fenced json block, same format as before)
- *   - daily-drop/output.json (raw JSON array, used to validate against DailyDropImporterService::parseJson)
+ * Writes: daily-drop/output.json (raw JSON array).
  *
  * Plain PHP, no Laravel boot. Run with: php bin/daily-drop-build.php
+ * An alternate working directory can be passed as the first argument
+ * (used by the test suite): php bin/daily-drop-build.php path/to/dir
  * Exit code 0 = built (warnings allowed), 1 = hard error (nothing written).
  */
 
-$root      = dirname(__DIR__);
-$workDir   = $root . DIRECTORY_SEPARATOR . 'daily-drop';
-$outputMd  = $root . DIRECTORY_SEPARATOR . 'daily-drop-output.md';
+$root       = dirname(__DIR__);
+$workDir    = $argv[1] ?? $root . DIRECTORY_SEPARATOR . 'daily-drop';
 $outputJson = $workDir . DIRECTORY_SEPARATOR . 'output.json';
 
 $errors   = [];
@@ -39,14 +42,18 @@ if (is_file($researchFile)) {
 }
 
 // ---------------------------------------------------------------------------
-// Collect product files
+// Collect content files
 // ---------------------------------------------------------------------------
-$files = glob($workDir . DIRECTORY_SEPARATOR . 'product-*.md') ?: [];
+$files = array_merge(
+    glob($workDir . DIRECTORY_SEPARATOR . 'product-*.md') ?: [],
+    glob($workDir . DIRECTORY_SEPARATOR . 'tip-*.md') ?: [],
+    glob($workDir . DIRECTORY_SEPARATOR . 'news-*.md') ?: [],
+);
 natsort($files);
 $files = array_values($files);
 
 if (! $files) {
-    fwrite(STDERR, "ERROR: no daily-drop/product-*.md files found. Run /drop-write first.\n");
+    fwrite(STDERR, "ERROR: no daily-drop/product-*.md, tip-*.md, or news-*.md files found. Run /drop-write, /drop-tip, or /drop-news first.\n");
     exit(1);
 }
 
@@ -55,9 +62,19 @@ if (! $files) {
 // ---------------------------------------------------------------------------
 const SCALAR_KEYS = [
     'AUTHOR', 'TITLE', 'EXCERPT', 'TYPE', 'CATEGORY', 'TAGS', 'ASIN', 'RATING',
-    'SEO_SCORE', 'META_TITLE', 'META_DESCRIPTION', 'FOCUS_KEYWORD', 'SLUG',
+    'SOURCE_URL', 'SEO_SCORE', 'META_TITLE', 'META_DESCRIPTION', 'FOCUS_KEYWORD', 'SLUG',
 ];
 const LIST_KEYS = ['PROS', 'CONS'];
+
+const VALID_TYPES = ['article', 'tech_tip', 'tech_news'];
+
+// Per-type body word-count targets (warn outside the range). Floors sit well
+// above thin-content territory on purpose — see CONTENT-GUIDELINES.md.
+const WORD_RANGES = [
+    'article'   => [800, 1600, '900-1500'],
+    'tech_tip'  => [600, 1000, '600-1000'],
+    'tech_news' => [600, 900,  '600-900'],
+];
 
 function parseBlock(string $block): array
 {
@@ -139,6 +156,14 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
         return;
     }
 
+    $type = ($p['TYPE'] ?? '') !== '' ? $p['TYPE'] : 'article';
+    if (! in_array($type, VALID_TYPES, true)) {
+        $errors[] = "{$label}: unknown TYPE '{$type}' (expected article, tech_tip, or tech_news)";
+        return;
+    }
+    $isReview = $type === 'article';
+
+    // -- Shared checks (all types) --------------------------------------
     $titleLen = len($p['TITLE']);
     if ($titleLen < 50 || $titleLen > 65) {
         $warnings[] = "{$label}: TITLE is {$titleLen} chars (want 50-65)";
@@ -158,40 +183,63 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
         $warnings[] = "{$label}: META_DESCRIPTION is {$metaDescLen} chars (want 120-155)";
     }
 
-    if (! preg_match('/^B0[A-Z0-9]{8}$/i', $p['ASIN'] ?? '')) {
-        $warnings[] = "{$label}: ASIN '" . ($p['ASIN'] ?? '') . "' does not look like an Amazon ASIN";
-    }
-
-    $rating = (float) ($p['RATING'] ?? 0);
-    if ($rating < 1 || $rating > 5) {
-        $warnings[] = "{$label}: RATING '" . ($p['RATING'] ?? '') . "' is not between 1 and 5";
-    }
-
-    if (empty($p['PROS'])) {
-        $warnings[] = "{$label}: no PROS bullets";
-    }
-    if (empty($p['CONS'])) {
-        $warnings[] = "{$label}: no CONS bullets";
-    }
-
     if (($p['AUTHOR'] ?? '') !== SITE_AUTHOR) {
         $warnings[] = "{$label}: AUTHOR '" . ($p['AUTHOR'] ?? '') . "' is not '" . SITE_AUTHOR . "' (single real byline — personas are retired)";
     }
 
+    [$min, $max, $want] = WORD_RANGES[$type];
     $wordCount = str_word_count(strip_tags($p['BODY']));
-    if ($wordCount < 800 || $wordCount > 1600) {
-        $warnings[] = "{$label}: body is ~{$wordCount} words (want 900-1500)";
-    }
-
-    if (! str_contains($p['BODY'], '](/posts/')) {
-        $warnings[] = "{$label}: no internal review link in body (the How-it-compares section should link 1-2 alternatives)";
+    if ($wordCount < $min || $wordCount > $max) {
+        $warnings[] = "{$label}: body is ~{$wordCount} words (want {$want} for {$type})";
     }
 
     if (preg_match('~\]\(https?://(www\.)?amazon\.~i', $p['BODY'])) {
         $warnings[] = "{$label}: raw Amazon link in body — the product card is the single affiliate CTA; drop in-body Amazon links";
     }
 
-    // Content scans: em dashes + banned phrases
+    // -- Per-type checks --------------------------------------------------
+    if ($isReview) {
+        if (! preg_match('/^B0[A-Z0-9]{8}$/i', $p['ASIN'] ?? '')) {
+            $warnings[] = "{$label}: ASIN '" . ($p['ASIN'] ?? '') . "' does not look like an Amazon ASIN";
+        }
+
+        $rating = (float) ($p['RATING'] ?? 0);
+        if ($rating < 1 || $rating > 5) {
+            $warnings[] = "{$label}: RATING '" . ($p['RATING'] ?? '') . "' is not between 1 and 5";
+        }
+
+        if (empty($p['PROS'])) {
+            $warnings[] = "{$label}: no PROS bullets";
+        }
+        if (empty($p['CONS'])) {
+            $warnings[] = "{$label}: no CONS bullets";
+        }
+
+        if (! str_contains($p['BODY'], '](/posts/')) {
+            $warnings[] = "{$label}: no internal review link in body (the How-it-compares section should link 1-2 alternatives)";
+        }
+    } else {
+        // Tips and news attribute a real source; the importer stores it in
+        // posts.source_url and the public page renders the attribution footer.
+        if (! preg_match('~^https?://~i', $p['SOURCE_URL'] ?? '')) {
+            $errors[] = "{$label}: {$type} requires SOURCE_URL (http/https link to the source)";
+        }
+
+        foreach (['ASIN', 'RATING'] as $reviewKey) {
+            if (($p[$reviewKey] ?? '') !== '') {
+                $warnings[] = "{$label}: {$reviewKey} set on a {$type} (review-only field, will be ignored)";
+            }
+        }
+        if (! empty($p['PROS']) || ! empty($p['CONS'])) {
+            $warnings[] = "{$label}: PROS/CONS set on a {$type} (review-only fields, will be ignored)";
+        }
+
+        if ($type === 'tech_news' && ! preg_match('/^##\s+Buy or Wait\?/mi', $p['BODY'])) {
+            $errors[] = "{$label}: tech_news body must contain a \"## Buy or Wait?\" section (the format's signature)";
+        }
+    }
+
+    // -- Content scans: em dashes + banned phrases ------------------------
     $scan = ($p['TITLE'] ?? '') . "\n" . ($p['EXCERPT'] ?? '') . "\n"
         . ($p['META_TITLE'] ?? '') . "\n" . ($p['META_DESCRIPTION'] ?? '') . "\n"
         . ($p['BODY'] ?? '');
@@ -240,20 +288,17 @@ foreach ($files as $file) {
 
         validatePost($p, $label, $errors, $warnings);
 
+        $type = ($p['TYPE'] ?? '') !== '' ? $p['TYPE'] : 'article';
         $tags = array_values(array_filter(array_map('trim', explode('|', $p['TAGS'] ?? ''))));
 
-        $posts[] = [
+        $post = [
             'title'         => $p['TITLE'] ?? '',
             'excerpt'       => $p['EXCERPT'] ?? '',
             'body'          => $p['BODY'] ?? '',
-            'type'          => ($p['TYPE'] ?? '') !== '' ? $p['TYPE'] : 'article',
+            'type'          => $type,
             'author_name'   => $p['AUTHOR'] ?? '',
             'category_name' => $p['CATEGORY'] ?? '',
             'tag_names'     => $tags,
-            'product_asin'  => strtoupper($p['ASIN'] ?? ''),
-            'rating'        => (float) ($p['RATING'] ?? 0),
-            'pros'          => $p['PROS'],
-            'cons'          => $p['CONS'],
             'seo'           => [
                 'score'            => (int) ($p['SEO_SCORE'] ?? 0),
                 'meta_title'       => $p['META_TITLE'] ?? '',
@@ -262,12 +307,23 @@ foreach ($files as $file) {
                 'slug'             => $p['SLUG'] ?? '',
             ],
         ];
+
+        if ($type === 'article') {
+            $post['product_asin'] = strtoupper($p['ASIN'] ?? '');
+            $post['rating']       = (float) ($p['RATING'] ?? 0);
+            $post['pros']         = $p['PROS'];
+            $post['cons']         = $p['CONS'];
+        } else {
+            $post['source_url'] = $p['SOURCE_URL'] ?? '';
+        }
+
+        $posts[] = $post;
     }
 
     if ($n === 0) {
         $warnings[] = "{$name}: no ===POST=== blocks found";
     } elseif ($n > 1) {
-        $warnings[] = "{$name}: {$n} ===POST=== blocks — the pipeline is one post per product now (multi-voice was retired)";
+        $warnings[] = "{$name}: {$n} ===POST=== blocks — the pipeline is one post per file";
     }
 }
 
@@ -282,17 +338,16 @@ if ($errors) {
 $json = json_encode($posts, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
 file_put_contents($outputJson, $json . "\n");
-file_put_contents($outputMd, "# GadgetDrop Daily Drop — {$date}\n\n```json\n{$json}\n```\n");
 
 // ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
-echo 'Built ' . count($posts) . ' post(s) from ' . count($files) . " product file(s) — {$date}\n";
+echo 'Built ' . count($posts) . ' post(s) from ' . count($files) . " file(s) — {$date}\n";
 foreach ($posts as $post) {
     printf(
-        "  %-18s %-9s seo:%-3d %s\n",
-        $post['author_name'],
-        '[' . $post['product_asin'] . ']',
+        "  %-9s %-14s seo:%-3d %s\n",
+        $post['type'],
+        '[' . ($post['product_asin'] ?? 'no product') . ']',
         $post['seo']['score'],
         $post['title']
     );
@@ -307,5 +362,5 @@ if ($warnings) {
     echo "\nNo warnings.\n";
 }
 
-echo "\nOutput: daily-drop-output.md (paste the json block into /admin/daily-drop)\n";
-echo "Raw array: daily-drop/output.json\n";
+echo "\nOutput: daily-drop/output.json\n";
+echo "Import: php artisan posts:import   (or paste into /admin/daily-drop when away from the CLI)\n";

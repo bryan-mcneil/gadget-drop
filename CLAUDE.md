@@ -100,29 +100,27 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 ## Expert skills (invoke with /skill-name)
 | Skill | Purpose |
 |---|---|
-| `/daily-drop` | Pipeline status router: reports which drop step to run next |
-| `/drop-research` | Drop step 1: find 4 products, save `daily-drop/research.md` |
-| `/drop-write N` | Drop step 2: write ONE research-based post for product N (byline Bryan McNeil; the 4-persona system is retired), save `daily-drop/product-N.md` |
-| `/drop-assemble` | Drop step 3: build the import JSON via `php bin/daily-drop-build.php` |
-| `/drop-video` | Drop step 4 (optional): YouTube scripts + social captions |
-| `/research` | Find today's trending tech products worth covering |
-| `/write-post` | Draft a full publish-ready post for a product |
+| `/daily-drop` | Pipeline status router: weekly cadence table + which step to run next |
+| `/drop-research` | Step 1: find today's product (1 primary + 1 backup), save `daily-drop/research.md` |
+| `/drop-write N` | Step 2: write the day's ONE review (byline Bryan McNeil), save `daily-drop/product-N.md` |
+| `/drop-tip` | Tue/Sat: write a tech tip (600–1000 words, SOURCE_URL required) → `daily-drop/tip-1.md` |
+| `/drop-news` | Mon/Thu: write buyer-focused news (600–900 words, `## Buy or Wait?` required) → `daily-drop/news-1.md` |
+| `/drop-assemble` | Step 3: build `daily-drop/output.json` via `php bin/daily-drop-build.php` |
+| `/morning` | Bryan's one daily command: merge the cloud agent's PR, import drafts into PROD, QA gate, checklist |
 | `/seo-review` | Audit a post for first-page Google ranking |
 | `/backend-review` | Laravel security and best practices audit |
-| `/frontend-review` | Blade/Alpine/Livewire (public) & React (admin) UX + performance review |
-| `/test` | Generate PHPUnit feature tests |
 
-The daily-drop pipeline passes state through files (`daily-drop/research.md` → `daily-drop/product-N.md` → `bin/daily-drop-build.php` → `daily-drop-output.md`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps). The model never writes the final JSON; the build script parses, validates, and assembles it.
+Editorial + AdSense rules per type: `CONTENT-GUIDELINES.md`. Daily routine + prod runbook: `docs/OPERATIONS.md`.
+
+The pipeline passes state through files (`daily-drop/research.md` → `daily-drop/{product,tip,news}-*.md` → `bin/daily-drop-build.php` → `daily-drop/output.json` → `php artisan posts:import`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps) or unattended by the scheduled cloud agent (`daily-drop/CLOUD-AGENT.md`). The model never writes the final JSON; the build script parses, validates per post type, and assembles it. `daily-drop/` is tracked in git on purpose — the cloud agent delivers content via `drop/YYYY-MM-DD` PRs.
 
 ## Typical daily workflow
-1. `/drop-research` — find today's 4 products (research.md now includes `ALTERNATIVES` for internal linking)
-2. `/drop-write 1` … `/drop-write 4` — one deep post per product, real byline (each can be its own cheap session)
-3. `/drop-assemble` — build `daily-drop-output.md`
-4. Log into `/admin/daily-drop` → paste the JSON array → preview → import all as drafts
-5. Review drafts, add images, publish
-6. `/admin/prices` — 5-minute pass on the stalest products: open the Amazon link, type the new price (records a snapshot) or hit "Unchanged" (refreshes the checked-at stamp). This keeps every "Price checked {date}" label and the `/deals` feed honest.
+Cadence: 1 review every day + tech tip Tue/Sat + tech news Mon/Thu (11 posts/week).
 
-For one-off posts outside the pipeline: `/research` → `/write-post` → create the post in `/admin` → `/seo-review` → publish.
+1. Overnight, the scheduled cloud agent runs research → write → assemble and opens a PR `drop/YYYY-MM-DD` (instructions: `daily-drop/CLOUD-AGENT.md`).
+2. `/morning` — merges the PR, re-validates, dry-runs the import, pushes main, then imports on the server (`php artisan posts:import daily-drop/output.json` over SSH). Fallback when SSH isn't handy: paste `daily-drop/output.json` into the prod `/admin/daily-drop` Import page (same importer, accepts all three types). No PR? `/morning` offers to run the pipeline locally.
+3. Review the 1–2 drafts, add images, publish.
+4. `/admin/prices` — quick pass on the stalest products: type the new price (records a snapshot) or hit "Unchanged" (refreshes the checked-at stamp). Keeps every "Price checked {date}" label and the `/deals` feed honest.
 
 ## Affiliate click tracking
 All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateClick` then redirects (tag appended automatically). Never link directly to Amazon in the post body — always use `route('affiliate.redirect', …)`. (The current post template goes further: NO Amazon links in the body at all — the `<x-product-card>` above the article is the single affiliate CTA; `bin/daily-drop-build.php` warns on in-body Amazon links.)
@@ -141,7 +139,7 @@ All Amazon links go through `/out/{product}?post={id}` which logs an `AffiliateC
 - JSON-LD structured data: emitted server-side on home + post pages (`serverJsonLd`)
 
 ## Tests
-- `php artisan test` — **suite is fully green (175 tests).** Coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest` + `Livewire/ContactFormTest` (honeypot/throttle/mail), `AffiliateRedirectTest`, `Unit/ArticleBodyTest`, `ImageVariantsTest` (webp sources + variant-of-variant guard), `PublicLayoutTest` (AdSense flag off/on, wire:navigate present), `AdsensePrepTest` (tools noindex, single CTA, persona 301s), `ThinPageCleanupTest` + `SitemapTest` (tag/category/post noindex rules, ≥3-post category threshold), `ConsolidateCategoriesTest`, `FlagClaimsCommandTest`, `PriceSnapshotTest` + `PriceHistoryWidgetTest` + `DealsPageTest` + `RefreshPricesCommandTest` + `Admin/PricesAdminTest` (the price-intelligence layer), DropPrice suites.
+- `php artisan test` — **suite is fully green (195 tests).** Coverage: `PublicPagesTest` (each public route renders H1/meta), `Livewire/JoinTheDropTest` + `Livewire/ContactFormTest` (honeypot/throttle/mail), `AffiliateRedirectTest`, `Unit/ArticleBodyTest`, `ImageVariantsTest` (webp sources + variant-of-variant guard), `PublicLayoutTest` (AdSense flag off/on, wire:navigate present), `AdsensePrepTest` (tools noindex, single CTA, persona 301s), `ThinPageCleanupTest` + `SitemapTest` (tag/category/post noindex rules, ≥3-post category threshold), `ConsolidateCategoriesTest`, `FlagClaimsCommandTest`, `ImportDropPostsCommandTest` (posts:import: all types as drafts, category_map, dry-run) + `DailyDropBuildScriptTest` (build-script exit codes, process-based), `PriceSnapshotTest` + `PriceHistoryWidgetTest` + `DealsPageTest` + `RefreshPricesCommandTest` + `Admin/PricesAdminTest` (the price-intelligence layer), DropPrice suites.
 - The sqlite test schema's posts.type CHECK predates `tech_news` (that enum widening is a guarded MySQL-only migration) — tests must not insert/update posts to type `tech_news`; use `tech_tip` to exercise non-article branches.
 - The old Breeze scaffold failures were cleaned up: `AuthenticationTest`/`EmailVerificationTest` now assert `route('admin.dashboard')` (the app's real post-login route); `RegistrationTest` now asserts `/register` is intentionally **disabled** (404) rather than testing the removed feature; the redundant `Feature/ExampleTest` was deleted (the homepage is covered by `PublicPagesTest`).
 - `Unit/ArticleBodyTest` is a pure PHPUnit unit test (no Laravel boot) — `ArticleBody::sections()` therefore guards its `Cache::remember` and renders directly if the cache layer isn't bound. Don't add hard facade dependencies to support classes that are unit-tested this way.

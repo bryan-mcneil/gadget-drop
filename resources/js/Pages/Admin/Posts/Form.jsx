@@ -10,7 +10,7 @@ function toDatetimeLocal(val) {
     return val.slice(0, 16);
 }
 
-export default function PostForm({ post, categories, tags, products, authors }) {
+export default function PostForm({ post, categories, tags, products }) {
     const editing = !!post;
 
     const { data, setData, post: submit, put, processing, errors } = useForm({
@@ -33,6 +33,7 @@ export default function PostForm({ post, categories, tags, products, authors }) 
         image_3_fit: post?.image_3_fit ?? 'cover',
         status: post?.status ?? 'draft',
         published_at: toDatetimeLocal(post?.published_at),
+        // Single-author site: user_id is defaulted server-side (User::siteAuthor).
         user_id: post?.user_id ?? '',
         category_ids: post?.categories?.map((c) => c.id) ?? [],
         tag_ids: post?.tags?.map((t) => t.id) ?? [],
@@ -143,26 +144,6 @@ export default function PostForm({ post, categories, tags, products, authors }) 
 
                     {/* ── Sidebar ── */}
                     <div className="space-y-5">
-                        {/* Author */}
-                        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
-                            <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">Author</h3>
-                            <Field label="Edited by" error={errors.user_id}>
-                                <select value={data.user_id} onChange={(e) => setData('user_id', e.target.value)}
-                                    className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
-                                    <option value="">Select author</option>
-                                    {authors.map((a) => (
-                                        <option key={a.id} value={a.id}>{a.name}</option>
-                                    ))}
-                                </select>
-                            </Field>
-                            {data.user_id && (() => {
-                                const author = authors.find((a) => a.id === parseInt(data.user_id));
-                                return author?.bio ? (
-                                    <p className="text-xs text-gray-400 italic">{author.bio}</p>
-                                ) : null;
-                            })()}
-                        </div>
-
                         {/* Publish */}
                         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
                             <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">Publish</h3>

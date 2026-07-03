@@ -6,8 +6,10 @@ GadgetDrop (gadgetdrop.tech) is an Amazon affiliate site for tech and gadgets. T
 > **One post per product. One real byline.** The old four-persona system (Maya/Ken/Elizabeth/Sam) is retired — it produced near-duplicate posts under fictional names, which is exactly what got the site flagged for low-value content. Every post is now written under the site's single real author and must be honest about being research-based.
 
 ## Arguments
-`$ARGUMENTS` is `N` (1 to 4): write the post for product N. **Overwrite** `daily-drop/product-N.md`.
-If no argument is given, look at which `daily-drop/product-*.md` files exist and write the next missing product.
+`$ARGUMENTS` is `N` (1 or 2): write the post for product N from research.md. **Overwrite** `daily-drop/product-N.md`.
+With no argument, write product 1 (the day's primary pick). Product 2 is the backup — only write it when product 1 turned out to be a dud (listing gone, wrong ASIN, price way off); in that case skip product 1 entirely, the day still ships one review.
+
+Editorial and AdSense rules for every type live in `CONTENT-GUIDELINES.md` (§ Reviews); the essentials are inlined below so this file works standalone.
 
 ## Preflight
 Read `daily-drop/research.md`.
@@ -139,8 +141,7 @@ BODY:
 ## Done
 Print to chat, nothing more:
 ```
-✅ Product N written — {product name}
+✅ Review written — {product name}
 Saved to daily-drop/product-N.md
-Next: run /drop-write {N+1}
+Next: {per today's cadence — /drop-tip (Tue/Sat), /drop-news (Mon/Thu), otherwise /drop-assemble}
 ```
-After product 4, the next line is instead: `Next: run /drop-assemble`

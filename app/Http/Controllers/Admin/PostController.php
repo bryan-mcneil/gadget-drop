@@ -39,7 +39,6 @@ class PostController extends Controller
             'categories' => Category::orderBy('name')->get(['id', 'name']),
             'tags'       => Tag::orderBy('name')->get(['id', 'name']),
             'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
-            'authors'    => User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
         ]);
     }
 
@@ -85,7 +84,7 @@ class PostController extends Controller
 
         $post = Post::create([
             ...$data,
-            'user_id' => $data['user_id'] ?? $request->user()->id,
+            'user_id' => $data['user_id'] ?? User::siteAuthor()?->id ?? $request->user()->id,
             'slug'    => $data['slug'] ?: Str::slug($data['title']),
         ]);
 
@@ -114,7 +113,6 @@ class PostController extends Controller
             'categories' => Category::orderBy('name')->get(['id', 'name']),
             'tags'       => Tag::orderBy('name')->get(['id', 'name']),
             'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
-            'authors'    => User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'avatar_url', 'bio']),
         ]);
     }
 
