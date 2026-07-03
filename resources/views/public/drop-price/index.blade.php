@@ -18,8 +18,8 @@
             <p class="mt-4 text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
                 Drop Price is GadgetDrop's daily guessing game: one real gadget, five guesses at its Amazon
                 price, and a thermometer that tells you how close you're running. Every answer is a genuine
-                price we recorded on the day the puzzle locked — the same price tracking that powers our
-                reviews — so playing the archive doubles as a tour of what tech actually costs.
+                price we recorded on the day the puzzle locked, the same price tracking that powers our
+                reviews, so playing the archive doubles as a tour of what tech actually costs.
             </p>
             <p class="mt-3 text-slate-400 text-sm leading-relaxed max-w-xl">
                 Replay any past drop below. No spoilers, no time pressure, and your streak only counts on today's puzzle.
@@ -46,7 +46,7 @@
         @if($puzzles->total() === 0)
             <div class="flex flex-col items-center justify-center py-24 text-center">
                 <p class="text-lg font-bold text-gray-900">No past drops yet</p>
-                <p class="text-sm text-gray-400 mt-1 mb-6">Play today's puzzle and check back tomorrow — every solved drop joins the archive.</p>
+                <p class="text-sm text-gray-400 mt-1 mb-6">Play today's puzzle and check back tomorrow. Every solved drop joins the archive.</p>
                 <a href="{{ route('home') }}" wire:navigate class="inline-flex items-center gap-1.5 text-sm text-amber-600 hover:text-amber-700 font-semibold transition-colors">← Play today's drop</a>
             </div>
         @else

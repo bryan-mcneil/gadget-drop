@@ -137,7 +137,7 @@
                                 <li wire:key="dp-guess-{{ $i }}" class="h-12 rounded-xl bg-white/[0.02] ring-1 ring-white/[0.04] flex items-center px-4">
                                     @if(count($results) === 0 && $i === 0)
                                         {{-- Empty state — invites the first guess and teaches the tell. --}}
-                                        <span class="text-xs sm:text-sm leading-snug text-slate-500">Type a price — I'll tell you how <span class="text-sky-300">cold</span> or <span class="text-rose-300">hot</span> you are.</span>
+                                        <span class="text-xs sm:text-sm leading-snug text-slate-500">Type a price and I'll tell you how <span class="text-sky-300">cold</span> or <span class="text-rose-300">hot</span> you are.</span>
                                     @else
                                         <span class="text-xs font-bold tabular-nums text-slate-700">{{ $i + 1 }}</span>
                                     @endif
@@ -190,7 +190,7 @@
                         <p class="mt-1.5 text-sm text-slate-400">You read the market in {{ count($results) }} {{ \Illuminate\Support\Str::plural('try', count($results)) }}.</p>
                     @else
                         <p class="text-3xl font-extrabold text-slate-100">So close</p>
-                        <p class="mt-1.5 text-sm text-slate-400">{!! $puzzleId ? 'Nice try — take a swing at another past drop.' : "Better luck on tomorrow's drop." !!}</p>
+                        <p class="mt-1.5 text-sm text-slate-400">{!! $puzzleId ? 'Nice try, take a swing at another past drop.' : "Better luck on tomorrow's drop." !!}</p>
                     @endif
 
                     <p class="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">The drop was</p>
@@ -226,12 +226,12 @@
                      localStorage counters straight into the server save() action. --}}
                 <div x-show="finished && showSavePrompt" x-cloak class="mt-5 pt-5 border-t border-white/10">
                     @if($saveStatus === 'success')
-                        <p class="text-center text-sm font-bold text-emerald-400">✓ Streak saved — watch your inbox.</p>
+                        <p class="text-center text-sm font-bold text-emerald-400">✓ Streak saved. Watch your inbox.</p>
                     @elseif($saveStatus === 'duplicate')
-                        <p class="text-center text-sm font-semibold text-slate-300">You're already on the list — streak synced.</p>
+                        <p class="text-center text-sm font-semibold text-slate-300">You're already on the list, streak synced.</p>
                     @else
                         <p class="text-center text-sm font-bold text-slate-100">Save your streak</p>
-                        <p class="text-center text-xs text-slate-400 mb-3">Get tomorrow's drop in your inbox — never lose your stats.</p>
+                        <p class="text-center text-xs text-slate-400 mb-3">Get tomorrow's drop in your inbox and never lose your stats.</p>
                         <form x-on:submit.prevent="$wire.save(stats)" class="flex gap-2">
                             <input type="email" wire:model="email" placeholder="you@email.com" required
                                 class="flex-1 min-w-0 px-3 py-2.5 rounded-xl text-sm text-slate-100 bg-white/[0.04] ring-1 ring-white/10 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
