@@ -48,14 +48,14 @@
         <h2 class="text-xl font-bold text-gray-900">How we choose and evaluate products</h2>
         <p class="text-gray-600 leading-relaxed">
             Picks are based on manufacturer specifications, verified-purchase owner reviews read in volume,
-            professional reviews, wider community discussion, and our own price tracking — hands-on use only
+            professional reviews, wider community discussion, and our own price tracking. Hands-on use only
             where I actually have it, and the article says which. The full process, including how ratings are
             assigned and where the price data comes from, is documented on
             <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
         <p class="text-gray-600 leading-relaxed">
             I use AI tools to help with drafting and research, but every post is personally reviewed, fact-checked, and
-            edited before it goes live. AI is a writing aid here — never a substitute for a real person taking
+            edited before it goes live. AI is a writing aid here, never a substitute for a real person taking
             responsibility for what gets published.
         </p>
     </section>

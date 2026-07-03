@@ -25,19 +25,19 @@
         <ul class="space-y-3 text-gray-600 leading-relaxed list-none">
             <li class="flex gap-3">
                 <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center mt-0.5">1</span>
-                <span><strong>Manufacturer specifications</strong> — the claimed numbers, read critically. A spec sheet tells you what a product promises, not what it delivers, so we treat it as the starting point.</span>
+                <span><strong>Manufacturer specifications:</strong> the claimed numbers, read critically. A spec sheet tells you what a product promises, not what it delivers, so we treat it as the starting point.</span>
             </li>
             <li class="flex gap-3">
                 <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center mt-0.5">2</span>
-                <span><strong>Owner feedback in volume</strong> — hundreds of verified-purchase reviews, read for patterns rather than individual anecdotes. When owners consistently report the same strength or the same flaw, that pattern carries more weight than any single opinion, including ours.</span>
+                <span><strong>Owner feedback in volume:</strong> hundreds of verified-purchase reviews, read for patterns rather than individual anecdotes. When owners consistently report the same strength or the same flaw, that pattern carries more weight than any single opinion, including ours.</span>
             </li>
             <li class="flex gap-3">
                 <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center mt-0.5">3</span>
-                <span><strong>Professional reviews and teardowns</strong> — publications and channels that do physically test hardware. Where measured results exist, we defer to them and say where the claim comes from.</span>
+                <span><strong>Professional reviews and teardowns:</strong> publications and channels that do physically test hardware. Where measured results exist, we defer to them and say where the claim comes from.</span>
             </li>
             <li class="flex gap-3">
                 <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center mt-0.5">4</span>
-                <span><strong>Our own price tracking</strong> — the one dataset that is genuinely ours. We record real Amazon prices over time and use that history to judge whether a product is actually worth buying <em>today</em> (more below).</span>
+                <span><strong>Our own price tracking:</strong> the one dataset that is genuinely ours. We record real Amazon prices over time and use that history to judge whether a product is actually worth buying <em>today</em> (more below).</span>
             </li>
         </ul>
         <p class="text-gray-600 leading-relaxed">
@@ -49,13 +49,13 @@
     <section class="space-y-4">
         <h2 class="text-xl font-bold text-gray-900">How ratings are assigned</h2>
         <p class="text-gray-600 leading-relaxed">
-            Every review carries a rating out of 5, assigned by the editor after the research above — not
+            Every review carries a rating out of 5, assigned by the editor after the research above, not
             copied from Amazon's star average. The scale is deliberately blunt:
         </p>
         <div class="space-y-2 text-sm">
             <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-16 shrink-0">4.5–5</span><span class="text-gray-600">Best in its class at its price. We'd buy it ourselves without hesitation.</span></div>
             <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-16 shrink-0">4–4.5</span><span class="text-gray-600">Genuinely good with a caveat you should know about before paying.</span></div>
-            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-16 shrink-0">3–4</span><span class="text-gray-600">Fine for a specific person or price — the review spells out who.</span></div>
+            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-16 shrink-0">3–4</span><span class="text-gray-600">Fine for a specific person or price. The review spells out who.</span></div>
             <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-16 shrink-0">Under 3</span><span class="text-gray-600">We'd skip it. If we can't recommend something to anyone, we usually don't cover it at all rather than farm clicks from a takedown.</span></div>
         </div>
         <p class="text-gray-600 leading-relaxed">
@@ -68,12 +68,12 @@
         <h2 class="text-xl font-bold text-gray-900">How our price data works</h2>
         <p class="text-gray-600 leading-relaxed">
             "Was $199, now $149" claims on the internet are usually built on inflated list prices. Ours aren't.
-            We record the price of every product we cover each time we check it, and that recorded history —
-            not the manufacturer's suggested price — is what our price commentary is based on.
+            We record the price of every product we cover each time we check it, and that recorded history,
+            not the manufacturer's suggested price, is what our price commentary is based on.
         </p>
         <p class="text-gray-600 leading-relaxed">
             Where you see a price on GadgetDrop, you'll also see <strong>when we last checked it</strong>.
-            Prices on Amazon change constantly, so always confirm the final price at checkout — the number
+            Prices on Amazon change constantly, so always confirm the final price at checkout. The number
             there is the only one that counts. When we call something a good deal, it means the current price
             sits below what our own tracking says is typical for that product, and we show our working.
         </p>
@@ -82,7 +82,7 @@
     <section class="space-y-4">
         <h2 class="text-xl font-bold text-gray-900">How AI is used here</h2>
         <p class="text-gray-600 leading-relaxed">
-            We use AI tools to help with research aggregation and drafting — the same way other publications
+            We use AI tools to help with research aggregation and drafting, the same way other publications
             use spellcheckers and research assistants, just more capable. What AI does not do here is publish.
             Every article is reviewed, fact-checked, and edited by {{ config('site.author.name') }} before it
             goes live, published under his name, and he is accountable for every claim in it. If something

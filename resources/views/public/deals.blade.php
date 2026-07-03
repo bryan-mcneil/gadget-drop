@@ -12,7 +12,7 @@
             Most "was $199" claims are built on list prices nobody ever paid. These aren't. We record the
             real Amazon price of every product we cover each time we check it, and a gadget only lands on
             this page when its current price sits at least {{ \App\Http\Controllers\DealsController::MIN_DROP_PCT }}%
-            below what our own history says is typical. "Usually" means <em>our tracked 90-day average</em> —
+            below what our own history says is typical. "Usually" means <em>our tracked 90-day average</em>,
             never a manufacturer's suggested price. Every card shows when we last checked; prices move fast,
             so confirm the final number at checkout. The tracking method is documented on
             <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
@@ -27,7 +27,7 @@
             <p class="text-lg font-bold text-gray-900">No qualifying drops right now</p>
             <p class="text-sm text-gray-500 mt-2 leading-relaxed">
                 We only list a product when its price is genuinely {{ \App\Http\Controllers\DealsController::MIN_DROP_PCT }}%+
-                below its tracked typical price — no manufactured urgency. Check back soon, or
+                below its tracked typical price. No manufactured urgency. Check back soon, or
                 <a href="{{ route('home') }}" wire:navigate class="text-indigo-600 font-semibold hover:underline">browse today's picks</a>.
             </p>
         </div>

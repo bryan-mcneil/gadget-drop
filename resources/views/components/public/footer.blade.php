@@ -12,7 +12,7 @@
                     Gadget<span class="text-indigo-400">Drop</span>
                 </a>
                 <p class="mt-4 max-w-sm text-sm leading-relaxed text-gray-400">
-                    Finds the consumer tech worth buying — and tracks what it really costs.
+                    Finds the consumer tech worth buying and tracks what it really costs.
                     Every review is <a href="{{ route('how-we-review') }}" wire:navigate class="text-gray-300 underline decoration-gray-600 underline-offset-2 hover:text-white hover:decoration-gray-400 transition-colors">research-based and price-tracked</a>:
                     who a gadget is for, where it falls short, and whether <a href="{{ route('deals') }}" wire:navigate class="text-gray-300 underline decoration-gray-600 underline-offset-2 hover:text-sky-300 hover:decoration-sky-400 transition-colors">today's price is actually a deal</a>.
                 </p>
