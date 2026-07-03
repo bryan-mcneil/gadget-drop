@@ -92,6 +92,22 @@ class PricesAdminTest extends TestCase
         $this->assertTrue($product->fresh()->price_checked_at->isToday());
     }
 
+    public function test_saving_a_price_flashes_a_confirmation_the_ui_can_render(): void
+    {
+        $product = $this->productWithPublishedPost(['price' => 100]);
+
+        $this->actingAs(User::factory()->create())
+            ->from('/admin/prices')
+            ->post("/admin/prices/{$product->id}", ['price' => 89.99]);
+
+        // The banner in the React pages reads the shared `flash.success` prop;
+        // it must survive the redirect back to the index.
+        $this->get('/admin/prices')
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('flash.success', "{$product->name}: price confirmed at \$89.99.")
+            );
+    }
+
     public function test_confirm_refreshes_the_checked_stamp_without_a_snapshot(): void
     {
         $product = $this->productWithPublishedPost(['price' => 100]);

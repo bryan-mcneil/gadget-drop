@@ -13,15 +13,17 @@ use Illuminate\Support\Facades\Cache;
  *  - `current` + `checked_at` are always available for a priced product; the
  *    "Price checked {date}" label is the minimum truth every page shows.
  *  - low/avg/high and the verdict are NULL until the product has at least
- *    MIN_POINTS snapshots spanning MIN_SPAN_DAYS — we never claim "below
- *    typical" off two data points collected yesterday.
+ *    MIN_POINTS snapshots spanning MIN_SPAN_DAYS. The span is what carries
+ *    the honesty: two points collected yesterday say nothing, but "held at
+ *    $179 for three weeks, now $149" is a true statement from two points —
+ *    the carry-forward series weighs a price by how long it held.
  *  - Window stats weigh a price by how long it held (carry-forward daily
  *    series), not by how often we happened to check.
  */
 class PriceIntel
 {
     /** Snapshots required before window stats / verdicts are shown. */
-    public const MIN_POINTS = 3;
+    public const MIN_POINTS = 2;
 
     /** Days of history required before window stats / verdicts are shown. */
     public const MIN_SPAN_DAYS = 14;

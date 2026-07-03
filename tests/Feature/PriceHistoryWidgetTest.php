@@ -81,6 +81,24 @@ class PriceHistoryWidgetTest extends TestCase
             ->assertSee('Below typical price', false);
     }
 
+    public function test_a_single_drop_with_enough_span_unlocks_stats(): void
+    {
+        // The common real-world shape: tracked at one price for weeks, then a
+        // manual check records a drop. Two snapshots + ≥14-day span qualifies;
+        // the current price is the lowest the tracker has seen.
+        [$post, $product] = $this->makeReviewWithProduct(149);
+        $this->snapshot($product, 179, 24);
+
+        $stats = PriceIntel::stats($product->id);
+        $this->assertTrue($stats['has_stats']);
+        $this->assertSame('lowest', $stats['verdict']);
+        $this->assertGreaterThan(5, $stats['drop_pct']);
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertSee('Lowest tracked price', false);
+    }
+
     public function test_stats_stay_hidden_below_the_honesty_thresholds(): void
     {
         [$post, $product] = $this->makeReviewWithProduct(90);

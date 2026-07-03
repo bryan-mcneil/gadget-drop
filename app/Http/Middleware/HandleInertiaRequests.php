@@ -39,6 +39,9 @@ class HandleInertiaRequests extends Middleware
                 ] : null,
             ],
             'navigation' => fn () => NavigationData::get(),
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+            ],
         ];
     }
 }

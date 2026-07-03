@@ -20,7 +20,7 @@ Single source of truth for the three post types. The pipeline skills (`/drop-wri
 ## Rules that apply to every post (AdSense-critical)
 
 1. **Honesty about testing.** GadgetDrop reviews are research-based (public statement: `/how-we-review`). Never claim first-hand testing. The banned-phrase list is canonical in `config/content.php` (`testing_claim_phrases`), hand-mirrored in `bin/daily-drop-build.php`. Attribute instead: "verified-purchase owners consistently report…", "professional testers measured…", "the manufacturer rates it at…".
-2. **No invented numbers.** No fabricated price history, benchmark figures, or "was $199" claims. The site renders its own tracked-price widget; `App\Support\PriceIntel` gates every verdict behind real data (≥3 snapshots over ≥14 days).
+2. **No invented numbers.** No fabricated price history, benchmark figures, or "was $199" claims. The site renders its own tracked-price widget; `App\Support\PriceIntel` gates every verdict behind real data (≥2 snapshots over ≥14 days).
 3. **Affiliate discipline.** No Amazon links in any post body, ever. Reviews get exactly one CTA: the product card, which routes through `/out/{product}` (tag appended automatically, `rel="nofollow sponsored"`). Tips and news get none — they exist for trust, topical breadth, and freshness, not clicks.
 4. **Category discipline.** Exactly six hubs: Audio & Home Theater, Smart Home, Computers & Accessories, Gaming, Wearables, Cameras. Never invent a category — the importer maps retired slugs back to hubs (`config('site.category_map')`), and thin categories were half the AdSense denial.
 5. **One real author.** Byline is always Bryan McNeil (`config('site.author')`). The persona system is retired; its URLs 301 to the real author.
