@@ -33,18 +33,9 @@ Weekly, not daily: skim `/deals` for honesty, prune weird auto-created tags in `
 - **AdSense reapply** happens after the value-build checklist is done (trust pages, thin-page noindex, price-intelligence layer — see repo history) and there's a consistent multi-week publishing record across all three types. Ads stay off (`ADSENSE_ENABLED=false`) until approval.
 - Cadence = **11 posts/week** (7 reviews, 2 tips, 2 news). If a day slips, skip it — never batch-publish backlog in one day; steady beats bursty for both Google and sanity.
 
-## Prod deploy runbook (one-time: first deploy since the redesign)
+## Deploy history note
 
-Nothing has been pushed to prod since the redesign, so the first deploy carries the consolidation work:
-
-1. Local: `npm run build`, commit `public/build` with the code, push `main`.
-2. Server: `bash bin/deploy.sh` (pull, composer, migrate, optimize, images).
-3. Server one-offs, in order (all support `--dry-run` where noted):
-   `php artisan categories:consolidate` (dry-run first) → `php artisan categories:rehome` (dry-run first) → `php artisan authors:consolidate` → `php artisan content:fix-em-dashes` → `php artisan prices:backfill` (dry-run first).
-4. Write 80–150 word descriptions for the six surviving categories in `/admin/categories`.
-5. hPanel → Performance → CDN → purge cache.
-6. Smoke: `/`, a review page, `/deals`, `/drop-price`, `/admin`, and the Join-the-Drop form (Livewire endpoint survives `route:cache`).
-7. **Post-deploy cleanup (follow-up commit):** delete the now-spent one-off commands + their tests — `ConsolidateAuthor`, `ConsolidateCategories` (+ `ConsolidateCategoriesTest`), `RehomeCategoryItems` (+ `RehomeCategoryItemsTest`), `FixEmDashes`, `BackfillPriceSnapshots` (after confirming `product_price_snapshots` has `source=initial` rows). Keep `content:flag-claims` forever (QA gate).
+The post-redesign consolidation (categories:consolidate/rehome, authors:consolidate, content:fix-em-dashes, prices:backfill) ran on prod in July 2026; those one-off commands and their tests were deleted afterward. The maps they consumed stay in `config/site.php` — routes and the importer still read them. `content:flag-claims` is permanent (the `/morning` QA gate).
 
 ## Ongoing deploys
 

@@ -22,8 +22,9 @@ return [
 
     /*
     | Old fictional-persona author slugs. These were retired when authorship was
-    | consolidated to one real person; they 301-redirect to the real author so
-    | previously-indexed URLs don't 404. See App\Console\Commands\ConsolidateAuthor.
+    | consolidated to one real person (the one-time authors:consolidate command,
+    | since deleted after running on prod); they 301-redirect to the real author
+    | so previously-indexed URLs don't 404.
     */
     'legacy_author_slugs' => ['maya-reeves', 'ken-fujimoto', 'elizabeth-avery', 'sam-johnson'],
 
@@ -32,12 +33,11 @@ return [
     | Category consolidation map (source slug => target slug)
     |--------------------------------------------------------------------------
     | Twelve ~3-post categories looked like thin doorway pages to the AdSense
-    | review, so they were merged into six real hubs. Consumed by:
+    | review, so they were merged into six real hubs (the one-time
+    | categories:consolidate command, since deleted after running on prod).
+    | Still consumed by:
     |  - routes/web.php            → 301s for the retired category URLs
-    |  - categories:consolidate    → one-time re-pivot (App\Console\Commands)
     |  - DailyDropImporterService  → keeps imports from resurrecting dead slugs
-    | After running the command, write an 80-150 word description for each
-    | surviving category in /admin/categories.
     */
     'category_map' => [
         'appliances'   => 'smart-home',
@@ -73,10 +73,9 @@ return [
     | Item-level re-homes (post-consolidation cleanup)
     |--------------------------------------------------------------------------
     | The bulk merge left individual items in the wrong hub (wearables dumped
-    | into Computers, a record player stand likewise). Consumed by
-    | categories:rehome (App\Console\Commands\RehomeCategoryItems), which moves
-    | the product AND swaps the category on its linked posts. Keyed by exact
-    | product name — stable across dev/prod, unlike IDs.
+    | into Computers, a record player stand likewise). Was consumed by the
+    | one-time categories:rehome command (deleted after running on prod);
+    | kept as a record of the moves. Keyed by exact product name.
     */
     'category_rehome' => [
         'Google Fitbit Air'      => 'wearables',
@@ -89,7 +88,8 @@ return [
     /*
     | Category attachments for posts with no product to follow (tech tips and
     | news that were never categorized). Post slug => category slug; attach
-    | only, nothing is detached. Also consumed by categories:rehome.
+    | only, nothing was detached. Was consumed by the deleted categories:rehome
+    | command; kept as a record.
     */
     'category_rehome_posts' => [
         'learn-new-tools-or-master-the-fundamental' => 'computers',

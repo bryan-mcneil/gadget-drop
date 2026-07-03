@@ -3,9 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
-use App\Models\DropPricePuzzle;
 use App\Models\Product;
-use App\Models\ProductPriceSnapshot;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -72,44 +70,4 @@ class PriceSnapshotTest extends TestCase
         $this->assertSame(0, $product->priceSnapshots()->count());
     }
 
-    public function test_backfill_imports_drop_price_puzzle_history_idempotently(): void
-    {
-        $product = $this->makeProduct(['price' => 100]);
-
-        DropPricePuzzle::create([
-            'puzzle_number'     => 1,
-            'date'              => now()->subDays(20)->toDateString(),
-            'product_id'        => $product->id,
-            'price'             => 95,
-            'product_name'      => $product->name,
-            'product_image_url' => null,
-            'locked_at'         => now()->subDays(20),
-        ]);
-
-        $this->artisan('prices:backfill')->assertSuccessful();
-        $this->artisan('prices:backfill')->assertSuccessful();
-
-        $puzzleSnapshots = ProductPriceSnapshot::where('product_id', $product->id)
-            ->where('source', 'drop_price')
-            ->get();
-
-        $this->assertCount(1, $puzzleSnapshots);
-        $this->assertSame(now()->subDays(20)->toDateString(), $puzzleSnapshots->first()->created_at->toDateString());
-    }
-
-    public function test_backfill_seeds_an_initial_snapshot_for_untracked_products(): void
-    {
-        $product = $this->makeProduct(['price' => 250]);
-        // Simulate a pre-feature product: history missing, checked_at unknown.
-        ProductPriceSnapshot::query()->delete();
-        $product->forceFill(['price_checked_at' => null])->saveQuietly();
-
-        $this->artisan('prices:backfill')->assertSuccessful();
-
-        $this->assertDatabaseHas('product_price_snapshots', [
-            'product_id' => $product->id,
-            'source'     => 'initial',
-        ]);
-        $this->assertNotNull($product->fresh()->price_checked_at);
-    }
 }
