@@ -111,7 +111,7 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 | `/seo-review` | Audit a post for first-page Google ranking |
 | `/backend-review` | Laravel security and best practices audit |
 
-Editorial + AdSense rules per type: `CONTENT-GUIDELINES.md`. Daily routine + prod runbook: `docs/OPERATIONS.md`.
+Editorial + AdSense rules per type: `CONTENT-GUIDELINES.md`. Daily routine + prod runbook: `docs/OPERATIONS.md`. Search Intel (GSC/Bing/IndexNow) plan: `search-intel.md`; one-time setup + bring-up: `docs/SEARCH-INTEL-SETUP.md`.
 
 The pipeline passes state through files (`daily-drop/research.md` → `daily-drop/{product,tip,news}-*.md` → `bin/daily-drop-build.php` → `daily-drop/output.json` → `php artisan posts:import`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps) or unattended by the scheduled cloud agent (`daily-drop/CLOUD-AGENT.md`). The model never writes the final JSON; the build script parses, validates per post type, and assembles it. `daily-drop/` is tracked in git on purpose — the cloud agent delivers content via `drop/YYYY-MM-DD` PRs.
 
