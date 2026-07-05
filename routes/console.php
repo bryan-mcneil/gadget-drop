@@ -30,3 +30,10 @@ Schedule::command('dropprice:lock')->dailyAt('00:00');
 // Refresh tracked product prices (PA-API when configured, else Canopy's free
 // tier, else an explicit no-op). Budget guards live in the command/service.
 Schedule::command('prices:refresh')->dailyAt('06:00');
+
+// Search Intel loop (all no-op without credentials): pull GSC + Bing data,
+// mine opportunities from it, then verify indexation. Staggered on the :00
+// hourly cron after prices:refresh.
+Schedule::command('search:sync')->dailyAt('07:00');
+Schedule::command('search:mine')->dailyAt('08:00');
+Schedule::command('search:inspect')->dailyAt('09:00');

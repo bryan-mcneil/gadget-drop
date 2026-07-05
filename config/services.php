@@ -47,6 +47,25 @@ return [
         'daily_limit'    => (int) env('CANOPY_DAILY_LIMIT', 3),
     ],
 
+    /*
+    | Search Intel engine credentials. Google uses a service-account JSON key
+    | (google/auth mints the bearer token, scope: webmasters); Bing uses a
+    | single per-user API key. Both services no-op gracefully when unset, so
+    | local dev and CI never need credentials. Behavioural config lives in
+    | config/search.php.
+    */
+    'google_search_console' => [
+        // Exactly as it appears in GSC: sc-domain:gadgetdrop.tech OR https://gadgetdrop.tech/
+        'property'         => env('GSC_PROPERTY'),
+        'credentials_path' => env('GSC_CREDENTIALS_PATH', 'storage/app/keys/gsc-service-account.json'),
+    ],
+
+    'bing_webmaster' => [
+        'api_key'  => env('BING_WEBMASTER_API_KEY'),
+        // Must match the verified site in Bing (imported from GSC).
+        'site_url' => env('BING_SITE_URL', env('SEARCH_SITE_URL', 'https://gadgetdrop.tech')),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

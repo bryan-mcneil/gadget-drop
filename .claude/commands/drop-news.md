@@ -6,6 +6,8 @@ GadgetDrop (gadgetdrop.tech) publishes buyer-focused tech news twice a week (see
 Editorial and AdSense rules live in `CONTENT-GUIDELINES.md` (§ Tech News); the essentials are inlined below so this file works standalone.
 
 ## Step 1 — Pick the story
+**Check the SEO brief first.** If `daily-drop/seo-brief.md` exists and is ≤ 3 days old, its "Tip / news angles" section lists queries surging in our own Search Console/Bing data (`rising`) with no dedicated post — a strong steer for which of today's stories to cover if one lines up. Freshness still wins: only follow the brief when a genuinely current, buyer-relevant story matches it. If the brief is missing/stale, use editorial judgment as below.
+
 Search today's tech news (The Verge, Ars Technica, TechRadar, Engadget, 9to5Mac/Google, company newsrooms):
 
 **Filter for:** published in the last ~24–48 hours · directly affects a buying decision · touches one of the 6 site categories · ideally adjacent to products GadgetDrop reviews (cross-link opportunity). Skip: rumors without a credible source, enterprise/B2B, financial/stock stories.
@@ -45,6 +47,7 @@ SEO_SCORE: {0–100 self-check}
 META_TITLE: {≤70 chars, keyword-first}
 META_DESCRIPTION: {120–155 chars, includes keyword}
 FOCUS_KEYWORD: {primary search phrase}
+TARGET_QUERY: {the exact query this story should win — the brief candidate's query if it came from the brief, else the focus keyword. Optional but recommended.}
 SLUG: {seo-friendly-hyphenated-slug}
 BODY:
 {full markdown body including the required ## Buy or Wait? section. Runs until end of file.}

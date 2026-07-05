@@ -8,6 +8,8 @@ use App\Models\DropPricePuzzle;
 use App\Models\DropPriceResult;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\SearchIndexCheck;
+use App\Models\SearchOpportunity;
 use App\Support\DropPrice;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -38,7 +40,28 @@ class DashboardController extends Controller
             // boundary — showing the answer price here is fine (admin-only), so we
             // surface it openly for at-a-glance verification of the live puzzle.
             'dropPrice' => $this->dropPriceSummary(),
+            // Compact Search Intel card → deep-links to /admin/seo.
+            'seo' => [
+                'open_opportunities' => SearchOpportunity::open()->count(),
+                'unindexed'          => $this->unindexedCount(),
+            ],
         ]);
+    }
+
+    /** Recent published posts with no PASS index check (never checked or not indexed). */
+    private function unindexedCount(): int
+    {
+        $recent = Post::where('status', 'published')
+            ->where('published_at', '<=', now())
+            ->where('published_at', '>=', now()->subDays(30))
+            ->pluck('id');
+
+        $indexed = SearchIndexCheck::whereIn('post_id', $recent)
+            ->where('verdict', 'PASS')
+            ->distinct()
+            ->pluck('post_id');
+
+        return $recent->diff($indexed)->count();
     }
 
     /**

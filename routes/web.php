@@ -12,6 +12,7 @@ use App\Http\Controllers\DropPriceController;
 use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ToolController;
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 // Sitemap
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// Search-engine discovery: IndexNow key file + llms.txt site map.
+Route::get('/indexnow.txt', [SearchController::class, 'indexNowKey'])->name('indexnow.key');
+Route::get('/llms.txt', [SearchController::class, 'llms'])->name('llms');
 
 // Public site
 Route::get('/', [PublicController::class, 'home'])->name('home');
@@ -82,6 +87,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('prices', [\App\Http\Controllers\Admin\PriceController::class, 'index'])->name('prices.index');
     Route::post('prices/{product}', [\App\Http\Controllers\Admin\PriceController::class, 'update'])->name('prices.update');
     Route::post('prices/{product}/confirm', [\App\Http\Controllers\Admin\PriceController::class, 'confirm'])->name('prices.confirm');
+    Route::get('seo', [\App\Http\Controllers\Admin\SeoController::class, 'index'])->name('seo.index');
+    Route::post('seo/opportunities/{opportunity}', [\App\Http\Controllers\Admin\SeoController::class, 'updateOpportunity'])->name('seo.opportunities.update');
+    Route::post('seo/posts/{post}/reping', [\App\Http\Controllers\Admin\SeoController::class, 'reping'])->name('seo.reping');
     Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('tags', TagController::class)->except(['show', 'create', 'edit']);
     Route::post('images', [ImageController::class, 'store'])->name('images.store');

@@ -11,17 +11,19 @@ Instructions for the **scheduled Claude cloud routine** that generates each day'
 
 1. **Clean slate.** Delete any leftover `daily-drop/research.md`, `product-*.md`, `tip-*.md`, `news-*.md`, `output.json` from previous days (they were merged already; a fresh branch means a fresh day).
 
-2. **Determine today's mix** from the cadence table in `.claude/commands/daily-drop.md`:
+2. **Read the SEO brief.** If `daily-drop/seo-brief.md` exists (committed by `/morning` from prod's Search Console/Bing data), read it before choosing topics. It re-ranks WHICH topics have demonstrated demand — the review/refresh/tip/news candidates and an avoid list. Prefer its candidates **only when they pass each skill's value gate**; fall back to editorial judgment (and say so in `research.md`) when the brief is missing or its generated date is > 3 days old. The brief never changes the cadence below.
+
+3. **Determine today's mix** from the cadence table in `.claude/commands/daily-drop.md`:
    - Every day: one review.
    - Mon/Thu: plus one tech news post. Tue/Sat: plus one tech tip.
 
-3. **Run the pipeline steps**, following each skill file in `.claude/commands/` exactly:
+4. **Run the pipeline steps**, following each skill file in `.claude/commands/` exactly:
    1. `/drop-research` (drop-research.md) → `daily-drop/research.md`
    2. `/drop-write 1` (drop-write.md) → `daily-drop/product-1.md` (use product 2 only if the primary is a dud)
    3. `/drop-tip` or `/drop-news` on their days → `daily-drop/tip-1.md` / `news-1.md`
    4. `/drop-assemble` (drop-assemble.md): run `php bin/daily-drop-build.php` — **it must exit 0**. Fix hard errors it names. Fix warnings you can fix with targeted edits (banned phrase, em dash, length); leave judgment calls and note them.
 
-4. **Deliver as a PR.**
+5. **Deliver as a PR.**
    - Branch: `drop/YYYY-MM-DD` (today, UTC).
    - Commit all generated `daily-drop/` files with message `Drop YYYY-MM-DD: {review title}` (+ tip/news title if present).
    - Open a PR titled `Drop YYYY-MM-DD` against `main`. PR body: the build script's per-post summary, remaining warnings (or "no warnings"), and one line per post: type, title, category, word count.

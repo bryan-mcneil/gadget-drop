@@ -31,6 +31,7 @@ class NavigationData
         'nav.latestTechTips',
         'nav.latestNews',
         'sitemap.xml',
+        'search.llms_txt',
     ];
 
     public static function get(): array

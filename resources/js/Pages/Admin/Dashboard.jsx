@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 
-export default function Dashboard({ stats, recentPosts, dropPrice }) {
+export default function Dashboard({ stats, recentPosts, dropPrice, seo }) {
     const statCards = [
         { label: 'Total Posts', value: stats.posts, href: route('admin.posts.index') },
         { label: 'Published', value: stats.published, href: route('admin.posts.index') },
@@ -24,6 +24,22 @@ export default function Dashboard({ stats, recentPosts, dropPrice }) {
                         </Link>
                     ))}
                 </div>
+
+                {/* Compact Search Intel card */}
+                {seo && (
+                    <Link href={route('admin.seo.index')}
+                        className="block bg-white border border-gray-200 rounded-xl px-6 py-4 hover:shadow-sm transition">
+                        <div className="flex items-center justify-between">
+                            <h3 className="font-semibold text-gray-800">🔎 Search Intel</h3>
+                            <span className="text-sm text-indigo-600 hover:underline">Open dashboard →</span>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                            <span className="font-semibold text-gray-700">{seo.open_opportunities}</span> open opportunit{seo.open_opportunities === 1 ? 'y' : 'ies'}
+                            <span className="mx-2 text-gray-300">·</span>
+                            <span className={`font-semibold ${seo.unindexed > 0 ? 'text-amber-600' : 'text-gray-700'}`}>{seo.unindexed}</span> recent post{seo.unindexed === 1 ? '' : 's'} not confirmed indexed
+                        </p>
+                    </Link>
+                )}
 
                 {/* Drop Price — read-only daily-game summary (admin-only, so the answer price is shown) */}
                 <DropPricePanel dropPrice={dropPrice} />

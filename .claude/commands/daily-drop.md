@@ -24,6 +24,10 @@ The daily content pipeline is split into small steps so each one can run in a ch
 | 3 | `/drop-assemble` | `daily-drop/*.md` | `daily-drop/output.json` via `php bin/daily-drop-build.php` |
 | 4 | `php artisan posts:import` (or `/morning`, which wraps it for prod) | `daily-drop/output.json` | draft posts |
 
+**Sundays (optional):** `/drop-refresh` — instead of (or alongside) a new review, update the top decaying / striking-distance post from the Search Intel `search_opportunities` list. Runs locally with DB access, edits an existing published post honestly. See `.claude/commands/drop-refresh.md`.
+
+**Search Intel input:** `/drop-research`, `/drop-tip`, and `/drop-news` consult `daily-drop/seo-brief.md` (demand-backed candidates from Search Console + Bing, committed by `/morning`) and prefer its picks when they pass the value gate. The brief re-ranks WHICH topics; it never changes the cadence above.
+
 Editorial rules per type: `CONTENT-GUIDELINES.md`. Daily routine: `docs/OPERATIONS.md`.
 
 ## What to do when this command runs

@@ -65,6 +65,7 @@ CONS:
 META_TITLE: Anker 737 Power Bank Review
 META_DESCRIPTION: Is the Anker 737 worth it? Owner feedback, spec analysis, and who should buy the 24,000mAh 140W power bank this year.
 FOCUS_KEYWORD: anker 737 review
+TARGET_QUERY: anker 737 power bank review
 SLUG: anker-737-power-bank-review
 BODY:
 {$body}
@@ -118,6 +119,17 @@ MD;
         $this->assertSame('https://www.theverge.com/example-story', $news['source_url']);
         $this->assertArrayNotHasKey('product_asin', $news);
         $this->assertArrayNotHasKey('rating', $news);
+    }
+
+    public function test_target_query_is_carried_into_output_json(): void
+    {
+        $this->write('product-1.md', $this->reviewBlock());
+
+        $process = $this->run_build();
+        $this->assertSame(0, $process->getExitCode(), $process->getErrorOutput());
+
+        $posts = json_decode((string) file_get_contents($this->dir . DIRECTORY_SEPARATOR . 'output.json'), true);
+        $this->assertSame('anker 737 power bank review', $posts[0]['seo']['target_query']);
     }
 
     public function test_news_without_source_url_is_a_hard_error(): void

@@ -106,6 +106,7 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 | `/drop-tip` | Tue/Sat: write a tech tip (600–1000 words, SOURCE_URL required) → `daily-drop/tip-1.md` |
 | `/drop-news` | Mon/Thu: write buyer-focused news (600–900 words, `## Buy or Wait?` required) → `daily-drop/news-1.md` |
 | `/drop-assemble` | Step 3: build `daily-drop/output.json` via `php bin/daily-drop-build.php` |
+| `/drop-refresh` | Sun: refresh the top decaying/striking-distance post from Search Intel opportunities (honest update, local + DB) |
 | `/morning` | Bryan's one daily command: merge the cloud agent's PR, import drafts into PROD, QA gate, checklist |
 | `/seo-review` | Audit a post for first-page Google ranking |
 | `/backend-review` | Laravel security and best practices audit |

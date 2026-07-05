@@ -51,6 +51,7 @@ class ImportDropPostsCommandTest extends TestCase
                     'meta_title'       => 'Anker 737 Power Bank Review',
                     'meta_description' => 'Is the Anker 737 worth it? Owner feedback, spec analysis, and who should buy the 24,000mAh 140W power bank.',
                     'focus_keyword'    => 'anker 737 review',
+                    'target_query'     => 'anker 737 power bank review',
                     'slug'             => 'anker-737-power-bank-review',
                 ],
             ],
@@ -105,6 +106,7 @@ class ImportDropPostsCommandTest extends TestCase
         $this->assertNotEmpty($review->pros);
         $this->assertNull($review->source_url);
         $this->assertSame('B0ABCDEFGH', $review->products()->first()?->asin);
+        $this->assertSame('anker 737 power bank review', $review->seoMeta->target_query);
 
         $tip = Post::where('type', 'tech_tip')->first();
         $this->assertNotNull($tip);

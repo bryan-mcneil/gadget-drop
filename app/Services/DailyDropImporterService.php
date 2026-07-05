@@ -149,11 +149,13 @@ class DailyDropImporterService
         }
 
         // Create SEO meta
-        $seo = $data['seo'] ?? [];
+        $seo         = $data['seo'] ?? [];
+        $targetQuery = $seo['target_query'] ?? $data['target_query'] ?? null;
         $post->seoMeta()->create([
             'meta_title'       => $seo['meta_title']       ?? $data['title'],
             'meta_description' => $seo['meta_description'] ?? $data['excerpt'] ?? '',
             'focus_keyword'    => $seo['focus_keyword']    ?? '',
+            'target_query'     => ($targetQuery ?? '') !== '' ? $targetQuery : null,
         ]);
 
         return $post;

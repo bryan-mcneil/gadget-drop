@@ -63,6 +63,7 @@ if (! $files) {
 const SCALAR_KEYS = [
     'AUTHOR', 'TITLE', 'EXCERPT', 'TYPE', 'CATEGORY', 'TAGS', 'ASIN', 'RATING',
     'SOURCE_URL', 'SEO_SCORE', 'META_TITLE', 'META_DESCRIPTION', 'FOCUS_KEYWORD', 'SLUG',
+    'TARGET_QUERY',
 ];
 const LIST_KEYS = ['PROS', 'CONS'];
 
@@ -304,6 +305,7 @@ foreach ($files as $file) {
                 'meta_title'       => $p['META_TITLE'] ?? '',
                 'meta_description' => $p['META_DESCRIPTION'] ?? '',
                 'focus_keyword'    => $p['FOCUS_KEYWORD'] ?? '',
+                'target_query'     => $p['TARGET_QUERY'] ?? '',
                 'slug'             => $p['SLUG'] ?? '',
             ],
         ];

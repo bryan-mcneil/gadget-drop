@@ -26,17 +26,25 @@ SSH connection values (host, port, key, APP_ROOT) live at the top of `bin/sync-f
      (Content-only pull — no composer/migrate/optimize needed. If code changed too, run `bash bin/deploy.sh` on the server instead.)
    - **SSH unavailable?** Fallback: tell Bryan to open `https://gadgetdrop.tech/admin/daily-drop` and paste the contents of `daily-drop/output.json` into the Import page. Same importer, same result.
 
-6. **Checklist.** Print exactly this, filled in:
+6. **Refresh the SEO brief (Search Intel).** Regenerate tomorrow's demand brief from prod's Search Console/Bing data and commit it so the overnight cloud agent reads it from the repo. Values from `bin/sync-from-prod.sh`:
+   ```bash
+   ssh -p {SSH_PORT} -i {SSH_KEY} {SSH_HOST} "cd {APP_ROOT} && /opt/alt/php84/usr/bin/php artisan search:brief" > daily-drop/seo-brief.md
+   ```
+   Then commit + push it: `git add daily-drop/seo-brief.md && git commit -m "Update SEO brief {date}" && git push origin main`. If Search Intel isn't configured yet (Phase 0 not done), the brief will say "No opportunities yet" — commit it anyway; the pipeline falls back to editorial judgment. SSH unavailable → skip this step (the pipeline degrades gracefully).
+
+7. **Checklist.** Print exactly this, filled in (pull the SEO line from `ssh … "cd {APP_ROOT} && … artisan search:status --compact"`):
    ```
    ☀️ Drop {date} imported — {N} draft(s) on production:
      {type}  {title}  → https://gadgetdrop.tech/admin/posts ({edit link if id known})
    Build warnings: {list or "none"}
+   {SEO: N open opportunities · M recent post(s) not confirmed indexed — from search:status --compact}
 
    Your pass (~45 min):
    1. Review each draft: fact-check prices/claims, tone pass
    2. Add images (hero + product shots) via the post form uploader
    3. Publish when happy
    4. /admin/prices — quick stale-price pass
+   5. /admin/seo — glance at open opportunities + any unindexed posts
    ```
 
 ## Notes

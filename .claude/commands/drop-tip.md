@@ -6,6 +6,8 @@ GadgetDrop (gadgetdrop.tech) publishes a tech tip twice a week (see the cadence 
 Editorial and AdSense rules live in `CONTENT-GUIDELINES.md` (§ Tech Tips); the essentials are inlined below so this file works standalone.
 
 ## Step 1 — Find the tip
+**Consult the SEO brief first.** If `daily-drop/seo-brief.md` exists and is ≤ 3 days old, prefer a tip topic from its "Tip / news angles" section — those are queries our own Search Console/Bing data shows real demand for and no dedicated post. Only use one if you can write a genuinely useful, verifiable fix (the value gate still applies). If the brief is missing/stale, use editorial judgment as below.
+
 Search the web for a problem worth solving this week:
 - Reddit: r/techsupport, r/HomeNetworking, r/iphone, r/Android, r/pcmasterrace hot/top threads
 - "How to fix" trends around recent OS updates, popular devices, seasonal issues
@@ -46,6 +48,7 @@ SEO_SCORE: {0–100 self-check}
 META_TITLE: {≤70 chars, keyword-first}
 META_DESCRIPTION: {120–155 chars, includes keyword}
 FOCUS_KEYWORD: {the search phrase}
+TARGET_QUERY: {the exact query this tip should win — the brief candidate's query if it came from the brief, else the focus keyword. Optional but recommended.}
 SLUG: {seo-friendly-hyphenated-slug}
 BODY:
 {full markdown body. Runs until end of file.}

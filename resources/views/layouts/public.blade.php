@@ -6,9 +6,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ $serverMeta['title'] ?? config('app.name', 'GadgetDrop') }}</title>
-        @if(!empty($serverMeta['noindex']))
-        <meta name="robots" content="noindex, follow">
-        @endif
+        {{-- max-image-preview:large keeps us eligible for Google Discover (big-image
+             gadget content is its diet); noindex pages still carry it harmlessly. --}}
+        <meta name="robots" content="{{ !empty($serverMeta['noindex']) ? 'noindex, follow, ' : '' }}max-image-preview:large">
+
         @isset($serverMeta)
         @if(!empty($serverMeta['description']))
         <meta name="description" content="{{ $serverMeta['description'] }}">

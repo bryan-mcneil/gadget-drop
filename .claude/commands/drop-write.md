@@ -133,6 +133,7 @@ SEO_SCORE: {your checklist score, 0–100}
 META_TITLE: {≤70 chars, keyword-first}
 META_DESCRIPTION: {120–155 chars, includes keyword}
 FOCUS_KEYWORD: {primary seo keyword}
+TARGET_QUERY: {the exact query this post should win — copy TARGET_QUERY from research.md (falls back to the focus keyword). Optional but recommended: it makes the post's intent measurable in Search Console.}
 SLUG: {seo-friendly-hyphenated-slug}
 BODY:
 {full markdown body: ## headings, --- dividers, **bold**, internal /posts/ links. Plain markdown, no escaping, no code fences, no Amazon links. Runs until end of file.}

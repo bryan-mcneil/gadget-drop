@@ -11,7 +11,7 @@ class SeoMeta extends Model
 
     protected $fillable = [
         'post_id', 'meta_title', 'meta_description',
-        'focus_keyword', 'og_image', 'canonical_url', 'noindex',
+        'focus_keyword', 'target_query', 'og_image', 'canonical_url', 'noindex',
     ];
 
     protected $casts = [

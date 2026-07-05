@@ -32,4 +32,11 @@ class PublicLayoutTest extends TestCase
             ->assertOk()
             ->assertSee('wire:navigate', false);
     }
+
+    public function test_pages_declare_max_image_preview_for_discover(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('name="robots" content="max-image-preview:large"', false);
+    }
 }
