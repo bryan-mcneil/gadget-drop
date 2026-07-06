@@ -33,6 +33,9 @@
         <env name="GSC_CREDENTIALS_PATH" value=""/>
         <env name="BING_WEBMASTER_API_KEY" value=""/>
         <env name="INDEXNOW_KEY" value=""/>
+        <env name="SOCIAL_ENABLED" value="false"/>
+        <env name="BLUESKY_APP_PASSWORD" value=""/>
+        <env name="FACEBOOK_PAGE_TOKEN" value=""/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>

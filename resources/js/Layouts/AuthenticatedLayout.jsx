@@ -57,6 +57,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Search Intel
                                 </NavLink>
                                 <NavLink
+                                    href={route('admin.social.index')}
+                                    active={route().current('admin.social.*')}
+                                >
+                                    Social
+                                </NavLink>
+                                <NavLink
                                     href={route('admin.categories.index')}
                                     active={route().current('admin.categories.*')}
                                 >
@@ -201,6 +207,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('admin.seo.*')}
                         >
                             Search Intel
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('admin.social.index')}
+                            active={route().current('admin.social.*')}
+                        >
+                            Social
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route('admin.products.index')}

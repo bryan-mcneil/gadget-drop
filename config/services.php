@@ -66,6 +66,34 @@ return [
         'site_url' => env('BING_SITE_URL', env('SEARCH_SITE_URL', 'https://gadgetdrop.tech')),
     ],
 
+    /*
+    | Social pipeline. SOCIAL_ENABLED is the master kill switch (default off,
+    | like AdSense). Each platform has its own enable flag plus a mode:
+    |   manual — pipeline composes the post, you paste it via /admin/social
+    |   log    — LogDriver writes to the app log (staging / tests)
+    |   api    — the platform's real API driver (Bluesky Phase 3, FB Phase 4)
+    | Credentials live here so `php artisan optimize` (prod config cache) picks
+    | up .env changes the usual way.
+    */
+    'social' => [
+        'enabled'      => env('SOCIAL_ENABLED', false),
+        'max_attempts' => (int) env('SOCIAL_MAX_ATTEMPTS', 3),
+        'platforms' => [
+            'bluesky' => [
+                'enabled'      => env('SOCIAL_BLUESKY_ENABLED', false),
+                'mode'         => env('SOCIAL_BLUESKY_MODE', 'manual'),
+                'handle'       => env('BLUESKY_HANDLE'),
+                'app_password' => env('BLUESKY_APP_PASSWORD'),
+            ],
+            'facebook' => [
+                'enabled'    => env('SOCIAL_FACEBOOK_ENABLED', false),
+                'mode'       => env('SOCIAL_FACEBOOK_MODE', 'manual'),
+                'page_id'    => env('FACEBOOK_PAGE_ID'),
+                'page_token' => env('FACEBOOK_PAGE_TOKEN'),
+            ],
+        ],
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

@@ -37,3 +37,7 @@ Schedule::command('prices:refresh')->dailyAt('06:00');
 Schedule::command('search:sync')->dailyAt('07:00');
 Schedule::command('search:mine')->dailyAt('08:00');
 Schedule::command('search:inspect')->dailyAt('09:00');
+
+// Drain the social outbox (no-op while SOCIAL_ENABLED=false). hourly() runs at
+// minute :00, which is exactly when the hPanel cron fires — every run counts.
+Schedule::command('social:publish')->hourly();
