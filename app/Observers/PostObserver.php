@@ -6,11 +6,14 @@ use App\Models\Post;
 use App\Models\SearchSubmission;
 use App\Services\GoogleSearchConsoleService;
 use App\Services\IndexNowService;
+use App\Support\SocialOutbox;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Announces a post to search engines the moment it goes live (or changes URL),
  * so indexation starts in seconds instead of whenever a crawler wanders by.
+ * The same publish transition also queues the post into the social outbox
+ * (SocialOutbox::enqueue — gated + recency-guarded there).
  *
  * Fires on transition to published, and on slug/title change of an
  * already-published post (a slug change also re-announces the OLD URL so
@@ -34,6 +37,7 @@ class PostObserver
     {
         if ($post->status === 'published') {
             $this->ping($post, $this->publishUrls($post), 'publish');
+            $this->announceSocial($post);
         }
     }
 
@@ -42,6 +46,7 @@ class PostObserver
         // Draft → published (or any edit that flips status to published).
         if ($post->wasChanged('status') && $post->status === 'published') {
             $this->ping($post, $this->publishUrls($post), 'publish');
+            $this->announceSocial($post);
 
             return;
         }
@@ -63,6 +68,19 @@ class PostObserver
         }
 
         $this->ping($post, $urls, 'update');
+    }
+
+    /**
+     * Queue the post into the social outbox (SocialOutbox owns the kill switch
+     * and 48h recency guard). Wrapped so a social hiccup never blocks a save.
+     */
+    private function announceSocial(Post $post): void
+    {
+        try {
+            SocialOutbox::enqueue($post);
+        } catch (\Throwable $e) {
+            Log::warning('Social outbox enqueue failed', ['post' => $post->id, 'error' => $e->getMessage()]);
+        }
     }
 
     /**

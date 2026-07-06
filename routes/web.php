@@ -87,6 +87,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('prices', [\App\Http\Controllers\Admin\PriceController::class, 'index'])->name('prices.index');
     Route::post('prices/{product}', [\App\Http\Controllers\Admin\PriceController::class, 'update'])->name('prices.update');
     Route::post('prices/{product}/confirm', [\App\Http\Controllers\Admin\PriceController::class, 'confirm'])->name('prices.confirm');
+    Route::get('social', [\App\Http\Controllers\Admin\SocialController::class, 'index'])->name('social.index');
+    Route::post('social/{socialPost}/posted', [\App\Http\Controllers\Admin\SocialController::class, 'markPosted'])->name('social.posted');
+    Route::post('social/{socialPost}/skip', [\App\Http\Controllers\Admin\SocialController::class, 'skip'])->name('social.skip');
     Route::get('seo', [\App\Http\Controllers\Admin\SeoController::class, 'index'])->name('seo.index');
     Route::post('seo/opportunities/{opportunity}', [\App\Http\Controllers\Admin\SeoController::class, 'updateOpportunity'])->name('seo.opportunities.update');
     Route::post('seo/posts/{post}/reping', [\App\Http\Controllers\Admin\SeoController::class, 'reping'])->name('seo.reping');
