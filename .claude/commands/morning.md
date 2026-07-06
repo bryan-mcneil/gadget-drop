@@ -1,17 +1,26 @@
 # /morning — Bryan's One Daily Command: Merge, Import, QA, Checklist
 
 ## Context
-The scheduled cloud agent (see `daily-drop/CLOUD-AGENT.md`) opens a PR each morning on branch `drop/YYYY-MM-DD` containing the day's generated content files. This command lands that content as **draft posts in PRODUCTION** (drafts must live where review/images/publish happen: the live admin), then hands Bryan a review checklist. Target: the whole command runs in ~5 minutes.
+The scheduled cloud agent (see `daily-drop/CLOUD-AGENT.md`) opens a PR each morning containing the day's generated content files. This command lands that content as **draft posts in PRODUCTION** (drafts must live where review/images/publish happen: the live admin), then hands Bryan a review checklist. Target: the whole command runs in ~5 minutes.
+
+> **Branch naming:** the cloud sandbox's GitHub proxy restricts pushes to the session's own auto-generated working branch (e.g. `claude/laughing-pasteur-80foow`), so the agent **cannot** push a `drop/YYYY-MM-DD` branch. The stable identifier is the **PR title `Drop YYYY-MM-DD`** and the commit subject `Drop YYYY-MM-DD: …`. Detect by those, never by a `drop/` branch name.
 
 SSH connection values (host, port, key, APP_ROOT) live at the top of `bin/sync-from-prod.sh` — read them from there, never hard-code.
 
 ## Steps
 
-1. **Find today's drop.** `git fetch origin`, look for branch `drop/{today YYYY-MM-DD}` (and its PR via `gh pr list --head drop/{today}` if gh is available).
-   - **Branch exists** → continue.
-   - **No branch** → the cloud agent didn't run or failed. Report that, then offer to run the pipeline locally right now (`/drop-research` → `/drop-write 1` → `/drop-tip` or `/drop-news` per the cadence in `/daily-drop` → `/drop-assemble`), then continue from step 3.
+1. **Find today's drop.** `git fetch origin --prune`, then locate today's PR/branch by **title**, not branch name (see the Branch-naming note above):
+   - If `gh` is available: `gh pr list --state open --search "Drop {today YYYY-MM-DD} in:title"` → grab its head branch (`--json headRefName`).
+   - No `gh` (e.g. local Windows box): find the remote branch whose tip commit is today's drop —
+     ```bash
+     git for-each-ref --format='%(refname:short)|%(subject)' refs/remotes/origin \
+       | grep -iE "\|Drop {today YYYY-MM-DD}"
+     ```
+     The match's `refname` (typically `origin/claude/…`) is the branch to merge. Sanity-check it actually changed `daily-drop/output.json`: `git show --stat {ref} -- daily-drop/output.json`.
+   - **Found** → note the branch ref, continue.
+   - **Not found** → the cloud agent didn't run or failed. Report that, then offer to run the pipeline locally right now (`/drop-research` → `/drop-write 1` → `/drop-tip` or `/drop-news` per the cadence in `/daily-drop` → `/drop-assemble`), then continue from step 3.
 
-2. **Merge it.** Confirm the working tree is clean (stop and report if not). Merge the drop branch into `main` (prefer merging the PR with `gh pr merge --merge`; otherwise `git merge --ff-only origin/drop/{today}` after checking out main). Do not force anything; if the merge isn't clean, stop and show the conflict.
+2. **Merge it.** Confirm the working tree is clean (stop and report if not). Check out `main`, then merge the branch from step 1 into it: `git merge --ff-only {ref}` (the cloud branch is one commit on top of main, so this fast-forwards); if ff-only is refused because main advanced, fall back to `git merge --no-ff {ref}`. Prefer `gh pr merge --merge` if `gh` is available. Do not force anything; if the merge isn't clean, stop and show the conflict.
 
 3. **Re-validate locally.** Run `php bin/daily-drop-build.php`. Exit 0 required; surface every warning to Bryan (the cloud agent should have listed them in the PR body — re-check anyway). Hard error → fix per `/drop-assemble` rules, re-run.
 

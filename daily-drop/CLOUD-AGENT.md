@@ -24,9 +24,9 @@ Instructions for the **scheduled Claude cloud routine** that generates each day'
    4. `/drop-assemble` (drop-assemble.md): run `php bin/daily-drop-build.php` — **it must exit 0**. Fix hard errors it names. Fix warnings you can fix with targeted edits (banned phrase, em dash, length); leave judgment calls and note them.
 
 5. **Deliver as a PR.**
-   - Branch: `drop/YYYY-MM-DD` (today, UTC).
+   - **Branch:** commit on the sandbox's own working branch (the auto-generated `claude/…` branch you start on). The cloud GitHub proxy **only lets you push to that branch** — do NOT try to create or push a `drop/YYYY-MM-DD` branch; the push will be rejected. The branch *name* doesn't matter; the PR title and commit subject are the contract `/morning` keys off.
    - Commit all generated `daily-drop/` files with message `Drop YYYY-MM-DD: {review title}` (+ tip/news title if present).
-   - Open a PR titled `Drop YYYY-MM-DD` against `main`. PR body: the build script's per-post summary, remaining warnings (or "no warnings"), and one line per post: type, title, category, word count.
+   - Open a PR **titled exactly `Drop YYYY-MM-DD`** against `main` (this title is how `/morning` finds the drop — it must be exact). PR body: the build script's per-post summary, remaining warnings (or "no warnings"), and one line per post: type, title, category, word count.
    - Do NOT merge the PR. Do NOT touch anything outside `daily-drop/`.
 
 ## Hard rules
