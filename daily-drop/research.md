@@ -1,27 +1,27 @@
-DATE: 2026-07-05
-DEDUPE: checked against 28 existing products
-BRIEF: stale/missing — editorial pick (no daily-drop/seo-brief.md present)
+DATE: 2026-07-06
+DEDUPE: checked against 29 existing products
+BRIEF: stale/missing — editorial pick
 
 ===PRODUCT 1===
-NAME: 8BitDo Ultimate 2 Wireless Controller
-ASIN: B0DR8Y5W6Z
-PRICE: $59.99
-TRENDING: New 2026 successor to 8BitDo's popular Ultimate controller, upgrading to TMR thumbsticks and drawing strong buyer interest as the budget-premium PC/Steam controller of the year.
-ANGLE: The sub-$60 controller that finally solves stick drift (TMR sticks, not just Hall effect) — plus the one thing buyers get wrong: the Wireless version does NOT work on Nintendo Switch (you need the Bluetooth version for that).
-KEYWORD: 8BitDo Ultimate 2 Wireless review
-TARGET_QUERY: 8bitdo ultimate 2 wireless controller review
-CATEGORY: Gaming
-TAGS: 8bitdo | game controller | pc gaming | tmr joysticks | steam deck
-ALTERNATIVES: 8BitDo Ultimate 2 Bluetooth version (~$69, adds Nintendo Switch / Switch 2 support) | no-review; Nintendo Switch 2 | /posts/nintendo-switch-2-bundle-pick-your-first-game
+NAME: Soundcore Liberty 5 Pro
+ASIN: B0GWLH8Z7D
+PRICE: $169.99
+TRENDING: Launched May 2026 and certified by Guinness World Records in April 2026 for the highest objective speech-quality score of any TWS earbuds, driven by a new 10-sensor mic array and Anker's THUS AI chip.
+ANGLE: The natural upgrade question for our existing Liberty 4 Pro readers — does the new AI call-focused Liberty 5 Pro justify the jump, and who is it actually for (commuters and heavy callers vs. music-first listeners)?
+KEYWORD: soundcore liberty 5 pro review
+TARGET_QUERY: soundcore liberty 5 pro review
+CATEGORY: Audio & Home Theater
+TAGS: wireless earbuds | noise cancelling | soundcore | anker | call quality
+ALTERNATIVES: Soundcore Liberty 4 Pro | /posts/soundcore-liberty-4-pro-buyers-guide ; Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them
 
 ===PRODUCT 2===
-NAME: Crucial X9 Pro Portable SSD (1TB)
-ASIN: B0C9WKGXHD
-PRICE: $84
-TRENDING: Consistently one of the best-selling and best-reviewed pocket portable SSDs, with a street price that swings enough (seen as low as ~$70) to reward buyers who watch it.
-ANGLE: The pocket SSD pros trust for photo and video offload — and how to tell when its fluctuating price is an actual deal versus just noise.
-KEYWORD: Crucial X9 Pro review
-TARGET_QUERY: crucial x9 pro portable ssd review
+NAME: Amazon Kindle Colorsoft (16 GB, 7-inch)
+ASIN: B0CGVSKR1G
+PRICE: $249.99
+TRENDING: Amazon's color e-ink Kindle is a steady best-seller and its 2026 refresh keeps drawing "is color worth it" buyer searches, with recent price dips fueling renewed interest.
+ANGLE: Honest "is the color screen worth the premium" breakdown — who benefits (comics, cookbooks, kids' books, magazines) vs. plain-text novel readers who should save money on a Paperwhite.
+KEYWORD: kindle colorsoft review
+TARGET_QUERY: kindle colorsoft review
 CATEGORY: Computers & Accessories
-TAGS: portable ssd | external storage | crucial | usb-c | content creation
-ALTERNATIVES: Samsung T7 Shield (rugged portable SSD rival) | no-review; Logitech MX Master 3S | /posts/logitech-mx-master-3s-why-worth-it
+TAGS: e-reader | kindle | color display | amazon devices | reading
+ALTERNATIVES: Kobo Clara Colour | no-review ; Kindle Paperwhite | no-review
