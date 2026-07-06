@@ -84,12 +84,16 @@ return [
                 'mode'         => env('SOCIAL_BLUESKY_MODE', 'manual'),
                 'handle'       => env('BLUESKY_HANDLE'),
                 'app_password' => env('BLUESKY_APP_PASSWORD'),
+                'service'      => env('BLUESKY_SERVICE', 'https://bsky.social'),
             ],
             'facebook' => [
                 'enabled'    => env('SOCIAL_FACEBOOK_ENABLED', false),
                 'mode'       => env('SOCIAL_FACEBOOK_MODE', 'manual'),
                 'page_id'    => env('FACEBOOK_PAGE_ID'),
                 'page_token' => env('FACEBOOK_PAGE_TOKEN'),
+                // Always pin: unversioned Graph calls default to the OLDEST
+                // live version, not the newest.
+                'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v25.0'),
             ],
         ],
     ],

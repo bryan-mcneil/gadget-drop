@@ -2,6 +2,7 @@
 
 namespace App\Services\Social;
 
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -28,7 +29,21 @@ class SocialDriverManager
 
     private function apiDriver(string $platform): SocialDriver
     {
-        // Bluesky (Phase 3) and Facebook (Phase 4) drivers register here.
-        throw new RuntimeException("No API driver built for {$platform} yet — set its mode to 'manual'.");
+        $driver = match ($platform) {
+            'bluesky'  => app(BlueskyDriver::class),
+            'facebook' => app(FacebookDriver::class),
+            default    => throw new RuntimeException("No API driver built for {$platform} yet — set its mode to 'manual'."),
+        };
+
+        if ($driver->isConfigured()) {
+            return $driver;
+        }
+
+        // api mode without credentials degrades to the copy-paste queue
+        // instead of burning retries — same "no-op without creds" contract
+        // as the Search Intel services.
+        Log::warning("{$platform} mode is \"api\" but its credentials are not set — routing to the manual queue.");
+
+        return app(ManualDriver::class);
     }
 }

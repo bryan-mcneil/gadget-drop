@@ -85,8 +85,15 @@ class SocialPublishCommandTest extends TestCase
 
     public function test_repeated_failures_downgrade_to_the_manual_queue(): void
     {
-        // 'api' mode has no driver yet, so every attempt throws — the retry path.
-        config(['services.social.platforms.bluesky.mode' => 'api']);
+        // A configured API driver whose endpoint keeps erroring — the retry path.
+        config([
+            'services.social.platforms.bluesky.mode' => 'api',
+            'services.social.platforms.bluesky.handle' => 'gadgetdrop.tech',
+            'services.social.platforms.bluesky.app_password' => 'xxxx-xxxx-xxxx-xxxx',
+        ]);
+        \Illuminate\Support\Facades\Http::fake([
+            'bsky.social/*' => \Illuminate\Support\Facades\Http::response(['message' => 'Upstream Failure'], 502),
+        ]);
         $post = $this->publishedPost();
 
         $this->artisan('social:publish')->assertSuccessful();
