@@ -95,6 +95,12 @@ return [
                 // live version, not the newest.
                 'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v25.0'),
             ],
+            // Manual-only until the paid API comes off the backburner (Phase 6):
+            // composed at 280 chars, pasted via /admin/social's intent link.
+            'x' => [
+                'enabled' => env('SOCIAL_X_ENABLED', false),
+                'mode'    => env('SOCIAL_X_MODE', 'manual'),
+            ],
         ],
     ],
 
