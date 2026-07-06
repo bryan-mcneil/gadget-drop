@@ -29,6 +29,10 @@
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="GSC_PROPERTY" value=""/>
+        <env name="GSC_CREDENTIALS_PATH" value=""/>
+        <env name="BING_WEBMASTER_API_KEY" value=""/>
+        <env name="INDEXNOW_KEY" value=""/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>

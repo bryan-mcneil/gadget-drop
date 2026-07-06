@@ -6,9 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Post;
-use App\Models\Product;
 
 class WeeklyDigest extends Mailable
 {
@@ -58,16 +58,20 @@ class WeeklyDigest extends Mailable
             ->latest('published_at')
             ->first(['id', 'title', 'slug']);
 
+        // No stored price in the email: it freezes at send time, and Amazon §2(b)
+        // only allows prices served by Amazon or its API. The dated "price checked"
+        // line + a click-through is the compliant framing.
         $this->spotlight = null;
         if ($spotlightPost && $spotlightPost->products->isNotEmpty()) {
             $p = $spotlightPost->products->first();
             $this->spotlight = [
-                'name'          => $p->name,
-                'price'         => $p->price,
-                'image_url'     => $p->image_url,
-                'affiliate_url' => $p->affiliate_url,
-                'post_title'    => $spotlightPost->title,
-                'post_url'      => url('/posts/' . $spotlightPost->slug),
+                'name'             => $p->name,
+                'brand'            => $p->brand,
+                'image_url'        => $p->image_url,
+                'out_url'          => route('affiliate.redirect', $p) . '?post=' . $spotlightPost->id,
+                'price_checked_at' => $p->price_checked_at?->format('M j'),
+                'post_title'       => $spotlightPost->title,
+                'post_url'         => url('/posts/' . $spotlightPost->slug),
             ];
         }
     }
@@ -75,7 +79,16 @@ class WeeklyDigest extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'This Week\'s Drop 🔥 — ' . now()->format('M j, Y'),
+            subject: !empty($this->posts)
+                ? 'This week\'s drop: ' . $this->posts[0]['title']
+                : 'The Weekly Drop — ' . now()->format('M j, Y'),
+        );
+    }
+
+    public function headers(): Headers
+    {
+        return new Headers(
+            text: ['List-Unsubscribe' => '<' . $this->unsubscribeUrl . '>'],
         );
     }
 
