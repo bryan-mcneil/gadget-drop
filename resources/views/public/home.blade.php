@@ -38,7 +38,7 @@
     {{-- ── Hero carousel (full width) ── --}}
     @if(count($heroSlides) > 0)
         @php $count = count($heroSlides); @endphp
-        <section x-data="heroCarousel({{ $count }})" @mouseenter="paused = true" @mouseleave="paused = false"
+        <section id="hero" x-data="heroCarousel({{ $count }})" @mouseenter="paused = true" @mouseleave="paused = false"
             @touchstart.passive="touchStart($event)" @touchend.passive="touchEnd($event)"
             class="relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
             @foreach($heroSlides as $i => $slide)
@@ -114,7 +114,7 @@
 
     {{-- ── Categories strip ── --}}
     @if(count($categories) > 0)
-        <section class="relative py-12" style="background: {{ $darkBg }}">
+        <section id="category" class="relative py-12" style="background: {{ $darkBg }}">
             <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px); background-size: 28px 28px;"></div>
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
@@ -191,7 +191,7 @@
          Display-only props — the secret answer is read server-side by the
          Livewire component, never passed here. ── --}}
     @if($dropPrice)
-        <x-drop-price.band>
+        <x-drop-price.band id="drop-price">
             <div class="relative max-w-6xl mx-auto px-4 py-10 md:py-14">
                 @livewire('drop-price', ['number' => $dropPrice['number'], 'name' => $dropPrice['name'], 'image' => $dropPrice['image']])
             </div>
@@ -200,7 +200,7 @@
 
     {{-- ── Top Picks ── --}}
     @if(count($topPicks) > 0)
-        <section class="relative bg-slate-50 py-14 overflow-hidden">
+        <section id="week-top-picks" class="relative bg-slate-50 py-14 overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
             <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-indigo-100/70 blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-purple-100/60 blur-3xl pointer-events-none"></div>
@@ -254,7 +254,7 @@
     {{-- ── Featured Spotlight ── --}}
     @if($spotlight)
         @php $sp = $spotlight['product']; $spPost = $spotlight['post']; @endphp
-        <section class="relative py-16 overflow-hidden" style="background: {{ $spotlightBg }}">
+        <section id="editor-pick" class="relative py-16 overflow-hidden" style="background: {{ $spotlightBg }}">
             <div class="absolute left-0 top-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full bg-indigo-700/15 blur-[100px] pointer-events-none"></div>
             <div class="absolute right-0 bottom-0 w-72 h-72 rounded-full bg-purple-700/10 blur-[80px] pointer-events-none"></div>
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
@@ -311,7 +311,7 @@
     @endif
 
     {{-- ── Recent Drops ── --}}
-    <div class="relative">
+    <div id="recent-drops" class="relative">
         <div class="h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
         <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
             <main class="lg:col-span-3">
@@ -373,7 +373,7 @@
     {{-- ── Breaking News ── --}}
     @if(count($latestNews) > 0)
         @php $bn = $latestNews[0]; $bnBreaking = $isWithin24h($bn['published_at_iso']); $bnImg = $bn['hero_image'] ?? $bn['featured_image']; @endphp
-        <section class="relative overflow-hidden" style="background: {{ $darkBg }}">
+        <section id="news" class="relative overflow-hidden" style="background: {{ $darkBg }}">
             <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 via-red-400 to-rose-600 z-10"></div>
             <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px); background-size: 28px 28px;"></div>
             <div class="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-rose-700/10 blur-3xl pointer-events-none"></div>
@@ -418,7 +418,7 @@
             $featured = $featuredTools[0] ?? $tools[0];
             $rest = array_slice($featuredTools, 1);
         @endphp
-        <section class="bg-gray-100 py-16 relative overflow-hidden">
+        <section id="tools" class="bg-gray-100 py-16 relative overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="max-w-6xl mx-auto px-4">

@@ -1,4 +1,4 @@
-<footer class="relative bg-slate-900 text-gray-400">
+<footer id="footer" class="relative bg-slate-900 text-gray-400">
     {{-- Signature: the header megamenus' per-section gradient rules, compressed
          into one hairline — the whole site's colour system (brand · deals · news). --}}
     <div class="h-0.5 bg-gradient-to-r from-indigo-500 via-sky-400 to-rose-400"></div>

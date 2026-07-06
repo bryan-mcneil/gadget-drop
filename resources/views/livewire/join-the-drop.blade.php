@@ -1,4 +1,4 @@
-<section class="relative py-20 overflow-hidden" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 45%, #6d28d9 100%)">
+<section id="subscribe" class="relative py-20 overflow-hidden" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 45%, #6d28d9 100%)">
     {{-- Concentric decorative rings --}}
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-white/[0.04] pointer-events-none"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full border border-white/[0.06] pointer-events-none"></div>
