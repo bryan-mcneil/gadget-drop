@@ -84,14 +84,18 @@ class SocialController extends Controller
     }
 
     /**
-     * Deep link into the platform's composer. Bluesky supports text prefill via
-     * its intent URL; Facebook forbids prefilled sharer text, so that link just
-     * opens facebook.com (or the configured Page) with the copy on the clipboard.
+     * Deep link into the platform's composer. Bluesky and X support text
+     * prefill via intent URLs; Facebook forbids prefilled sharer text, so that
+     * link just opens the Page with the copy on the clipboard.
      */
     private function composeUrl(SocialPost $row): string
     {
         if ($row->platform === 'bluesky') {
             return 'https://bsky.app/intent/compose?text=' . rawurlencode($row->body);
+        }
+
+        if ($row->platform === 'x') {
+            return 'https://x.com/intent/post?text=' . rawurlencode($row->body);
         }
 
         if ($row->platform === 'facebook') {

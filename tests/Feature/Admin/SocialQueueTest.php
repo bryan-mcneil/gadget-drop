@@ -57,6 +57,17 @@ class SocialQueueTest extends TestCase
             );
     }
 
+    public function test_x_rows_get_a_prefilled_intent_composer_link(): void
+    {
+        $row = $this->readyRow(['platform' => 'x']);
+
+        $this->actingAs(User::factory()->create())
+            ->get('/admin/social')
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('queue.0.compose_url', fn ($url) => str_starts_with($url, 'https://x.com/intent/post?text='))
+            );
+    }
+
     public function test_pending_and_history_sections_are_separated_from_the_queue(): void
     {
         $this->readyRow();
