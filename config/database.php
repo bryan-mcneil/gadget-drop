@@ -21,6 +21,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Destructive Command Opt-In
+    |--------------------------------------------------------------------------
+    |
+    | Outside the testing environment, destructive artisan commands
+    | (migrate:fresh / migrate:refresh / migrate:reset / db:wipe) are
+    | prohibited unless this is explicitly set to true in .env. Guards the
+    | real MySQL data against accidental wipes (see tests/bootstrap.php).
+    |
+    */
+
+    'allow_destructive' => env('DB_ALLOW_DESTRUCTIVE', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Database Connections
     |--------------------------------------------------------------------------
     |

@@ -156,3 +156,37 @@ input[type=number].no-spinner {
     60%  { transform: scale(1.03); }
     100% { opacity: 1; transform: scale(1); }
 }
+
+/* Direction hint ("↑ aim higher") — the row's actionable instruction.
+   .dp-hint clips a gradient to the text (bright slate base with a gold
+   shine band parked off-screen); .dp-hint--live, applied to the LATEST
+   guess row only, sweeps the shine across on a loop so the eye lands on
+   the freshest hint. The arrow bobs in the aim direction on that row. */
+.dp-hint {
+    background: linear-gradient(110deg, #cbd5e1 42%, #fde68a 50%, #cbd5e1 58%);
+    background-size: 240% 100%;
+    background-position: 160% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.dp-hint--live {
+    animation: hint-shine 2.4s linear infinite;
+}
+@keyframes hint-shine {
+    0%        { background-position: 160% center; }
+    55%, 100% { background-position: -80% center; }
+}
+.dp-arrow-up   { animation: arrow-nudge-up 1.4s ease-in-out infinite; }
+.dp-arrow-down { animation: arrow-nudge-down 1.4s ease-in-out infinite; }
+@keyframes arrow-nudge-up {
+    0%, 100% { transform: translateY(1px); }
+    50%      { transform: translateY(-2px); }
+}
+@keyframes arrow-nudge-down {
+    0%, 100% { transform: translateY(-1px); }
+    50%      { transform: translateY(2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .dp-hint--live, .dp-arrow-up, .dp-arrow-down { animation: none; }
+}

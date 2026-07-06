@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Support\NavigationData;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -26,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // migrate:fresh/refresh/reset/rollback and db:wipe are banned on every
+        // environment except testing (sqlite :memory:) unless .env opts in with
+        // DB_ALLOW_DESTRUCTIVE=true. Last line of defense for the real MySQL
+        // data if tests ever boot against it again (see tests/bootstrap.php).
+        DB::prohibitDestructiveCommands(
+            ! $this->app->environment('testing') && ! config('database.allow_destructive'),
+        );
+
         Vite::prefetch(concurrency: 3);
 
         // Force https for all generated URLs (sitemap, canonical, OG) in production
