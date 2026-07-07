@@ -1,27 +1,27 @@
-DATE: 2026-07-06
-DEDUPE: checked against 29 existing products
-BRIEF: stale/missing — editorial pick
+DATE: 2026-07-07
+DEDUPE: checked against 30 existing products
+BRIEF: missing — editorial pick (no daily-drop/seo-brief.md present)
 
 ===PRODUCT 1===
-NAME: Soundcore Liberty 5 Pro
-ASIN: B0GWLH8Z7D
-PRICE: $169.99
-TRENDING: Launched May 2026 and certified by Guinness World Records in April 2026 for the highest objective speech-quality score of any TWS earbuds, driven by a new 10-sensor mic array and Anker's THUS AI chip.
-ANGLE: The natural upgrade question for our existing Liberty 4 Pro readers — does the new AI call-focused Liberty 5 Pro justify the jump, and who is it actually for (commuters and heavy callers vs. music-first listeners)?
-KEYWORD: soundcore liberty 5 pro review
-TARGET_QUERY: soundcore liberty 5 pro review
+NAME: JBL Xtreme 5 - Portable Waterproof Speaker with Massive Legendary JBL Sound, Ambient Edge Lighting, Convenient Shoulder Strap, Supports Lossless USB-C Audio, Built-in powerbank & Auracast (Black)
+ASIN: B0GHYH9DN9
+PRICE: $399
+TRENDING: TechRadar's top-rated audio gadget of July 2026 (5 stars) and a headline Prime Day speaker pick, driving heavy "worth it?" buyer intent.
+ANGLE: Is the $399 Xtreme 5 the last portable speaker you'll buy? The swappable battery pack, 24-hour playtime, IP68 rating and USB-C lossless audio make a "buy-it-for-life" case — measured honestly against the Xtreme 4 it replaces and the tiny JBL Go 5 buyers usually start with.
+KEYWORD: JBL Xtreme 5 review
+TARGET_QUERY: JBL Xtreme 5 review
 CATEGORY: Audio & Home Theater
-TAGS: wireless earbuds | noise cancelling | soundcore | anker | call quality
-ALTERNATIVES: Soundcore Liberty 4 Pro | /posts/soundcore-liberty-4-pro-buyers-guide ; Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them
+TAGS: bluetooth speaker | portable speaker | JBL | waterproof speaker | party speaker
+ALTERNATIVES: JBL Go 5 | /posts/jbl-go-5-review-bluetooth-speaker ; Bose SoundLink Max | no-review
 
 ===PRODUCT 2===
-NAME: Amazon Kindle Colorsoft (16 GB, 7-inch)
-ASIN: B0CGVSKR1G
-PRICE: $249.99
-TRENDING: Amazon's color e-ink Kindle is a steady best-seller and its 2026 refresh keeps drawing "is color worth it" buyer searches, with recent price dips fueling renewed interest.
-ANGLE: Honest "is the color screen worth the premium" breakdown — who benefits (comics, cookbooks, kids' books, magazines) vs. plain-text novel readers who should save money on a Paperwhite.
-KEYWORD: kindle colorsoft review
-TARGET_QUERY: kindle colorsoft review
-CATEGORY: Computers & Accessories
-TAGS: e-reader | kindle | color display | amazon devices | reading
-ALTERNATIVES: Kobo Clara Colour | no-review ; Kindle Paperwhite | no-review
+NAME: DJI Osmo Pocket 3, Vlogging Cameras with 1'' CMOS & 4K/120fps Vlog Camera, 3-Axis Stabilization, Fast Focusing, Face/Object Tracking, Digital Vlogging Camera for YouTube
+ASIN: B0CG19QXWD
+PRICE: $499
+TRENDING: Repeatedly hitting record-low prices during Prime Day 2026 with fresh Pocket 4 rumors, keeping "buy now or wait" search demand high.
+ANGLE: The pocket vlogging camera creators keep recommending — 1-inch sensor, gimbal stabilization, rotating screen. With Pocket 4 rumored but not on sale in the US, the honest question is whether to grab the Pocket 3 at its current price or hold.
+KEYWORD: DJI Osmo Pocket 3 review
+TARGET_QUERY: DJI Osmo Pocket 3 review
+CATEGORY: Cameras
+TAGS: vlogging camera | DJI | gimbal camera | 4K camera | content creation
+ALTERNATIVES: GoPro HERO13 Black | /posts/gopro-hero13-black-review ; Insta360 Ace Pro 2 | no-review
