@@ -1,27 +1,27 @@
-DATE: 2026-07-08
-DEDUPE: checked against 31 existing products
-BRIEF: no demand-backed candidates yet (seo-brief.md 2026-07-07 says "No opportunities yet") — editorial pick
+DATE: 2026-07-09
+DEDUPE: checked against 32 existing products
+BRIEF: no demand-backed candidates yet ("No opportunities yet" in seo-brief.md dated 2026-07-08) — editorial pick
 
 ===PRODUCT 1===
-NAME: Ring Battery Doorbell (2nd Gen)
-ASIN: B0FHJ7TKZM
-PRICE: $99.99
-TRENDING: Ring's 2026 refresh pushes its entry battery doorbell to Retinal 2K (up from 1536p) at the same $99.99 price, and it's charting on Amazon's electronics best-sellers after the launch.
-ANGLE: The honest buyer question — is the 2K jump plus wire-free install worth it, and what does the Ring Protect subscription ($4.99/mo) actually cost you before the "smart" alerts work? Add our price tracking and a clear ladder to the Plus/Pro (2nd Gen).
-KEYWORD: Ring Battery Doorbell 2nd Gen review
-TARGET_QUERY: ring battery doorbell 2nd gen review
-CATEGORY: Smart Home
-TAGS: video doorbell | ring | home security | smart home | 2K camera
-ALTERNATIVES: Ring Battery Doorbell Plus (2nd Gen) | no-review | Echo Show 8 (3rd Gen) as a live viewer | /posts/echo-show-8-3rd-gen-worth-buying
+NAME: Marshall Milton A.N.C. Wireless On-Ear Headphones - Adaptive Noise Cancellation | 80 Hr Playtime | Microphone for Calls | Durable & Foldable Design for Travel | Spatial Audio - Black
+ASIN: B0GLSPPZJ4
+PRICE: $229
+TRENDING: Just landed on Amazon after May 2026 launch and is drawing a wave of press (TechRadar, Engadget, SoundGuys) as one of the only premium on-ear ANC headphones in a market that has almost entirely moved to over-ear.
+ANGLE: On-ear ANC is nearly extinct — make the honest buyer's case for who a $229 on-ear pair actually suits (small heads, glasses wearers, packability) versus the default over-ear buy, and lean on the standout longevity story: a user-replaceable battery and 80 hr playtime.
+KEYWORD: Marshall Milton ANC review
+TARGET_QUERY: marshall milton anc review
+CATEGORY: Audio & Home Theater
+TAGS: headphones | noise cancelling | Marshall | on-ear | wireless audio
+ALTERNATIVES: Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them ; Sony WH-1000XM6 | no-review
 
 ===PRODUCT 2===
-NAME: SHOKZ OpenRun Pro 2 (Bone Conduction)
-ASIN: B0D2HKCMBP
-PRICE: $139 (list $179.95)
-TRENDING: Recurring "record-low" price drops through 2026 have kept the open-ear/bone-conduction sport headphone on best-seller and deal roundups for runners and cyclists.
-ANGLE: Who should buy open-ear bone conduction over sealed earbuds — the situational-awareness trade (hear traffic) vs. the bass/isolation you give up — plus our price history so buyers know if the "record low" is real.
-KEYWORD: Shokz OpenRun Pro 2 review
-TARGET_QUERY: shokz openrun pro 2 review
+NAME: Sennheiser Momentum 5 Wireless Noise Cancelling Headphones
+ASIN: B0H1YDZJQP
+PRICE: $399.95
+TRENDING: Sennheiser's 2026 flagship over-ear ANC pair; What Hi-Fi and others rate it a top premium contender, with 57 hr battery, adaptive ANC, Dolby Atmos and aptX Lossless.
+ANGLE: Is the $400 flagship worth the premium over the $329-$350 over-ear crowd, and where its lossless/Atmos support actually pays off versus where it's marketing.
+KEYWORD: Sennheiser Momentum 5 Wireless review
+TARGET_QUERY: sennheiser momentum 5 wireless review
 CATEGORY: Audio & Home Theater
-TAGS: bone conduction | open-ear | running headphones | shokz | sport audio
-ALTERNATIVES: Shokz OpenRun (original) | no-review | Soundcore Liberty 5 Pro (sealed alternative) | /posts/soundcore-liberty-5-pro-review-worth-the-upgrade
+TAGS: headphones | noise cancelling | Sennheiser | over-ear | wireless audio
+ALTERNATIVES: Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them ; Sony WH-1000XM6 | no-review

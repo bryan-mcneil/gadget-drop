@@ -1,98 +1,93 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Ring Battery Doorbell (2nd Gen) Review: 2K on a Budget
-EXCERPT: Our Ring Battery Doorbell 2nd Gen review: the $100 model jumps to 2K video and wire-free install, but the Ring Protect subscription is the real cost.
+TITLE: Marshall Milton ANC Review: Is On-Ear ANC Worth It?
+EXCERPT: Our Marshall Milton ANC review digs into the rare premium on-ear pair: 50 hours of ANC, a replaceable battery, and the one flaw buyers should know first.
 TYPE: article
-CATEGORY: Smart Home
-TAGS: video doorbell | ring | home security | smart home | 2K camera
-ASIN: B0FHJ7TKZM
+CATEGORY: Audio & Home Theater
+TAGS: headphones | noise cancelling | Marshall | on-ear | wireless audio
+ASIN: B0GLSPPZJ4
 RATING: 4
 PROS:
-- Sharp 2K video with 6x zoom for $100
-- Wire-free install, recharge every few months
-- Head-to-toe 173-degree field of view
-- Plays nicely with Alexa and Echo Show
+- 50-hour ANC battery outlasts nearly every rival
+- Replaceable battery extends useful life for years
+- Compact on-ear fit suits glasses wearers
+- LDAC and Bluetooth 6.0 for hi-res streaming
 CONS:
-- Recording needs a paid Ring Protect plan
-- No pre-roll clip on this model
+- Call quality and low-end ANC lag flagship over-ears
 SEO_SCORE: 92
-META_TITLE: Ring Battery Doorbell (2nd Gen) Review: 2K for $100
-META_DESCRIPTION: Our Ring Battery Doorbell 2nd Gen review covers the 2K upgrade, wire-free install, battery life, and whether the Ring Protect fee is worth it.
-FOCUS_KEYWORD: Ring Battery Doorbell 2nd Gen review
-TARGET_QUERY: ring battery doorbell 2nd gen review
-SLUG: ring-battery-doorbell-2nd-gen-review
+META_TITLE: Marshall Milton ANC Review: Is On-Ear ANC Worth It?
+META_DESCRIPTION: Our Marshall Milton ANC review covers battery, sound, ANC, and the replaceable battery, plus the one weak spot buyers should know before paying $229.
+FOCUS_KEYWORD: Marshall Milton ANC review
+TARGET_QUERY: marshall milton anc review
+SLUG: marshall-milton-anc-review
 BODY:
-You order something, the delivery photo shows it on your step, and by the time you get home it's gone. A doorbell camera won't stop a porch thief, but it does turn "I have no idea what happened" into a clip you can hand the police or show the delivery company. The question has always been how much you need to spend to get video that's actually readable. Ring's answer for 2026 is $99.99.
+On-ear headphones almost went extinct. Walk the headphone wall at any store in 2026 and it's a sea of over-ear cans and tiny earbuds, with the compact pads that rest on your ears nowhere to be found. Marshall clearly didn't get the memo. The Milton ANC is a $229 on-ear pair with adaptive noise cancelling, 50 hours of battery with that ANC switched on, and a battery you can actually replace when it wears out. That last detail alone earns it a spot on your shortlist.
 
 ---
 
-## What Is the Ring Battery Doorbell (2nd Gen)?
+## What Is the Marshall Milton ANC?
 
-This Ring Battery Doorbell 2nd Gen review looks at the entry model in Ring's refreshed 2026 lineup. It's the cheapest of three new battery doorbells, sitting below the $179.99 Plus and the 4K Pro. The headline change is resolution: Ring moved the base model up to what it calls Retinal 2K, a square 1920x1920 sensor with a 173-degree diagonal field of view. That square shape matters. It gives you a true head-to-toe view, so you see a package on the mat, not just the top of a delivery driver's hat.
+The Milton ANC is Marshall's first on-ear headphone to include adaptive active noise cancellation. It pairs 32mm drivers with a claimed 20Hz to 40kHz frequency range, runs on Bluetooth 6.0, and supports the SBC, AAC, LC3, and LDAC codecs, so Android owners can stream higher-resolution audio without a cable. Each cup rests on your ear rather than swallowing it, and the whole thing weighs about 200 grams and folds up for travel.
 
-Installation is the easy part. It runs on a built-in rechargeable battery, so there's no wiring to touch and no electrician to call. If you already have doorbell wires or a Ring solar charger, you can trickle-charge it to stretch the time between top-ups. Ring rates it as a five-year device, and the setup runs through the Ring app in a few minutes.
-
----
-
-## Who Should Buy the Ring Battery Doorbell (2nd Gen)?
-
-This one's aimed at renters and first-time buyers who want a name-brand doorbell camera without hardwiring or a big outlay. If you live in an apartment, or your front door has no existing doorbell transformer, the wire-free battery design solves your biggest headache.
-
-It also fits anyone already inside Amazon's ecosystem. If you own an Echo Show or a Fire TV, the live feed pops up on the screen when someone rings, which is genuinely handy when your phone is across the room. Skip it if you want continuous 24/7 recording or local storage you control. Ring is a cloud-and-subscription product at its core, and no amount of hardware buys your way out of that.
+Marshall launched it in May 2026 at $229 with the brand's usual guitar-amp styling: a textured black finish, gold accents, and a single control knob you use to handle playback, volume, and calls. A companion app adds an EQ, a Soundstage spatial-audio mode with adjustable room size, transparency mode, and adaptive loudness that nudges the tuning as your volume changes. On paper, it's a feature set usually reserved for headphones that cost more and sit fully over your ears.
 
 ---
 
-## Features That Actually Matter
+## Who Should Buy the Marshall Milton ANC?
 
-- **Retinal 2K video with 6x zoom.** The step up from 1536p to 2K means you can crop into a license plate or a face and still read it. Professional reviewers rate the daytime image as clearly sharper than the older model.
-- **Wire-free battery you recharge a few times a year.** Verified-purchase owners typically report around three months per charge, though a busy street with constant motion events pulls that down. Solar or hardwire keeps it topped up indefinitely.
-- **Head-to-toe 173-degree view.** The tall aspect ratio captures the ground at your door, so packages and small dogs don't fall out of frame.
-- **Motion alerts and two-way talk.** You get a notification when someone approaches, and you can speak to whoever's there from your phone, no matter where you are.
-- **Alexa integration.** Ask an Echo Show or Fire TV to show the front door and the feed appears on screen.
+This one has a clear audience. If you wear glasses, on-ear pads sit lighter against the temple arms than the tight clamp of many over-ear cans, and reviewers repeatedly call these out as unusually comfortable for the format. If you have a smaller head that gets swallowed by big over-ear cups, the fit lands better here too.
+
+It also suits the traveler who hates recharging. At 50 hours with ANC on, you could fly round-trip across the country several times before hunting for a charger. And because the battery is user-replaceable, this is a rare set of wireless headphones you might still be using in five years rather than tossing when the cell degrades. Skip it if you're a bass-first listener chasing rumble, or if you live on phone calls all day. More on that below.
+
+---
+
+## What the Specs Actually Get You
+
+- **50 hours with ANC on, 80 with it off.** That's not a typo. Most flagship over-ears top out near 30 hours with noise cancelling active, so the Milton roughly doubles the runway between charges.
+- **A replaceable battery.** When the cell eventually fades, you swap it instead of landfilling the headphones. Almost nothing else in this price band offers that.
+- **200 grams and foldable.** Light enough to wear through a long workday, and the hinges collapse the cups down for a bag or a jacket pocket.
+- **LDAC over Bluetooth 6.0.** On a compatible Android phone, LDAC carries more detail than the standard SBC most cheap headphones default to, so higher-quality files actually sound higher quality.
+- **App EQ, Soundstage, and adaptive loudness.** The default tuning leans bright, but the in-app EQ lets you tame the treble and lift the mids to taste, and Soundstage widens the presentation for movies.
 
 ---
 
 ## What You'll Pay
 
-At $99.99 the hardware is priced right for an entry doorbell. The catch, and it's a real one, is the Ring Protect plan. Without a subscription the doorbell still rings and shows a live view, but it records nothing. No subscription means no saved clips to review later, which defeats the porch-pirate use case entirely.
-
-The single-device plan (Ring Protect Solo) runs $4.99 a month or $49.99 a year in 2026, and gives you 180 days of video history for one device. So the honest price of ownership is closer to $150 in year one and $50 every year after. Budget for that before you buy. The price widget above tracks the hardware's real street price over time, so you can see whether today's number is a genuine deal or just the usual $99.
+At $229, the Milton ANC sits in the awkward middle of the headphone market: pricier than the $99 to $150 crowd, but a solid chunk cheaper than the $329 to $400 flagship over-ears from Sony, Bose, and Sennheiser. You're paying for the battery life, the replaceable cell, and Marshall's build and styling rather than class-leading noise cancelling. The live price and its tracked history render in the widget above this article, so you can see where today's number sits against where it's been before you commit.
 
 ---
 
-## Ring Battery Doorbell vs. the Plus and Nest
+## The Marshall Milton ANC vs. the Alternatives
 
-Two comparisons are worth making. Spend the extra $80 on the **Ring Battery Doorbell Plus (2nd Gen)** and you get a quick-release battery pack, so you swap and recharge without pulling the whole unit off the wall, plus color night vision. If you check your camera constantly and hate downtime, the Plus is the smarter buy.
+If you want the same kind of quiet in something that disappears into a pocket, our [Nothing Ear (3) review](/posts/nothing-ear-3-should-you-actually-buy-them) covers a set of earbuds that costs far less and travels lighter, at the expense of the Milton's marathon battery and over-the-head comfort. Earbuds also can't be shared around a desk the way a pair of headphones can.
 
-The bigger rival is Google's Nest Doorbell (battery), which records a few hours of event history with no subscription at all. If you resent paying monthly, Nest's free tier is the reason to walk away from Ring.
-
-One thing Ring does better than most is fit the rest of a smart home. If you already run an Echo Show as a kitchen hub, pairing it with this doorbell turns that screen into a front-door monitor. Our [Echo Show 8 (3rd Gen) review](/posts/echo-show-8-3rd-gen-worth-buying) covers whether that display is worth owning on its own.
+If noise cancelling is the whole point of the purchase, the Sony WH-1000XM6 is the safer buy. It's an over-ear design with a full seal around the ear, which clamps down on airplane and office noise more completely than any on-ear pad can. You'll pay more and lose the replaceable battery, but for a heavy commuter that trade often makes sense.
 
 ---
 
 ## One Thing to Consider
 
-Beyond the subscription lock-in, there's a quieter downside worth knowing. Ring removed pre-roll on this generation of battery models to save power. Pre-roll is the few seconds of footage captured *before* motion triggers a recording, and it's often what shows a thief walking up rather than just walking away. The Pro model and some older units had it, this one doesn't. For most doorstep clips it won't matter, but if you're using the camera for real security, that gap is the reason to look at a wired option or the Pro.
+Two, honestly. First, call quality is the Milton's clear weak point. Reviewers describe the microphone as scratchy and not true to life, with call recipients noting the caller sounded worse than on other headphones. If half your day is on Zoom or the phone, that matters. Second, the noise cancelling is merely good, not great: because on-ear pads don't fully seal around the ear, professional reviewers found the ANC struggles with low rumble and lets some sharper sounds leak through. The stock tuning also runs bright enough to edge toward sibilance on harsh recordings, though the app EQ pulls it back. None of these are dealbreakers for the right buyer, but you should know them before paying.
 
 ---
 
 ## FAQ
 
-**Q: Does the Ring Battery Doorbell work without a subscription?**
-It rings, sends motion alerts, and shows a live view for free, but it won't save any recordings. To review clips later you need a Ring Protect plan, starting at $4.99 a month for one device.
+**Q: Is the Marshall Milton ANC good for phone calls?**
+It's the weakest part of the package. Reviewers consistently flag the microphone as scratchy, and people on the other end of the call reported the caller sounded muffled compared to rival headphones. For occasional calls it's fine; for all-day conferencing, look at an over-ear set with a better boom-free mic array.
 
-**Q: How long does the battery last?**
-Owners generally report around three months per charge, though a high-traffic doorway with frequent motion events drains it faster. Hardwiring to existing doorbell wires or adding a Ring solar charger keeps it topped up so you rarely recharge.
+**Q: How long does the Marshall Milton ANC battery last?**
+Marshall rates it at 80 hours with noise cancelling off and 50 hours with ANC on. Those are unusually high numbers for the category, roughly double what many flagship over-ears manage. A quick charge also delivers several hours of playback from a short top-up.
 
-**Q: Is 2K a real upgrade over the older Ring doorbell?**
-Yes. The jump from 1536p to 2K, combined with 6x zoom, means you can crop into a face or package and still make out detail. Reviewers rate the daytime image as noticeably sharper.
+**Q: Are on-ear headphones like the Milton ANC comfortable with glasses?**
+That's actually one of their strengths. On-ear pads press against the outer ear rather than clamping a seal around it, which puts less pressure on the arms of your glasses. Reviewers repeatedly single out the Milton as one of the comfier on-ear pairs for glasses wearers, though comfort with any on-ear design still comes down to your own ears over long sessions.
 
 ---
 
 ## The Verdict
 
-For $100 the Ring Battery Doorbell (2nd Gen) is the easiest wire-free way into a name-brand doorbell camera, and the 2K jump finally makes the footage worth reviewing. Buy it if you're already in Alexa's world and fine paying $50 a year, but wait for a price dip or look at Nest if the subscription rubs you the wrong way.
+The Marshall Milton ANC is the best argument in years for buying on-ear headphones, thanks to a genuinely huge battery, a replaceable cell, and a light, foldable build that flatters glasses wearers. Buy it if that profile is you; wait for the over-ear crowd if class-leading ANC or call quality tops your list.
 
 ---
 
-If the number in the card above sits at or near $99, this is a straightforward pick. Just remember the plan cost before you commit.
+If the price in the card above sits at or near its usual $229, and you've been eyeing a lighter, longer-lasting alternative to the big over-ear cans, this is an easy pair to say yes to.
