@@ -1,27 +1,27 @@
-DATE: 2026-07-09
-DEDUPE: checked against 32 existing products
-BRIEF: no demand-backed candidates yet ("No opportunities yet" in seo-brief.md dated 2026-07-08) — editorial pick
+DATE: 2026-07-10
+DEDUPE: checked against 33 existing products (reviewed-products API OK)
+BRIEF: no demand-backed candidates yet (seo-brief.md 2026-07-09 says "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: Marshall Milton A.N.C. Wireless On-Ear Headphones - Adaptive Noise Cancellation | 80 Hr Playtime | Microphone for Calls | Durable & Foldable Design for Travel | Spatial Audio - Black
-ASIN: B0GLSPPZJ4
-PRICE: $229
-TRENDING: Just landed on Amazon after May 2026 launch and is drawing a wave of press (TechRadar, Engadget, SoundGuys) as one of the only premium on-ear ANC headphones in a market that has almost entirely moved to over-ear.
-ANGLE: On-ear ANC is nearly extinct — make the honest buyer's case for who a $229 on-ear pair actually suits (small heads, glasses wearers, packability) versus the default over-ear buy, and lean on the standout longevity story: a user-replaceable battery and 80 hr playtime.
-KEYWORD: Marshall Milton ANC review
-TARGET_QUERY: marshall milton anc review
-CATEGORY: Audio & Home Theater
-TAGS: headphones | noise cancelling | Marshall | on-ear | wireless audio
-ALTERNATIVES: Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them ; Sony WH-1000XM6 | no-review
+NAME: Govee Ceiling Light Ultra 21 Inch, 5000LM Smart Flush Mount Ceiling Light Fixture, Matter & Alexa Compatible, RGBIC & Tunable White 2700K-6500K
+ASIN: B0GR9VMV71
+PRICE: ~$250 (MSRP $249.99; seen at $199.99 on sale)
+TRENDING: Just-reviewed April/July 2026 release that turns a ceiling into a 616-LED "canvas"; wave of coverage (Gizmodo, AppleInsider, Reviewed, Matter Alpha) landed this week and buyers are Googling whether the AI-art gimmick is worth $250.
+ANGLE: Cut through the marketing. The pixel/AI art is the headline but reviewers call it blurry; the real value is a genuinely excellent 5000-lumen Matter ceiling light. Is it a smart light that does effects, or an effects gimmick pretending to be a light? Answer honestly.
+KEYWORD: Govee Ceiling Light Ultra review
+TARGET_QUERY: govee ceiling light ultra review
+CATEGORY: Smart Home
+TAGS: govee | smart lighting | matter | rgbic | ceiling light
+ALTERNATIVES: Govee standard RGBIC ceiling light / Nanoleaf | no-review (the cheaper effects-light rival); BenQ ScreenBar Halo 2 | /posts/benq-screenbar-halo-2 (for readers who want task lighting, not ambient ceiling art)
 
 ===PRODUCT 2===
-NAME: Sennheiser Momentum 5 Wireless Noise Cancelling Headphones
-ASIN: B0H1YDZJQP
-PRICE: $399.95
-TRENDING: Sennheiser's 2026 flagship over-ear ANC pair; What Hi-Fi and others rate it a top premium contender, with 57 hr battery, adaptive ANC, Dolby Atmos and aptX Lossless.
-ANGLE: Is the $400 flagship worth the premium over the $329-$350 over-ear crowd, and where its lossless/Atmos support actually pays off versus where it's marketing.
-KEYWORD: Sennheiser Momentum 5 Wireless review
-TARGET_QUERY: sennheiser momentum 5 wireless review
-CATEGORY: Audio & Home Theater
-TAGS: headphones | noise cancelling | Sennheiser | over-ear | wireless audio
-ALTERNATIVES: Nothing Ear 3 | /posts/nothing-ear-3-should-you-actually-buy-them ; Sony WH-1000XM6 | no-review
+NAME: Anbernic RG Rotate Handheld Game Console, 3.5 Inch 360° Swivel Touch Screen, 3+32GB, Android 12 (Polar Black)
+ASIN: B0GZKH3R9Q
+PRICE: ~$88 (Polar Black; Aurora Silver aluminum ~$108)
+TRENDING: The swiveling-screen retro handheld that shipped May 2026 for under $90; ongoing enthusiast buzz (RetroDodo, Notebookcheck, Engadget) over its unusual rotate-to-reveal-controls design at a budget price.
+ANGLE: A genuinely novel form factor at a rare sub-$90 price. Who is the swivel actually for (emulation to N64/PSP, plus a pocketable slab shape), and where the Unisoc T618 / 5-hour battery limit sets expectations.
+KEYWORD: Anbernic RG Rotate review
+TARGET_QUERY: anbernic rg rotate review
+CATEGORY: Gaming
+TAGS: anbernic | retro handheld | emulation | android handheld | budget gaming
+ALTERNATIVES: Retroid Pocket / Anbernic RG Slide | no-review (stronger chips, higher price); 8BitDo Ultimate 2 | /posts/8bitdo-ultimate-2-wireless-review-the-60-drift-fix (for readers who just want a controller for an existing device)
