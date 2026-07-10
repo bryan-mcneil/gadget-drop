@@ -2,6 +2,7 @@
 .DS_Store
 .env
 .env.backup
+.env.dusk.local
 .env.production
 .phpactor.json
 .phpunit.result.cache
@@ -14,6 +15,7 @@
 /.zed
 /auth.json
 /bin/.prod-sync
+/database/dusk.sqlite
 /node_modules
 # public/build is committed on purpose: assets are built locally (npm run build)
 # and deployed atomically with the code via git pull (see bin/deploy.sh).
