@@ -76,7 +76,10 @@ jobs:
       - name: Serve the app
         run: |
           php artisan serve --no-reload &
-          timeout 30 bash -c 'until curl -sf http://127.0.0.1:8000 >/dev/null; do sleep 1; done'
+          # Readiness = the server answers at all, NOT HTTP 2xx: the sqlite
+          # schema doesn't exist until the first test's migrate:fresh, so /
+          # legitimately 500s here (curl -f would wait forever — exit 124).
+          timeout 30 bash -c 'until curl -s -o /dev/null http://127.0.0.1:8000; do sleep 1; done'
 
       - name: Run Dusk suite
         run: php artisan dusk
