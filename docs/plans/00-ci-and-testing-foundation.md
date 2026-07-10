@@ -7,7 +7,7 @@
 ## Phase Log
 
 - [x] Phase 0.1 — GitHub Actions PR gate (commit: 4bd2c62; pint pre-commit: c69643e)
-- [ ] Phase 0.2 — Laravel Dusk local setup + smoke test (commit: )
+- [x] Phase 0.2 — Laravel Dusk local setup + smoke test (commit: 9e0219d)
 - [ ] Phase 0.3 — Weekly/on-demand Dusk CI job (commit: )
 - [ ] Phase 0.4 — Branch protection + docs (commit: )
 
