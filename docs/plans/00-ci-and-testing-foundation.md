@@ -6,7 +6,7 @@
 
 ## Phase Log
 
-- [ ] Phase 0.1 — GitHub Actions PR gate (commit: )
+- [x] Phase 0.1 — GitHub Actions PR gate (commit: 4bd2c62; pint pre-commit: c69643e)
 - [ ] Phase 0.2 — Laravel Dusk local setup + smoke test (commit: )
 - [ ] Phase 0.3 — Weekly/on-demand Dusk CI job (commit: )
 - [ ] Phase 0.4 — Branch protection + docs (commit: )
@@ -97,3 +97,5 @@ No server-side changes — this plan never touches production. Standard template
 ## Build Log
 
 (append one line per phase: date · what happened · surprises)
+
+- 2026-07-09 · Phase 0.1 · Branch `feature/ci-foundation`; pint pre-commit hit 120 files (contingency applied, suite 262 green after); repo had NO `.env.example` — created a sanitized one so CI's `cp .env.example .env` works. Surprise: `SearchBriefCommandTest` `@unlink`s the real tracked `daily-drop/seo-brief.md` on every full-suite run (working-tree pollution — fix as a test-hygiene follow-up).
