@@ -69,9 +69,10 @@ Review checklist: schedule respects free-runner budget (1 run/week); artifacts o
 **Scope:** repo settings (manual, Bryan) + docs.
 
 Steps:
-1. Bryan (manual, guided): GitHub → branch protection on `main`: require `tests`, `assets`, `style` checks; allow admins to bypass (solo-operator escape hatch).
+1. ~~Bryan (manual, guided): GitHub → branch protection on `main`~~ **Amended 2026-07-09:** branch protection is unavailable (private repo on GitHub Free — HTTP 403 "Upgrade to GitHub Pro or make this repository public"). Bryan chose to skip enforcement and document the convention instead: never merge a red PR; `/morning` checks CI status before merging. Revisit if the repo ever goes public or Pro.
 2. Update `docs/OPERATIONS.md`: `/morning` now checks the PR's CI status before merging (CI green replaces nothing — the dry-run import stays — but a red PR is an early stop signal).
 3. Note in `daily-drop/CLOUD-AGENT.md` that PRs must pass CI; content-only PRs shouldn't trip it, so a red run means the agent touched code it shouldn't have.
+4. **Added:** wire the CI check into `.claude/commands/morning.md` step 2 — that file is `/morning`'s executable procedure; OPERATIONS.md alone would describe a check nothing performs.
 
 Commit: `docs(ci): wire CI into morning + cloud-agent runbooks`
 
