@@ -20,23 +20,23 @@ class DashboardTest extends TestCase
     {
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Admin Mystery Widget',
+            'category_id' => $category->id,
+            'name' => 'Admin Mystery Widget',
             'affiliate_url' => 'https://www.amazon.com/dp/B00ADMIN',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => 4242,
-            'description'   => 'A test gadget.',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 4242,
+            'description' => 'A test gadget.',
         ]);
 
         return DropPricePuzzle::create(array_merge([
-            'puzzle_number'        => 7,
-            'date'                 => now()->toDateString(),
-            'product_id'           => $product->id,
-            'price'                => 4242,
-            'product_name'         => $product->name,
-            'product_image_url'    => $product->image_url,
+            'puzzle_number' => 7,
+            'date' => now()->toDateString(),
+            'product_id' => $product->id,
+            'price' => 4242,
+            'product_name' => $product->name,
+            'product_image_url' => $product->image_url,
             'affiliate_product_id' => $product->id,
-            'locked_at'            => now(),
+            'locked_at' => now(),
         ], $overrides));
     }
 
@@ -87,12 +87,12 @@ class DashboardTest extends TestCase
 
         // A future-dated preset queued via the CLI override (still unlocked → no number).
         $this->puzzle([
-            'puzzle_number'     => null,
-            'date'              => now()->addDay()->toDateString(),
-            'locked_at'         => null,
-            'is_preset'         => true,
-            'product_name'      => 'Tomorrow Gizmo',
-            'price'             => 99,
+            'puzzle_number' => null,
+            'date' => now()->addDay()->toDateString(),
+            'locked_at' => null,
+            'is_preset' => true,
+            'product_name' => 'Tomorrow Gizmo',
+            'price' => 99,
         ]);
 
         $this->actingAs(User::factory()->create())

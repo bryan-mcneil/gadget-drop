@@ -15,8 +15,8 @@ use Illuminate\Support\Str;
 class SocialComposer
 {
     private const LIMITS = [
-        'bluesky'  => 300,
-        'x'        => 280,
+        'bluesky' => 300,
+        'x' => 280,
         'facebook' => 5000,
     ];
 
@@ -49,18 +49,18 @@ class SocialComposer
         $room = $limit - $overhead;
 
         if ($room > 20 && $excerpt !== '') {
-            return $title . "\n\n" . Str::limit($excerpt, $room - 1, '…') . "\n\n" . $url;
+            return $title."\n\n".Str::limit($excerpt, $room - 1, '…')."\n\n".$url;
         }
 
-        return Str::limit($title, $limit - Str::length($url) - 3, '…') . "\n\n" . $url;
+        return Str::limit($title, $limit - Str::length($url) - 3, '…')."\n\n".$url;
     }
 
     private function hashtags(Post $post): string
     {
         return match ($post->type) {
-            'tech_tip'  => '#TechTips',
+            'tech_tip' => '#TechTips',
             'tech_news' => '#TechNews',
-            default     => '#tech #gadgets',
+            default => '#tech #gadgets',
         };
     }
 }

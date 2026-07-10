@@ -16,8 +16,8 @@ class LogDriver implements SocialDriver
     {
         Log::info('[social:log-driver] would post', [
             'platform' => $socialPost->platform,
-            'post_id'  => $socialPost->post_id,
-            'body'     => $socialPost->body,
+            'post_id' => $socialPost->post_id,
+            'body' => $socialPost->body,
         ]);
 
         return DriverResult::posted();

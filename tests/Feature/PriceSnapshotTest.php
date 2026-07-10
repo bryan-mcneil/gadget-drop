@@ -19,11 +19,11 @@ class PriceSnapshotTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         return Product::create(array_merge([
-            'category_id'   => $category->id,
-            'name'          => "Widget {$i}",
-            'asin'          => "B00WID{$i}",
+            'category_id' => $category->id,
+            'name' => "Widget {$i}",
+            'asin' => "B00WID{$i}",
             'affiliate_url' => 'https://www.amazon.com/dp/B00WID',
-            'price'         => 100,
+            'price' => 100,
         ], $overrides));
     }
 
@@ -34,8 +34,8 @@ class PriceSnapshotTest extends TestCase
         $this->assertNotNull($product->price_checked_at);
         $this->assertDatabaseHas('product_price_snapshots', [
             'product_id' => $product->id,
-            'price'      => 149.99,
-            'source'     => 'manual',
+            'price' => 149.99,
+            'source' => 'manual',
         ]);
         $this->assertSame(1, $product->priceSnapshots()->count());
     }
@@ -69,5 +69,4 @@ class PriceSnapshotTest extends TestCase
         $this->assertNull($product->price_checked_at);
         $this->assertSame(0, $product->priceSnapshots()->count());
     }
-
 }

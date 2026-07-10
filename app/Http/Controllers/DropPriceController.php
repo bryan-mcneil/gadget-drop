@@ -32,9 +32,9 @@ class DropPriceController extends Controller
             ->orderByDesc('date')
             ->paginate(24)
             ->through(fn (DropPricePuzzle $p) => [
-                'puzzle_number'     => $p->puzzle_number,
-                'date'              => $p->date->format('M j, Y'),
-                'product_name'      => $p->product_name,
+                'puzzle_number' => $p->puzzle_number,
+                'date' => $p->date->format('M j, Y'),
+                'product_name' => $p->product_name,
                 'product_image_url' => $p->product_image_url,
             ]);
 
@@ -43,22 +43,22 @@ class DropPriceController extends Controller
 
             return [
                 'totalPuzzles' => DropPricePuzzle::query()->playable()->count(),
-                'totalPlays'   => $totalPlays,
-                'winRate'      => $totalPlays > 0 ? (int) round(DropPriceResult::avg('won') * 100) : null,
+                'totalPlays' => $totalPlays,
+                'winRate' => $totalPlays > 0 ? (int) round(DropPriceResult::avg('won') * 100) : null,
             ];
         });
 
         view()->share('serverMeta', [
-            'title'       => 'Drop Price Archive | GadgetDrop',
+            'title' => 'Drop Price Archive | GadgetDrop',
             'description' => 'Replay every past Drop Price puzzle. Guess what it sold for — no spoilers, no time pressure.',
-            'og_image'    => null,
-            'og_type'     => 'website',
-            'canonical'   => route('drop-price.index'),
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('drop-price.index'),
         ]);
 
         return view('public.drop-price.index', [
-            'puzzles'   => $puzzles,
-            'stats'     => $stats,
+            'puzzles' => $puzzles,
+            'stats' => $stats,
             'showStats' => $stats['totalPlays'] >= self::MIN_PLAYS_FOR_STATS,
         ]);
     }
@@ -79,14 +79,14 @@ class DropPriceController extends Controller
         }
 
         view()->share('serverMeta', [
-            'title'       => "Drop Price #{$puzzle->puzzle_number} | GadgetDrop",
+            'title' => "Drop Price #{$puzzle->puzzle_number} | GadgetDrop",
             'description' => "Replay Drop Price #{$puzzle->puzzle_number} — guess the price of {$puzzle->product_name}.",
-            'og_image'    => null,
-            'og_type'     => 'website',
-            'canonical'   => route('drop-price.show', $puzzle->puzzle_number),
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('drop-price.show', $puzzle->puzzle_number),
             // Thin/near-duplicate content across days — same noindex treatment
             // ToolController gives individual tool pages.
-            'noindex'     => true,
+            'noindex' => true,
         ]);
 
         return view('public.drop-price.show', ['puzzle' => $puzzle]);

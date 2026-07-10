@@ -31,12 +31,12 @@ class RefreshProductPrices extends Command
         if ($amazon->isConfigured()) {
             $client = $amazon;
             $source = 'pa_api';
-            $limit  = (int) ($this->option('limit') ?: 40);
+            $limit = (int) ($this->option('limit') ?: 40);
         } elseif ($canopy->isConfigured()) {
-            $client    = $canopy;
-            $source    = 'canopy';
+            $client = $canopy;
+            $source = 'canopy';
             $remaining = $canopy->requestsRemainingThisMonth();
-            $limit     = min((int) ($this->option('limit') ?: config('services.canopy.daily_limit', 3)), $remaining);
+            $limit = min((int) ($this->option('limit') ?: config('services.canopy.daily_limit', 3)), $remaining);
 
             if ($limit < 1) {
                 $this->info("Canopy monthly budget exhausted ({$canopy->usageThisMonth()} used) — skipping until next month.");
@@ -75,8 +75,8 @@ class RefreshProductPrices extends Command
             ProductObserver::$source = $source;
 
             $updates = array_filter([
-                'price'               => $data['price'],
-                'amazon_rating'       => $data['amazon_rating'],
+                'price' => $data['price'],
+                'amazon_rating' => $data['amazon_rating'],
                 'amazon_review_count' => $data['amazon_review_count'],
             ], fn ($v) => $v !== null);
 
@@ -91,12 +91,12 @@ class RefreshProductPrices extends Command
 
             ProductObserver::$source = 'manual';
 
-            $priceLabel = $data['price'] !== null ? '$' . number_format($data['price'], 2) : 'no price returned';
+            $priceLabel = $data['price'] !== null ? '$'.number_format($data['price'], 2) : 'no price returned';
             $this->line("  {$product->name}: {$priceLabel}");
         }
 
         if ($source === 'canopy') {
-            $this->info("Canopy usage this month: {$canopy->usageThisMonth()} of " . config('services.canopy.monthly_budget', 90) . '.');
+            $this->info("Canopy usage this month: {$canopy->usageThisMonth()} of ".config('services.canopy.monthly_budget', 90).'.');
         }
 
         return self::SUCCESS;

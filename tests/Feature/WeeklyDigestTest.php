@@ -15,6 +15,7 @@ class WeeklyDigestTest extends TestCase
     use RefreshDatabase;
 
     private Product $product;
+
     private Post $post;
 
     protected function setUp(): void
@@ -24,23 +25,23 @@ class WeeklyDigestTest extends TestCase
         $category = Category::create(['slug' => 'gadgets', 'name' => 'Gadgets']);
 
         $this->product = Product::create([
-            'category_id'      => $category->id,
-            'name'             => 'Widget Pro 2',
-            'asin'             => 'B00WIDGET1',
-            'affiliate_url'    => 'https://www.amazon.com/dp/B00WIDGET1',
-            'image_url'        => 'https://example.com/widget.jpg',
-            'price'            => 49.99,
+            'category_id' => $category->id,
+            'name' => 'Widget Pro 2',
+            'asin' => 'B00WIDGET1',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00WIDGET1',
+            'image_url' => 'https://example.com/widget.jpg',
+            'price' => 49.99,
             'price_checked_at' => now()->subDays(2),
         ]);
 
         $this->post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Widget Pro 2 Review: Worth It',
-            'slug'         => 'widget-pro-2-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'excerpt'      => 'A closer look at the Widget Pro 2.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Widget Pro 2 Review: Worth It',
+            'slug' => 'widget-pro-2-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'excerpt' => 'A closer look at the Widget Pro 2.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $this->post->products()->attach($this->product->id, ['display_order' => 1]);
@@ -51,7 +52,7 @@ class WeeklyDigestTest extends TestCase
         $html = (new WeeklyDigest('https://example.com/unsubscribe/tok'))->render();
 
         $this->assertStringContainsString(
-            route('affiliate.redirect', $this->product) . '?post=' . $this->post->id,
+            route('affiliate.redirect', $this->product).'?post='.$this->post->id,
             $html,
         );
         $this->assertStringNotContainsString('amazon.com', $html);
@@ -61,7 +62,7 @@ class WeeklyDigestTest extends TestCase
     {
         $html = (new WeeklyDigest('https://example.com/unsubscribe/tok'))->render();
 
-        $this->assertStringContainsString('Price checked ' . now()->subDays(2)->format('M j'), $html);
+        $this->assertStringContainsString('Price checked '.now()->subDays(2)->format('M j'), $html);
         $this->assertStringNotContainsString('$49.99', $html);
     }
 

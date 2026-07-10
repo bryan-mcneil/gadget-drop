@@ -33,6 +33,7 @@ class FlagTestingClaims extends Command
 
         if (empty($phrases)) {
             $this->error('No phrases configured in content.testing_claim_phrases.');
+
             return self::FAILURE;
         }
 
@@ -57,12 +58,12 @@ class FlagTestingClaims extends Command
                             $start = max(0, $pos - 60);
                             $findings[] = [
                                 'post_id' => $post->id,
-                                'status'  => $post->status,
-                                'title'   => Str::limit($post->title, 50),
-                                'field'   => $field,
-                                'phrase'  => $phrase,
-                                'snippet' => '…' . trim(mb_substr((string) $post->{$field}, $start, mb_strlen($phrase) + 120)) . '…',
-                                'edit'    => url("/admin/posts/{$post->id}/edit"),
+                                'status' => $post->status,
+                                'title' => Str::limit($post->title, 50),
+                                'field' => $field,
+                                'phrase' => $phrase,
+                                'snippet' => '…'.trim(mb_substr((string) $post->{$field}, $start, mb_strlen($phrase) + 120)).'…',
+                                'edit' => url("/admin/posts/{$post->id}/edit"),
                             ];
                             $offset = $pos + mb_strlen($phrase);
                         }
@@ -83,7 +84,7 @@ class FlagTestingClaims extends Command
             return self::SUCCESS;
         }
 
-        $this->warn(count($findings) . ' testing-claim occurrence(s) found. These posts claim first-hand testing; rewrite to research-based framing (e.g. "verified-purchase owners consistently report…").');
+        $this->warn(count($findings).' testing-claim occurrence(s) found. These posts claim first-hand testing; rewrite to research-based framing (e.g. "verified-purchase owners consistently report…").');
 
         $this->table(
             ['Post', 'Status', 'Title', 'Field', 'Phrase', 'Snippet', 'Edit URL'],

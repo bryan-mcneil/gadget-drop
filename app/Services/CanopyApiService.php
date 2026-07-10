@@ -96,7 +96,7 @@ class CanopyApiService
         $response = Http::timeout(10)
             ->withHeaders(['API-KEY' => $this->apiKey])
             ->post('https://graphql.canopyapi.co/', [
-                'query'     => $query,
+                'query' => $query,
                 'variables' => ['asin' => $asin],
             ]);
 
@@ -111,7 +111,7 @@ class CanopyApiService
         $json = $response->json();
 
         if (! empty($json['errors'])) {
-            throw new \RuntimeException('Canopy API error: ' . json_encode($json['errors']));
+            throw new \RuntimeException('Canopy API error: '.json_encode($json['errors']));
         }
 
         return $json;
@@ -125,17 +125,17 @@ class CanopyApiService
             return null;
         }
 
-        $bullets     = $item['featureBullets'] ?? [];
+        $bullets = $item['featureBullets'] ?? [];
         $description = $bullets ? implode("\n", array_slice((array) $bullets, 0, 5)) : null;
 
         return [
-            'name'                => $item['title'] ?? null,
-            'price'               => isset($item['price']['value']) ? (float) $item['price']['value'] : null,
-            'description'         => $description,
-            'brand'               => $item['brand'] ?? null,
-            'amazon_rating'       => isset($item['rating']) ? (float) $item['rating'] : null,
+            'name' => $item['title'] ?? null,
+            'price' => isset($item['price']['value']) ? (float) $item['price']['value'] : null,
+            'description' => $description,
+            'brand' => $item['brand'] ?? null,
+            'amazon_rating' => isset($item['rating']) ? (float) $item['rating'] : null,
             'amazon_review_count' => isset($item['ratingsTotal']) ? (int) $item['ratingsTotal'] : null,
-            'image_url'           => $item['mainImageUrl'] ?? null,
+            'image_url' => $item['mainImageUrl'] ?? null,
         ];
     }
 
@@ -154,6 +154,6 @@ class CanopyApiService
 
     private function usageKey(): string
     {
-        return 'canopy.usage.' . now()->format('Y-m');
+        return 'canopy.usage.'.now()->format('Y-m');
     }
 }

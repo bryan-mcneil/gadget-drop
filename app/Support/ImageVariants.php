@@ -39,7 +39,7 @@ class ImageVariants
      */
     public static function isVariant(string $relPath): bool
     {
-        return (bool) preg_match('/-(?:' . implode('|', self::WIDTHS) . ')\.webp$/i', $relPath);
+        return (bool) preg_match('/-(?:'.implode('|', self::WIDTHS).')\.webp$/i', $relPath);
     }
 
     /**
@@ -56,20 +56,20 @@ class ImageVariants
         }
 
         $info = pathinfo($relPath);
-        $ext  = strtolower($info['extension'] ?? '');
+        $ext = strtolower($info['extension'] ?? '');
         if (! in_array($ext, self::SOURCE_EXTENSIONS, true) || self::isVariant($relPath)) {
             return [];
         }
 
-        $dir  = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
+        $dir = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
         $name = $info['filename'];
 
         // Plan the variant paths and find which are missing — cheap stat calls.
         $planned = [];
         $missing = [];
         foreach (self::WIDTHS as $w) {
-            $variant       = "{$dir}{$name}-{$w}.webp";
-            $planned[$w]   = $variant;
+            $variant = "{$dir}{$name}-{$w}.webp";
+            $planned[$w] = $variant;
             if ($force || ! $disk->exists($variant)) {
                 $missing[$w] = $variant;
             }
@@ -80,7 +80,7 @@ class ImageVariants
             return array_values($planned);
         }
 
-        $raw  = $disk->get($relPath);
+        $raw = $disk->get($relPath);
         $dims = @getimagesizefromstring($raw);
         if ($dims === false || ($dims[0] ?? 0) <= 0 || ($dims[1] ?? 0) <= 0) {
             return self::existing($disk, $planned);
@@ -104,8 +104,8 @@ class ImageVariants
             $variant = $planned[$w];
 
             if (isset($missing[$w])) {
-                $tw  = min($w, $ow);
-                $th  = max(1, (int) round($oh * ($tw / $ow)));
+                $tw = min($w, $ow);
+                $th = max(1, (int) round($oh * ($tw / $ow)));
                 $dst = imagecreatetruecolor($tw, $th);
                 imagealphablending($dst, false);
                 imagesavealpha($dst, true);
@@ -170,13 +170,13 @@ class ImageVariants
             return -1;
         }
 
-        $unit   = strtolower($value[strlen($value) - 1]);
+        $unit = strtolower($value[strlen($value) - 1]);
         $number = (int) $value;
 
         return match ($unit) {
-            'g'     => $number * 1024 * 1024 * 1024,
-            'm'     => $number * 1024 * 1024,
-            'k'     => $number * 1024,
+            'g' => $number * 1024 * 1024 * 1024,
+            'm' => $number * 1024 * 1024,
+            'k' => $number * 1024,
             default => (int) $value,
         };
     }

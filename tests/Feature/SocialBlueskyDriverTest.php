@@ -38,13 +38,13 @@ class SocialBlueskyDriverTest extends TestCase
         $i++;
 
         return Post::create(array_merge([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Bluesky Post {$i}",
-            'slug'         => "bluesky-post-{$i}",
-            'type'         => 'article',
-            'excerpt'      => 'Short excerpt.',
-            'body'         => 'Body text.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Bluesky Post {$i}",
+            'slug' => "bluesky-post-{$i}",
+            'type' => 'article',
+            'excerpt' => 'Short excerpt.',
+            'body' => 'Body text.',
+            'status' => 'published',
             'published_at' => now(),
         ], $overrides));
     }
@@ -54,7 +54,7 @@ class SocialBlueskyDriverTest extends TestCase
         Http::fake([
             '*/xrpc/com.atproto.server.createSession' => Http::response([
                 'accessJwt' => 'test-jwt',
-                'did'       => 'did:plc:abc123',
+                'did' => 'did:plc:abc123',
             ]),
             '*/xrpc/com.atproto.repo.createRecord' => Http::response([
                 'uri' => 'at://did:plc:abc123/app.bsky.feed.post/3kabc',

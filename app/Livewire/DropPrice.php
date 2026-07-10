@@ -77,9 +77,9 @@ class DropPrice extends Component
     public function mount(int $number, string $name, string $image, ?int $puzzleId = null): void
     {
         $this->puzzleNumber = $number;
-        $this->productName  = $name;
+        $this->productName = $name;
         $this->productImage = $image;
-        $this->puzzleId     = $puzzleId;
+        $this->puzzleId = $puzzleId;
     }
 
     /**
@@ -116,9 +116,9 @@ class DropPrice extends Component
         $result = DropPriceGame::evaluate($this->guess, (int) $puzzle->price);
 
         $this->results[] = [
-            'guess'     => $this->guess,
+            'guess' => $this->guess,
             'direction' => $result['direction'],
-            'band'      => $result['band'],
+            'band' => $result['band'],
         ];
 
         if ($result['won']) {
@@ -151,8 +151,8 @@ class DropPrice extends Component
      * and, if they have finished today's puzzle, sync their streak snapshot and
      * upsert today's result row.
      *
-     * @param array<string, mixed> $stats The client's localStorage streak counters
-     *                                     (advisory bragging stats, sanitized + merged).
+     * @param  array<string, mixed>  $stats  The client's localStorage streak counters
+     *                                       (advisory bragging stats, sanitized + merged).
      */
     public function save(array $stats = []): void
     {
@@ -191,14 +191,14 @@ class DropPrice extends Component
         // so forceFill writes them deliberately rather than from a fillable bag.
         $subscriber->forceFill([
             // Current streaks are advisory — accept the client's value.
-            'play_streak'      => $int($stats['playStreak'] ?? $subscriber->play_streak),
-            'win_streak'       => $int($stats['winStreak'] ?? $subscriber->win_streak),
+            'play_streak' => $int($stats['playStreak'] ?? $subscriber->play_streak),
+            'win_streak' => $int($stats['winStreak'] ?? $subscriber->win_streak),
             // Bests + totals never regress.
             'best_play_streak' => max((int) $subscriber->best_play_streak, $int($stats['bestPlayStreak'] ?? 0)),
-            'best_win_streak'  => max((int) $subscriber->best_win_streak, $int($stats['bestWinStreak'] ?? 0)),
-            'total_plays'      => max((int) $subscriber->total_plays, $int($stats['totalPlays'] ?? 0)),
-            'total_wins'       => max((int) $subscriber->total_wins, $int($stats['totalWins'] ?? 0)),
-            'last_played_on'   => now()->toDateString(),
+            'best_win_streak' => max((int) $subscriber->best_win_streak, $int($stats['bestWinStreak'] ?? 0)),
+            'total_plays' => max((int) $subscriber->total_plays, $int($stats['totalPlays'] ?? 0)),
+            'total_wins' => max((int) $subscriber->total_wins, $int($stats['totalWins'] ?? 0)),
+            'last_played_on' => now()->toDateString(),
         ])->save();
 
         if (! $this->finished) {
@@ -214,10 +214,10 @@ class DropPrice extends Component
         DropPriceResult::updateOrCreate(
             ['subscriber_id' => $subscriber->id, 'drop_price_puzzle_id' => $puzzle->id],
             [
-                'won'              => $this->won,
-                'guesses_used'     => count($this->results),
+                'won' => $this->won,
+                'guesses_used' => count($this->results),
                 'closest_miss_pct' => $this->closestMissPct((int) $puzzle->price),
-                'played_on'        => $puzzle->date->toDateString(),
+                'played_on' => $puzzle->date->toDateString(),
             ],
         );
     }

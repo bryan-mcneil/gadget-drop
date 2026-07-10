@@ -28,12 +28,13 @@ use Illuminate\Support\Facades\Storage;
 class OgImageGenerator
 {
     private const W = 1200;
+
     private const H = 630;
 
     /** Card themes keyed by post type. RGB triplets. */
     private const THEMES = [
         // indigo-500 accent for product posts / reviews / tips
-        'default'   => ['accent' => [99, 102, 241],  'glow' => [79, 70, 229]],
+        'default' => ['accent' => [99, 102, 241],  'glow' => [79, 70, 229]],
         // rose-500 accent for tech news (matches the news section)
         'tech_news' => ['accent' => [244, 63, 94],   'glow' => [225, 29, 72]],
     ];
@@ -47,7 +48,7 @@ class OgImageGenerator
         $post->loadMissing(['categories', 'seoMeta']);
 
         $category = $post->categories->first()?->name;
-        $rating   = $post->rating ? (float) $post->rating : null;
+        $rating = $post->rating ? (float) $post->rating : null;
 
         $signature = sha1(implode('|', [
             $post->id,
@@ -59,8 +60,8 @@ class OgImageGenerator
             $post->updated_at?->timestamp,
         ]));
 
-        $relative = "og/post-{$post->id}-" . substr($signature, 0, 12) . '.jpg';
-        $disk     = Storage::disk('public');
+        $relative = "og/post-{$post->id}-".substr($signature, 0, 12).'.jpg';
+        $disk = Storage::disk('public');
 
         if (! $disk->exists($relative)) {
             $this->pruneOldVariants($post->id, $relative);
@@ -89,9 +90,9 @@ class OgImageGenerator
      */
     public function forDefault(): string
     {
-        $version  = 'v1';
+        $version = 'v1';
         $relative = "og/default-{$version}.jpg";
-        $disk     = Storage::disk('public');
+        $disk = Storage::disk('public');
 
         if (! $disk->exists($relative)) {
             $disk->put($relative, $this->renderDefaultCard());
@@ -112,8 +113,8 @@ class OgImageGenerator
         $this->paintBackground($im, $theme['glow'], 600, 300);
 
         $accent = $this->color($im, $theme['accent']);
-        $white  = $this->color($im, [249, 250, 251]);
-        $muted  = $this->color($im, [148, 163, 184]);
+        $white = $this->color($im, [249, 250, 251]);
+        $muted = $this->color($im, [148, 163, 184]);
 
         // Brand mark, centred.
         $logo = 116;
@@ -143,8 +144,8 @@ class OgImageGenerator
         $this->paintBackground($im, $theme['glow']);
 
         $accent = $this->color($im, $theme['accent']);
-        $white  = $this->color($im, [249, 250, 251]);
-        $muted  = $this->color($im, [148, 163, 184]);
+        $white = $this->color($im, [249, 250, 251]);
+        $muted = $this->color($im, [148, 163, 184]);
 
         // --- Featured / product image panel (right) ---
         $panel = ['x1' => 700, 'y1' => 150, 'x2' => 1136, 'y2' => 510];
@@ -168,7 +169,7 @@ class OgImageGenerator
         if ($rating) {
             $endX = $this->drawStars($im, 64, $footerY - 18, $rating, $theme['accent']);
             imagettftext($im, 19, 0, $endX + 18, $footerY - 4,
-                $white, $this->font('SemiBold'), number_format($rating, 1) . ' / 5');
+                $white, $this->font('SemiBold'), number_format($rating, 1).' / 5');
             imagettftext($im, 17, 0, $endX + 110, $footerY - 4,
                 $muted, $this->font('Medium'), '·  Editor\'s Review');
         } else {
@@ -257,7 +258,7 @@ class OgImageGenerator
     /** Auto-size + wrap the title so it fits the left column; return the bottom Y. */
     private function drawTitle(GdImage $im, string $title, int $x, int $top, int $maxWidth, int $color): int
     {
-        $font   = $this->font('ExtraBold');
+        $font = $this->font('ExtraBold');
         $budget = 470 - $top; // vertical space available for the title block
 
         foreach ([58, 52, 47, 42, 38] as $size) {
@@ -271,6 +272,7 @@ class OgImageGenerator
                     imagettftext($im, $size, 0, $x, $y, $color, $font, $line);
                     $y += $lineHeight;
                 }
+
                 return $y;
             }
         }
@@ -308,11 +310,11 @@ class OgImageGenerator
     {
         $font = $this->font('Bold');
         $size = 17;
-        $box  = imagettfbbox($size, 0, $font, $label);
-        $tw   = $box[2] - $box[0];
+        $box = imagettfbbox($size, 0, $font, $label);
+        $tw = $box[2] - $box[0];
         $padX = 22;
         $padY = 13;
-        $h    = $size + $padY * 2;
+        $h = $size + $padY * 2;
 
         $this->roundedRect($im, $x, $y, $x + $tw + $padX * 2, $y + $h, (int) ($h / 2), $this->color($im, $accent));
         imagettftext($im, $size, 0, $x + $padX, $y + $size + $padY, $this->color($im, [255, 255, 255]), $font, $label);
@@ -324,18 +326,18 @@ class OgImageGenerator
     private function drawLogo(GdImage $im, int $x, int $y, array $accent, int $s = 60): void
     {
         $this->roundedRect($im, $x, $y, $x + $s, $y + $s, (int) round($s * 0.23), $this->color($im, [243, 244, 246]));
-        $font     = $this->font('ExtraBold');
+        $font = $this->font('ExtraBold');
         $fontSize = (int) round($s * 0.5);
         $baseline = $y + (int) round($s * 0.73);
         imagettftext($im, $fontSize, 0, $x + (int) round($s * 0.13), $baseline, $this->color($im, [17, 24, 39]), $font, 'G');
-        imagettftext($im, $fontSize, 0, $x + (int) round($s * 0.5),  $baseline, $this->color($im, $accent),      $font, 'D');
+        imagettftext($im, $fontSize, 0, $x + (int) round($s * 0.5), $baseline, $this->color($im, $accent), $font, 'D');
     }
 
     /** Draw horizontally-centred text at baseline $y. */
     private function centerText(GdImage $im, int $size, int $y, string $text, int $color, string $font): void
     {
         $box = imagettfbbox($size, 0, $font, $text);
-        $x   = (int) ((self::W - ($box[2] - $box[0])) / 2) - $box[0];
+        $x = (int) ((self::W - ($box[2] - $box[0])) / 2) - $box[0];
         imagettftext($im, $size, 0, $x, $y, $color, $font, $text);
     }
 
@@ -343,9 +345,9 @@ class OgImageGenerator
     private function drawStars(GdImage $im, int $x, int $y, float $rating, array $accent): int
     {
         $size = 22;
-        $gap  = 8;
-        $on   = $this->color($im, $accent);
-        $off  = $this->color($im, [71, 85, 105]);
+        $gap = 8;
+        $on = $this->color($im, $accent);
+        $off = $this->color($im, [71, 85, 105]);
 
         for ($i = 0; $i < 5; $i++) {
             $cx = $x + $i * ($size + $gap) + $size / 2;
@@ -360,7 +362,7 @@ class OgImageGenerator
         $points = [];
         for ($i = 0; $i < 10; $i++) {
             $radius = $i % 2 === 0 ? $r : $r * 0.42;
-            $angle  = M_PI / 2 + $i * M_PI / 5; // start at top
+            $angle = M_PI / 2 + $i * M_PI / 5; // start at top
             $points[] = $cx + $radius * cos($angle);
             $points[] = $cy - $radius * sin($angle);
         }

@@ -31,7 +31,7 @@ class OptimizeImages extends Command
         // (CLI only — the upload path stays guarded by ImageVariants itself).
         @ini_set('memory_limit', '1024M');
 
-        $disk  = Storage::disk('public');
+        $disk = Storage::disk('public');
         $force = (bool) $this->option('force');
 
         $images = collect($disk->allFiles('uploads'))

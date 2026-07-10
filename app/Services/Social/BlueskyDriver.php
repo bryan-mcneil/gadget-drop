@@ -44,22 +44,22 @@ class BlueskyDriver implements SocialDriver
         $session = Http::acceptJson()->timeout(self::TIMEOUT)
             ->post("{$service}/xrpc/com.atproto.server.createSession", [
                 'identifier' => $handle,
-                'password'   => (string) config('services.social.platforms.bluesky.app_password'),
+                'password' => (string) config('services.social.platforms.bluesky.app_password'),
             ]);
 
         if ($session->failed()) {
-            throw new RuntimeException('Bluesky login failed: ' . ($session->json('message') ?? "HTTP {$session->status()}"));
+            throw new RuntimeException('Bluesky login failed: '.($session->json('message') ?? "HTTP {$session->status()}"));
         }
 
         $jwt = (string) $session->json('accessJwt');
         $did = (string) $session->json('did');
 
         $record = [
-            '$type'     => 'app.bsky.feed.post',
-            'text'      => $socialPost->body,
+            '$type' => 'app.bsky.feed.post',
+            'text' => $socialPost->body,
             'createdAt' => now()->toIso8601ZuluString(),
-            'langs'     => ['en'],
-            'embed'     => $this->externalEmbed($service, $jwt, $post),
+            'langs' => ['en'],
+            'embed' => $this->externalEmbed($service, $jwt, $post),
         ];
 
         if ($facets = $this->facets($socialPost->body)) {
@@ -68,13 +68,13 @@ class BlueskyDriver implements SocialDriver
 
         $response = Http::acceptJson()->timeout(self::TIMEOUT)->withToken($jwt)
             ->post("{$service}/xrpc/com.atproto.repo.createRecord", [
-                'repo'       => $did,
+                'repo' => $did,
                 'collection' => 'app.bsky.feed.post',
-                'record'     => $record,
+                'record' => $record,
             ]);
 
         if ($response->failed()) {
-            throw new RuntimeException('Bluesky createRecord failed: ' . ($response->json('message') ?? "HTTP {$response->status()}"));
+            throw new RuntimeException('Bluesky createRecord failed: '.($response->json('message') ?? "HTTP {$response->status()}"));
         }
 
         // at://did:plc:…/app.bsky.feed.post/{rkey} → public bsky.app URL
@@ -93,8 +93,8 @@ class BlueskyDriver implements SocialDriver
     private function externalEmbed(string $service, string $jwt, Post $post): array
     {
         $external = [
-            'uri'         => route('posts.show', $post->slug),
-            'title'       => $post->title,
+            'uri' => route('posts.show', $post->slug),
+            'title' => $post->title,
             'description' => trim((string) $post->excerpt),
         ];
 
@@ -122,7 +122,7 @@ class BlueskyDriver implements SocialDriver
 
             $disk = Storage::disk('public');
             $info = pathinfo($rel);
-            $dir = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'] . '/';
+            $dir = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
 
             foreach (["{$dir}{$info['filename']}-960.webp", "{$dir}{$info['filename']}-480.webp", $rel] as $path) {
                 if (! $disk->exists($path) || $disk->size($path) > self::MAX_THUMB_BYTES) {
@@ -160,7 +160,7 @@ class BlueskyDriver implements SocialDriver
         if (preg_match_all('#https?://[^\s]+#', $text, $matches, PREG_OFFSET_CAPTURE)) {
             foreach ($matches[0] as [$url, $start]) {
                 $facets[] = [
-                    'index'    => ['byteStart' => $start, 'byteEnd' => $start + strlen($url)],
+                    'index' => ['byteStart' => $start, 'byteEnd' => $start + strlen($url)],
                     'features' => [['$type' => 'app.bsky.richtext.facet#link', 'uri' => $url]],
                 ];
             }
@@ -170,7 +170,7 @@ class BlueskyDriver implements SocialDriver
             foreach ($matches[1] as $i => [$tag, $tagStart]) {
                 $hashStart = $matches[0][$i][1];
                 $facets[] = [
-                    'index'    => ['byteStart' => $hashStart, 'byteEnd' => $tagStart + strlen($tag)],
+                    'index' => ['byteStart' => $hashStart, 'byteEnd' => $tagStart + strlen($tag)],
                     'features' => [['$type' => 'app.bsky.richtext.facet#tag', 'tag' => $tag]],
                 ];
             }

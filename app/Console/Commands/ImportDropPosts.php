@@ -60,7 +60,7 @@ class ImportDropPosts extends Command
             }
             DB::rollBack();
 
-            $this->info('[dry-run] ' . count($created) . ' post(s) would import cleanly — nothing was written:');
+            $this->info('[dry-run] '.count($created).' post(s) would import cleanly — nothing was written:');
             foreach ($posts as $data) {
                 $this->line(sprintf('  %-9s %s', $data['type'] ?? 'article', $data['title']));
             }
@@ -76,7 +76,7 @@ class ImportDropPosts extends Command
             return self::FAILURE;
         }
 
-        $this->info(count($created) . ' draft(s) created:');
+        $this->info(count($created).' draft(s) created:');
         foreach ($created as $i => $row) {
             $type = $posts[$i]['type'] ?? 'article';
             $this->line(sprintf('  #%-5d %-9s %s', $row['id'], $type, $row['title']));

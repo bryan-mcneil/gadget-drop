@@ -14,10 +14,10 @@ class SearchPageDay extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'date'        => 'date',
-        'clicks'      => 'integer',
+        'date' => 'date',
+        'clicks' => 'integer',
         'impressions' => 'integer',
-        'position'    => 'decimal:2',
+        'position' => 'decimal:2',
     ];
 
     public function post(): BelongsTo

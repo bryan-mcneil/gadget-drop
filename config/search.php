@@ -15,7 +15,7 @@ return [
 
     // Canonical site origin (no trailing slash) and the sitemap URL we re-nudge
     // Google with on publish. IndexNow "host" is derived from site_url.
-    'site_url'    => rtrim(env('SEARCH_SITE_URL', 'https://gadgetdrop.tech'), '/'),
+    'site_url' => rtrim(env('SEARCH_SITE_URL', 'https://gadgetdrop.tech'), '/'),
     'sitemap_url' => env('SEARCH_SITEMAP_URL', 'https://gadgetdrop.tech/sitemap.xml'),
 
     // IndexNow key. Served verbatim at /indexnow.txt; submissions pass it plus
@@ -40,17 +40,17 @@ return [
     | Opportunity-miner thresholds (Phase 3). Every detector reads from here so
     | no magic numbers hide in code. `window_days` is the primary look-back.
     */
-    'window_days'      => 28,
-    'dismiss_days'     => 30,   // a dismissed opportunity stays quiet this long
-    'min_ctr_samples'  => 200,  // min impressions per position bucket for own-CTR curve
+    'window_days' => 28,
+    'dismiss_days' => 30,   // a dismissed opportunity stays quiet this long
+    'min_ctr_samples' => 200,  // min impressions per position bucket for own-CTR curve
 
     'thresholds' => [
         'striking_distance' => ['pos_min' => 4.0, 'pos_max' => 15.0, 'min_impressions' => 30],
-        'ctr_fix'           => ['pos_max' => 12.0, 'ctr_ratio' => 0.5, 'min_impressions' => 100],
-        'content_gap'       => ['min_impressions' => 20, 'weak_position' => 20.0],
-        'decay'             => ['ratio' => 0.6, 'min_prior_clicks' => 20],
-        'cannibalization'   => ['min_impressions' => 50, 'share' => 0.20, 'min_pages' => 2],
-        'rising'            => ['multiplier' => 2.0, 'min_impressions' => 10],
+        'ctr_fix' => ['pos_max' => 12.0, 'ctr_ratio' => 0.5, 'min_impressions' => 100],
+        'content_gap' => ['min_impressions' => 20, 'weak_position' => 20.0],
+        'decay' => ['ratio' => 0.6, 'min_prior_clicks' => 20],
+        'cannibalization' => ['min_impressions' => 50, 'share' => 0.20, 'min_pages' => 2],
+        'rising' => ['multiplier' => 2.0, 'min_impressions' => 10],
     ],
 
     /*
@@ -59,8 +59,8 @@ return [
     | impressions to compute a site-specific median. Own-data always wins.
     */
     'ctr_curve' => [
-        1  => 0.280, 2  => 0.155, 3  => 0.100, 4  => 0.070, 5  => 0.050,
-        6  => 0.038, 7  => 0.030, 8  => 0.024, 9  => 0.020, 10 => 0.017,
+        1 => 0.280, 2 => 0.155, 3 => 0.100, 4 => 0.070, 5 => 0.050,
+        6 => 0.038, 7 => 0.030, 8 => 0.024, 9 => 0.020, 10 => 0.017,
         11 => 0.014, 12 => 0.012, 13 => 0.010, 14 => 0.009, 15 => 0.008,
         16 => 0.007, 17 => 0.006, 18 => 0.006, 19 => 0.005, 20 => 0.005,
     ],

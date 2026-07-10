@@ -27,18 +27,18 @@ class DealsPageTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => $name,
-            'asin'          => "B00DEAL{$i}",
+            'category_id' => $category->id,
+            'name' => $name,
+            'asin' => "B00DEAL{$i}",
             'affiliate_url' => 'https://www.amazon.com/dp/B00DEAL',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => $historic,
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => $historic,
         ]);
 
         ProductPriceSnapshot::create([
             'product_id' => $product->id,
-            'price'      => $historic,
-            'source'     => 'manual',
+            'price' => $historic,
+            'source' => 'manual',
             'created_at' => now()->subDays(60),
         ]);
 
@@ -49,12 +49,12 @@ class DealsPageTest extends TestCase
         PriceIntel::flush($product->id);
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "{$name} Review",
-            'slug'         => str_replace(' ', '-', strtolower($name)) . '-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "{$name} Review",
+            'slug' => str_replace(' ', '-', strtolower($name)).'-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->products()->attach($product->id, ['display_order' => 1]);
@@ -93,18 +93,18 @@ class DealsPageTest extends TestCase
         // Only today's snapshot — honesty gates keep it out no matter the price.
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Untracked Widget',
+            'category_id' => $category->id,
+            'name' => 'Untracked Widget',
             'affiliate_url' => 'https://www.amazon.com/dp/B00NEW',
-            'price'         => 50,
+            'price' => 50,
         ]);
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Untracked Widget Review',
-            'slug'         => 'untracked-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Untracked Widget Review',
+            'slug' => 'untracked-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->products()->attach($product->id, ['display_order' => 1]);
@@ -132,7 +132,7 @@ class DealsPageTest extends TestCase
             ->assertOk()
             ->assertDontSee('name="robots" content="noindex', false)
             ->assertSee('tracked 90-day average', false)
-            ->assertSee('rel="canonical" href="' . route('deals') . '"', false);
+            ->assertSee('rel="canonical" href="'.route('deals').'"', false);
     }
 
     public function test_deals_is_in_the_sitemap(): void

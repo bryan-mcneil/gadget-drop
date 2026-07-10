@@ -22,10 +22,10 @@ class DropPricePuzzle extends Model
     ];
 
     protected $casts = [
-        'date'          => 'date',
-        'locked_at'     => 'datetime',
-        'is_preset'     => 'boolean',
-        'price'         => 'integer',
+        'date' => 'date',
+        'locked_at' => 'datetime',
+        'is_preset' => 'boolean',
+        'price' => 'integer',
         'puzzle_number' => 'integer',
     ];
 

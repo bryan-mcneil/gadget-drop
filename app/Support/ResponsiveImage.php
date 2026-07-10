@@ -26,7 +26,7 @@ class ResponsiveImage
         }
 
         $needle = '/storage/';
-        $pos    = strpos($url, $needle);
+        $pos = strpos($url, $needle);
         if ($pos === false) {
             return null;
         }
@@ -54,7 +54,7 @@ class ResponsiveImage
         }
 
         $info = pathinfo($rel);
-        $dir  = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
+        $dir = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
         $name = $info['filename'];
 
         $parts = [];

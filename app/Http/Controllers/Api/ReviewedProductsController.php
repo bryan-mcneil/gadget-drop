@@ -21,14 +21,14 @@ class ReviewedProductsController extends Controller
             ->orderBy('name')
             ->get()
             ->map(fn ($p) => [
-                'name'      => $p->name,
-                'asin'      => $p->asin,
+                'name' => $p->name,
+                'asin' => $p->asin,
                 'post_slug' => $p->posts->first()?->slug,
             ]);
 
         return response()->json([
             'products' => $products,
-            'count'    => $products->count(),
+            'count' => $products->count(),
         ]);
     }
 }

@@ -21,14 +21,14 @@ class DropPriceTodayTest extends TestCase
     private function puzzle(array $overrides = []): DropPricePuzzle
     {
         return DropPricePuzzle::create(array_merge([
-            'puzzle_number'        => (int) (DropPricePuzzle::max('puzzle_number') ?? 0) + 1,
-            'date'                 => now()->toDateString(),
-            'product_id'           => null,
-            'price'                => 100,
-            'product_name'         => 'Snapshot Widget',
-            'product_image_url'    => 'https://example.com/img.jpg',
+            'puzzle_number' => (int) (DropPricePuzzle::max('puzzle_number') ?? 0) + 1,
+            'date' => now()->toDateString(),
+            'product_id' => null,
+            'price' => 100,
+            'product_name' => 'Snapshot Widget',
+            'product_image_url' => 'https://example.com/img.jpg',
             'affiliate_product_id' => null,
-            'locked_at'            => now(),
+            'locked_at' => now(),
         ], $overrides));
     }
 
@@ -57,9 +57,9 @@ class DropPriceTodayTest extends TestCase
         // A queued preset for a future day (still unlocked → no number, no locked_at).
         $this->puzzle([
             'puzzle_number' => null,
-            'date'          => now()->addDays(2)->toDateString(),
-            'locked_at'     => null,
-            'is_preset'     => true,
+            'date' => now()->addDays(2)->toDateString(),
+            'locked_at' => null,
+            'is_preset' => true,
         ]);
 
         $this->assertSame($today->id, DropPrice::today()?->id);
@@ -78,9 +78,9 @@ class DropPriceTodayTest extends TestCase
         // An unlocked preset dated today is not yet a live puzzle.
         $this->puzzle([
             'puzzle_number' => null,
-            'date'          => now()->toDateString(),
-            'locked_at'     => null,
-            'is_preset'     => true,
+            'date' => now()->toDateString(),
+            'locked_at' => null,
+            'is_preset' => true,
         ]);
 
         $this->assertNull(DropPrice::today());

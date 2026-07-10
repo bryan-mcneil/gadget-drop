@@ -36,39 +36,39 @@ class ImportDropPostsCommandTest extends TestCase
     {
         return [
             [
-                'title'         => 'Anker 737 Power Bank Review: Worth the Premium Price?',
-                'excerpt'       => 'The Anker 737 packs 24,000mAh and 140W output. Here is who should buy it and who should grab the cheaper step-down option instead.',
-                'body'          => "Owners consistently report solid results.\n\n## What Is the Anker 737?\n\nA big battery. See [our Belkin review](/posts/belkin-review).",
-                'type'          => 'article',
-                'author_name'   => config('site.author.name'),
+                'title' => 'Anker 737 Power Bank Review: Worth the Premium Price?',
+                'excerpt' => 'The Anker 737 packs 24,000mAh and 140W output. Here is who should buy it and who should grab the cheaper step-down option instead.',
+                'body' => "Owners consistently report solid results.\n\n## What Is the Anker 737?\n\nA big battery. See [our Belkin review](/posts/belkin-review).",
+                'type' => 'article',
+                'author_name' => config('site.author.name'),
                 'category_name' => 'Computers & Accessories',
-                'tag_names'     => ['power banks', 'anker'],
-                'product_asin'  => 'B0ABCDEFGH',
-                'rating'        => 4.4,
-                'pros'          => ['140W output charges laptops'],
-                'cons'          => ['Heavy at 1.4 lb'],
-                'seo'           => [
-                    'meta_title'       => 'Anker 737 Power Bank Review',
+                'tag_names' => ['power banks', 'anker'],
+                'product_asin' => 'B0ABCDEFGH',
+                'rating' => 4.4,
+                'pros' => ['140W output charges laptops'],
+                'cons' => ['Heavy at 1.4 lb'],
+                'seo' => [
+                    'meta_title' => 'Anker 737 Power Bank Review',
                     'meta_description' => 'Is the Anker 737 worth it? Owner feedback, spec analysis, and who should buy the 24,000mAh 140W power bank.',
-                    'focus_keyword'    => 'anker 737 review',
-                    'target_query'     => 'anker 737 power bank review',
-                    'slug'             => 'anker-737-power-bank-review',
+                    'focus_keyword' => 'anker 737 review',
+                    'target_query' => 'anker 737 power bank review',
+                    'slug' => 'anker-737-power-bank-review',
                 ],
             ],
             [
-                'title'         => 'Fix Slow Wi-Fi on Windows 11: Settings That Actually Help',
-                'excerpt'       => 'Slow Wi-Fi on Windows 11 usually traces to power management or band steering. These settings changes fix the most common causes.',
-                'body'          => "Slow Wi-Fi has a few usual suspects.\n\n## Fix Slow Wi-Fi on Windows 11\n\n1. Open Device Manager.",
-                'type'          => 'tech_tip',
-                'author_name'   => config('site.author.name'),
+                'title' => 'Fix Slow Wi-Fi on Windows 11: Settings That Actually Help',
+                'excerpt' => 'Slow Wi-Fi on Windows 11 usually traces to power management or band steering. These settings changes fix the most common causes.',
+                'body' => "Slow Wi-Fi has a few usual suspects.\n\n## Fix Slow Wi-Fi on Windows 11\n\n1. Open Device Manager.",
+                'type' => 'tech_tip',
+                'author_name' => config('site.author.name'),
                 'category_name' => 'Computers & Accessories',
-                'tag_names'     => ['windows 11', 'wi-fi'],
-                'source_url'    => 'https://www.reddit.com/r/techsupport/comments/example',
-                'seo'           => [
-                    'meta_title'       => 'Fix Slow Wi-Fi on Windows 11',
+                'tag_names' => ['windows 11', 'wi-fi'],
+                'source_url' => 'https://www.reddit.com/r/techsupport/comments/example',
+                'seo' => [
+                    'meta_title' => 'Fix Slow Wi-Fi on Windows 11',
                     'meta_description' => 'Slow Wi-Fi on Windows 11? These driver and power settings fix the most common causes in under ten minutes.',
-                    'focus_keyword'    => 'slow wifi windows 11',
-                    'slug'             => 'fix-slow-wifi-windows-11',
+                    'focus_keyword' => 'slow wifi windows 11',
+                    'slug' => 'fix-slow-wifi-windows-11',
                 ],
             ],
         ];
@@ -172,8 +172,8 @@ class ImportDropPostsCommandTest extends TestCase
 
         app(DailyDropImporterService::class)->importOne([
             'title' => 'Bad Type Post',
-            'body'  => 'Body',
-            'type'  => 'nope',
+            'body' => 'Body',
+            'type' => 'nope',
         ], $this->author->id);
     }
 }

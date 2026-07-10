@@ -28,13 +28,13 @@ class JoinTheDrop extends Component
 
         try {
             Subscriber::create([
-                'email'      => $this->email,
-                'token'      => (string) Str::uuid(),
+                'email' => $this->email,
+                'token' => (string) Str::uuid(),
                 'ip_address' => request()->ip(),
             ]);
 
             $this->status = 'success';
-            $this->email  = '';
+            $this->email = '';
         } catch (\Throwable $e) {
             $this->status = 'error';
         }

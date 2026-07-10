@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\SearchIndexCheck;
 use App\Models\SearchOpportunity;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 
 /**
  * A glanceable Search Intel summary for the /morning checklist (surfaced over
@@ -27,18 +28,18 @@ class SearchStatus extends Command
         $unindexed = $this->unindexedRecentPosts();
 
         if ($this->option('compact')) {
-            $this->line("SEO: {$openCount} open opportunit" . ($openCount === 1 ? 'y' : 'ies')
-                . ' · ' . $unindexed->count() . ' recent post(s) not confirmed indexed');
+            $this->line("SEO: {$openCount} open opportunit".($openCount === 1 ? 'y' : 'ies')
+                .' · '.$unindexed->count().' recent post(s) not confirmed indexed');
 
             return self::SUCCESS;
         }
 
         $this->info("Open opportunities: {$openCount}");
         foreach (SearchOpportunity::open()->orderByDesc('score')->limit(3)->get() as $o) {
-            $this->line(sprintf('  %-18s score %-7s %s', $o->kind, (string) $o->score, $o->query ?? ('post #' . $o->post_id)));
+            $this->line(sprintf('  %-18s score %-7s %s', $o->kind, (string) $o->score, $o->query ?? ('post #'.$o->post_id)));
         }
 
-        $this->info('Recent posts not confirmed indexed: ' . $unindexed->count());
+        $this->info('Recent posts not confirmed indexed: '.$unindexed->count());
         foreach ($unindexed->take(10) as $post) {
             $days = $post->published_at ? (int) $post->published_at->diffInDays(now()) : 0;
             $this->line("  {$post->slug} (published {$days}d ago)");
@@ -51,7 +52,7 @@ class SearchStatus extends Command
      * Posts published in the last 30 days with no PASS index check (never
      * checked, or last verdict not indexed).
      *
-     * @return \Illuminate\Support\Collection<int, Post>
+     * @return Collection<int, Post>
      */
     private function unindexedRecentPosts()
     {

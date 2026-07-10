@@ -7,7 +7,9 @@ use App\Models\DropPricePuzzle;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class DropPriceCommandTest extends TestCase
@@ -20,20 +22,20 @@ class DropPriceCommandTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => $name,
+            'category_id' => $category->id,
+            'name' => $name,
             'affiliate_url' => 'https://www.amazon.com/dp/B00TEST',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => $price,
-            'description'   => 'A test gadget.',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => $price,
+            'description' => 'A test gadget.',
         ]);
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Post for {$name}",
-            'slug'         => 'post-' . \Illuminate\Support\Str::random(8),
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Post for {$name}",
+            'slug' => 'post-'.Str::random(8),
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
 
@@ -43,17 +45,17 @@ class DropPriceCommandTest extends TestCase
     }
 
     /** Record that $product was the locked puzzle on $date (a past puzzle). */
-    private function puzzleFor(Product $product, \Carbon\Carbon $date): DropPricePuzzle
+    private function puzzleFor(Product $product, Carbon $date): DropPricePuzzle
     {
         return DropPricePuzzle::create([
-            'puzzle_number'        => $this->nextNumber(),
-            'date'                 => $date->toDateString(),
-            'product_id'           => $product->id,
-            'price'                => (int) round((float) $product->price),
-            'product_name'         => $product->name,
-            'product_image_url'    => $product->image_url,
+            'puzzle_number' => $this->nextNumber(),
+            'date' => $date->toDateString(),
+            'product_id' => $product->id,
+            'price' => (int) round((float) $product->price),
+            'product_name' => $product->name,
+            'product_image_url' => $product->image_url,
             'affiliate_product_id' => $product->id,
-            'locked_at'            => $date,
+            'locked_at' => $date,
         ]);
     }
 

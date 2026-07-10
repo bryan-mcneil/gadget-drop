@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\SearchOpportunity;
 use App\Support\SearchIntel;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -34,7 +35,7 @@ class MineSearchOpportunities extends Command
 
     public function handle(): int
     {
-        $windowDays  = (int) config('search.window_days', 28);
+        $windowDays = (int) config('search.window_days', 28);
         $windowStart = now()->subDays($windowDays)->toDateString();
         $this->curve = SearchIntel::ctrCurve();
 
@@ -64,10 +65,10 @@ class MineSearchOpportunities extends Command
             ->whereNotIn('id', $keptIds)
             ->update(['status' => 'done', 'last_seen_at' => now()]);
 
-        $this->info('Mined ' . count($clusters) . ' opportunit' . (count($clusters) === 1 ? 'y' : 'ies') . '.');
+        $this->info('Mined '.count($clusters).' opportunit'.(count($clusters) === 1 ? 'y' : 'ies').'.');
 
         foreach (collect($clusters)->groupBy('kind') as $kind => $group) {
-            $this->line("  {$kind}: " . $group->count());
+            $this->line("  {$kind}: ".$group->count());
         }
 
         return self::SUCCESS;
@@ -84,7 +85,7 @@ class MineSearchOpportunities extends Command
     /** Our post ranking 4–15 with real demand → push it onto page 1. */
     private function strikingDistance($aggregates): array
     {
-        $t   = config('search.thresholds.striking_distance');
+        $t = config('search.thresholds.striking_distance');
         $out = [];
 
         foreach ($aggregates as $r) {
@@ -95,10 +96,10 @@ class MineSearchOpportunities extends Command
                 continue;
             }
 
-            $ctr   = $r->clicks / $r->impressions;
+            $ctr = $r->clicks / $r->impressions;
             $score = SearchIntel::score($r->impressions, SearchIntel::expectedCtr(3, $this->curve), $ctr);
 
-            $out[] = $this->candidate('striking_distance', 'post:' . $r->post_id, $r, 3, $score);
+            $out[] = $this->candidate('striking_distance', 'post:'.$r->post_id, $r, 3, $score);
         }
 
         return $out;
@@ -107,7 +108,7 @@ class MineSearchOpportunities extends Command
     /** Good position but CTR far below expected → rewrite title/meta (truthfully). */
     private function ctrFix($aggregates): array
     {
-        $t   = config('search.thresholds.ctr_fix');
+        $t = config('search.thresholds.ctr_fix');
         $out = [];
 
         foreach ($aggregates as $r) {
@@ -126,7 +127,7 @@ class MineSearchOpportunities extends Command
             }
 
             $score = SearchIntel::score($r->impressions, $exp, $ctr);
-            $out[] = $this->candidate('ctr_fix', 'post:' . $r->post_id, $r, (int) round($r->avg_pos), $score);
+            $out[] = $this->candidate('ctr_fix', 'post:'.$r->post_id, $r, (int) round($r->avg_pos), $score);
         }
 
         return $out;
@@ -135,7 +136,7 @@ class MineSearchOpportunities extends Command
     /** Demand whose best result is home/category/off-topic (or ranks >20) → new post. */
     private function contentGap($aggregates): array
     {
-        $t   = config('search.thresholds.content_gap');
+        $t = config('search.thresholds.content_gap');
         $out = [];
 
         foreach ($this->byQuery($aggregates) as $q) {
@@ -143,8 +144,8 @@ class MineSearchOpportunities extends Command
                 continue;
             }
 
-            $bestPostId  = $this->resolvePostId($q['best_page']);
-            $rankedWeak  = $q['best_pos'] === null || $q['best_pos'] > $t['weak_position'];
+            $bestPostId = $this->resolvePostId($q['best_page']);
+            $rankedWeak = $q['best_pos'] === null || $q['best_pos'] > $t['weak_position'];
 
             if ($bestPostId !== null && ! $rankedWeak) {
                 continue; // a real post already ranks — not a gap
@@ -153,17 +154,17 @@ class MineSearchOpportunities extends Command
             $score = SearchIntel::score($q['impressions'], SearchIntel::expectedCtr(5, $this->curve), 0.0);
 
             $out[] = [
-                'kind'        => 'content_gap',
-                'cluster_key' => 'gap:' . $this->headTerm($q['query']),
-                'query'       => $q['query'],
-                'query_hash'  => sha1($q['query']),
-                'post_id'     => null,
-                'page_url'    => $q['best_page'],
+                'kind' => 'content_gap',
+                'cluster_key' => 'gap:'.$this->headTerm($q['query']),
+                'query' => $q['query'],
+                'query_hash' => sha1($q['query']),
+                'post_id' => null,
+                'page_url' => $q['best_page'],
                 'impressions' => $q['impressions'],
-                'clicks'      => $q['clicks'],
-                'position'    => $q['best_pos'],
-                'target_pos'  => 5,
-                'score'       => $score,
+                'clicks' => $q['clicks'],
+                'position' => $q['best_pos'],
+                'target_pos' => 5,
+                'score' => $score,
             ];
         }
 
@@ -173,7 +174,7 @@ class MineSearchOpportunities extends Command
     /** Two+ of our posts splitting one query's demand → merge / differentiate. */
     private function cannibalization($aggregates): array
     {
-        $t   = config('search.thresholds.cannibalization');
+        $t = config('search.thresholds.cannibalization');
         $out = [];
 
         $grouped = collect($aggregates)->groupBy('query_hash');
@@ -191,28 +192,28 @@ class MineSearchOpportunities extends Command
                 continue;
             }
 
-            $head   = $rows->sortByDesc('impressions')->first();
+            $head = $rows->sortByDesc('impressions')->first();
             $aggCtr = $total > 0 ? $rows->sum('clicks') / $total : 0.0;
 
             $out[] = [
-                'kind'        => 'cannibalization',
-                'cluster_key' => 'cann:' . $head->query_hash,
-                'query'       => $head->query,
-                'query_hash'  => $head->query_hash,
-                'post_id'     => null,
-                'page_url'    => null,
+                'kind' => 'cannibalization',
+                'cluster_key' => 'cann:'.$head->query_hash,
+                'query' => $head->query,
+                'query_hash' => $head->query_hash,
+                'post_id' => null,
+                'page_url' => null,
                 'impressions' => $total,
-                'clicks'      => $rows->sum('clicks'),
-                'position'    => $head->avg_pos,
-                'target_pos'  => 3,
+                'clicks' => $rows->sum('clicks'),
+                'position' => $head->avg_pos,
+                'target_pos' => 3,
                 // Estimated clicks recoverable by consolidating — same unit as every
                 // other detector so cross-kind ranking stays meaningful.
-                'score'       => SearchIntel::score((int) $total, SearchIntel::expectedCtr(3, $this->curve), $aggCtr),
+                'score' => SearchIntel::score((int) $total, SearchIntel::expectedCtr(3, $this->curve), $aggCtr),
                 'competitors' => $posts->map(fn ($r) => [
-                    'post_id'     => $r->post_id,
-                    'page_url'    => $r->page_url,
+                    'post_id' => $r->post_id,
+                    'page_url' => $r->page_url,
                     'impressions' => $r->impressions,
-                    'share'       => round($r->impressions / $total, 3),
+                    'share' => round($r->impressions / $total, 3),
                 ])->values()->all(),
             ];
         }
@@ -223,7 +224,7 @@ class MineSearchOpportunities extends Command
     /** A post's clicks collapsed vs its prior window → refresh it. */
     private function decay(string $windowStart, int $windowDays): array
     {
-        $t          = config('search.thresholds.decay');
+        $t = config('search.thresholds.decay');
         $priorStart = now()->subDays($windowDays * 2)->toDateString();
 
         $current = DB::table('search_page_days')
@@ -237,7 +238,7 @@ class MineSearchOpportunities extends Command
         $out = [];
 
         foreach ($prior as $postId => $priorClicks) {
-            $priorClicks   = (int) $priorClicks;
+            $priorClicks = (int) $priorClicks;
             $currentClicks = (int) ($current[$postId] ?? 0);
 
             if ($priorClicks < $t['min_prior_clicks'] || $currentClicks >= $priorClicks * $t['ratio']) {
@@ -245,18 +246,18 @@ class MineSearchOpportunities extends Command
             }
 
             $out[] = [
-                'kind'        => 'decay',
-                'cluster_key' => 'decay:' . $postId,
-                'query'       => null,
-                'query_hash'  => null,
-                'post_id'     => (int) $postId,
-                'page_url'    => null,
+                'kind' => 'decay',
+                'cluster_key' => 'decay:'.$postId,
+                'query' => null,
+                'query_hash' => null,
+                'post_id' => (int) $postId,
+                'page_url' => null,
                 'impressions' => 0,
-                'clicks'      => $currentClicks,
-                'position'    => null,
-                'target_pos'  => null,
-                'score'       => round((float) ($priorClicks - $currentClicks), 2),
-                'decay'       => ['prior_clicks' => $priorClicks, 'current_clicks' => $currentClicks],
+                'clicks' => $currentClicks,
+                'position' => null,
+                'target_pos' => null,
+                'score' => round((float) ($priorClicks - $currentClicks), 2),
+                'decay' => ['prior_clicks' => $priorClicks, 'current_clicks' => $currentClicks],
             ];
         }
 
@@ -266,9 +267,9 @@ class MineSearchOpportunities extends Command
     /** A query surging week-over-week with no dedicated post → news/tip angle. */
     private function rising(): array
     {
-        $t          = config('search.thresholds.rising');
+        $t = config('search.thresholds.rising');
         $recentFrom = now()->subDays(7)->toDateString();
-        $priorFrom  = now()->subDays(14)->toDateString();
+        $priorFrom = now()->subDays(14)->toDateString();
 
         $recent = DB::table('search_query_days')->where('date', '>=', $recentFrom)
             ->groupBy('query_hash')
@@ -287,7 +288,7 @@ class MineSearchOpportunities extends Command
 
         foreach ($recent as $hash => $recentImpr) {
             $recentImpr = (int) $recentImpr;
-            $priorImpr  = (int) ($prior[$hash] ?? 0);
+            $priorImpr = (int) ($prior[$hash] ?? 0);
 
             if ($recentImpr < $t['min_impressions'] || $recentImpr < $priorImpr * $t['multiplier']) {
                 continue;
@@ -299,18 +300,18 @@ class MineSearchOpportunities extends Command
             }
 
             $out[] = [
-                'kind'        => 'rising',
-                'cluster_key' => 'rising:' . $this->headTerm($row->query),
-                'query'       => $row->query,
-                'query_hash'  => $hash,
-                'post_id'     => null,
-                'page_url'    => null,
+                'kind' => 'rising',
+                'cluster_key' => 'rising:'.$this->headTerm($row->query),
+                'query' => $row->query,
+                'query_hash' => $hash,
+                'post_id' => null,
+                'page_url' => null,
                 'impressions' => $recentImpr,
-                'clicks'      => 0,
-                'position'    => null,
-                'target_pos'  => 5,
-                'score'       => SearchIntel::score($recentImpr, SearchIntel::expectedCtr(5, $this->curve), 0.0),
-                'rising'      => ['recent' => $recentImpr, 'prior' => $priorImpr],
+                'clicks' => 0,
+                'position' => null,
+                'target_pos' => 5,
+                'score' => SearchIntel::score($recentImpr, SearchIntel::expectedCtr(5, $this->curve), 0.0),
+                'rising' => ['recent' => $recentImpr, 'prior' => $priorImpr],
             ];
         }
 
@@ -337,18 +338,18 @@ class MineSearchOpportunities extends Command
             }
 
             $out[] = [
-                'kind'        => 'bing_gap',
-                'cluster_key' => 'bing:' . $stat->query_hash,
-                'query'       => $stat->query,
-                'query_hash'  => $stat->query_hash,
-                'post_id'     => null,
-                'page_url'    => null,
+                'kind' => 'bing_gap',
+                'cluster_key' => 'bing:'.$stat->query_hash,
+                'query' => $stat->query,
+                'query_hash' => $stat->query_hash,
+                'post_id' => null,
+                'page_url' => null,
                 'impressions' => (int) $stat->impressions,
-                'clicks'      => (int) $stat->clicks,
-                'position'    => $stat->avg_impression_position !== null ? (float) $stat->avg_impression_position : null,
-                'target_pos'  => 5,
+                'clicks' => (int) $stat->clicks,
+                'position' => $stat->avg_impression_position !== null ? (float) $stat->avg_impression_position : null,
+                'target_pos' => 5,
                 // Estimated clicks if we ranked ~5 on Google — clicks unit, comparable across kinds.
-                'score'       => SearchIntel::score((int) $stat->impressions, SearchIntel::expectedCtr(5, $this->curve), 0.0),
+                'score' => SearchIntel::score((int) $stat->impressions, SearchIntel::expectedCtr(5, $this->curve), 0.0),
             ];
         }
 
@@ -374,7 +375,7 @@ class MineSearchOpportunities extends Command
         $clusters = [];
 
         foreach ($candidates as $c) {
-            $key = $c['kind'] . '|' . $c['cluster_key'];
+            $key = $c['kind'].'|'.$c['cluster_key'];
             $clusters[$key][] = $c;
         }
 
@@ -385,15 +386,15 @@ class MineSearchOpportunities extends Command
             $head = $members[0];
 
             $evidence = [
-                'impressions'     => array_sum(array_column($members, 'impressions')),
-                'clicks'          => array_sum(array_column($members, 'clicks')),
-                'position'        => $head['position'],
+                'impressions' => array_sum(array_column($members, 'impressions')),
+                'clicks' => array_sum(array_column($members, 'clicks')),
+                'position' => $head['position'],
                 'target_position' => $head['target_pos'],
-                'phrasings'       => array_map(fn ($m) => array_filter([
-                    'query'       => $m['query'],
+                'phrasings' => array_map(fn ($m) => array_filter([
+                    'query' => $m['query'],
                     'impressions' => $m['impressions'],
-                    'clicks'      => $m['clicks'],
-                    'position'    => $m['position'] !== null ? round((float) $m['position'], 1) : null,
+                    'clicks' => $m['clicks'],
+                    'position' => $m['position'] !== null ? round((float) $m['position'], 1) : null,
                 ], fn ($v) => $v !== null), $members),
             ];
 
@@ -404,14 +405,14 @@ class MineSearchOpportunities extends Command
             }
 
             $out[] = [
-                'kind'        => $head['kind'],
+                'kind' => $head['kind'],
                 'cluster_key' => $head['cluster_key'],
-                'query'       => $head['query'],
-                'query_hash'  => $head['query_hash'],
-                'post_id'     => $head['post_id'],
-                'page_url'    => $head['page_url'],
-                'score'       => round(array_sum(array_column($members, 'score')), 2),
-                'evidence'    => $evidence,
+                'query' => $head['query'],
+                'query_hash' => $head['query_hash'],
+                'post_id' => $head['post_id'],
+                'page_url' => $head['page_url'],
+                'score' => round(array_sum(array_column($members, 'score')), 2),
+                'evidence' => $evidence,
             ];
         }
 
@@ -437,12 +438,12 @@ class MineSearchOpportunities extends Command
             ->first();
 
         $payload = [
-            'query'        => $c['query'],
-            'query_hash'   => $c['query_hash'],
-            'post_id'      => $c['post_id'],
-            'page_url'     => $c['page_url'],
-            'score'        => $c['score'],
-            'evidence'     => $c['evidence'],
+            'query' => $c['query'],
+            'query_hash' => $c['query_hash'],
+            'post_id' => $c['post_id'],
+            'page_url' => $c['page_url'],
+            'score' => $c['score'],
+            'evidence' => $c['evidence'],
             'last_seen_at' => now(),
         ];
 
@@ -462,9 +463,9 @@ class MineSearchOpportunities extends Command
         }
 
         return SearchOpportunity::create($payload + [
-            'kind'          => $c['kind'],
-            'cluster_key'   => $key,
-            'status'        => 'open',
+            'kind' => $c['kind'],
+            'cluster_key' => $key,
+            'status' => 'open',
             'first_seen_at' => now(),
         ])->id;
     }
@@ -494,10 +495,10 @@ class MineSearchOpportunities extends Command
                 DB::raw('SUM(position * impressions) as pos_weight'),
             ])
             ->map(function ($r) {
-                $r->clicks      = (int) $r->clicks;
+                $r->clicks = (int) $r->clicks;
                 $r->impressions = (int) $r->impressions;
-                $r->avg_pos     = $r->impressions > 0 ? (float) $r->pos_weight / $r->impressions : null;
-                $r->post_id     = $this->resolvePostId($r->page_url);
+                $r->avg_pos = $r->impressions > 0 ? (float) $r->pos_weight / $r->impressions : null;
+                $r->post_id = $this->resolvePostId($r->page_url);
 
                 return $r;
             });
@@ -517,15 +518,15 @@ class MineSearchOpportunities extends Command
             $best = $rows->sortByDesc('impressions')->first();
 
             $out[] = [
-                'query'       => $best->query,
-                'query_hash'  => $best->query_hash,
+                'query' => $best->query,
+                'query_hash' => $best->query_hash,
                 'impressions' => (int) $rows->sum('impressions'),
-                'clicks'      => (int) $rows->sum('clicks'),
-                'best_page'   => $best->page_url,
+                'clicks' => (int) $rows->sum('clicks'),
+                'best_page' => $best->page_url,
                 // The rank of the page we resolve the post from — NOT the min across
                 // all pages, so a well-ranking home/category page can't mask the fact
                 // that our own post ranks poorly (a real content gap).
-                'best_pos'    => $best->avg_pos,
+                'best_pos' => $best->avg_pos,
             ];
         }
 
@@ -533,23 +534,23 @@ class MineSearchOpportunities extends Command
     }
 
     /**
-     * @param  \Illuminate\Support\Collection|object  $r
+     * @param  Collection|object  $r
      * @return array<string, mixed>
      */
     private function candidate(string $kind, string $clusterKey, $r, ?int $targetPos, float $score): array
     {
         return [
-            'kind'        => $kind,
+            'kind' => $kind,
             'cluster_key' => $clusterKey,
-            'query'       => $r->query,
-            'query_hash'  => $r->query_hash,
-            'post_id'     => $r->post_id,
-            'page_url'    => $r->page_url,
+            'query' => $r->query,
+            'query_hash' => $r->query_hash,
+            'post_id' => $r->post_id,
+            'page_url' => $r->page_url,
             'impressions' => $r->impressions,
-            'clicks'      => $r->clicks,
-            'position'    => $r->avg_pos,
-            'target_pos'  => $targetPos,
-            'score'       => $score,
+            'clicks' => $r->clicks,
+            'position' => $r->avg_pos,
+            'target_pos' => $targetPos,
+            'score' => $score,
         ];
     }
 

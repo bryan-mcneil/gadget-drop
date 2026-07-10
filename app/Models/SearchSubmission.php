@@ -13,7 +13,7 @@ class SearchSubmission extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'submitted_at'  => 'datetime',
+        'submitted_at' => 'datetime',
         'response_code' => 'integer',
     ];
 }

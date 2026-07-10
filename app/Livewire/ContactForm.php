@@ -52,7 +52,7 @@ class ContactForm extends Component
             return;
         }
 
-        $key = 'contact:' . request()->ip();
+        $key = 'contact:'.request()->ip();
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $this->status = 'throttled';

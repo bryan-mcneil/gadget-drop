@@ -13,9 +13,9 @@ class SearchIndexCheck extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'raw'           => 'array',
+        'raw' => 'array',
         'last_crawl_at' => 'datetime',
-        'checked_at'    => 'datetime',
+        'checked_at' => 'datetime',
     ];
 
     public function post(): BelongsTo

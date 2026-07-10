@@ -20,21 +20,21 @@ class DashboardController extends Controller
     {
         return Inertia::render('Admin/Dashboard', [
             'stats' => [
-                'posts'         => Post::count(),
-                'published'     => Post::where('status', 'published')->count(),
-                'products'      => Product::count(),
-                'clicks_today'  => AffiliateClick::whereDate('clicked_at', today())->count(),
+                'posts' => Post::count(),
+                'published' => Post::where('status', 'published')->count(),
+                'products' => Product::count(),
+                'clicks_today' => AffiliateClick::whereDate('clicked_at', today())->count(),
             ],
             'recentPosts' => Post::with('user')
                 ->latest()
                 ->take(5)
                 ->get()
                 ->map(fn ($p) => [
-                    'id'           => $p->id,
-                    'title'        => $p->title,
-                    'status'       => $p->status,
+                    'id' => $p->id,
+                    'title' => $p->title,
+                    'status' => $p->status,
                     'published_at' => $p->published_at?->toDateString(),
-                    'author'       => $p->user?->name ?? '—',
+                    'author' => $p->user?->name ?? '—',
                 ]),
             // Read-only Drop Price summary. This is the admin side of the secrecy
             // boundary — showing the answer price here is fine (admin-only), so we
@@ -43,7 +43,7 @@ class DashboardController extends Controller
             // Compact Search Intel card → deep-links to /admin/seo.
             'seo' => [
                 'open_opportunities' => SearchOpportunity::open()->count(),
-                'unindexed'          => $this->unindexedCount(),
+                'unindexed' => $this->unindexedCount(),
             ],
         ]);
     }
@@ -78,15 +78,15 @@ class DashboardController extends Controller
         $todaySummary = null;
         if ($today) {
             $todaySummary = [
-                'number'    => $today->puzzle_number,
-                'name'      => $today->product_name,
-                'image'     => $today->product_image_url,
-                'price'     => $today->price,
-                'date'      => $today->date?->toDateString(),
+                'number' => $today->puzzle_number,
+                'name' => $today->product_name,
+                'image' => $today->product_image_url,
+                'price' => $today->price,
+                'date' => $today->date?->toDateString(),
                 'is_preset' => (bool) $today->is_preset,
                 'product_id' => $today->product_id,
-                'plays'     => DropPriceResult::where('drop_price_puzzle_id', $today->id)->count(),
-                'wins'      => DropPriceResult::where('drop_price_puzzle_id', $today->id)->where('won', true)->count(),
+                'plays' => DropPriceResult::where('drop_price_puzzle_id', $today->id)->count(),
+                'wins' => DropPriceResult::where('drop_price_puzzle_id', $today->id)->where('won', true)->count(),
             ];
         }
 
@@ -99,10 +99,10 @@ class DashboardController extends Controller
             ->first();
 
         $upcoming = $next ? [
-            'number'    => $next->puzzle_number,
-            'name'      => $next->product_name,
-            'price'     => $next->price,
-            'date'      => $next->date?->toDateString(),
+            'number' => $next->puzzle_number,
+            'name' => $next->product_name,
+            'price' => $next->price,
+            'date' => $next->date?->toDateString(),
             'is_preset' => (bool) $next->is_preset,
         ] : null;
 

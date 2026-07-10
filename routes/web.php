@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DailyDropController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\SeoController;
+use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\TagController;
-use App\Http\Controllers\Admin\DailyDropController;
+use App\Http\Controllers\DealsController;
 use App\Http\Controllers\DropPriceController;
 use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\ProfileController;
@@ -40,33 +44,33 @@ foreach (config('site.category_map', []) as $oldCategorySlug => $newCategorySlug
 }
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
-Route::get('/deals', [\App\Http\Controllers\DealsController::class, 'index'])->name('deals');
+Route::get('/deals', [DealsController::class, 'index'])->name('deals');
 Route::get('/drop-price', [DropPriceController::class, 'index'])->name('drop-price.index');
 Route::get('/drop-price/{puzzle:puzzle_number}', [DropPriceController::class, 'show'])->name('drop-price.show');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 // Legacy fictional-persona author URLs → 301 to the single real author.
 foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
-    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/' . config('site.author.slug'));
+    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/'.config('site.author.slug'));
 }
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
-Route::get('/about',   [PublicController::class, 'about'])->name('about');
+Route::get('/about', [PublicController::class, 'about'])->name('about');
 Route::get('/how-we-review', [PublicController::class, 'howWeReview'])->name('how-we-review');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/cookies', [PublicController::class, 'cookies'])->name('cookies');
-Route::get('/terms',   [PublicController::class, 'terms'])->name('terms');
+Route::get('/terms', [PublicController::class, 'terms'])->name('terms');
 // Tools
-Route::get('/tools',               [ToolController::class, 'index'])->name('tools.index');
-Route::get('/tools/json-validator',  [ToolController::class, 'jsonValidator'])->name('tools.json-validator');
-Route::get('/tools/js-css-minifier',  [ToolController::class, 'jsCssMinifier'])->name('tools.js-css-minifier');
-Route::get('/tools/image-editor',        [ToolController::class, 'imageEditor'])->name('tools.image-editor');
-Route::get('/tools/image-converter',     [ToolController::class, 'imageConverter'])->name('tools.image-converter');
-Route::get('/tools/background-remover',  [ToolController::class, 'backgroundRemover'])->name('tools.background-remover');
-Route::get('/tools/password-generator',  [ToolController::class, 'passwordGenerator'])->name('tools.password-generator');
-Route::get('/tools/base64-encoder',      [ToolController::class, 'base64Encoder'])->name('tools.base64-encoder');
-Route::get('/tools/color-palette',       [ToolController::class, 'colorPalette'])->name('tools.color-palette');
-Route::get('/tools/meta-tag-previewer',  [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
+Route::get('/tools', [ToolController::class, 'index'])->name('tools.index');
+Route::get('/tools/json-validator', [ToolController::class, 'jsonValidator'])->name('tools.json-validator');
+Route::get('/tools/js-css-minifier', [ToolController::class, 'jsCssMinifier'])->name('tools.js-css-minifier');
+Route::get('/tools/image-editor', [ToolController::class, 'imageEditor'])->name('tools.image-editor');
+Route::get('/tools/image-converter', [ToolController::class, 'imageConverter'])->name('tools.image-converter');
+Route::get('/tools/background-remover', [ToolController::class, 'backgroundRemover'])->name('tools.background-remover');
+Route::get('/tools/password-generator', [ToolController::class, 'passwordGenerator'])->name('tools.password-generator');
+Route::get('/tools/base64-encoder', [ToolController::class, 'base64Encoder'])->name('tools.base64-encoder');
+Route::get('/tools/color-palette', [ToolController::class, 'colorPalette'])->name('tools.color-palette');
+Route::get('/tools/meta-tag-previewer', [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
 Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
 
 // Server-side tools scaffold (Phase 2+)
@@ -84,15 +88,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('posts', PostController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
-    Route::get('prices', [\App\Http\Controllers\Admin\PriceController::class, 'index'])->name('prices.index');
-    Route::post('prices/{product}', [\App\Http\Controllers\Admin\PriceController::class, 'update'])->name('prices.update');
-    Route::post('prices/{product}/confirm', [\App\Http\Controllers\Admin\PriceController::class, 'confirm'])->name('prices.confirm');
-    Route::get('social', [\App\Http\Controllers\Admin\SocialController::class, 'index'])->name('social.index');
-    Route::post('social/{socialPost}/posted', [\App\Http\Controllers\Admin\SocialController::class, 'markPosted'])->name('social.posted');
-    Route::post('social/{socialPost}/skip', [\App\Http\Controllers\Admin\SocialController::class, 'skip'])->name('social.skip');
-    Route::get('seo', [\App\Http\Controllers\Admin\SeoController::class, 'index'])->name('seo.index');
-    Route::post('seo/opportunities/{opportunity}', [\App\Http\Controllers\Admin\SeoController::class, 'updateOpportunity'])->name('seo.opportunities.update');
-    Route::post('seo/posts/{post}/reping', [\App\Http\Controllers\Admin\SeoController::class, 'reping'])->name('seo.reping');
+    Route::get('prices', [PriceController::class, 'index'])->name('prices.index');
+    Route::post('prices/{product}', [PriceController::class, 'update'])->name('prices.update');
+    Route::post('prices/{product}/confirm', [PriceController::class, 'confirm'])->name('prices.confirm');
+    Route::get('social', [SocialController::class, 'index'])->name('social.index');
+    Route::post('social/{socialPost}/posted', [SocialController::class, 'markPosted'])->name('social.posted');
+    Route::post('social/{socialPost}/skip', [SocialController::class, 'skip'])->name('social.skip');
+    Route::get('seo', [SeoController::class, 'index'])->name('seo.index');
+    Route::post('seo/opportunities/{opportunity}', [SeoController::class, 'updateOpportunity'])->name('seo.opportunities.update');
+    Route::post('seo/posts/{post}/reping', [SeoController::class, 'reping'])->name('seo.reping');
     Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('tags', TagController::class)->except(['show', 'create', 'edit']);
     Route::post('images', [ImageController::class, 'store'])->name('images.store');

@@ -35,12 +35,12 @@ class SocialOutboxTest extends TestCase
 
         return Post::create(array_merge([
             'user_id' => User::factory()->create()->id,
-            'title'   => "Outbox Post {$i}",
-            'slug'    => "outbox-post-{$i}",
-            'type'    => 'article',
+            'title' => "Outbox Post {$i}",
+            'slug' => "outbox-post-{$i}",
+            'type' => 'article',
             'excerpt' => 'Short excerpt.',
-            'body'    => 'Body text.',
-            'status'  => 'draft',
+            'body' => 'Body text.',
+            'status' => 'draft',
         ], $overrides));
     }
 

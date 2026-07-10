@@ -21,18 +21,18 @@ class SocialDriverManager
 
         return match ($mode) {
             'manual' => app(ManualDriver::class),
-            'log'    => app(LogDriver::class),
-            'api'    => $this->apiDriver($platform),
-            default  => throw new RuntimeException("Unknown social mode '{$mode}' for {$platform}."),
+            'log' => app(LogDriver::class),
+            'api' => $this->apiDriver($platform),
+            default => throw new RuntimeException("Unknown social mode '{$mode}' for {$platform}."),
         };
     }
 
     private function apiDriver(string $platform): SocialDriver
     {
         $driver = match ($platform) {
-            'bluesky'  => app(BlueskyDriver::class),
+            'bluesky' => app(BlueskyDriver::class),
             'facebook' => app(FacebookDriver::class),
-            default    => throw new RuntimeException("No API driver built for {$platform} yet — set its mode to 'manual'."),
+            default => throw new RuntimeException("No API driver built for {$platform} yet — set its mode to 'manual'."),
         };
 
         if ($driver->isConfigured()) {

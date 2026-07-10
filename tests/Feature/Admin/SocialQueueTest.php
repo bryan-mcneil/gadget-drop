@@ -19,20 +19,20 @@ class SocialQueueTest extends TestCase
         $i++;
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Social Post {$i}",
-            'slug'         => "social-post-{$i}",
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Social Post {$i}",
+            'slug' => "social-post-{$i}",
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now(),
         ]);
 
         return SocialPost::create(array_merge([
-            'post_id'  => $post->id,
+            'post_id' => $post->id,
             'platform' => 'bluesky',
-            'status'   => SocialPost::STATUS_READY,
-            'body'     => "Social Post {$i}\n\nhttps://gadgetdrop.tech/posts/social-post-{$i}",
+            'status' => SocialPost::STATUS_READY,
+            'body' => "Social Post {$i}\n\nhttps://gadgetdrop.tech/posts/social-post-{$i}",
         ], $overrides));
     }
 

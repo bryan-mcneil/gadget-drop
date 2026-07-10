@@ -79,7 +79,7 @@ class LockDailyDropPrice extends Command
 
         $puzzle->fill([
             'product_id' => $product->id,
-            'is_preset'  => true,
+            'is_preset' => true,
         ] + $this->snapshotFields($product))->save();
 
         $this->info("Queued preset for {$date->toDateString()}: {$product->name} (\${$puzzle->price}).");
@@ -104,7 +104,7 @@ class LockDailyDropPrice extends Command
         }
 
         $puzzle->puzzle_number = $this->nextNumber();
-        $puzzle->locked_at     = now();
+        $puzzle->locked_at = now();
         $puzzle->save();
 
         Cache::forget('dropprice.today');
@@ -145,10 +145,10 @@ class LockDailyDropPrice extends Command
 
         $puzzle = DropPricePuzzle::create([
             'puzzle_number' => $this->nextNumber(),
-            'date'          => $date->toDateString(),
-            'product_id'    => $product->id,
-            'locked_at'     => now(),
-            'is_preset'     => false,
+            'date' => $date->toDateString(),
+            'product_id' => $product->id,
+            'locked_at' => now(),
+            'is_preset' => false,
         ] + $this->snapshotFields($product));
 
         Cache::forget('dropprice.today');
@@ -190,9 +190,9 @@ class LockDailyDropPrice extends Command
     private function snapshotFields(Product $product): array
     {
         return [
-            'price'                => $this->snapshotPrice($product),
-            'product_name'         => $product->name,
-            'product_image_url'    => $product->image_url,
+            'price' => $this->snapshotPrice($product),
+            'product_name' => $product->name,
+            'product_image_url' => $product->image_url,
             'affiliate_product_id' => $product->id,
         ];
     }

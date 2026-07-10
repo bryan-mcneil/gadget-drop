@@ -18,7 +18,7 @@ class OgImageController extends Controller
 
         return response()
             ->file($generator->forPost($post), [
-                'Content-Type'  => 'image/jpeg',
+                'Content-Type' => 'image/jpeg',
                 'Cache-Control' => 'public, max-age=86400, stale-while-revalidate=604800',
             ]);
     }
@@ -30,7 +30,7 @@ class OgImageController extends Controller
     {
         return response()
             ->file($generator->forDefault(), [
-                'Content-Type'  => 'image/jpeg',
+                'Content-Type' => 'image/jpeg',
                 'Cache-Control' => 'public, max-age=604800',
             ]);
     }
@@ -46,12 +46,12 @@ class OgImageController extends Controller
             ->latest('published_at')
             ->get(['id', 'type', 'title', 'slug', 'excerpt'])
             ->map(fn (Post $p) => [
-                'title'       => $p->title,
-                'type'        => $p->type,
-                'excerpt'     => $p->excerpt,
-                'url'         => route('posts.show', $p->slug),
-                'card'        => route('og.posts.show', $p->slug),
-                'domain'      => parse_url(config('app.url'), PHP_URL_HOST) ?: 'gadgetdrop.tech',
+                'title' => $p->title,
+                'type' => $p->type,
+                'excerpt' => $p->excerpt,
+                'url' => route('posts.show', $p->slug),
+                'card' => route('og.posts.show', $p->slug),
+                'domain' => parse_url(config('app.url'), PHP_URL_HOST) ?: 'gadgetdrop.tech',
             ]);
 
         return view('og-preview', ['posts' => $posts]);

@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SocialPost extends Model
 {
     public const STATUS_PENDING = 'pending'; // queued, an API driver will pick it up
+
     public const STATUS_READY = 'ready';     // composed, waiting for a manual copy-paste
+
     public const STATUS_POSTED = 'posted';
+
     public const STATUS_FAILED = 'failed';
+
     public const STATUS_SKIPPED = 'skipped';
 
     protected $fillable = [
@@ -20,7 +24,7 @@ class SocialPost extends Model
 
     protected $casts = [
         'posted_at' => 'datetime',
-        'attempts'  => 'integer',
+        'attempts' => 'integer',
     ];
 
     public function post(): BelongsTo

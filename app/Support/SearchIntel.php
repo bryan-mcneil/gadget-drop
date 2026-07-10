@@ -82,7 +82,7 @@ class SearchIntel
      */
     private static function computeCurve(): array
     {
-        $curve   = array_map('floatval', (array) config('search.ctr_curve', []));
+        $curve = array_map('floatval', (array) config('search.ctr_curve', []));
         $minImpr = (int) config('search.min_ctr_samples', 200);
 
         $buckets = []; // pos => ['clicks' => int, 'impr' => int]
@@ -98,7 +98,7 @@ class SearchIntel
                         continue;
                     }
                     $buckets[$pos]['clicks'] = ($buckets[$pos]['clicks'] ?? 0) + (int) $r->clicks;
-                    $buckets[$pos]['impr']   = ($buckets[$pos]['impr'] ?? 0) + (int) $r->impressions;
+                    $buckets[$pos]['impr'] = ($buckets[$pos]['impr'] ?? 0) + (int) $r->impressions;
                 }
             });
 

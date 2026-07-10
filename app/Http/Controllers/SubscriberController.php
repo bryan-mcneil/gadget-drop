@@ -20,8 +20,8 @@ class SubscriberController extends Controller
         }
 
         Subscriber::create([
-            'email'      => $request->email,
-            'token'      => (string) Str::uuid(),
+            'email' => $request->email,
+            'token' => (string) Str::uuid(),
             'ip_address' => $request->ip(),
         ]);
 
@@ -31,11 +31,11 @@ class SubscriberController extends Controller
     public function showUnsubscribe(): View
     {
         view()->share('serverMeta', [
-            'title'       => 'Unsubscribe | GadgetDrop',
+            'title' => 'Unsubscribe | GadgetDrop',
             'description' => 'Unsubscribe from the GadgetDrop newsletter.',
-            'og_image'    => null,
-            'og_type'     => 'website',
-            'canonical'   => route('unsubscribe'),
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('unsubscribe'),
         ]);
 
         return view('public.unsubscribe', [

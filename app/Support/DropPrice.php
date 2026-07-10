@@ -57,8 +57,8 @@ class DropPrice
 
         $band = match (true) {
             $pct > self::BAND_FREEZING => 'freezing',
-            $pct >= self::BAND_WARM    => 'warm',
-            default                    => 'hot',
+            $pct >= self::BAND_WARM => 'warm',
+            default => 'hot',
         };
 
         return ['direction' => $direction, 'band' => $band, 'won' => false];

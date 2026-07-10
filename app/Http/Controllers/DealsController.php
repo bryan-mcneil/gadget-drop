@@ -30,11 +30,11 @@ class DealsController extends Controller
         }
 
         view()->share('serverMeta', [
-            'title'       => 'Tech Price Drops We Actually Tracked | GadgetDrop',
+            'title' => 'Tech Price Drops We Actually Tracked | GadgetDrop',
             'description' => 'Real price drops on gadgets we cover — measured against our own recorded price history, not inflated list prices. Updated as our tracker sees changes.',
-            'og_image'    => null,
-            'og_type'     => 'website',
-            'canonical'   => route('deals'),
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('deals'),
         ]);
 
         return view('public.deals', ['deals' => $deals]);
@@ -77,18 +77,18 @@ class DealsController extends Controller
 
             $deals[] = [
                 'product_id' => $product->id,
-                'name'       => $product->name,
-                'image_url'  => $product->image_url,
-                'current'    => $stats['current'],
-                'typical'    => $stats['avg90'],
-                'low90'      => $stats['low90'],
-                'drop_pct'   => $stats['drop_pct'],
-                'verdict'    => $stats['verdict'],
+                'name' => $product->name,
+                'image_url' => $product->image_url,
+                'current' => $stats['current'],
+                'typical' => $stats['avg90'],
+                'low90' => $stats['low90'],
+                'drop_pct' => $stats['drop_pct'],
+                'verdict' => $stats['verdict'],
                 'checked_at' => $stats['checked_at'],
-                'points'     => $stats['points'],
-                'post_id'    => $post->id,
+                'points' => $stats['points'],
+                'post_id' => $post->id,
                 'post_title' => $post->title,
-                'post_slug'  => $post->slug,
+                'post_slug' => $post->slug,
             ];
         }
 

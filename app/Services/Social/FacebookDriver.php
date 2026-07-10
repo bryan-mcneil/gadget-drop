@@ -34,13 +34,13 @@ class FacebookDriver implements SocialDriver
 
         $response = Http::acceptJson()->timeout(self::TIMEOUT)
             ->post("https://graph.facebook.com/{$version}/{$config['page_id']}/feed", [
-                'message'      => $this->messageWithoutBareLink($socialPost->body, $link),
-                'link'         => $link,
+                'message' => $this->messageWithoutBareLink($socialPost->body, $link),
+                'link' => $link,
                 'access_token' => $config['page_token'],
             ]);
 
         if ($response->failed()) {
-            throw new RuntimeException('Facebook post failed: ' . ($response->json('error.message') ?? "HTTP {$response->status()}"));
+            throw new RuntimeException('Facebook post failed: '.($response->json('error.message') ?? "HTTP {$response->status()}"));
         }
 
         // id is "{page_id}_{post_id}"; facebook.com/{id} resolves to the post.
@@ -56,7 +56,7 @@ class FacebookDriver implements SocialDriver
      */
     private function messageWithoutBareLink(string $body, string $link): string
     {
-        $stripped = (string) preg_replace('/^' . preg_quote($link, '/') . '$/m', '', $body);
+        $stripped = (string) preg_replace('/^'.preg_quote($link, '/').'$/m', '', $body);
 
         return trim((string) preg_replace("/\n{3,}/", "\n\n", $stripped));
     }

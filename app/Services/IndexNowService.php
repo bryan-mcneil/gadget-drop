@@ -35,20 +35,20 @@ class IndexNowService
             return;
         }
 
-        $key         = (string) config('search.indexnow_key');
-        $siteUrl     = rtrim((string) config('search.site_url'), '/');
-        $host        = parse_url($siteUrl, PHP_URL_HOST) ?: $siteUrl;
-        $keyLocation = $siteUrl . '/indexnow.txt';
+        $key = (string) config('search.indexnow_key');
+        $siteUrl = rtrim((string) config('search.site_url'), '/');
+        $host = parse_url($siteUrl, PHP_URL_HOST) ?: $siteUrl;
+        $keyLocation = $siteUrl.'/indexnow.txt';
 
         foreach (array_chunk($urls, self::CHUNK) as $chunk) {
             $status = null;
 
             try {
                 $status = Http::timeout(3)->post(self::ENDPOINT, [
-                    'host'        => $host,
-                    'key'         => $key,
+                    'host' => $host,
+                    'key' => $key,
                     'keyLocation' => $keyLocation,
-                    'urlList'     => array_values($chunk),
+                    'urlList' => array_values($chunk),
                 ])->status();
             } catch (\Throwable $e) {
                 Log::warning('IndexNow submit failed', ['error' => $e->getMessage()]);
@@ -69,11 +69,11 @@ class IndexNowService
     {
         try {
             SearchSubmission::create([
-                'url'           => mb_substr($url, 0, 500),
-                'engine'        => 'indexnow',
-                'trigger'       => $trigger,
+                'url' => mb_substr($url, 0, 500),
+                'engine' => 'indexnow',
+                'trigger' => $trigger,
                 'response_code' => $status,
-                'submitted_at'  => now(),
+                'submitted_at' => now(),
             ]);
         } catch (\Throwable) {
             // Logging is best-effort; never let it break the caller.

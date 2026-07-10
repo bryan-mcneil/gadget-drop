@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Middleware\ApiKeyMiddleware;
+use App\Http\Middleware\CacheViteAssets;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,13 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
-            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            \App\Http\Middleware\CacheViteAssets::class,
+            HandleInertiaRequests::class,
+            AddLinkHeadersForPreloadedAssets::class,
+            CacheViteAssets::class,
         ]);
 
         $middleware->alias([
-            'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
+            'api.key' => ApiKeyMiddleware::class,
         ]);
 
         //

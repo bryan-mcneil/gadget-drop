@@ -10,6 +10,7 @@ use App\Models\SearchSiteDay;
 use App\Services\BingWebmasterService;
 use App\Services\GoogleSearchConsoleService;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
@@ -38,8 +39,8 @@ class SyncSearchData extends Command
 
     public function handle(GoogleSearchConsoleService $gsc, BingWebmasterService $bing): int
     {
-        $days  = (int) ($this->option('backfill') ?: $this->option('days') ?: 5);
-        $end   = Carbon::now()->startOfDay();
+        $days = (int) ($this->option('backfill') ?: $this->option('days') ?: 5);
+        $end = Carbon::now()->startOfDay();
         $start = $end->copy()->subDays(max(0, $days - 1));
 
         $this->info("Search sync window: {$start->toDateString()} → {$end->toDateString()}.");
@@ -74,10 +75,10 @@ class SyncSearchData extends Command
             // Site/day totals per search type.
             foreach (['web', 'discover', 'googleNews'] as $type) {
                 $resp = $gsc->searchAnalytics([
-                    'startDate'  => $s,
-                    'endDate'    => $e,
+                    'startDate' => $s,
+                    'endDate' => $e,
                     'dimensions' => ['date'],
-                    'type'       => $type,
+                    'type' => $type,
                 ]);
 
                 $siteRows += $this->upsertSiteDays($resp['rows'] ?? [], $type);
@@ -85,19 +86,19 @@ class SyncSearchData extends Command
 
             // Page/day (web).
             $resp = $gsc->searchAnalytics([
-                'startDate'  => $s,
-                'endDate'    => $e,
+                'startDate' => $s,
+                'endDate' => $e,
                 'dimensions' => ['date', 'page'],
-                'type'       => 'web',
+                'type' => 'web',
             ]);
             $pageRows += $this->upsertPageDays($resp['rows'] ?? []);
 
             // Query x page / day (web).
             $resp = $gsc->searchAnalytics([
-                'startDate'  => $s,
-                'endDate'    => $e,
+                'startDate' => $s,
+                'endDate' => $e,
                 'dimensions' => ['date', 'query', 'page'],
-                'type'       => 'web',
+                'type' => 'web',
             ]);
             $queryRows += $this->upsertQueryDays($resp['rows'] ?? []);
         }
@@ -108,23 +109,23 @@ class SyncSearchData extends Command
     private function syncBing(BingWebmasterService $bing, Carbon $today): void
     {
         $rows = [];
-        $now  = now();
+        $now = now();
 
         foreach ($bing->rankAndTrafficStats() as $stat) {
             $rows[] = [
-                'source'      => 'bing',
-                'date'        => $stat['date'],
+                'source' => 'bing',
+                'date' => $stat['date'],
                 'search_type' => 'web',
-                'clicks'      => $stat['clicks'],
+                'clicks' => $stat['clicks'],
                 'impressions' => $stat['impressions'],
-                'position'    => $stat['position'] !== null ? round($stat['position'], 2) : null,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'position' => $stat['position'] !== null ? round($stat['position'], 2) : null,
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
         }
 
         $this->upsertChunked(SearchSiteDay::class, $rows, ['source', 'date', 'search_type'], ['clicks', 'impressions', 'position', 'updated_at']);
-        $this->info('  Bing: ' . count($rows) . ' site-day rows.');
+        $this->info('  Bing: '.count($rows).' site-day rows.');
 
         // Bing's per-query aggregate has no date range — snapshot it weekly.
         if ($today->isSunday()) {
@@ -133,27 +134,27 @@ class SyncSearchData extends Command
 
             foreach ($bing->queryStats() as $q) {
                 $snap[] = [
-                    'query'                   => $this->clip($q['query']),
-                    'query_hash'              => sha1($q['query']),
-                    'clicks'                  => $q['clicks'],
-                    'impressions'             => $q['impressions'],
-                    'avg_click_position'      => $q['avg_click_position'],
+                    'query' => $this->clip($q['query']),
+                    'query_hash' => sha1($q['query']),
+                    'clicks' => $q['clicks'],
+                    'impressions' => $q['impressions'],
+                    'avg_click_position' => $q['avg_click_position'],
                     'avg_impression_position' => $q['avg_impression_position'],
-                    'captured_on'             => $captured,
-                    'created_at'              => $now,
-                    'updated_at'              => $now,
+                    'captured_on' => $captured,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ];
             }
 
             $this->upsertChunked(BingQueryStat::class, $snap, ['query_hash', 'captured_on'], ['query', 'clicks', 'impressions', 'avg_click_position', 'avg_impression_position', 'updated_at']);
-            $this->info('  Bing: ' . count($snap) . ' query snapshot rows.');
+            $this->info('  Bing: '.count($snap).' query snapshot rows.');
         }
     }
 
     /** @param array<int, array<string, mixed>> $rows */
     private function upsertSiteDays(array $rows, string $searchType): int
     {
-        $now  = now();
+        $now = now();
         $data = [];
 
         foreach ($rows as $r) {
@@ -163,14 +164,14 @@ class SyncSearchData extends Command
             }
 
             $data[] = [
-                'source'      => 'google',
-                'date'        => $date,
+                'source' => 'google',
+                'date' => $date,
                 'search_type' => $searchType,
-                'clicks'      => (int) ($r['clicks'] ?? 0),
+                'clicks' => (int) ($r['clicks'] ?? 0),
                 'impressions' => (int) ($r['impressions'] ?? 0),
-                'position'    => isset($r['position']) ? round((float) $r['position'], 2) : null,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'position' => isset($r['position']) ? round((float) $r['position'], 2) : null,
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
         }
 
@@ -182,7 +183,7 @@ class SyncSearchData extends Command
     /** @param array<int, array<string, mixed>> $rows */
     private function upsertPageDays(array $rows): int
     {
-        $now  = now();
+        $now = now();
         $data = [];
 
         foreach ($rows as $r) {
@@ -193,15 +194,15 @@ class SyncSearchData extends Command
             }
 
             $data[] = [
-                'date'        => $date,
-                'page_url'    => $this->clip($page),
-                'url_hash'    => sha1($page),
-                'post_id'     => $this->resolvePostId($page),
-                'clicks'      => (int) ($r['clicks'] ?? 0),
+                'date' => $date,
+                'page_url' => $this->clip($page),
+                'url_hash' => sha1($page),
+                'post_id' => $this->resolvePostId($page),
+                'clicks' => (int) ($r['clicks'] ?? 0),
                 'impressions' => (int) ($r['impressions'] ?? 0),
-                'position'    => isset($r['position']) ? round((float) $r['position'], 2) : null,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'position' => isset($r['position']) ? round((float) $r['position'], 2) : null,
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
         }
 
@@ -213,28 +214,28 @@ class SyncSearchData extends Command
     /** @param array<int, array<string, mixed>> $rows */
     private function upsertQueryDays(array $rows): int
     {
-        $now  = now();
+        $now = now();
         $data = [];
 
         foreach ($rows as $r) {
-            $date  = $r['keys'][0] ?? null;
+            $date = $r['keys'][0] ?? null;
             $query = $r['keys'][1] ?? null;
-            $page  = $r['keys'][2] ?? null;
+            $page = $r['keys'][2] ?? null;
             if ($date === null || $query === null || $page === null) {
                 continue;
             }
 
             $data[] = [
-                'date'        => $date,
-                'query'       => $this->clip($query),
-                'query_hash'  => sha1($query),
-                'page_url'    => $this->clip($page),
-                'url_hash'    => sha1($page),
-                'clicks'      => (int) ($r['clicks'] ?? 0),
+                'date' => $date,
+                'query' => $this->clip($query),
+                'query_hash' => sha1($query),
+                'page_url' => $this->clip($page),
+                'url_hash' => sha1($page),
+                'clicks' => (int) ($r['clicks'] ?? 0),
                 'impressions' => (int) ($r['impressions'] ?? 0),
-                'position'    => isset($r['position']) ? round((float) $r['position'], 2) : null,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'position' => isset($r['position']) ? round((float) $r['position'], 2) : null,
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
         }
 
@@ -244,7 +245,7 @@ class SyncSearchData extends Command
     }
 
     /**
-     * @param  class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  class-string<Model>  $model
      * @param  array<int, array<string, mixed>>  $rows
      * @param  array<int, string>  $uniqueBy
      * @param  array<int, string>  $update

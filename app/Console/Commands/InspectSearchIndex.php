@@ -9,6 +9,7 @@ use App\Services\GoogleSearchConsoleService;
 use App\Services\IndexNowService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * Verify indexation of recent / not-yet-indexed posts via the GSC URL
@@ -34,7 +35,7 @@ class InspectSearchIndex extends Command
             return self::SUCCESS;
         }
 
-        $cap          = (int) ($this->option('limit') ?: config('search.inspect_daily_cap', 50));
+        $cap = (int) ($this->option('limit') ?: config('search.inspect_daily_cap', 50));
         $escalateDays = (int) config('search.inspect_escalate_days', 4);
 
         $candidates = $this->candidates($cap);
@@ -46,11 +47,11 @@ class InspectSearchIndex extends Command
         }
 
         $inspected = 0;
-        $indexed   = 0;
+        $indexed = 0;
         $escalated = [];
 
         foreach ($candidates as $post) {
-            $url    = route('posts.show', $post->slug);
+            $url = route('posts.show', $post->slug);
             $result = $gsc->inspectUrl($url);
 
             if ($result === null) {
@@ -60,16 +61,16 @@ class InspectSearchIndex extends Command
             }
 
             $indexStatus = $result['inspectionResult']['indexStatusResult'] ?? [];
-            $verdict     = $indexStatus['verdict'] ?? null;
+            $verdict = $indexStatus['verdict'] ?? null;
 
             SearchIndexCheck::create([
-                'post_id'        => $post->id,
-                'url'            => $url,
-                'verdict'        => $verdict,
+                'post_id' => $post->id,
+                'url' => $url,
+                'verdict' => $verdict,
                 'coverage_state' => $indexStatus['coverageState'] ?? null,
-                'last_crawl_at'  => isset($indexStatus['lastCrawlTime']) ? Carbon::parse($indexStatus['lastCrawlTime']) : null,
-                'raw'            => $result,
-                'checked_at'     => now(),
+                'last_crawl_at' => isset($indexStatus['lastCrawlTime']) ? Carbon::parse($indexStatus['lastCrawlTime']) : null,
+                'raw' => $result,
+                'checked_at' => now(),
             ]);
 
             $inspected++;
@@ -83,24 +84,24 @@ class InspectSearchIndex extends Command
 
                 if (($status = $gsc->submitSitemap()) !== null) {
                     SearchSubmission::create([
-                        'url'           => (string) config('search.sitemap_url'),
-                        'engine'        => 'google_sitemap',
-                        'trigger'       => 'retry',
+                        'url' => (string) config('search.sitemap_url'),
+                        'engine' => 'google_sitemap',
+                        'trigger' => 'retry',
                         'response_code' => $status,
-                        'submitted_at'  => now(),
+                        'submitted_at' => now(),
                     ]);
                 }
 
                 $escalated[] = $post->slug;
             }
 
-            $this->line("  {$post->slug}: " . ($verdict ?? 'unknown'));
+            $this->line("  {$post->slug}: ".($verdict ?? 'unknown'));
         }
 
-        $this->info("Inspected {$inspected}, indexed {$indexed}, escalated " . count($escalated) . '.');
+        $this->info("Inspected {$inspected}, indexed {$indexed}, escalated ".count($escalated).'.');
 
         if ($escalated !== []) {
-            $this->warn("Still not indexed after {$escalateDays} days: " . implode(', ', $escalated));
+            $this->warn("Still not indexed after {$escalateDays} days: ".implode(', ', $escalated));
         }
 
         return self::SUCCESS;
@@ -110,7 +111,7 @@ class InspectSearchIndex extends Command
      * Published posts that are either recent or not-yet-confirmed-indexed,
      * recent first, capped.
      *
-     * @return \Illuminate\Support\Collection<int, Post>
+     * @return Collection<int, Post>
      */
     private function candidates(int $cap)
     {
@@ -128,7 +129,7 @@ class InspectSearchIndex extends Command
 
         return $posts->filter(function (Post $post) use ($latest) {
             $recent = $post->published_at && $post->published_at->gte(now()->subDays(14));
-            $check  = $latest->get($post->id)?->first();
+            $check = $latest->get($post->id)?->first();
 
             return $recent || $check === null || $check->verdict !== 'PASS';
         })->take($cap)->values();
