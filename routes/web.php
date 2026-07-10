@@ -51,7 +51,7 @@ Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affil
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 // Legacy fictional-persona author URLs → 301 to the single real author.
 foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
-    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/' . config('site.author.slug'));
+    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/'.config('site.author.slug'));
 }
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
@@ -115,4 +115,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
