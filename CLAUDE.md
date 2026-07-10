@@ -110,8 +110,13 @@ resources/css/app.css           — Tailwind directives + @font-face + custom CS
 | `/morning` | Bryan's one daily command: merge the cloud agent's PR, import drafts into PROD, QA gate, checklist |
 | `/seo-review` | Audit a post for first-page Google ranking |
 | `/backend-review` | Laravel security and best practices audit |
+| `/implement-phase` | Execute exactly ONE phase of a `docs/plans/` plan: verify ground truth, implement, test, gd-code-reviewer review, prepare commit, stop for approval |
+| `/plan-status` | Status board across all `docs/plans/` feature plans + recommended next action |
+| `/gd-health` | Monthly + post-deploy health sweep: suite, budgets, snapshot coverage, feature surfaces, prod spot checks |
 
 Editorial + AdSense rules per type: `CONTENT-GUIDELINES.md`. Daily routine + prod runbook: `docs/OPERATIONS.md`. Search Intel (GSC/Bing/IndexNow) plan: `search-intel.md`; one-time setup + bring-up: `docs/SEARCH-INTEL-SETUP.md`.
+
+Feature implementation plans live in `docs/plans/` (index: `docs/plans/README.md`) — one reviewable phase at a time via `/implement-phase`. Project subagents: `gd-code-reviewer` (pre-commit diff review against plan + invariants, model: opus) and `gd-test-engineer` (test authoring/repair under this repo's testing constraints). Both keep project-scoped agent memory.
 
 The pipeline passes state through files (`daily-drop/research.md` → `daily-drop/{product,tip,news}-*.md` → `bin/daily-drop-build.php` → `daily-drop/output.json` → `php artisan posts:import`), so each step can run in a fresh session on a cheaper model (use `/handoff` between steps) or unattended by the scheduled cloud agent (`daily-drop/CLOUD-AGENT.md`). The model never writes the final JSON; the build script parses, validates per post type, and assembles it. `daily-drop/` is tracked in git on purpose — the cloud agent delivers content via `drop/YYYY-MM-DD` PRs.
 
