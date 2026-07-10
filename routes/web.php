@@ -51,7 +51,7 @@ Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affil
 Route::get('/s/{post:share_code}', [PublicController::class, 'shortlink'])->name('post.shortlink');
 // Legacy fictional-persona author URLs → 301 to the single real author.
 foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
-    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/'.config('site.author.slug'));
+    Route::permanentRedirect("/author/{$legacyAuthorSlug}", '/author/' . config('site.author.slug'));
 }
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
@@ -72,6 +72,8 @@ Route::get('/tools/base64-encoder', [ToolController::class, 'base64Encoder'])->n
 Route::get('/tools/color-palette', [ToolController::class, 'colorPalette'])->name('tools.color-palette');
 Route::get('/tools/meta-tag-previewer', [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
 Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
+Route::permanentRedirect('/posts/mega-raichu-x-lands-in-pokémon-champions-as-the-game-hits-mobile', '/posts/mega-raichu-x-lands-in-pokémon-champions');
+Route::permanentRedirect('/posts/samsung-galaxy-unpacked-set-for-july-22-watch-9-fold-8', '/posts/samsung-galaxy-unpacked-set-for-july-22');
 
 // Server-side tools scaffold (Phase 2+)
 Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {
@@ -113,4 +115,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
