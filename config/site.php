@@ -11,8 +11,8 @@ return [
     | name / slug / email differ from the defaults below.
     */
     'author' => [
-        'name'  => env('SITE_AUTHOR_NAME', 'Bryan McNeil'),
-        'slug'  => env('SITE_AUTHOR_SLUG', 'bryan-mcneil'),
+        'name' => env('SITE_AUTHOR_NAME', 'Bryan McNeil'),
+        'slug' => env('SITE_AUTHOR_SLUG', 'bryan-mcneil'),
         'email' => env('SITE_AUTHOR_EMAIL', 'hello@gadgetdrop.tech'),
         // Public profile URLs (X/Twitter, LinkedIn, GitHub, YouTube, …) emitted
         // as Person sameAs in JSON-LD so raters/search can verify the author is
@@ -40,17 +40,17 @@ return [
     |  - DailyDropImporterService  → keeps imports from resurrecting dead slugs
     */
     'category_map' => [
-        'appliances'   => 'smart-home',
-        'security'     => 'smart-home',
-        'monitors'     => 'computers',
-        'tablets'      => 'computers',
+        'appliances' => 'smart-home',
+        'security' => 'smart-home',
+        'monitors' => 'computers',
+        'tablets' => 'computers',
         'productivity' => 'computers',
-        'accessories'  => 'computers',
-        'tvs'          => 'audio',
-        'photography'  => 'cameras',
+        'accessories' => 'computers',
+        'tvs' => 'audio',
+        'photography' => 'cameras',
         // Near-miss slugs the importer's firstOrCreate resurrected after the
         // original merge (the map only knew `tvs`/`audio-home-theater`).
-        'tv'           => 'audio',
+        'tv' => 'audio',
         'home-theater' => 'audio',
         // Slug alias: the display name "Audio & Home Theater" slugifies to
         // audio-home-theater, but the canonical slug stays `audio`.
@@ -64,7 +64,7 @@ return [
     | (slug stays stable so indexed URLs keep working).
     */
     'category_renames' => [
-        'audio'     => 'Audio & Home Theater',
+        'audio' => 'Audio & Home Theater',
         'computers' => 'Computers & Accessories',
     ],
 
@@ -78,11 +78,11 @@ return [
     | kept as a record of the moves. Keyed by exact product name.
     */
     'category_rehome' => [
-        'Google Fitbit Air'      => 'wearables',
-        'Garmin Forerunner 165'  => 'wearables',
+        'Google Fitbit Air' => 'wearables',
+        'Garmin Forerunner 165' => 'wearables',
         'Garmin Forerunner® 170' => 'wearables',
-        'RingConn Gen 2'         => 'wearables',
-        'Record Player Stand'    => 'audio',
+        'RingConn Gen 2' => 'wearables',
+        'Record Player Stand' => 'audio',
     ],
 
     /*
@@ -93,11 +93,11 @@ return [
     */
     'category_rehome_posts' => [
         'learn-new-tools-or-master-the-fundamental' => 'computers',
-        'computer-tricks-most-people-dont-know'     => 'computers',
-        'personal-cybersecurity-best-practices'     => 'computers',
-        'sysadmin-tips-and-tricks-that-save-time'   => 'computers',
-        'hidden-iphone-hacks'                       => 'computers',
-        'underrated-open-source-tools'              => 'computers',
-        'new-pokemon-pitch-black-set'               => 'gaming',
+        'computer-tricks-most-people-dont-know' => 'computers',
+        'personal-cybersecurity-best-practices' => 'computers',
+        'sysadmin-tips-and-tricks-that-save-time' => 'computers',
+        'hidden-iphone-hacks' => 'computers',
+        'underrated-open-source-tools' => 'computers',
+        'new-pokemon-pitch-black-set' => 'gaming',
     ],
 ];

@@ -98,11 +98,11 @@ class PostObserver
             $status = $this->gsc->submitSitemap();
             if ($status !== null) {
                 SearchSubmission::create([
-                    'url'           => (string) config('search.sitemap_url'),
-                    'engine'        => 'google_sitemap',
-                    'trigger'       => $trigger,
+                    'url' => (string) config('search.sitemap_url'),
+                    'engine' => 'google_sitemap',
+                    'trigger' => $trigger,
                     'response_code' => $status,
-                    'submitted_at'  => now(),
+                    'submitted_at' => now(),
                 ]);
             }
         } catch (\Throwable $e) {

@@ -1,0 +1,90 @@
+name: Dusk
+
+# Browser-level e2e run — weekly on main + on demand. Not per-PR on purpose:
+# ChromeDriver spin-up is slow and the nightly drop/* PRs are content-only
+# (see docs/plans/00-ci-and-testing-foundation.md Design decisions).
+on:
+  workflow_dispatch:
+  schedule:
+    # Mondays 06:00 UTC — one run/week to respect the free-runner budget.
+    # Scheduled workflows only ever run against the default branch (main).
+    - cron: '0 6 * * 1'
+
+concurrency:
+  group: dusk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  dusk:
+    name: dusk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, sqlite3, pdo_sqlite, gd, intl, zip
+          coverage: none
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Prepare Dusk environment
+        run: |
+          cp .env.dusk.example .env
+          php artisan key:generate
+          touch database/dusk.sqlite
+        # .env IS the dusk env here (no .env.dusk.local on CI, so Dusk skips
+        # its env swap): testing + sqlite file — the only database this job
+        # can reach; tests/DuskTestCase.php hard-aborts on anything else.
+        # No config-cache step here, ever (see CLAUDE.md DB-wipe guardrails).
+
+      - name: Install ChromeDriver for the runner's Chrome
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Serve the app
+        run: |
+          php artisan serve --no-reload &
+          timeout 30 bash -c 'until curl -sf http://127.0.0.1:8000 >/dev/null; do sleep 1; done'
+
+      - name: Run Dusk suite
+        run: php artisan dusk
+
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dusk-screenshots
+          path: tests/Browser/screenshots
+          if-no-files-found: ignore

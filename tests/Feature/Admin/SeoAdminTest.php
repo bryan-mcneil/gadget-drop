@@ -16,14 +16,14 @@ class SeoAdminTest extends TestCase
     private function opportunity(array $overrides = []): SearchOpportunity
     {
         return SearchOpportunity::create(array_merge([
-            'kind'          => 'content_gap',
-            'query'         => 'best budget anc headphones',
-            'query_hash'    => sha1('best budget anc headphones'),
-            'score'         => 42,
-            'status'        => 'open',
-            'evidence'      => ['impressions' => 200, 'phrasings' => [['query' => 'best budget anc headphones']]],
+            'kind' => 'content_gap',
+            'query' => 'best budget anc headphones',
+            'query_hash' => sha1('best budget anc headphones'),
+            'score' => 42,
+            'status' => 'open',
+            'evidence' => ['impressions' => 200, 'phrasings' => [['query' => 'best budget anc headphones']]],
             'first_seen_at' => now(),
-            'last_seen_at'  => now(),
+            'last_seen_at' => now(),
         ], $overrides));
     }
 
@@ -76,12 +76,12 @@ class SeoAdminTest extends TestCase
     public function test_reping_action_redirects(): void
     {
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Reping Review',
-            'slug'         => 'reping-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Reping Review',
+            'slug' => 'reping-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
 

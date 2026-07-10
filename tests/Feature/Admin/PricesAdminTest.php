@@ -22,20 +22,20 @@ class PricesAdminTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         $product = Product::create(array_merge([
-            'category_id'   => $category->id,
-            'name'          => "Priced Widget {$i}",
-            'asin'          => "B00PRICE{$i}",
+            'category_id' => $category->id,
+            'name' => "Priced Widget {$i}",
+            'asin' => "B00PRICE{$i}",
             'affiliate_url' => 'https://www.amazon.com/dp/B00PRICE',
-            'price'         => 100,
+            'price' => 100,
         ], $overrides));
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Priced Widget {$i} Review",
-            'slug'         => "priced-widget-{$i}-review",
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Priced Widget {$i} Review",
+            'slug' => "priced-widget-{$i}-review",
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->products()->attach($product->id, ['display_order' => 1]);

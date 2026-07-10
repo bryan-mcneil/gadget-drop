@@ -31,7 +31,7 @@ class DailyDropController extends Controller
         ]);
 
         try {
-            $posts   = $this->importer->parseJson($request->json_response);
+            $posts = $this->importer->parseJson($request->json_response);
             $created = $this->importer->importAll($posts, User::siteAuthor()->id);
 
             return response()->json(['posts' => $created]);

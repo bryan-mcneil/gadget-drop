@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\DropPriceController;
 use App\Models\DropPricePuzzle;
+use App\Models\DropPriceResult;
+use App\Models\Subscriber;
 use App\Support\DropPrice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -15,14 +18,14 @@ class DropPriceArchiveTest extends TestCase
     private function puzzle(array $overrides = []): DropPricePuzzle
     {
         return DropPricePuzzle::create(array_merge([
-            'puzzle_number'        => (int) (DropPricePuzzle::max('puzzle_number') ?? 0) + 1,
-            'date'                 => now()->toDateString(),
-            'product_id'           => null,
-            'price'                => 613,
-            'product_name'         => 'Snapshot Widget',
-            'product_image_url'    => 'https://example.com/img.jpg',
+            'puzzle_number' => (int) (DropPricePuzzle::max('puzzle_number') ?? 0) + 1,
+            'date' => now()->toDateString(),
+            'product_id' => null,
+            'price' => 613,
+            'product_name' => 'Snapshot Widget',
+            'product_image_url' => 'https://example.com/img.jpg',
             'affiliate_product_id' => null,
-            'locked_at'            => now(),
+            'locked_at' => now(),
         ], $overrides));
     }
 
@@ -62,10 +65,10 @@ class DropPriceArchiveTest extends TestCase
         $this->puzzle(['date' => now()->subDay()->toDateString(), 'product_name' => 'Locked Gadget']);
         $this->puzzle([
             'puzzle_number' => null,
-            'date'          => now()->addDays(2)->toDateString(),
-            'locked_at'     => null,
-            'is_preset'     => true,
-            'product_name'  => 'Queued Future Gadget',
+            'date' => now()->addDays(2)->toDateString(),
+            'locked_at' => null,
+            'is_preset' => true,
+            'product_name' => 'Queued Future Gadget',
         ]);
 
         $this->get('/drop-price')
@@ -122,26 +125,26 @@ class DropPriceArchiveTest extends TestCase
         $puzzle = $this->puzzle(['date' => now()->subDays(10)->toDateString(), 'product_name' => 'Stats Gadget']);
 
         foreach (range(1, $count) as $i) {
-            $subscriber = \App\Models\Subscriber::create([
-                'email'      => "player{$i}@example.com",
-                'token'      => "token-{$i}",
+            $subscriber = Subscriber::create([
+                'email' => "player{$i}@example.com",
+                'token' => "token-{$i}",
                 'ip_address' => '127.0.0.1',
             ]);
 
-            \App\Models\DropPriceResult::create([
+            DropPriceResult::create([
                 'drop_price_puzzle_id' => $puzzle->id,
-                'subscriber_id'        => $subscriber->id,
-                'won'                  => $i % 2 === 0,
-                'guesses_used'         => 3,
-                'closest_miss_pct'     => 5,
-                'played_on'            => now()->subDays(10)->toDateString(),
+                'subscriber_id' => $subscriber->id,
+                'won' => $i % 2 === 0,
+                'guesses_used' => 3,
+                'closest_miss_pct' => 5,
+                'played_on' => now()->subDays(10)->toDateString(),
             ]);
         }
     }
 
     public function test_index_hides_aggregate_stats_below_the_play_threshold(): void
     {
-        $this->seedResults(\App\Http\Controllers\DropPriceController::MIN_PLAYS_FOR_STATS - 1);
+        $this->seedResults(DropPriceController::MIN_PLAYS_FOR_STATS - 1);
 
         $this->get('/drop-price')
             ->assertOk()
@@ -150,7 +153,7 @@ class DropPriceArchiveTest extends TestCase
 
     public function test_index_shows_aggregate_stats_at_the_play_threshold(): void
     {
-        $this->seedResults(\App\Http\Controllers\DropPriceController::MIN_PLAYS_FOR_STATS);
+        $this->seedResults(DropPriceController::MIN_PLAYS_FOR_STATS);
 
         $this->get('/drop-price')
             ->assertOk()
@@ -175,15 +178,15 @@ class DropPriceArchiveTest extends TestCase
         $this->puzzle(['date' => now()->toDateString(), 'product_name' => 'Decoy Active Today']);
 
         $puzzle = $this->puzzle([
-            'date'         => now()->subDay()->toDateString(),
-            'price'        => 4242,
+            'date' => now()->subDay()->toDateString(),
+            'price' => 4242,
             'product_name' => 'Secret Archive Widget',
         ]);
 
         $this->get("/drop-price/{$puzzle->puzzle_number}")
             ->assertOk()
             ->assertSee('Secret Archive Widget')
-            ->assertSee('#' . $puzzle->puzzle_number)
+            ->assertSee('#'.$puzzle->puzzle_number)
             ->assertDontSee('4242')
             ->assertDontSee('4,242');
     }

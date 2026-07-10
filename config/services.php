@@ -20,18 +20,18 @@ return [
     // Ad slots only appear on /tools/* pages. Update tools_slot once AdSense
     // approves the site and you create an ad unit in the AdSense dashboard.
     'adsense' => [
-        'enabled'     => env('ADSENSE_ENABLED', false),
-        'client'      => 'ca-pub-3856395634564582',
-        'tools_slot'  => env('ADSENSE_TOOLS_SLOT', '8271358369'),
+        'enabled' => env('ADSENSE_ENABLED', false),
+        'client' => 'ca-pub-3856395634564582',
+        'tools_slot' => env('ADSENSE_TOOLS_SLOT', '8271358369'),
     ],
 
     'amazon' => [
-        'affiliate_tag'  => env('AMAZON_AFFILIATE_TAG'),
-        'pa_access_key'  => env('AMAZON_PA_ACCESS_KEY'),
-        'pa_secret_key'  => env('AMAZON_PA_SECRET_KEY'),
+        'affiliate_tag' => env('AMAZON_AFFILIATE_TAG'),
+        'pa_access_key' => env('AMAZON_PA_ACCESS_KEY'),
+        'pa_secret_key' => env('AMAZON_PA_SECRET_KEY'),
         'pa_partner_tag' => env('AMAZON_PA_PARTNER_TAG'),
-        'pa_host'        => env('AMAZON_PA_HOST', 'webservices.amazon.com'),
-        'pa_region'      => env('AMAZON_PA_REGION', 'us-east-1'),
+        'pa_host' => env('AMAZON_PA_HOST', 'webservices.amazon.com'),
+        'pa_region' => env('AMAZON_PA_REGION', 'us-east-1'),
     ],
 
     /*
@@ -42,9 +42,9 @@ return [
     | daily_limit=3 ≈ every product refreshed roughly weekly at ~25 products.
     */
     'canopy' => [
-        'api_key'        => env('CANOPY_API_KEY'),
+        'api_key' => env('CANOPY_API_KEY'),
         'monthly_budget' => (int) env('CANOPY_MONTHLY_BUDGET', 90),
-        'daily_limit'    => (int) env('CANOPY_DAILY_LIMIT', 3),
+        'daily_limit' => (int) env('CANOPY_DAILY_LIMIT', 3),
     ],
 
     /*
@@ -56,12 +56,12 @@ return [
     */
     'google_search_console' => [
         // Exactly as it appears in GSC: sc-domain:gadgetdrop.tech OR https://gadgetdrop.tech/
-        'property'         => env('GSC_PROPERTY'),
+        'property' => env('GSC_PROPERTY'),
         'credentials_path' => env('GSC_CREDENTIALS_PATH', 'storage/app/keys/gsc-service-account.json'),
     ],
 
     'bing_webmaster' => [
-        'api_key'  => env('BING_WEBMASTER_API_KEY'),
+        'api_key' => env('BING_WEBMASTER_API_KEY'),
         // Must match the verified site in Bing (imported from GSC).
         'site_url' => env('BING_SITE_URL', env('SEARCH_SITE_URL', 'https://gadgetdrop.tech')),
     ],
@@ -76,20 +76,20 @@ return [
     | up .env changes the usual way.
     */
     'social' => [
-        'enabled'      => env('SOCIAL_ENABLED', false),
+        'enabled' => env('SOCIAL_ENABLED', false),
         'max_attempts' => (int) env('SOCIAL_MAX_ATTEMPTS', 3),
         'platforms' => [
             'bluesky' => [
-                'enabled'      => env('SOCIAL_BLUESKY_ENABLED', false),
-                'mode'         => env('SOCIAL_BLUESKY_MODE', 'manual'),
-                'handle'       => env('BLUESKY_HANDLE'),
+                'enabled' => env('SOCIAL_BLUESKY_ENABLED', false),
+                'mode' => env('SOCIAL_BLUESKY_MODE', 'manual'),
+                'handle' => env('BLUESKY_HANDLE'),
                 'app_password' => env('BLUESKY_APP_PASSWORD'),
-                'service'      => env('BLUESKY_SERVICE', 'https://bsky.social'),
+                'service' => env('BLUESKY_SERVICE', 'https://bsky.social'),
             ],
             'facebook' => [
-                'enabled'    => env('SOCIAL_FACEBOOK_ENABLED', false),
-                'mode'       => env('SOCIAL_FACEBOOK_MODE', 'manual'),
-                'page_id'    => env('FACEBOOK_PAGE_ID'),
+                'enabled' => env('SOCIAL_FACEBOOK_ENABLED', false),
+                'mode' => env('SOCIAL_FACEBOOK_MODE', 'manual'),
+                'page_id' => env('FACEBOOK_PAGE_ID'),
                 'page_token' => env('FACEBOOK_PAGE_TOKEN'),
                 // Always pin: unversioned Graph calls default to the OLDEST
                 // live version, not the newest.
@@ -99,7 +99,7 @@ return [
             // composed at 280 chars, pasted via /admin/social's intent link.
             'x' => [
                 'enabled' => env('SOCIAL_X_ENABLED', false),
-                'mode'    => env('SOCIAL_X_MODE', 'manual'),
+                'mode' => env('SOCIAL_X_MODE', 'manual'),
             ],
         ],
     ],

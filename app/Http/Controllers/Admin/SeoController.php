@@ -29,23 +29,23 @@ class SeoController extends Controller
 
     public function index(Request $request): Response
     {
-        $kind   = $request->query('kind');
+        $kind = $request->query('kind');
         $status = $request->query('status', 'open');
 
         return Inertia::render('Admin/Seo/Index', [
-            'filters'       => ['kind' => $kind, 'status' => $status, 'kinds' => self::KINDS],
-            'trend'         => $this->trend(),
+            'filters' => ['kind' => $kind, 'status' => $status, 'kinds' => self::KINDS],
+            'trend' => $this->trend(),
             'opportunities' => $this->opportunities($kind, $status),
-            'coverage'      => $this->coverage(),
-            'movers'        => $this->movers(),
-            'submissions'   => SearchSubmission::latest('submitted_at')->limit(20)->get()
+            'coverage' => $this->coverage(),
+            'movers' => $this->movers(),
+            'submissions' => SearchSubmission::latest('submitted_at')->limit(20)->get()
                 ->map(fn ($s) => [
-                    'id'            => $s->id,
-                    'url'           => $s->url,
-                    'engine'        => $s->engine,
-                    'trigger'       => $s->trigger,
+                    'id' => $s->id,
+                    'url' => $s->url,
+                    'engine' => $s->engine,
+                    'trigger' => $s->trigger,
                     'response_code' => $s->response_code,
-                    'submitted_at'  => $s->submitted_at?->toIso8601String(),
+                    'submitted_at' => $s->submitted_at?->toIso8601String(),
                 ]),
         ]);
     }
@@ -66,11 +66,11 @@ class SeoController extends Controller
 
         if (($status = app(GoogleSearchConsoleService::class)->submitSitemap()) !== null) {
             SearchSubmission::create([
-                'url'           => (string) config('search.sitemap_url'),
-                'engine'        => 'google_sitemap',
-                'trigger'       => 'manual',
+                'url' => (string) config('search.sitemap_url'),
+                'engine' => 'google_sitemap',
+                'trigger' => 'manual',
                 'response_code' => $status,
-                'submitted_at'  => now(),
+                'submitted_at' => now(),
             ]);
         }
 
@@ -83,9 +83,9 @@ class SeoController extends Controller
      */
     private function trend(): array
     {
-        $width  = 720;
+        $width = 720;
         $height = 160;
-        $dates  = collect(range(89, 0))->map(fn ($i) => now()->subDays($i)->toDateString());
+        $dates = collect(range(89, 0))->map(fn ($i) => now()->subDays($i)->toDateString());
 
         $rows = SearchSiteDay::where('date', '>=', $dates->first())->get();
 
@@ -110,10 +110,10 @@ class SeoController extends Controller
         foreach ($sources as $s) {
             $clicks = $series[$s['label']];
             $lines[] = [
-                'label'       => $s['label'],
-                'color'       => $s['color'],
-                'points'      => $this->points($clicks, $max, $width, $height),
-                'clicks_28'   => array_sum(array_slice($clicks, -28)),
+                'label' => $s['label'],
+                'color' => $s['color'],
+                'points' => $this->points($clicks, $max, $width, $height),
+                'clicks_28' => array_sum(array_slice($clicks, -28)),
             ];
         }
 
@@ -148,14 +148,14 @@ class SeoController extends Controller
             ->limit(100)
             ->get()
             ->map(fn ($o) => [
-                'id'         => $o->id,
-                'kind'       => $o->kind,
-                'query'      => $o->query,
-                'score'      => (float) $o->score,
-                'status'     => $o->status,
-                'post'       => $o->post ? ['slug' => $o->post->slug, 'title' => $o->post->title] : null,
-                'evidence'   => $o->evidence,
-                'last_seen'  => $o->last_seen_at?->toDateString(),
+                'id' => $o->id,
+                'kind' => $o->kind,
+                'query' => $o->query,
+                'score' => (float) $o->score,
+                'status' => $o->status,
+                'post' => $o->post ? ['slug' => $o->post->slug, 'title' => $o->post->title] : null,
+                'evidence' => $o->evidence,
+                'last_seen' => $o->last_seen_at?->toDateString(),
             ]);
     }
 
@@ -173,12 +173,12 @@ class SeoController extends Controller
             $check = $checks->get($p->id)?->first();
 
             return [
-                'id'         => $p->id,
-                'slug'       => $p->slug,
-                'title'      => $p->title,
-                'days'       => $p->published_at ? (int) $p->published_at->diffInDays(now()) : 0,
-                'verdict'    => $check?->verdict,
-                'indexed'    => $check?->verdict === 'PASS',
+                'id' => $p->id,
+                'slug' => $p->slug,
+                'title' => $p->title,
+                'days' => $p->published_at ? (int) $p->published_at->diffInDays(now()) : 0,
+                'verdict' => $check?->verdict,
+                'indexed' => $check?->verdict === 'PASS',
                 'checked_at' => $check?->checked_at?->toDateString(),
             ];
         })->reject(fn ($p) => $p['indexed'])->values();
@@ -205,14 +205,14 @@ class SeoController extends Controller
         $titles = Post::whereIn('id', $ids)->pluck('title', 'id');
 
         $deltas = $ids->map(fn ($id) => [
-            'id'    => (int) $id,
+            'id' => (int) $id,
             'title' => $titles[$id] ?? "post #{$id}",
             'delta' => (int) ($recent[$id] ?? 0) - (int) ($prior[$id] ?? 0),
         ])->filter(fn ($m) => $m['delta'] !== 0)->sortByDesc('delta')->values();
 
         return [
             'gainers' => $deltas->take(5)->all(),
-            'losers'  => $deltas->reverse()->take(5)->filter(fn ($m) => $m['delta'] < 0)->values()->all(),
+            'losers' => $deltas->reverse()->take(5)->filter(fn ($m) => $m['delta'] < 0)->values()->all(),
         ];
     }
 }

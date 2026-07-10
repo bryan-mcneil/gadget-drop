@@ -50,8 +50,8 @@ class ProductObserver
 
         ProductPriceSnapshot::create([
             'product_id' => $product->id,
-            'price'      => $product->price,
-            'source'     => self::$source,
+            'price' => $product->price,
+            'source' => self::$source,
         ]);
 
         PriceIntel::flush($product->id);

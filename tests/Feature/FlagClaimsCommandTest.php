@@ -17,12 +17,12 @@ class FlagClaimsCommandTest extends TestCase
         $i++;
 
         return Post::create(array_merge([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Clean Post {$i}",
-            'slug'         => "clean-post-{$i}",
-            'type'         => 'article',
-            'body'         => 'Verified-purchase owners consistently report solid battery life.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Clean Post {$i}",
+            'slug' => "clean-post-{$i}",
+            'type' => 'article',
+            'body' => 'Verified-purchase owners consistently report solid battery life.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ], $overrides));
     }
@@ -41,8 +41,8 @@ class FlagClaimsCommandTest extends TestCase
         $this->makePost();
         $offender = $this->makePost([
             'title' => 'Widget Review',
-            'slug'  => 'widget-review',
-            'body'  => 'We tested this widget for a month and our measurements show 12 hours of battery.',
+            'slug' => 'widget-review',
+            'body' => 'We tested this widget for a month and our measurements show 12 hours of battery.',
         ]);
 
         $this->artisan('content:flag-claims')
@@ -55,7 +55,7 @@ class FlagClaimsCommandTest extends TestCase
     {
         $this->makePost([
             'status' => 'draft',
-            'body'   => 'In our lab this thing caught fire.',
+            'body' => 'In our lab this thing caught fire.',
         ]);
 
         $this->artisan('content:flag-claims')->assertSuccessful();

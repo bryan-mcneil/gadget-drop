@@ -2,21 +2,24 @@
 
 namespace App\Mail;
 
+use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Post;
 
 class WeeklyDigest extends Mailable
 {
     use Queueable, SerializesModels;
 
     public array $posts;
+
     public ?array $techTip;
+
     public ?array $spotlight;
+
     public string $unsubscribeUrl;
 
     public function __construct(string $unsubscribeUrl = '#')
@@ -31,12 +34,12 @@ class WeeklyDigest extends Mailable
             ->take(5)
             ->get($cols)
             ->map(fn ($p) => [
-                'title'          => $p->title,
-                'slug'           => $p->slug,
-                'excerpt'        => $p->excerpt,
+                'title' => $p->title,
+                'slug' => $p->slug,
+                'excerpt' => $p->excerpt,
                 'featured_image' => $p->featured_image,
-                'published_at'   => $p->published_at?->format('M j'),
-                'url'            => url('/posts/' . $p->slug),
+                'published_at' => $p->published_at?->format('M j'),
+                'url' => url('/posts/'.$p->slug),
             ])
             ->toArray();
 
@@ -46,9 +49,9 @@ class WeeklyDigest extends Mailable
             ->first(['title', 'slug', 'excerpt']);
 
         $this->techTip = $tip ? [
-            'title'   => $tip->title,
+            'title' => $tip->title,
             'excerpt' => $tip->excerpt,
-            'url'     => url('/posts/' . $tip->slug),
+            'url' => url('/posts/'.$tip->slug),
         ] : null;
 
         $spotlightPost = Post::published()
@@ -65,13 +68,13 @@ class WeeklyDigest extends Mailable
         if ($spotlightPost && $spotlightPost->products->isNotEmpty()) {
             $p = $spotlightPost->products->first();
             $this->spotlight = [
-                'name'             => $p->name,
-                'brand'            => $p->brand,
-                'image_url'        => $p->image_url,
-                'out_url'          => route('affiliate.redirect', $p) . '?post=' . $spotlightPost->id,
+                'name' => $p->name,
+                'brand' => $p->brand,
+                'image_url' => $p->image_url,
+                'out_url' => route('affiliate.redirect', $p).'?post='.$spotlightPost->id,
                 'price_checked_at' => $p->price_checked_at?->format('M j'),
-                'post_title'       => $spotlightPost->title,
-                'post_url'         => url('/posts/' . $spotlightPost->slug),
+                'post_title' => $spotlightPost->title,
+                'post_url' => url('/posts/'.$spotlightPost->slug),
             ];
         }
     }
@@ -79,16 +82,16 @@ class WeeklyDigest extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: !empty($this->posts)
-                ? 'This week\'s drop: ' . $this->posts[0]['title']
-                : 'The Weekly Drop — ' . now()->format('M j, Y'),
+            subject: ! empty($this->posts)
+                ? 'This week\'s drop: '.$this->posts[0]['title']
+                : 'The Weekly Drop — '.now()->format('M j, Y'),
         );
     }
 
     public function headers(): Headers
     {
         return new Headers(
-            text: ['List-Unsubscribe' => '<' . $this->unsubscribeUrl . '>'],
+            text: ['List-Unsubscribe' => '<'.$this->unsubscribeUrl.'>'],
         );
     }
 

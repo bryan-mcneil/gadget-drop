@@ -28,7 +28,7 @@ class BingWebmasterService
 
     private function siteUrl(): string
     {
-        return rtrim((string) config('services.bing_webmaster.site_url'), '/') . '/';
+        return rtrim((string) config('services.bing_webmaster.site_url'), '/').'/';
     }
 
     /**
@@ -57,10 +57,10 @@ class BingWebmasterService
             }
 
             $out[] = [
-                'date'        => $date->toDateString(),
-                'clicks'      => (int) ($row['Clicks'] ?? 0),
+                'date' => $date->toDateString(),
+                'clicks' => (int) ($row['Clicks'] ?? 0),
                 'impressions' => (int) ($row['Impressions'] ?? 0),
-                'position'    => isset($row['AvgImpressionPosition']) ? (float) $row['AvgImpressionPosition'] : null,
+                'position' => isset($row['AvgImpressionPosition']) ? (float) $row['AvgImpressionPosition'] : null,
             ];
         }
 
@@ -91,10 +91,10 @@ class BingWebmasterService
             }
 
             $out[] = [
-                'query'                   => $query,
-                'clicks'                  => (int) ($row['Clicks'] ?? 0),
-                'impressions'             => (int) ($row['Impressions'] ?? 0),
-                'avg_click_position'      => isset($row['AvgClickPosition']) ? (float) $row['AvgClickPosition'] : null,
+                'query' => $query,
+                'clicks' => (int) ($row['Clicks'] ?? 0),
+                'impressions' => (int) ($row['Impressions'] ?? 0),
+                'avg_click_position' => isset($row['AvgClickPosition']) ? (float) $row['AvgClickPosition'] : null,
                 'avg_impression_position' => isset($row['AvgImpressionPosition']) ? (float) $row['AvgImpressionPosition'] : null,
             ];
         }
@@ -110,8 +110,8 @@ class BingWebmasterService
     public function keyword(string $q, string $country = 'us', string $language = 'en-US'): ?array
     {
         return $this->get('GetKeyword', [
-            'q'        => $q,
-            'country'  => $country,
+            'q' => $q,
+            'country' => $country,
             'language' => $language,
         ]);
     }
@@ -124,8 +124,8 @@ class BingWebmasterService
     public function relatedKeywords(string $q, string $country = 'us', string $language = 'en-US'): ?array
     {
         $d = $this->get('GetRelatedKeywords', [
-            'q'        => $q,
-            'country'  => $country,
+            'q' => $q,
+            'country' => $country,
             'language' => $language,
         ]);
 
@@ -149,8 +149,8 @@ class BingWebmasterService
         }
 
         try {
-            $resp = Http::timeout(15)->get(self::BASE . $method, array_merge([
-                'apikey'  => config('services.bing_webmaster.api_key'),
+            $resp = Http::timeout(15)->get(self::BASE.$method, array_merge([
+                'apikey' => config('services.bing_webmaster.api_key'),
                 'siteUrl' => $this->siteUrl(),
             ], $params));
 

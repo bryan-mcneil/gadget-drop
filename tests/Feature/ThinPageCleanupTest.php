@@ -26,12 +26,12 @@ class ThinPageCleanupTest extends TestCase
         foreach (range(1, $count) as $i) {
             $n++;
             $post = Post::create([
-                'user_id'      => $user->id,
-                'title'        => "Post {$n}",
-                'slug'         => "post-{$n}",
-                'type'         => 'article',
-                'body'         => 'Body copy for a review.',
-                'status'       => 'published',
+                'user_id' => $user->id,
+                'title' => "Post {$n}",
+                'slug' => "post-{$n}",
+                'type' => 'article',
+                'body' => 'Body copy for a review.',
+                'status' => 'published',
                 'published_at' => now()->subDays($i),
             ]);
 
@@ -77,8 +77,8 @@ class ThinPageCleanupTest extends TestCase
     public function test_category_description_becomes_the_meta_description(): void
     {
         $category = Category::create([
-            'name'        => 'Wearables',
-            'slug'        => 'wearables',
+            'name' => 'Wearables',
+            'slug' => 'wearables',
             'description' => 'Smartwatches, fitness trackers, and smart rings — picked for battery life and real-world comfort, not spec-sheet bragging rights.',
         ]);
         $this->publishPosts(Category::SITEMAP_MIN_POSTS, category: $category);
@@ -107,12 +107,12 @@ class ThinPageCleanupTest extends TestCase
     public function test_seo_panel_noindex_flag_noindexes_the_post_and_drops_it_from_the_sitemap(): void
     {
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Legacy Thin Post',
-            'slug'         => 'legacy-thin-post',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Legacy Thin Post',
+            'slug' => 'legacy-thin-post',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->seoMeta()->create(['noindex' => true]);
@@ -129,12 +129,12 @@ class ThinPageCleanupTest extends TestCase
     public function test_post_byline_links_to_how_we_review(): void
     {
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Byline Review',
-            'slug'         => 'byline-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Byline Review',
+            'slug' => 'byline-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
 

@@ -30,7 +30,7 @@ class NewsletterController extends Controller
             unsubscribeUrl: url('/unsubscribe')
         ));
 
-        return response()->json(['message' => 'Test email sent to ' . $request->email]);
+        return response()->json(['message' => 'Test email sent to '.$request->email]);
     }
 
     public function sendAll(): JsonResponse
@@ -39,7 +39,7 @@ class NewsletterController extends Controller
 
         foreach ($subscribers as $subscriber) {
             Mail::to($subscriber->email)->send(new WeeklyDigest(
-                unsubscribeUrl: url('/unsubscribe/' . $subscriber->token)
+                unsubscribeUrl: url('/unsubscribe/'.$subscriber->token)
             ));
         }
 

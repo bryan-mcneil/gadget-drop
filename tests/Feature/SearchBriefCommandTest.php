@@ -14,14 +14,14 @@ class SearchBriefCommandTest extends TestCase
     private function opportunity(string $kind, string $query, float $score, array $evidence = []): SearchOpportunity
     {
         return SearchOpportunity::create([
-            'kind'          => $kind,
-            'query'         => $query,
-            'query_hash'    => sha1($query),
-            'score'         => $score,
-            'status'        => 'open',
-            'evidence'      => $evidence + ['impressions' => 100, 'phrasings' => [['query' => $query]]],
+            'kind' => $kind,
+            'query' => $query,
+            'query_hash' => sha1($query),
+            'score' => $score,
+            'status' => 'open',
+            'evidence' => $evidence + ['impressions' => 100, 'phrasings' => [['query' => $query]]],
             'first_seen_at' => now(),
-            'last_seen_at'  => now(),
+            'last_seen_at' => now(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class SearchBriefCommandTest extends TestCase
         $this->opportunity('rising', 'usb-c power bank fire sale', 25, ['rising' => ['recent' => 80, 'prior' => 10]]);
 
         $code = Artisan::call('search:brief');
-        $out  = Artisan::output();
+        $out = Artisan::output();
 
         $this->assertSame(0, $code);
         $this->assertStringContainsString('SEO Brief', $out);

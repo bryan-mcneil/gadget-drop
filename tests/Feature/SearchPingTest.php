@@ -17,12 +17,12 @@ class SearchPingTest extends TestCase
     private function publish(array $overrides = []): Post
     {
         return Post::create(array_merge([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Ping Widget Review',
-            'slug'         => 'ping-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Ping Widget Review',
+            'slug' => 'ping-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subMinute(),
         ], $overrides));
     }
@@ -38,8 +38,8 @@ class SearchPingTest extends TestCase
             && in_array(route('posts.show', $post->slug), $r['urlList'], true));
 
         $this->assertDatabaseHas('search_submissions', [
-            'url'     => route('posts.show', $post->slug),
-            'engine'  => 'indexnow',
+            'url' => route('posts.show', $post->slug),
+            'engine' => 'indexnow',
             'trigger' => 'publish',
         ]);
     }

@@ -19,13 +19,13 @@ class SocialComposerTest extends TestCase
         $i++;
 
         return Post::create(array_merge([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Widget Review {$i}",
-            'slug'         => "widget-review-{$i}",
-            'type'         => 'article',
-            'excerpt'      => 'A solid mid-range widget with surprisingly good battery life.',
-            'body'         => 'Body text.',
-            'status'       => 'draft',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Widget Review {$i}",
+            'slug' => "widget-review-{$i}",
+            'type' => 'article',
+            'excerpt' => 'A solid mid-range widget with surprisingly good battery life.',
+            'body' => 'Body text.',
+            'status' => 'draft',
         ], $overrides));
     }
 
@@ -35,7 +35,7 @@ class SocialComposerTest extends TestCase
             'excerpt' => str_repeat('Owners consistently report the battery outlasting the spec sheet. ', 10),
         ]);
 
-        $text = (new SocialComposer())->compose($post, 'bluesky');
+        $text = (new SocialComposer)->compose($post, 'bluesky');
 
         $this->assertLessThanOrEqual(300, Str::length($text));
         $this->assertStringContainsString($post->title, $text);
@@ -46,7 +46,7 @@ class SocialComposerTest extends TestCase
     {
         $post = $this->makePost(['title' => str_repeat('Ultra Mega Gadget Pro Max ', 20)]);
 
-        $text = (new SocialComposer())->compose($post, 'bluesky');
+        $text = (new SocialComposer)->compose($post, 'bluesky');
 
         $this->assertLessThanOrEqual(300, Str::length($text));
         $this->assertStringEndsWith(route('posts.show', $post->slug), $text);
@@ -56,7 +56,7 @@ class SocialComposerTest extends TestCase
     {
         $post = $this->makePost();
 
-        $text = (new SocialComposer())->compose($post, 'facebook');
+        $text = (new SocialComposer)->compose($post, 'facebook');
 
         $this->assertStringContainsString($post->title, $text);
         $this->assertStringContainsString($post->excerpt, $text);
@@ -68,7 +68,7 @@ class SocialComposerTest extends TestCase
     {
         $tip = $this->makePost(['type' => 'tech_tip']);
 
-        $this->assertStringContainsString('#TechTips', (new SocialComposer())->compose($tip, 'facebook'));
+        $this->assertStringContainsString('#TechTips', (new SocialComposer)->compose($tip, 'facebook'));
     }
 
     public function test_links_never_point_at_amazon(): void
@@ -76,7 +76,7 @@ class SocialComposerTest extends TestCase
         $post = $this->makePost();
 
         foreach (['bluesky', 'facebook', 'x'] as $platform) {
-            $this->assertStringNotContainsString('amazon.', (new SocialComposer())->compose($post, $platform));
+            $this->assertStringNotContainsString('amazon.', (new SocialComposer)->compose($post, $platform));
         }
     }
 }

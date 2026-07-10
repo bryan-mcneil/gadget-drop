@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\SocialPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class SocialPublishCommandTest extends TestCase
@@ -28,13 +29,13 @@ class SocialPublishCommandTest extends TestCase
         $i++;
 
         return Post::create(array_merge([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Command Post {$i}",
-            'slug'         => "command-post-{$i}",
-            'type'         => 'article',
-            'excerpt'      => 'Short excerpt.',
-            'body'         => 'Body text.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Command Post {$i}",
+            'slug' => "command-post-{$i}",
+            'type' => 'article',
+            'excerpt' => 'Short excerpt.',
+            'body' => 'Body text.',
+            'status' => 'published',
             'published_at' => now(),
         ], $overrides));
     }
@@ -91,8 +92,8 @@ class SocialPublishCommandTest extends TestCase
             'services.social.platforms.bluesky.handle' => 'gadgetdrop.tech',
             'services.social.platforms.bluesky.app_password' => 'xxxx-xxxx-xxxx-xxxx',
         ]);
-        \Illuminate\Support\Facades\Http::fake([
-            'bsky.social/*' => \Illuminate\Support\Facades\Http::response(['message' => 'Upstream Failure'], 502),
+        Http::fake([
+            'bsky.social/*' => Http::response(['message' => 'Upstream Failure'], 502),
         ]);
         $post = $this->publishedPost();
 

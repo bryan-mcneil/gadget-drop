@@ -24,7 +24,7 @@ class DailyDropImporterService
         $decoded = json_decode($text, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Invalid JSON: ' . json_last_error_msg());
+            throw new \Exception('Invalid JSON: '.json_last_error_msg());
         }
 
         // Wrap single object in an array
@@ -38,7 +38,7 @@ class DailyDropImporterService
 
         foreach ($decoded as $i => $item) {
             if (! isset($item['title'], $item['body'])) {
-                throw new \Exception("Item #" . ($i + 1) . " is missing required fields: title and body.");
+                throw new \Exception('Item #'.($i + 1).' is missing required fields: title and body.');
             }
         }
 
@@ -54,7 +54,7 @@ class DailyDropImporterService
         $created = [];
 
         foreach ($posts as $data) {
-            $post      = $this->importOne($data, $userId);
+            $post = $this->importOne($data, $userId);
             $created[] = ['id' => $post->id, 'title' => $post->title];
         }
 
@@ -67,13 +67,13 @@ class DailyDropImporterService
     {
         $type = $data['type'] ?? 'article';
         if (! in_array($type, self::TYPES, true)) {
-            throw new \Exception("Unknown post type \"{$type}\" — expected one of: " . implode(', ', self::TYPES) . '.');
+            throw new \Exception("Unknown post type \"{$type}\" — expected one of: ".implode(', ', self::TYPES).'.');
         }
         $isReview = $type === 'article';
 
-        $slug     = $this->slugify($data['title']);
+        $slug = $this->slugify($data['title']);
         $baseSlug = $slug;
-        $i        = 1;
+        $i = 1;
 
         while (Post::where('slug', $slug)->exists()) {
             $slug = "{$baseSlug}-{$i}";
@@ -97,12 +97,12 @@ class DailyDropImporterService
             $categorySlug = $this->slugify($data['category_name']);
             $categorySlug = config("site.category_map.{$categorySlug}", $categorySlug);
 
-            $category   = Category::firstOrCreate(
+            $category = Category::firstOrCreate(
                 ['slug' => $categorySlug],
                 ['name' => config("site.category_renames.{$categorySlug}")
                     ?? ($categorySlug === $this->slugify($data['category_name'])
                         ? $data['category_name']
-                        : \Illuminate\Support\Str::of($categorySlug)->replace('-', ' ')->title()->toString())],
+                        : Str::of($categorySlug)->replace('-', ' ')->title()->toString())],
             );
             $categoryId = $category->id;
         }
@@ -117,17 +117,17 @@ class DailyDropImporterService
             ->toArray();
 
         $post = Post::create([
-            'type'       => $type,
-            'title'      => $data['title'],
-            'slug'       => $slug,
-            'excerpt'    => $data['excerpt'] ?? null,
-            'body'       => $data['body'],
-            'status'     => 'draft',
-            'user_id'    => $authorId,
+            'type' => $type,
+            'title' => $data['title'],
+            'slug' => $slug,
+            'excerpt' => $data['excerpt'] ?? null,
+            'body' => $data['body'],
+            'status' => 'draft',
+            'user_id' => $authorId,
             'source_url' => $data['source_url'] ?? null,
-            'rating'     => $isReview ? ($data['rating'] ?? null) : null,
-            'pros'       => $isReview && ! empty($data['pros']) ? $data['pros'] : null,
-            'cons'       => $isReview && ! empty($data['cons']) ? $data['cons'] : null,
+            'rating' => $isReview ? ($data['rating'] ?? null) : null,
+            'pros' => $isReview && ! empty($data['pros']) ? $data['pros'] : null,
+            'cons' => $isReview && ! empty($data['cons']) ? $data['cons'] : null,
         ]);
 
         // Sync category
@@ -149,13 +149,13 @@ class DailyDropImporterService
         }
 
         // Create SEO meta
-        $seo         = $data['seo'] ?? [];
+        $seo = $data['seo'] ?? [];
         $targetQuery = $seo['target_query'] ?? $data['target_query'] ?? null;
         $post->seoMeta()->create([
-            'meta_title'       => $seo['meta_title']       ?? $data['title'],
+            'meta_title' => $seo['meta_title'] ?? $data['title'],
             'meta_description' => $seo['meta_description'] ?? $data['excerpt'] ?? '',
-            'focus_keyword'    => $seo['focus_keyword']    ?? '',
-            'target_query'     => ($targetQuery ?? '') !== '' ? $targetQuery : null,
+            'focus_keyword' => $seo['focus_keyword'] ?? '',
+            'target_query' => ($targetQuery ?? '') !== '' ? $targetQuery : null,
         ]);
 
         return $post;

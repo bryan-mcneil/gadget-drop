@@ -21,21 +21,21 @@ class RefreshPricesCommandTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Refresh Widget',
-            'asin'          => 'B00REFRESH',
+            'category_id' => $category->id,
+            'name' => 'Refresh Widget',
+            'asin' => 'B00REFRESH',
             'affiliate_url' => 'https://www.amazon.com/dp/B00REFRESH',
-            'price'         => $price,
+            'price' => $price,
         ]);
         $product->forceFill(['price_checked_at' => now()->subDays(9)])->saveQuietly();
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Refresh Widget Review',
-            'slug'         => 'refresh-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Refresh Widget Review',
+            'slug' => 'refresh-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->products()->attach($product->id, ['display_order' => 1]);
@@ -49,13 +49,13 @@ class RefreshPricesCommandTest extends TestCase
             'graphql.canopyapi.co/*' => Http::response([
                 'data' => [
                     'amazonProduct' => [
-                        'title'         => 'Refresh Widget',
-                        'brand'         => 'RefreshCo',
-                        'mainImageUrl'  => 'https://example.com/img.jpg',
-                        'rating'        => 4.4,
-                        'ratingsTotal'  => 1234,
-                        'price'         => ['value' => $price, 'currency' => 'USD'],
-                        'featureBullets'=> ['Bullet one'],
+                        'title' => 'Refresh Widget',
+                        'brand' => 'RefreshCo',
+                        'mainImageUrl' => 'https://example.com/img.jpg',
+                        'rating' => 4.4,
+                        'ratingsTotal' => 1234,
+                        'price' => ['value' => $price, 'currency' => 'USD'],
+                        'featureBullets' => ['Bullet one'],
                     ],
                 ],
             ]),
@@ -66,7 +66,7 @@ class RefreshPricesCommandTest extends TestCase
     {
         Http::fake();
         $product = $this->trackedProduct(100);
-        $before  = $product->fresh()->price_checked_at;
+        $before = $product->fresh()->price_checked_at;
 
         $this->artisan('prices:refresh')
             ->expectsOutputToContain('No price API configured')
@@ -90,8 +90,8 @@ class RefreshPricesCommandTest extends TestCase
         $this->assertTrue($fresh->price_checked_at->isToday());
         $this->assertDatabaseHas('product_price_snapshots', [
             'product_id' => $product->id,
-            'price'      => 79.99,
-            'source'     => 'canopy',
+            'price' => 79.99,
+            'source' => 'canopy',
         ]);
         $this->assertSame(1, app(CanopyApiService::class)->usageThisMonth());
     }
@@ -113,7 +113,7 @@ class RefreshPricesCommandTest extends TestCase
     {
         config(['services.canopy.api_key' => 'test-key', 'services.canopy.monthly_budget' => 5]);
         Http::fake();
-        Cache::put('canopy.usage.' . now()->format('Y-m'), 5, now()->addDays(40));
+        Cache::put('canopy.usage.'.now()->format('Y-m'), 5, now()->addDays(40));
         $this->trackedProduct(100);
 
         $this->artisan('prices:refresh')
@@ -126,9 +126,9 @@ class RefreshPricesCommandTest extends TestCase
     public function test_pa_api_wins_over_canopy_when_both_are_configured(): void
     {
         config([
-            'services.canopy.api_key'        => 'canopy-key',
-            'services.amazon.pa_access_key'  => 'ak',
-            'services.amazon.pa_secret_key'  => 'sk',
+            'services.canopy.api_key' => 'canopy-key',
+            'services.amazon.pa_access_key' => 'ak',
+            'services.amazon.pa_secret_key' => 'sk',
             'services.amazon.pa_partner_tag' => 'tag-20',
         ]);
 
@@ -136,7 +136,7 @@ class RefreshPricesCommandTest extends TestCase
             'webservices.amazon.com/*' => Http::response([
                 'ItemsResult' => ['Items' => [[
                     'ItemInfo' => ['Title' => ['DisplayValue' => 'Refresh Widget']],
-                    'Offers'   => ['Listings' => [['Price' => ['Amount' => 88.00]]]],
+                    'Offers' => ['Listings' => [['Price' => ['Amount' => 88.00]]]],
                 ]]],
             ]),
             'graphql.canopyapi.co/*' => Http::response(['data' => []]),
@@ -150,7 +150,7 @@ class RefreshPricesCommandTest extends TestCase
         Http::assertNotSent(fn ($request) => str_contains($request->url(), 'canopyapi.co'));
         $this->assertDatabaseHas('product_price_snapshots', [
             'product_id' => $product->id,
-            'source'     => 'pa_api',
+            'source' => 'pa_api',
         ]);
     }
 }

@@ -17,13 +17,13 @@ class DailyDropBuildScriptTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'drop-build-test-' . uniqid();
+        $this->dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'drop-build-test-'.uniqid();
         mkdir($this->dir, 0777, true);
     }
 
     protected function tearDown(): void
     {
-        foreach (glob($this->dir . DIRECTORY_SEPARATOR . '*') ?: [] as $f) {
+        foreach (glob($this->dir.DIRECTORY_SEPARATOR.'*') ?: [] as $f) {
             @unlink($f);
         }
         @rmdir($this->dir);
@@ -31,7 +31,7 @@ class DailyDropBuildScriptTest extends TestCase
 
     private function run_build(): Process
     {
-        $script  = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'daily-drop-build.php';
+        $script = dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'daily-drop-build.php';
         $process = new Process([PHP_BINARY, $script, $this->dir]);
         $process->run();
 
@@ -40,13 +40,13 @@ class DailyDropBuildScriptTest extends TestCase
 
     private function write(string $name, string $content): void
     {
-        file_put_contents($this->dir . DIRECTORY_SEPARATOR . $name, $content);
+        file_put_contents($this->dir.DIRECTORY_SEPARATOR.$name, $content);
     }
 
     private function reviewBlock(): string
     {
         $body = str_repeat('Owners consistently report solid results across the board. ', 100)
-            . "\nSee [our other review](/posts/example-review).";
+            ."\nSee [our other review](/posts/example-review).";
 
         return <<<MD
 ===POST===
@@ -75,8 +75,8 @@ MD;
     private function newsBlock(bool $withBuyOrWait = true, bool $withSource = true): string
     {
         $buyOrWait = $withBuyOrWait ? "\n## Buy or Wait?\n\nWait for the first discount." : '';
-        $source    = $withSource ? 'SOURCE_URL: https://www.theverge.com/example-story' : '';
-        $body      = str_repeat('The announcement matters for buyers weighing an upgrade this cycle. ', 70) . $buyOrWait;
+        $source = $withSource ? 'SOURCE_URL: https://www.theverge.com/example-story' : '';
+        $body = str_repeat('The announcement matters for buyers weighing an upgrade this cycle. ', 70).$buyOrWait;
 
         return <<<MD
 ===POST===
@@ -103,14 +103,14 @@ MD;
 
         $process = $this->run_build();
 
-        $this->assertSame(0, $process->getExitCode(), $process->getErrorOutput() . $process->getOutput());
+        $this->assertSame(0, $process->getExitCode(), $process->getErrorOutput().$process->getOutput());
 
-        $posts = json_decode((string) file_get_contents($this->dir . DIRECTORY_SEPARATOR . 'output.json'), true);
+        $posts = json_decode((string) file_get_contents($this->dir.DIRECTORY_SEPARATOR.'output.json'), true);
         $this->assertCount(2, $posts);
 
         $byType = array_column($posts, null, 'type');
         $review = $byType['article'];
-        $news   = $byType['tech_news'];
+        $news = $byType['tech_news'];
         $this->assertSame('article', $review['type']);
         $this->assertSame('B0ABCDEFGH', $review['product_asin']);
         $this->assertArrayNotHasKey('source_url', $review);
@@ -128,7 +128,7 @@ MD;
         $process = $this->run_build();
         $this->assertSame(0, $process->getExitCode(), $process->getErrorOutput());
 
-        $posts = json_decode((string) file_get_contents($this->dir . DIRECTORY_SEPARATOR . 'output.json'), true);
+        $posts = json_decode((string) file_get_contents($this->dir.DIRECTORY_SEPARATOR.'output.json'), true);
         $this->assertSame('anker 737 power bank review', $posts[0]['seo']['target_query']);
     }
 
@@ -140,7 +140,7 @@ MD;
 
         $this->assertSame(1, $process->getExitCode());
         $this->assertStringContainsString('SOURCE_URL', $process->getErrorOutput());
-        $this->assertFileDoesNotExist($this->dir . DIRECTORY_SEPARATOR . 'output.json');
+        $this->assertFileDoesNotExist($this->dir.DIRECTORY_SEPARATOR.'output.json');
     }
 
     public function test_news_without_buy_or_wait_section_is_a_hard_error(): void

@@ -48,10 +48,10 @@ class SocialController extends Controller
         ]);
 
         $socialPost->update([
-            'status'       => SocialPost::STATUS_POSTED,
-            'posted_at'    => now(),
+            'status' => SocialPost::STATUS_POSTED,
+            'posted_at' => now(),
             'external_url' => $data['external_url'] ?? null,
-            'last_error'   => null,
+            'last_error' => null,
         ]);
 
         return back()->with('success', "Marked as posted on {$socialPost->platform}.");
@@ -67,18 +67,18 @@ class SocialController extends Controller
     private function present(SocialPost $row): array
     {
         return [
-            'id'          => $row->id,
-            'platform'    => $row->platform,
-            'status'      => $row->status,
-            'body'        => $row->body,
-            'chars'       => mb_strlen($row->body),
-            'attempts'    => $row->attempts,
-            'last_error'  => $row->last_error,
+            'id' => $row->id,
+            'platform' => $row->platform,
+            'status' => $row->status,
+            'body' => $row->body,
+            'chars' => mb_strlen($row->body),
+            'attempts' => $row->attempts,
+            'last_error' => $row->last_error,
             'external_url' => $row->external_url,
-            'posted_at'   => $row->posted_at?->toIso8601String(),
-            'queued_at'   => $row->created_at->toIso8601String(),
-            'post_title'  => $row->post->title ?? "Post #{$row->post_id}",
-            'post_url'    => $row->post ? route('posts.show', $row->post->slug) : null,
+            'posted_at' => $row->posted_at?->toIso8601String(),
+            'queued_at' => $row->created_at->toIso8601String(),
+            'post_title' => $row->post->title ?? "Post #{$row->post_id}",
+            'post_url' => $row->post ? route('posts.show', $row->post->slug) : null,
             'compose_url' => $this->composeUrl($row),
         ];
     }
@@ -91,11 +91,11 @@ class SocialController extends Controller
     private function composeUrl(SocialPost $row): string
     {
         if ($row->platform === 'bluesky') {
-            return 'https://bsky.app/intent/compose?text=' . rawurlencode($row->body);
+            return 'https://bsky.app/intent/compose?text='.rawurlencode($row->body);
         }
 
         if ($row->platform === 'x') {
-            return 'https://x.com/intent/post?text=' . rawurlencode($row->body);
+            return 'https://x.com/intent/post?text='.rawurlencode($row->body);
         }
 
         if ($row->platform === 'facebook') {

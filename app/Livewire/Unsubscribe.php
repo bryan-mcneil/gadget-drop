@@ -29,7 +29,7 @@ class Unsubscribe extends Component
 
             if ($deleted) {
                 $this->result = 'success';
-                $this->email  = '';
+                $this->email = '';
             } else {
                 $this->result = 'not_found';
             }

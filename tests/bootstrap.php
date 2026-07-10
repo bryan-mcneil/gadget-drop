@@ -19,7 +19,7 @@ if (is_file($cachedConfig)) {
     if (@unlink($cachedConfig)) {
         fwrite(STDERR, "[tests/bootstrap.php] Deleted stale bootstrap/cache/config.php — a cached config makes Laravel ignore phpunit.xml's env overrides and run tests against the real database.".PHP_EOL);
     } else {
-        fwrite(STDERR, "[tests/bootstrap.php] ABORTING: bootstrap/cache/config.php exists and could not be deleted. Run `php artisan config:clear` and retry — tests must never boot from a cached config.".PHP_EOL);
+        fwrite(STDERR, '[tests/bootstrap.php] ABORTING: bootstrap/cache/config.php exists and could not be deleted. Run `php artisan config:clear` and retry — tests must never boot from a cached config.'.PHP_EOL);
         exit(1);
     }
 }

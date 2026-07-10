@@ -28,15 +28,15 @@ class PriceController extends Controller
                 ->orderBy('price_checked_at')
                 ->paginate(30)
                 ->through(fn ($p) => [
-                    'id'               => $p->id,
-                    'name'             => $p->name,
-                    'asin'             => $p->asin,
-                    'price'            => $p->price,
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'asin' => $p->asin,
+                    'price' => $p->price,
                     'price_checked_at' => $p->price_checked_at?->toIso8601String(),
-                    'days_stale'       => $p->price_checked_at
+                    'days_stale' => $p->price_checked_at
                         ? (int) $p->price_checked_at->diffInDays(now())
                         : null,
-                    'snapshots'        => $p->priceSnapshots()->count(),
+                    'snapshots' => $p->priceSnapshots()->count(),
                 ]),
         ]);
     }

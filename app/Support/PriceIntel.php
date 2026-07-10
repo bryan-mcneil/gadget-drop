@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Product;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -77,19 +78,19 @@ class PriceIntel
             ->values();
 
         $result = [
-            'current'        => $current,
-            'checked_at'     => $product->price_checked_at?->toIso8601String(),
+            'current' => $current,
+            'checked_at' => $product->price_checked_at?->toIso8601String(),
             'tracking_since' => $snapshots->isNotEmpty() ? $snapshots->first()['date']->toIso8601String() : null,
-            'has_stats'      => false,
-            'low30'          => null,
-            'high30'         => null,
-            'avg30'          => null,
-            'low90'          => null,
-            'high90'         => null,
-            'avg90'          => null,
-            'verdict'        => null,
-            'drop_pct'       => null,
-            'points'         => [],
+            'has_stats' => false,
+            'low30' => null,
+            'high30' => null,
+            'avg30' => null,
+            'low90' => null,
+            'high90' => null,
+            'avg90' => null,
+            'verdict' => null,
+            'drop_pct' => null,
+            'points' => [],
         ];
 
         $spanDays = $snapshots->isEmpty()
@@ -111,22 +112,22 @@ class PriceIntel
         $w90 = array_column($window(90), 'price');
 
         $result['has_stats'] = true;
-        $result['low30']     = round(min($w30), 2);
-        $result['high30']    = round(max($w30), 2);
-        $result['avg30']     = round(array_sum($w30) / count($w30), 2);
-        $result['low90']     = round(min($w90), 2);
-        $result['high90']    = round(max($w90), 2);
-        $result['avg90']     = round(array_sum($w90) / count($w90), 2);
+        $result['low30'] = round(min($w30), 2);
+        $result['high30'] = round(max($w30), 2);
+        $result['avg30'] = round(array_sum($w30) / count($w30), 2);
+        $result['low90'] = round(min($w90), 2);
+        $result['high90'] = round(max($w90), 2);
+        $result['avg90'] = round(array_sum($w90) / count($w90), 2);
 
         // "Lowest tracked" needs actual variation in the window — a price that
         // never moved is typical, not a record low.
         $hasVariation = ($result['high90'] - $result['low90']) > 0.009;
 
         $result['verdict'] = match (true) {
-            $hasVariation && $current <= $result['low90'] + 0.009  => 'lowest',
-            $current <= $result['avg90'] * (1 - self::DEAL_PCT)    => 'good',
-            $current >= $result['avg90'] * (1 + self::DEAL_PCT)    => 'elevated',
-            default                                                => 'typical',
+            $hasVariation && $current <= $result['low90'] + 0.009 => 'lowest',
+            $current <= $result['avg90'] * (1 - self::DEAL_PCT) => 'good',
+            $current >= $result['avg90'] * (1 + self::DEAL_PCT) => 'elevated',
+            default => 'typical',
         };
 
         if ($current < $result['avg90']) {
@@ -134,7 +135,7 @@ class PriceIntel
         }
 
         // Downsample the daily series for the sparkline.
-        $step   = max(1, (int) ceil(count($daily) / self::MAX_SPARK_POINTS));
+        $step = max(1, (int) ceil(count($daily) / self::MAX_SPARK_POINTS));
         $points = [];
         foreach ($daily as $i => $day) {
             if ($i % $step === 0 || $i === count($daily) - 1) {
@@ -147,7 +148,7 @@ class PriceIntel
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, array{date: Carbon, price: float}>  $snapshots  ascending
+     * @param  Collection<int, array{date: Carbon, price: float}>  $snapshots  ascending
      * @return array<int, array{date: string, price: float}> one entry per day, oldest first
      */
     private static function dailySeries($snapshots, int $days): array
@@ -172,7 +173,7 @@ class PriceIntel
 
         $series = [];
         $cursor = $start->copy();
-        $today  = now()->startOfDay();
+        $today = now()->startOfDay();
 
         while ($cursor->lte($today)) {
             $key = $cursor->toDateString();
@@ -201,10 +202,10 @@ class PriceIntel
         }
 
         $prices = array_map(fn ($p) => $p[1], $points);
-        $min    = min($prices);
-        $max    = max($prices);
-        $range  = $max - $min;
-        $pad    = 4;
+        $min = min($prices);
+        $max = max($prices);
+        $range = $max - $min;
+        $pad = 4;
 
         $coords = [];
         foreach ($prices as $i => $price) {
@@ -212,13 +213,13 @@ class PriceIntel
             $y = $range > 0
                 ? $pad + (1 - ($price - $min) / $range) * ($height - 2 * $pad)
                 : $height / 2;
-            $coords[] = round($x, 1) . ',' . round($y, 1);
+            $coords[] = round($x, 1).','.round($y, 1);
         }
 
         // A single point still draws as a visible flat dash.
         if ($n === 1) {
-            $only     = explode(',', $coords[0]);
-            $coords   = [($width / 2 - 12) . ',' . $only[1], ($width / 2 + 12) . ',' . $only[1]];
+            $only = explode(',', $coords[0]);
+            $coords = [($width / 2 - 12).','.$only[1], ($width / 2 + 12).','.$only[1]];
         }
 
         return implode(' ', $coords);

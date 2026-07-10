@@ -30,7 +30,7 @@ class ArticleBody
         // content changes (the new hash is a fresh key; stale entries expire).
         // Integer TTL (30 days) keeps this free of the date/cache facades; if the
         // cache layer is unavailable (e.g. a pure unit test) we just render.
-        $key = 'article-body.' . md5(serialize([$body, $images, $fits]));
+        $key = 'article-body.'.md5(serialize([$body, $images, $fits]));
 
         try {
             return Cache::remember($key, 60 * 60 * 24 * 30, fn () => self::render($body, $images, $fits));
@@ -61,7 +61,7 @@ class ArticleBody
         ];
 
         $converter = new CommonMarkConverter([
-            'html_input'         => 'escape',
+            'html_input' => 'escape',
             'allow_unsafe_links' => false,
         ]);
 
@@ -72,9 +72,9 @@ class ArticleBody
                 : '';
 
             $sections[] = [
-                'html'  => $html,
+                'html' => $html,
                 'image' => $images[$i] ?? null,
-                'fit'   => $fits[$i] ?? 'cover',
+                'fit' => $fits[$i] ?? 'cover',
             ];
         }
 

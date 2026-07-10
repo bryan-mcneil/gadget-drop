@@ -28,6 +28,7 @@ Instructions for the **scheduled Claude cloud routine** that generates each day'
    - Commit all generated `daily-drop/` files with message `Drop YYYY-MM-DD: {review title}` (+ tip/news title if present).
    - Open a PR **titled exactly `Drop YYYY-MM-DD`** against `main` (this title is how `/morning` finds the drop — it must be exact). PR body: the build script's per-post summary, remaining warnings (or "no warnings"), and one line per post: type, title, category, word count.
    - Do NOT merge the PR. Do NOT touch anything outside `daily-drop/`.
+   - **Your PR must pass CI** (GitHub Actions runs `tests`/`assets`/`style` on every PR). A content-only PR cannot trip it — if your PR goes red, you touched code you shouldn't have; revert to `daily-drop/` files only. Do not "fix" failing tests or styles — that is never your job.
 
 ## Hard rules
 - Follow `CONTENT-GUIDELINES.md` — especially the honesty rules (no first-hand-testing claims), no in-body Amazon links, and the 6 fixed categories. These exist because the site was denied AdSense once already.

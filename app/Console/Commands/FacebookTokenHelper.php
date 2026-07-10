@@ -42,16 +42,16 @@ class FacebookTokenHelper extends Command
 
         $exchange = Http::acceptJson()->timeout(15)
             ->get("https://graph.facebook.com/{$version}/oauth/access_token", [
-                'grant_type'        => 'fb_exchange_token',
-                'client_id'         => $appId,
-                'client_secret'     => $appSecret,
+                'grant_type' => 'fb_exchange_token',
+                'client_id' => $appId,
+                'client_secret' => $appSecret,
                 'fb_exchange_token' => $shortToken,
             ]);
 
         $longLived = $exchange->json('access_token');
 
         if ($exchange->failed() || ! $longLived) {
-            $this->error('Token exchange failed: ' . ($exchange->json('error.message') ?? "HTTP {$exchange->status()}"));
+            $this->error('Token exchange failed: '.($exchange->json('error.message') ?? "HTTP {$exchange->status()}"));
             $this->line('Short-lived tokens expire in about an hour — generate a fresh one in the Graph API Explorer and retry.');
 
             return self::FAILURE;
@@ -68,7 +68,7 @@ class FacebookTokenHelper extends Command
 
         if ($accounts->failed() || $pages === []) {
             $this->error($accounts->failed()
-                ? '/me/accounts failed: ' . ($accounts->json('error.message') ?? "HTTP {$accounts->status()}")
+                ? '/me/accounts failed: '.($accounts->json('error.message') ?? "HTTP {$accounts->status()}")
                 : 'No Pages returned — make sure the token was generated with the Page selected and pages_manage_posts approved.');
 
             return self::FAILURE;

@@ -28,7 +28,7 @@ class ImageVariantsTest extends TestCase
         ob_start();
         match ($format) {
             'webp' => imagewebp($im, null, 80),
-            'png'  => imagepng($im),
+            'png' => imagepng($im),
             default => imagejpeg($im, null, 85),
         };
         imagedestroy($im);

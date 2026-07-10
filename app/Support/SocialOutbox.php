@@ -32,7 +32,7 @@ class SocialOutbox
             return 0;
         }
 
-        $composer = new SocialComposer();
+        $composer = new SocialComposer;
         $created = 0;
 
         foreach (config('services.social.platforms', []) as $platform => $settings) {

@@ -46,7 +46,7 @@ class PublishSocialPosts extends Command
         $maxAttempts = (int) config('services.social.max_attempts', 3);
 
         foreach ($rows as $row) {
-            $label = "[{$row->platform}] \"" . ($row->post->title ?? "post #{$row->post_id}") . '"';
+            $label = "[{$row->platform}] \"".($row->post->title ?? "post #{$row->post_id}").'"';
 
             // The post may have been unpublished or deleted since it was queued.
             if ($row->post === null || $row->post->status !== 'published') {
@@ -65,8 +65,8 @@ class PublishSocialPosts extends Command
 
             // A row that sat pending past the recency window is too old to announce.
             if ($row->post->published_at === null || $row->post->published_at->lt(now()->subHours(SocialOutbox::RECENCY_HOURS))) {
-                $this->markSkipped($row, 'Stale: published more than ' . SocialOutbox::RECENCY_HOURS . 'h ago.', $dryRun);
-                $this->warn("{$label}: older than " . SocialOutbox::RECENCY_HOURS . 'h — skipped.');
+                $this->markSkipped($row, 'Stale: published more than '.SocialOutbox::RECENCY_HOURS.'h ago.', $dryRun);
+                $this->warn("{$label}: older than ".SocialOutbox::RECENCY_HOURS.'h — skipped.');
 
                 continue;
             }
@@ -75,7 +75,7 @@ class PublishSocialPosts extends Command
 
             if ($dryRun) {
                 $this->line("{$label}: would publish via '{$mode}' driver:");
-                $this->line('  ' . str_replace("\n", "\n  ", $row->body));
+                $this->line('  '.str_replace("\n", "\n  ", $row->body));
 
                 continue;
             }
@@ -85,10 +85,10 @@ class PublishSocialPosts extends Command
 
                 if ($result->status === SocialPost::STATUS_POSTED) {
                     $row->update([
-                        'status'       => SocialPost::STATUS_POSTED,
-                        'posted_at'    => now(),
+                        'status' => SocialPost::STATUS_POSTED,
+                        'posted_at' => now(),
                         'external_url' => $result->externalUrl,
-                        'last_error'   => null,
+                        'last_error' => null,
                     ]);
                     $this->info("{$label}: posted.");
                 } else {

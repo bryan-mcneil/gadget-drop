@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
+use App\Models\SearchPageDay;
+use App\Models\SearchQueryDay;
 use App\Models\SearchSiteDay;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,12 +20,12 @@ class SearchSyncCommandTest extends TestCase
     private function makePost(): Post
     {
         return Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Test Widget Review',
-            'slug'         => 'test-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Test Widget Review',
+            'slug' => 'test-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
     }
@@ -38,8 +40,8 @@ class SearchSyncCommandTest extends TestCase
     private function fakeGoogle(): void
     {
         $today = now()->toDateString();
-        $post  = url('/posts/test-widget-review');
-        $home  = url('/');
+        $post = url('/posts/test-widget-review');
+        $home = url('/');
 
         Http::fake(function ($request) use ($today, $post, $home) {
             if (! str_contains($request->url(), 'searchconsole.googleapis.com')) {
@@ -105,7 +107,7 @@ class SearchSyncCommandTest extends TestCase
         $this->assertDatabaseHas('search_query_days', [
             'query_hash' => sha1('best widget'), 'clicks' => 4, 'impressions' => 90,
         ]);
-        $this->assertSame(2, \App\Models\SearchQueryDay::count());
+        $this->assertSame(2, SearchQueryDay::count());
     }
 
     public function test_re_running_restates_rather_than_duplicates(): void
@@ -117,16 +119,16 @@ class SearchSyncCommandTest extends TestCase
         $this->artisan('search:sync --days=2')->assertSuccessful();
         $counts = [
             SearchSiteDay::count(),
-            \App\Models\SearchPageDay::count(),
-            \App\Models\SearchQueryDay::count(),
+            SearchPageDay::count(),
+            SearchQueryDay::count(),
         ];
 
         $this->artisan('search:sync --days=2')->assertSuccessful();
 
         $this->assertSame($counts, [
             SearchSiteDay::count(),
-            \App\Models\SearchPageDay::count(),
-            \App\Models\SearchQueryDay::count(),
+            SearchPageDay::count(),
+            SearchQueryDay::count(),
         ]);
     }
 

@@ -41,12 +41,12 @@ class SearchController extends Controller
             '# GadgetDrop',
             '',
             '> Independent tech & gadget reviews with real, tracked price history — 30/90-day'
-                . ' lows, averages and honest "buy or wait" verdicts on every product we cover.',
+                .' lows, averages and honest "buy or wait" verdicts on every product we cover.',
             '',
             '## Key pages',
-            '- [Deals](' . route('deals') . '): products currently below their tracked 90-day average',
-            '- [Latest news](' . route('news') . '): buyer-focused tech news',
-            '- [How we review](' . route('how-we-review') . '): our testing and rating method',
+            '- [Deals]('.route('deals').'): products currently below their tracked 90-day average',
+            '- [Latest news]('.route('news').'): buyer-focused tech news',
+            '- [How we review]('.route('how-we-review').'): our testing and rating method',
             '',
             '## Categories',
         ];
@@ -56,7 +56,7 @@ class SearchController extends Controller
             ->get(['name', 'slug']);
 
         foreach ($categories as $category) {
-            $lines[] = '- [' . $category->name . '](' . route('category', $category->slug) . ')';
+            $lines[] = '- ['.$category->name.']('.route('category', $category->slug).')';
         }
 
         $lines[] = '';
@@ -68,9 +68,9 @@ class SearchController extends Controller
             ->get(['title', 'slug']);
 
         foreach ($posts as $post) {
-            $lines[] = '- [' . $post->title . '](' . route('posts.show', $post->slug) . ')';
+            $lines[] = '- ['.$post->title.']('.route('posts.show', $post->slug).')';
         }
 
-        return implode("\n", $lines) . "\n";
+        return implode("\n", $lines)."\n";
     }
 }

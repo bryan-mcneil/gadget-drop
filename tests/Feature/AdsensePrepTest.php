@@ -46,7 +46,7 @@ class AdsensePrepTest extends TestCase
 
     public function test_legacy_persona_author_urls_redirect_to_real_author(): void
     {
-        $target = '/author/' . config('site.author.slug');
+        $target = '/author/'.config('site.author.slug');
 
         foreach (config('site.legacy_author_slugs') as $slug) {
             $this->get("/author/{$slug}")
@@ -58,16 +58,16 @@ class AdsensePrepTest extends TestCase
     public function test_review_renders_verdict_box(): void
     {
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Widget Pro Review',
-            'slug'         => 'widget-pro-review',
-            'type'         => 'article',
-            'body'         => 'A thorough review body that goes into the real-world experience.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Widget Pro Review',
+            'slug' => 'widget-pro-review',
+            'type' => 'article',
+            'body' => 'A thorough review body that goes into the real-world experience.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
-            'rating'       => 4.5,
-            'pros'         => ['Great battery life', 'Comfortable fit'],
-            'cons'         => ['No wireless charging'],
+            'rating' => 4.5,
+            'pros' => ['Great battery life', 'Comfortable fit'],
+            'cons' => ['No wireless charging'],
         ]);
 
         $this->get("/posts/{$post->slug}")
@@ -80,23 +80,23 @@ class AdsensePrepTest extends TestCase
     public function test_post_drops_the_duplicate_price_cta(): void
     {
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Single CTA Review',
-            'slug'         => 'single-cta-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Single CTA Review',
+            'slug' => 'single-cta-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
 
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Test Widget',
+            'category_id' => $category->id,
+            'name' => 'Test Widget',
             'affiliate_url' => 'https://www.amazon.com/dp/B00TEST',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => 99,
-            'description'   => 'A test gadget.',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 99,
+            'description' => 'A test gadget.',
         ]);
         $product->posts()->attach($post->id);
 

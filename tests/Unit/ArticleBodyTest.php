@@ -31,7 +31,7 @@ class ArticleBodyTest extends TestCase
 
     public function test_blockquote_gets_indigo_callout_classes(): void
     {
-        $sections = ArticleBody::sections("> A pulled quote", [], []);
+        $sections = ArticleBody::sections('> A pulled quote', [], []);
         $html = implode('', array_column($sections, 'html'));
 
         $this->assertStringContainsString('not-prose', $html);

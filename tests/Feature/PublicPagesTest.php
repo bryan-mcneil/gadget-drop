@@ -18,15 +18,15 @@ class PublicPagesTest extends TestCase
     public static function publicRoutes(): array
     {
         return [
-            'home'      => ['/', 'GadgetDrop'],
-            'about'     => ['/about', 'What we do'],
-            'privacy'   => ['/privacy', 'Privacy Policy'],
-            'terms'     => ['/terms', 'Terms of Service'],
-            'contact'   => ['/contact', 'Contact GadgetDrop'],
-            'cookies'   => ['/cookies', 'Cookie Policy'],
-            'news'      => ['/news', 'Tech News'],
-            'search'    => ['/search', 'Find your next drop'],
-            'tools'     => ['/tools', 'Online Tools'],
+            'home' => ['/', 'GadgetDrop'],
+            'about' => ['/about', 'What we do'],
+            'privacy' => ['/privacy', 'Privacy Policy'],
+            'terms' => ['/terms', 'Terms of Service'],
+            'contact' => ['/contact', 'Contact GadgetDrop'],
+            'cookies' => ['/cookies', 'Cookie Policy'],
+            'news' => ['/news', 'Tech News'],
+            'search' => ['/search', 'Find your next drop'],
+            'tools' => ['/tools', 'Online Tools'],
             'drop-price-archive' => ['/drop-price', 'Drop Price Archive'],
             'unsubscribe' => ['/unsubscribe', 'Unsubscribe'],
         ];
@@ -77,35 +77,35 @@ class PublicPagesTest extends TestCase
         // its price unless the controller excludes it. The post also gives the
         // hero band a slide (the game island lives inside it).
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'A Published Drop',
-            'slug'         => 'a-published-drop',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'A Published Drop',
+            'slug' => 'a-published-drop',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
 
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Secret Mystery Widget',
+            'category_id' => $category->id,
+            'name' => 'Secret Mystery Widget',
             'affiliate_url' => 'https://www.amazon.com/dp/B00TEST',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => 4242,
-            'description'   => 'A test gadget.',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 4242,
+            'description' => 'A test gadget.',
         ]);
         $product->posts()->attach($post->id);
 
         DropPricePuzzle::create([
-            'puzzle_number'        => 7,
-            'date'                 => now()->toDateString(),
-            'product_id'           => $product->id,
-            'price'                => 4242,
-            'product_name'         => $product->name,
-            'product_image_url'    => $product->image_url,
+            'puzzle_number' => 7,
+            'date' => now()->toDateString(),
+            'product_id' => $product->id,
+            'price' => 4242,
+            'product_name' => $product->name,
+            'product_image_url' => $product->image_url,
             'affiliate_product_id' => $product->id,
-            'locked_at'            => now(),
+            'locked_at' => now(),
         ]);
 
         $this->get('/')

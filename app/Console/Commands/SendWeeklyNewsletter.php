@@ -9,17 +9,19 @@ use Illuminate\Support\Facades\Mail;
 
 class SendWeeklyNewsletter extends Command
 {
-    protected $signature   = 'newsletter:send';
+    protected $signature = 'newsletter:send';
+
     protected $description = 'Send the weekly digest to all subscribers';
 
     public function handle(): void
     {
-		$this->info('Starting process...');
+        $this->info('Starting process...');
 
         $subscribers = Subscriber::all();
 
         if ($subscribers->isEmpty()) {
             $this->info('No subscribers — nothing sent.');
+
             return;
         }
 
@@ -29,7 +31,7 @@ class SendWeeklyNewsletter extends Command
 
         foreach ($subscribers as $subscriber) {
             Mail::to($subscriber->email)->send(new WeeklyDigest(
-                unsubscribeUrl: url('/unsubscribe/' . $subscriber->token)
+                unsubscribeUrl: url('/unsubscribe/'.$subscriber->token)
             ));
             $bar->advance();
         }

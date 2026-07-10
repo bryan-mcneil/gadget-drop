@@ -16,12 +16,12 @@ class SearchMineCommandTest extends TestCase
     private function makePost(string $slug): Post
     {
         return Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => ucfirst($slug),
-            'slug'         => $slug,
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => ucfirst($slug),
+            'slug' => $slug,
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDays(30),
         ]);
     }
@@ -29,14 +29,14 @@ class SearchMineCommandTest extends TestCase
     private function queryDay(string $query, string $page, int $impr, int $clicks, float $pos, int $daysAgo = 20): void
     {
         SearchQueryDay::create([
-            'date'        => now()->subDays($daysAgo)->toDateString(),
-            'query'       => $query,
-            'query_hash'  => sha1($query),
-            'page_url'    => $page,
-            'url_hash'    => sha1($page),
-            'clicks'      => $clicks,
+            'date' => now()->subDays($daysAgo)->toDateString(),
+            'query' => $query,
+            'query_hash' => sha1($query),
+            'page_url' => $page,
+            'url_hash' => sha1($page),
+            'clicks' => $clicks,
             'impressions' => $impr,
-            'position'    => $pos,
+            'position' => $pos,
         ]);
     }
 
@@ -48,9 +48,9 @@ class SearchMineCommandTest extends TestCase
         $this->artisan('search:mine')->assertSuccessful();
 
         $this->assertDatabaseHas('search_opportunities', [
-            'kind'    => 'striking_distance',
+            'kind' => 'striking_distance',
             'post_id' => $post->id,
-            'status'  => 'open',
+            'status' => 'open',
         ]);
         $this->assertTrue((float) SearchOpportunity::first()->score > 0);
     }

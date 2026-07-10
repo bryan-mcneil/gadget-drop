@@ -17,10 +17,10 @@ class DropPriceResult extends Model
     ];
 
     protected $casts = [
-        'won'              => 'boolean',
-        'guesses_used'     => 'integer',
+        'won' => 'boolean',
+        'guesses_used' => 'integer',
         'closest_miss_pct' => 'integer',
-        'played_on'        => 'date',
+        'played_on' => 'date',
     ];
 
     public function puzzle(): BelongsTo

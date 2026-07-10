@@ -54,9 +54,9 @@ class Post extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
-        'rating'       => 'decimal:1',
-        'pros'         => 'array',
-        'cons'         => 'array',
+        'rating' => 'decimal:1',
+        'pros' => 'array',
+        'cons' => 'array',
     ];
 
     public function user(): BelongsTo

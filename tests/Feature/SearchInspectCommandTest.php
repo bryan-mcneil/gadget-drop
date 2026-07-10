@@ -16,12 +16,12 @@ class SearchInspectCommandTest extends TestCase
     private function publish(int $daysAgo = 1): Post
     {
         return Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Inspect Widget Review',
-            'slug'         => 'inspect-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Inspect Widget Review',
+            'slug' => 'inspect-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDays($daysAgo),
         ]);
     }
@@ -51,7 +51,7 @@ class SearchInspectCommandTest extends TestCase
 
         Http::fake([
             '*urlInspection*' => Http::response(['inspectionResult' => ['indexStatusResult' => [
-                'verdict'       => 'PASS',
+                'verdict' => 'PASS',
                 'coverageState' => 'Submitted and indexed',
                 'lastCrawlTime' => now()->toIso8601String(),
             ]]]),
@@ -74,11 +74,11 @@ class SearchInspectCommandTest extends TestCase
         config(['search.ping_enabled' => true, 'search.indexnow_key' => 'abc123']);
 
         Http::fake([
-            '*urlInspection*'   => Http::response(['inspectionResult' => ['indexStatusResult' => [
-                'verdict'       => 'NEUTRAL',
+            '*urlInspection*' => Http::response(['inspectionResult' => ['indexStatusResult' => [
+                'verdict' => 'NEUTRAL',
                 'coverageState' => 'Crawled - currently not indexed',
             ]]]),
-            '*sitemaps/*'       => Http::response('', 200),
+            '*sitemaps/*' => Http::response('', 200),
             'api.indexnow.org/*' => Http::response('', 200),
         ]);
 

@@ -24,8 +24,8 @@ abstract class TestCase extends BaseTestCase
 
         if (! $bootedSafely) {
             fwrite(STDERR, sprintf(
-                "\nTests aborted: booted as env '%s' on connection '%s' (database '%s') instead of testing/sqlite/:memory:." .
-                " phpunit.xml's env overrides are not being applied — most likely a cached config (bootstrap/cache/config.php)." .
+                "\nTests aborted: booted as env '%s' on connection '%s' (database '%s') instead of testing/sqlite/:memory:.".
+                " phpunit.xml's env overrides are not being applied — most likely a cached config (bootstrap/cache/config.php).".
                 " Run `php artisan config:clear` and retry.\n",
                 $this->app->environment(),
                 config('database.default'),

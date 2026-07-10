@@ -8,20 +8,25 @@ use Illuminate\Support\Facades\Log;
 
 class AmazonProductService
 {
-    private bool   $configured;
+    private bool $configured;
+
     private string $accessKey;
+
     private string $secretKey;
+
     private string $partnerTag;
+
     private string $host;
+
     private string $region;
 
     public function __construct()
     {
-        $this->accessKey  = config('services.amazon.pa_access_key') ?? '';
-        $this->secretKey  = config('services.amazon.pa_secret_key') ?? '';
+        $this->accessKey = config('services.amazon.pa_access_key') ?? '';
+        $this->secretKey = config('services.amazon.pa_secret_key') ?? '';
         $this->partnerTag = config('services.amazon.pa_partner_tag') ?? '';
-        $this->host       = config('services.amazon.pa_host') ?? 'webservices.amazon.com';
-        $this->region     = config('services.amazon.pa_region') ?? 'us-east-1';
+        $this->host = config('services.amazon.pa_host') ?? 'webservices.amazon.com';
+        $this->region = config('services.amazon.pa_region') ?? 'us-east-1';
 
         $this->configured = filled($this->accessKey)
                          && filled($this->secretKey)
@@ -50,7 +55,7 @@ class AmazonProductService
         }
 
         $data = $this->lookup($asin);
-        $ttl  = $data ? now()->addHours(12) : now()->addHour();
+        $ttl = $data ? now()->addHours(12) : now()->addHour();
         Cache::put($key, $data, $ttl);
 
         return $data;
@@ -68,9 +73,11 @@ class AmazonProductService
 
         try {
             $raw = $this->callApi($asin);
+
             return $this->parseItem($raw);
         } catch (\Throwable $e) {
             Log::warning('Amazon PA API lookup failed', ['asin' => $asin, 'error' => $e->getMessage()]);
+
             return null;
         }
     }
@@ -79,15 +86,15 @@ class AmazonProductService
 
     private function callApi(string $asin): array
     {
-        $path    = '/paapi5/getitems';
-        $target  = 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems';
+        $path = '/paapi5/getitems';
+        $target = 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems';
         $service = 'ProductAdvertisingAPI';
 
         $payload = json_encode([
-            'PartnerTag'  => $this->partnerTag,
+            'PartnerTag' => $this->partnerTag,
             'PartnerType' => 'Associates',
-            'ItemIds'     => [$asin],
-            'Resources'   => [
+            'ItemIds' => [$asin],
+            'Resources' => [
                 'ItemInfo.Title',
                 'ItemInfo.Features',
                 'ItemInfo.ByLineInfo',
@@ -97,9 +104,9 @@ class AmazonProductService
             ],
         ]);
 
-        $now        = now()->utc();
-        $dateTime   = $now->format('Ymd\THis\Z');
-        $dateStamp  = $now->format('Ymd');
+        $now = now()->utc();
+        $dateTime = $now->format('Ymd\THis\Z');
+        $dateStamp = $now->format('Ymd');
         $contentType = 'application/json; charset=utf-8';
 
         $canonicalHeaders = implode("\n", [
@@ -108,7 +115,7 @@ class AmazonProductService
             "host:{$this->host}",
             "x-amz-date:{$dateTime}",
             "x-amz-target:{$target}",
-        ]) . "\n";
+        ])."\n";
 
         $signedHeaders = 'content-encoding;content-type;host;x-amz-date;x-amz-target';
 
@@ -131,18 +138,18 @@ class AmazonProductService
         ]);
 
         $signingKey = $this->deriveSigningKey($dateStamp);
-        $signature  = bin2hex(hash_hmac('sha256', $stringToSign, $signingKey, true));
+        $signature = bin2hex(hash_hmac('sha256', $stringToSign, $signingKey, true));
 
         $authorization = "AWS4-HMAC-SHA256 Credential={$this->accessKey}/{$credentialScope}, "
-                       . "SignedHeaders={$signedHeaders}, Signature={$signature}";
+                       ."SignedHeaders={$signedHeaders}, Signature={$signature}";
 
         $response = Http::timeout(8)->withHeaders([
             'content-encoding' => 'amz-1.0',
-            'content-type'     => $contentType,
-            'host'             => $this->host,
-            'x-amz-date'       => $dateTime,
-            'x-amz-target'     => $target,
-            'Authorization'    => $authorization,
+            'content-type' => $contentType,
+            'host' => $this->host,
+            'x-amz-date' => $dateTime,
+            'x-amz-target' => $target,
+            'Authorization' => $authorization,
         ])->post("https://{$this->host}{$path}", json_decode($payload, true));
 
         if (! $response->successful()) {
@@ -160,31 +167,31 @@ class AmazonProductService
             return null;
         }
 
-        $name  = $item['ItemInfo']['Title']['DisplayValue'] ?? null;
+        $name = $item['ItemInfo']['Title']['DisplayValue'] ?? null;
         $price = $item['Offers']['Listings'][0]['Price']['Amount'] ?? null;
 
-        $features    = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
+        $features = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
         $description = $features ? implode("\n", array_slice($features, 0, 5)) : null;
 
         $reviewCount = $item['CustomerReviews']['Count'] ?? null;
-        $starRating  = $item['CustomerReviews']['StarRating']['Value'] ?? null;
-        $brand       = $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? null;
+        $starRating = $item['CustomerReviews']['StarRating']['Value'] ?? null;
+        $brand = $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? null;
 
         return [
-            'name'                => $name,
-            'price'               => $price,
-            'description'         => $description,
-            'brand'               => $brand,
-            'amazon_rating'       => $starRating  !== null ? (float) $starRating  : null,
-            'amazon_review_count' => $reviewCount !== null ? (int)   $reviewCount : null,
+            'name' => $name,
+            'price' => $price,
+            'description' => $description,
+            'brand' => $brand,
+            'amazon_rating' => $starRating !== null ? (float) $starRating : null,
+            'amazon_review_count' => $reviewCount !== null ? (int) $reviewCount : null,
         ];
     }
 
     private function deriveSigningKey(string $dateStamp): string
     {
-        $kDate    = hash_hmac('sha256', $dateStamp,               'AWS4' . $this->secretKey, true);
-        $kRegion  = hash_hmac('sha256', $this->region,            $kDate,    true);
-        $kService = hash_hmac('sha256', 'ProductAdvertisingAPI',  $kRegion,  true);
+        $kDate = hash_hmac('sha256', $dateStamp, 'AWS4'.$this->secretKey, true);
+        $kRegion = hash_hmac('sha256', $this->region, $kDate, true);
+        $kService = hash_hmac('sha256', 'ProductAdvertisingAPI', $kRegion, true);
 
         return hash_hmac('sha256', 'aws4_request', $kService, true);
     }

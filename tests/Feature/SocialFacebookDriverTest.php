@@ -34,13 +34,13 @@ class SocialFacebookDriverTest extends TestCase
         $i++;
 
         return Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => "Facebook Post {$i}",
-            'slug'         => "facebook-post-{$i}",
-            'type'         => 'article',
-            'excerpt'      => 'Short excerpt.',
-            'body'         => 'Body text.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => "Facebook Post {$i}",
+            'slug' => "facebook-post-{$i}",
+            'type' => 'article',
+            'excerpt' => 'Short excerpt.',
+            'body' => 'Body text.',
+            'status' => 'published',
             'published_at' => now(),
         ]);
     }

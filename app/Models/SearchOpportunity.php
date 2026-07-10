@@ -14,10 +14,10 @@ class SearchOpportunity extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'evidence'      => 'array',
-        'score'         => 'decimal:2',
+        'evidence' => 'array',
+        'score' => 'decimal:2',
         'first_seen_at' => 'datetime',
-        'last_seen_at'  => 'datetime',
+        'last_seen_at' => 'datetime',
     ];
 
     public function post(): BelongsTo

@@ -17,24 +17,23 @@
  * (used by the test suite): php bin/daily-drop-build.php path/to/dir
  * Exit code 0 = built (warnings allowed), 1 = hard error (nothing written).
  */
+$root = dirname(__DIR__);
+$workDir = $argv[1] ?? $root.DIRECTORY_SEPARATOR.'daily-drop';
+$outputJson = $workDir.DIRECTORY_SEPARATOR.'output.json';
 
-$root       = dirname(__DIR__);
-$workDir    = $argv[1] ?? $root . DIRECTORY_SEPARATOR . 'daily-drop';
-$outputJson = $workDir . DIRECTORY_SEPARATOR . 'output.json';
-
-$errors   = [];
+$errors = [];
 $warnings = [];
 
 // ---------------------------------------------------------------------------
 // Date from research.md (falls back to today)
 // ---------------------------------------------------------------------------
 $date = date('Y-m-d');
-$researchFile = $workDir . DIRECTORY_SEPARATOR . 'research.md';
+$researchFile = $workDir.DIRECTORY_SEPARATOR.'research.md';
 if (is_file($researchFile)) {
     if (preg_match('/^DATE:\s*(\S+)/m', (string) file_get_contents($researchFile), $m)) {
         $date = $m[1];
         if ($date !== date('Y-m-d')) {
-            $warnings[] = "research.md DATE is {$date}, not today (" . date('Y-m-d') . ')';
+            $warnings[] = "research.md DATE is {$date}, not today (".date('Y-m-d').')';
         }
     }
 } else {
@@ -45,9 +44,9 @@ if (is_file($researchFile)) {
 // Collect content files
 // ---------------------------------------------------------------------------
 $files = array_merge(
-    glob($workDir . DIRECTORY_SEPARATOR . 'product-*.md') ?: [],
-    glob($workDir . DIRECTORY_SEPARATOR . 'tip-*.md') ?: [],
-    glob($workDir . DIRECTORY_SEPARATOR . 'news-*.md') ?: [],
+    glob($workDir.DIRECTORY_SEPARATOR.'product-*.md') ?: [],
+    glob($workDir.DIRECTORY_SEPARATOR.'tip-*.md') ?: [],
+    glob($workDir.DIRECTORY_SEPARATOR.'news-*.md') ?: [],
 );
 natsort($files);
 $files = array_values($files);
@@ -72,33 +71,35 @@ const VALID_TYPES = ['article', 'tech_tip', 'tech_news'];
 // Per-type body word-count targets (warn outside the range). Floors sit well
 // above thin-content territory on purpose — see CONTENT-GUIDELINES.md.
 const WORD_RANGES = [
-    'article'   => [800, 1600, '900-1500'],
-    'tech_tip'  => [600, 1000, '600-1000'],
+    'article' => [800, 1600, '900-1500'],
+    'tech_tip' => [600, 1000, '600-1000'],
     'tech_news' => [600, 900,  '600-900'],
 ];
 
 function parseBlock(string $block): array
 {
-    $post  = ['PROS' => [], 'CONS' => []];
+    $post = ['PROS' => [], 'CONS' => []];
     $lines = preg_split('/\r\n|\r|\n/', $block);
-    $list  = null;
+    $list = null;
 
     foreach ($lines as $i => $line) {
         if (preg_match('/^([A-Z_]+):(.*)$/', $line, $m)) {
             $key = $m[1];
             if ($key === 'BODY') {
-                $body = trim($m[2]) === '' ? '' : trim($m[2]) . "\n";
+                $body = trim($m[2]) === '' ? '' : trim($m[2])."\n";
                 $body .= implode("\n", array_slice($lines, $i + 1));
                 $post['BODY'] = trim($body);
                 break;
             }
             if (in_array($key, LIST_KEYS, true)) {
                 $list = $key;
+
                 continue;
             }
             if (in_array($key, SCALAR_KEYS, true)) {
                 $post[$key] = trim($m[2]);
                 $list = null;
+
                 continue;
             }
         }
@@ -154,12 +155,14 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
 {
     if (($p['TITLE'] ?? '') === '' || ($p['BODY'] ?? '') === '') {
         $errors[] = "{$label}: missing required TITLE or BODY";
+
         return;
     }
 
     $type = ($p['TYPE'] ?? '') !== '' ? $p['TYPE'] : 'article';
     if (! in_array($type, VALID_TYPES, true)) {
         $errors[] = "{$label}: unknown TYPE '{$type}' (expected article, tech_tip, or tech_news)";
+
         return;
     }
     $isReview = $type === 'article';
@@ -176,7 +179,7 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
     }
 
     if (len($p['META_TITLE'] ?? '') > 70) {
-        $warnings[] = "{$label}: META_TITLE is " . len($p['META_TITLE']) . ' chars (max 70)';
+        $warnings[] = "{$label}: META_TITLE is ".len($p['META_TITLE']).' chars (max 70)';
     }
 
     $metaDescLen = len($p['META_DESCRIPTION'] ?? '');
@@ -185,7 +188,7 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
     }
 
     if (($p['AUTHOR'] ?? '') !== SITE_AUTHOR) {
-        $warnings[] = "{$label}: AUTHOR '" . ($p['AUTHOR'] ?? '') . "' is not '" . SITE_AUTHOR . "' (single real byline — personas are retired)";
+        $warnings[] = "{$label}: AUTHOR '".($p['AUTHOR'] ?? '')."' is not '".SITE_AUTHOR."' (single real byline — personas are retired)";
     }
 
     [$min, $max, $want] = WORD_RANGES[$type];
@@ -201,12 +204,12 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
     // -- Per-type checks --------------------------------------------------
     if ($isReview) {
         if (! preg_match('/^B0[A-Z0-9]{8}$/i', $p['ASIN'] ?? '')) {
-            $warnings[] = "{$label}: ASIN '" . ($p['ASIN'] ?? '') . "' does not look like an Amazon ASIN";
+            $warnings[] = "{$label}: ASIN '".($p['ASIN'] ?? '')."' does not look like an Amazon ASIN";
         }
 
         $rating = (float) ($p['RATING'] ?? 0);
         if ($rating < 1 || $rating > 5) {
-            $warnings[] = "{$label}: RATING '" . ($p['RATING'] ?? '') . "' is not between 1 and 5";
+            $warnings[] = "{$label}: RATING '".($p['RATING'] ?? '')."' is not between 1 and 5";
         }
 
         if (empty($p['PROS'])) {
@@ -241,9 +244,9 @@ function validatePost(array $p, string $label, array &$errors, array &$warnings)
     }
 
     // -- Content scans: em dashes + banned phrases ------------------------
-    $scan = ($p['TITLE'] ?? '') . "\n" . ($p['EXCERPT'] ?? '') . "\n"
-        . ($p['META_TITLE'] ?? '') . "\n" . ($p['META_DESCRIPTION'] ?? '') . "\n"
-        . ($p['BODY'] ?? '');
+    $scan = ($p['TITLE'] ?? '')."\n".($p['EXCERPT'] ?? '')."\n"
+        .($p['META_TITLE'] ?? '')."\n".($p['META_DESCRIPTION'] ?? '')."\n"
+        .($p['BODY'] ?? '');
 
     $emDashes = substr_count($scan, "\u{2014}");
     if ($emDashes > 0) {
@@ -275,17 +278,17 @@ $posts = [];
 
 foreach ($files as $file) {
     $content = (string) file_get_contents($file);
-    $blocks  = preg_split('/^===POST===\s*$/m', $content);
-    $name    = basename($file);
-    $n       = 0;
+    $blocks = preg_split('/^===POST===\s*$/m', $content);
+    $name = basename($file);
+    $n = 0;
 
     foreach ($blocks as $block) {
         if (trim($block) === '') {
             continue;
         }
         $n++;
-        $p     = parseBlock($block);
-        $label = "{$name} post #{$n} (" . ($p['AUTHOR'] ?? 'unknown author') . ')';
+        $p = parseBlock($block);
+        $label = "{$name} post #{$n} (".($p['AUTHOR'] ?? 'unknown author').')';
 
         validatePost($p, $label, $errors, $warnings);
 
@@ -293,28 +296,28 @@ foreach ($files as $file) {
         $tags = array_values(array_filter(array_map('trim', explode('|', $p['TAGS'] ?? ''))));
 
         $post = [
-            'title'         => $p['TITLE'] ?? '',
-            'excerpt'       => $p['EXCERPT'] ?? '',
-            'body'          => $p['BODY'] ?? '',
-            'type'          => $type,
-            'author_name'   => $p['AUTHOR'] ?? '',
+            'title' => $p['TITLE'] ?? '',
+            'excerpt' => $p['EXCERPT'] ?? '',
+            'body' => $p['BODY'] ?? '',
+            'type' => $type,
+            'author_name' => $p['AUTHOR'] ?? '',
             'category_name' => $p['CATEGORY'] ?? '',
-            'tag_names'     => $tags,
-            'seo'           => [
-                'score'            => (int) ($p['SEO_SCORE'] ?? 0),
-                'meta_title'       => $p['META_TITLE'] ?? '',
+            'tag_names' => $tags,
+            'seo' => [
+                'score' => (int) ($p['SEO_SCORE'] ?? 0),
+                'meta_title' => $p['META_TITLE'] ?? '',
                 'meta_description' => $p['META_DESCRIPTION'] ?? '',
-                'focus_keyword'    => $p['FOCUS_KEYWORD'] ?? '',
-                'target_query'     => $p['TARGET_QUERY'] ?? '',
-                'slug'             => $p['SLUG'] ?? '',
+                'focus_keyword' => $p['FOCUS_KEYWORD'] ?? '',
+                'target_query' => $p['TARGET_QUERY'] ?? '',
+                'slug' => $p['SLUG'] ?? '',
             ],
         ];
 
         if ($type === 'article') {
             $post['product_asin'] = strtoupper($p['ASIN'] ?? '');
-            $post['rating']       = (float) ($p['RATING'] ?? 0);
-            $post['pros']         = $p['PROS'];
-            $post['cons']         = $p['CONS'];
+            $post['rating'] = (float) ($p['RATING'] ?? 0);
+            $post['pros'] = $p['PROS'];
+            $post['cons'] = $p['CONS'];
         } else {
             $post['source_url'] = $p['SOURCE_URL'] ?? '';
         }
@@ -339,24 +342,24 @@ if ($errors) {
 
 $json = json_encode($posts, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-file_put_contents($outputJson, $json . "\n");
+file_put_contents($outputJson, $json."\n");
 
 // ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
-echo 'Built ' . count($posts) . ' post(s) from ' . count($files) . " file(s) — {$date}\n";
+echo 'Built '.count($posts).' post(s) from '.count($files)." file(s) — {$date}\n";
 foreach ($posts as $post) {
     printf(
         "  %-9s %-14s seo:%-3d %s\n",
         $post['type'],
-        '[' . ($post['product_asin'] ?? 'no product') . ']',
+        '['.($post['product_asin'] ?? 'no product').']',
         $post['seo']['score'],
         $post['title']
     );
 }
 
 if ($warnings) {
-    echo "\n" . count($warnings) . " warning(s):\n";
+    echo "\n".count($warnings)." warning(s):\n";
     foreach ($warnings as $w) {
         echo "  WARN: {$w}\n";
     }

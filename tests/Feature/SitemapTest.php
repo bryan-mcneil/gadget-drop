@@ -20,12 +20,12 @@ class SitemapTest extends TestCase
         foreach (range(1, $count) as $i) {
             $n++;
             Post::create([
-                'user_id'      => $user->id,
-                'title'        => "Sitemap Post {$n}",
-                'slug'         => "sitemap-post-{$n}",
-                'type'         => 'article',
-                'body'         => 'Body.',
-                'status'       => 'published',
+                'user_id' => $user->id,
+                'title' => "Sitemap Post {$n}",
+                'slug' => "sitemap-post-{$n}",
+                'type' => 'article',
+                'body' => 'Body.',
+                'status' => 'published',
                 'published_at' => now()->subDays($i),
             ])->categories()->attach($category->id);
         }

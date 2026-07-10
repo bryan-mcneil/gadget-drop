@@ -23,12 +23,12 @@ class PostController extends Controller
                 ->latest()
                 ->paginate(15)
                 ->through(fn ($p) => [
-                    'id'           => $p->id,
-                    'title'        => $p->title,
-                    'type'         => $p->type,
-                    'status'       => $p->status,
+                    'id' => $p->id,
+                    'title' => $p->title,
+                    'type' => $p->type,
+                    'status' => $p->status,
                     'published_at' => $p->published_at?->toDateString(),
-                    'author'       => $p->user->name,
+                    'author' => $p->user->name,
                 ]),
         ]);
     }
@@ -37,67 +37,67 @@ class PostController extends Controller
     {
         return Inertia::render('Admin/Posts/Form', [
             'categories' => Category::orderBy('name')->get(['id', 'name']),
-            'tags'       => Tag::orderBy('name')->get(['id', 'name']),
-            'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
+            'tags' => Tag::orderBy('name')->get(['id', 'name']),
+            'products' => Product::orderBy('name')->get(['id', 'name', 'price']),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'title'          => 'required|string|max:255',
-            'slug'           => 'nullable|string|max:255|unique:posts,slug',
-            'excerpt'        => 'nullable|string|max:500',
-            'body'           => 'required|string',
-            'featured_image'          => 'nullable|string',
-            'featured_image_fit'      => 'nullable|in:cover,contain',
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug',
+            'excerpt' => 'nullable|string|max:500',
+            'body' => 'required|string',
+            'featured_image' => 'nullable|string',
+            'featured_image_fit' => 'nullable|in:cover,contain',
             'featured_image_position' => 'nullable|string|max:30',
-            'hero_image'              => 'nullable|string',
-            'hero_image_position'     => 'nullable|string|max:30',
-            'image_1'            => 'nullable|string',
-            'image_1_fit'        => 'nullable|in:cover,contain',
-            'image_2'            => 'nullable|string',
-            'image_2_fit'        => 'nullable|in:cover,contain',
-            'image_3'            => 'nullable|string',
-            'image_3_fit'        => 'nullable|in:cover,contain',
-            'type'           => 'nullable|in:article,tech_tip,tech_news',
-            'source_url'     => 'nullable|string|max:500',
-            'status'         => 'required|in:draft,published,scheduled',
-            'published_at'   => 'nullable|date',
-            'user_id'        => 'nullable|exists:users,id',
-            'category_ids'   => 'nullable|array',
+            'hero_image' => 'nullable|string',
+            'hero_image_position' => 'nullable|string|max:30',
+            'image_1' => 'nullable|string',
+            'image_1_fit' => 'nullable|in:cover,contain',
+            'image_2' => 'nullable|string',
+            'image_2_fit' => 'nullable|in:cover,contain',
+            'image_3' => 'nullable|string',
+            'image_3_fit' => 'nullable|in:cover,contain',
+            'type' => 'nullable|in:article,tech_tip,tech_news',
+            'source_url' => 'nullable|string|max:500',
+            'status' => 'required|in:draft,published,scheduled',
+            'published_at' => 'nullable|date',
+            'user_id' => 'nullable|exists:users,id',
+            'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:categories,id',
-            'tag_ids'        => 'nullable|array',
-            'tag_ids.*'      => 'exists:tags,id',
-            'product_ids'    => 'nullable|array',
-            'product_ids.*'  => 'exists:products,id',
-            'seo.meta_title'       => 'nullable|string|max:70',
+            'tag_ids' => 'nullable|array',
+            'tag_ids.*' => 'exists:tags,id',
+            'product_ids' => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
+            'seo.meta_title' => 'nullable|string|max:70',
             'seo.meta_description' => 'nullable|string|max:320',
-            'seo.focus_keyword'    => 'nullable|string|max:100',
-            'seo.noindex'          => 'nullable|boolean',
-            'rating'               => 'nullable|numeric|min:1|max:5',
-            'pros'                 => 'nullable|array|max:10',
-            'pros.*'               => 'string|max:200',
-            'cons'                 => 'nullable|array|max:10',
-            'cons.*'               => 'string|max:200',
+            'seo.focus_keyword' => 'nullable|string|max:100',
+            'seo.noindex' => 'nullable|boolean',
+            'rating' => 'nullable|numeric|min:1|max:5',
+            'pros' => 'nullable|array|max:10',
+            'pros.*' => 'string|max:200',
+            'cons' => 'nullable|array|max:10',
+            'cons.*' => 'string|max:200',
         ]);
 
         $post = Post::create([
             ...$data,
             'user_id' => $data['user_id'] ?? User::siteAuthor()?->id ?? $request->user()->id,
-            'slug'    => $data['slug'] ?: Str::slug($data['title']),
+            'slug' => $data['slug'] ?: Str::slug($data['title']),
         ]);
 
         $post->categories()->sync($data['category_ids'] ?? []);
         $post->tags()->sync($data['tag_ids'] ?? []);
 
-        if (!empty($data['product_ids'])) {
+        if (! empty($data['product_ids'])) {
             $post->products()->sync(
                 collect($data['product_ids'])->mapWithKeys(fn ($id, $i) => [$id => ['display_order' => $i]])
             );
         }
 
-        if (!empty($data['seo'])) {
+        if (! empty($data['seo'])) {
             $post->seoMeta()->create(['post_id' => $post->id] + $data['seo']);
         }
 
@@ -109,51 +109,51 @@ class PostController extends Controller
         $post->load(['categories', 'tags', 'products', 'seoMeta']);
 
         return Inertia::render('Admin/Posts/Form', [
-            'post'       => $post,
+            'post' => $post,
             'categories' => Category::orderBy('name')->get(['id', 'name']),
-            'tags'       => Tag::orderBy('name')->get(['id', 'name']),
-            'products'   => Product::orderBy('name')->get(['id', 'name', 'price']),
+            'tags' => Tag::orderBy('name')->get(['id', 'name']),
+            'products' => Product::orderBy('name')->get(['id', 'name', 'price']),
         ]);
     }
 
     public function update(Request $request, Post $post): RedirectResponse
     {
         $data = $request->validate([
-            'title'          => 'required|string|max:255',
-            'slug'           => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
-            'excerpt'        => 'nullable|string|max:500',
-            'body'           => 'required|string',
-            'featured_image'          => 'nullable|string',
-            'featured_image_fit'      => 'nullable|in:cover,contain',
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
+            'excerpt' => 'nullable|string|max:500',
+            'body' => 'required|string',
+            'featured_image' => 'nullable|string',
+            'featured_image_fit' => 'nullable|in:cover,contain',
             'featured_image_position' => 'nullable|string|max:30',
-            'hero_image'              => 'nullable|string',
-            'hero_image_position'     => 'nullable|string|max:30',
-            'image_1'            => 'nullable|string',
-            'image_1_fit'        => 'nullable|in:cover,contain',
-            'image_2'            => 'nullable|string',
-            'image_2_fit'        => 'nullable|in:cover,contain',
-            'image_3'            => 'nullable|string',
-            'image_3_fit'        => 'nullable|in:cover,contain',
-            'type'           => 'nullable|in:article,tech_tip,tech_news',
-            'source_url'     => 'nullable|string|max:500',
-            'status'         => 'required|in:draft,published,scheduled',
-            'published_at'   => 'nullable|date',
-            'user_id'        => 'nullable|exists:users,id',
-            'category_ids'   => 'nullable|array',
+            'hero_image' => 'nullable|string',
+            'hero_image_position' => 'nullable|string|max:30',
+            'image_1' => 'nullable|string',
+            'image_1_fit' => 'nullable|in:cover,contain',
+            'image_2' => 'nullable|string',
+            'image_2_fit' => 'nullable|in:cover,contain',
+            'image_3' => 'nullable|string',
+            'image_3_fit' => 'nullable|in:cover,contain',
+            'type' => 'nullable|in:article,tech_tip,tech_news',
+            'source_url' => 'nullable|string|max:500',
+            'status' => 'required|in:draft,published,scheduled',
+            'published_at' => 'nullable|date',
+            'user_id' => 'nullable|exists:users,id',
+            'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:categories,id',
-            'tag_ids'        => 'nullable|array',
-            'tag_ids.*'      => 'exists:tags,id',
-            'product_ids'    => 'nullable|array',
-            'product_ids.*'  => 'exists:products,id',
-            'seo.meta_title'       => 'nullable|string|max:70',
+            'tag_ids' => 'nullable|array',
+            'tag_ids.*' => 'exists:tags,id',
+            'product_ids' => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
+            'seo.meta_title' => 'nullable|string|max:70',
             'seo.meta_description' => 'nullable|string|max:320',
-            'seo.focus_keyword'    => 'nullable|string|max:100',
-            'seo.noindex'          => 'nullable|boolean',
-            'rating'               => 'nullable|numeric|min:1|max:5',
-            'pros'                 => 'nullable|array|max:10',
-            'pros.*'               => 'string|max:200',
-            'cons'                 => 'nullable|array|max:10',
-            'cons.*'               => 'string|max:200',
+            'seo.focus_keyword' => 'nullable|string|max:100',
+            'seo.noindex' => 'nullable|boolean',
+            'rating' => 'nullable|numeric|min:1|max:5',
+            'pros' => 'nullable|array|max:10',
+            'pros.*' => 'string|max:200',
+            'cons' => 'nullable|array|max:10',
+            'cons.*' => 'string|max:200',
         ]);
 
         $post->update([
@@ -164,13 +164,13 @@ class PostController extends Controller
         $post->categories()->sync($data['category_ids'] ?? []);
         $post->tags()->sync($data['tag_ids'] ?? []);
 
-        if (!empty($data['product_ids'])) {
+        if (! empty($data['product_ids'])) {
             $post->products()->sync(
                 collect($data['product_ids'])->mapWithKeys(fn ($id, $i) => [$id => ['display_order' => $i]])
             );
         }
 
-        if (!empty($data['seo'])) {
+        if (! empty($data['seo'])) {
             $post->seoMeta()->updateOrCreate(['post_id' => $post->id], $data['seo']);
         }
 

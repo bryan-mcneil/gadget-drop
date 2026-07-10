@@ -74,8 +74,8 @@ class GoogleSearchConsoleService
             // path (PostObserver). A hung Google token endpoint must never block a
             // save beyond a few seconds; everything else here is already bounded.
             $handler = HttpHandlerFactory::build(new Client(['timeout' => 5, 'connect_timeout' => 3]));
-            $auth    = $creds->fetchAuthToken($handler);
-            $token   = $auth['access_token'] ?? null;
+            $auth = $creds->fetchAuthToken($handler);
+            $token = $auth['access_token'] ?? null;
 
             if ($token === null) {
                 return null;
@@ -115,11 +115,11 @@ class GoogleSearchConsoleService
         }
 
         $endpoint = 'https://searchconsole.googleapis.com/webmasters/v3/sites/'
-            . rawurlencode($this->property()) . '/searchAnalytics/query';
+            .rawurlencode($this->property()).'/searchAnalytics/query';
 
         $body['dataState'] = $body['dataState'] ?? 'all';
 
-        $rows     = [];
+        $rows = [];
         $startRow = 0;
 
         do {
@@ -132,7 +132,7 @@ class GoogleSearchConsoleService
             }
 
             $batch = $json['rows'] ?? [];
-            $rows  = array_merge($rows, $batch);
+            $rows = array_merge($rows, $batch);
             $startRow += count($batch);
 
             // Stop when the API returns a short page (or an empty one).
@@ -156,7 +156,7 @@ class GoogleSearchConsoleService
         $sitemapUrl ??= config('search.sitemap_url');
 
         $endpoint = 'https://searchconsole.googleapis.com/webmasters/v3/sites/'
-            . rawurlencode($this->property()) . '/sitemaps/' . rawurlencode($sitemapUrl);
+            .rawurlencode($this->property()).'/sitemaps/'.rawurlencode($sitemapUrl);
 
         try {
             $resp = Http::timeout(10)->withToken($token)->put($endpoint);
@@ -184,7 +184,7 @@ class GoogleSearchConsoleService
 
         return $this->send('post', 'https://searchconsole.googleapis.com/v1/urlInspection/index:inspect', $token, [
             'inspectionUrl' => $url,
-            'siteUrl'       => $this->property(),
+            'siteUrl' => $this->property(),
         ]);
     }
 

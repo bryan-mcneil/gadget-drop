@@ -20,22 +20,22 @@ class PriceHistoryWidgetTest extends TestCase
         $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
 
         $product = Product::create([
-            'category_id'   => $category->id,
-            'name'          => 'Tracked Widget',
-            'asin'          => 'B00TRACK',
+            'category_id' => $category->id,
+            'name' => 'Tracked Widget',
+            'asin' => 'B00TRACK',
             'affiliate_url' => 'https://www.amazon.com/dp/B00TRACK',
-            'image_url'     => 'https://example.com/img.jpg',
-            'price'         => $price,
-            'description'   => 'A widget.',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => $price,
+            'description' => 'A widget.',
         ]);
 
         $post = Post::create([
-            'user_id'      => User::factory()->create()->id,
-            'title'        => 'Tracked Widget Review',
-            'slug'         => 'tracked-widget-review',
-            'type'         => 'article',
-            'body'         => 'Body.',
-            'status'       => 'published',
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Tracked Widget Review',
+            'slug' => 'tracked-widget-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
         $post->products()->attach($product->id, ['display_order' => 1]);
@@ -48,8 +48,8 @@ class PriceHistoryWidgetTest extends TestCase
     {
         ProductPriceSnapshot::create([
             'product_id' => $product->id,
-            'price'      => $price,
-            'source'     => 'manual',
+            'price' => $price,
+            'source' => 'manual',
             'created_at' => now()->subDays($daysAgo),
         ]);
         PriceIntel::flush($product->id);

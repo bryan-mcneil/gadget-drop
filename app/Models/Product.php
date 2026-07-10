@@ -18,10 +18,10 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'price'                => 'decimal:2',
-        'price_checked_at'     => 'datetime',
-        'amazon_rating'        => 'decimal:1',
-        'amazon_review_count'  => 'integer',
+        'price' => 'decimal:2',
+        'price_checked_at' => 'datetime',
+        'amazon_rating' => 'decimal:1',
+        'amazon_review_count' => 'integer',
     ];
 
     public function category(): BelongsTo
