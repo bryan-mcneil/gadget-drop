@@ -52,6 +52,7 @@ Search the web for today's most compelling tech products with Amazon affiliate p
 - Strong buyer-intent search volume
 - NOT already in the reviewed-products list from Step 1
 - No accessories for now (we have plenty already)
+- No headphones or audio (we have plenty for now)
 
 Pick exactly **2 products**: PRODUCT 1 is today's review; PRODUCT 2 is the backup in case the primary turns out to be a dud at write time (ASIN wrong, price out of range, listing gone). Put the stronger pick first.
 

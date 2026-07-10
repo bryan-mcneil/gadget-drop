@@ -1,7 +1,7 @@
 ---
 name: "gd-test-engineer"
 description: "Use this agent to write, extend, or repair tests for GadgetDrop — when an /implement-phase phase lists tests to create, when gd-code-reviewer reports coverage gaps, when the suite breaks after a change, or when new Dusk browser tests are needed. It knows this repo's testing constraints (sqlite :memory:, DB-wipe guardrails, tech_news enum trap, Dusk sqlite-file rules) and always leaves the full suite green.\n\n<example>\nContext: Phase 3.3 of the watch plan lists seven command tests that don't exist yet.\nassistant: \"The command is implemented; now the plan's test list needs writing. I'll use the Agent tool to launch gd-test-engineer with the phase reference and the list of behaviors to cover.\"\n<commentary>\nTests are part of the phase's definition of done — delegate the authoring to the specialist agent.\n</commentary>\n</example>\n\n<example>\nContext: gd-code-reviewer returned 'no test for the expired-signature path'.\nassistant: \"The reviewer found a coverage gap. I'm going to use the Agent tool to launch gd-test-engineer to add the expired-signature test and re-run the suite.\"\n<commentary>\nReviewer gaps route directly to the test engineer; the main session stays focused on the fix/commit flow.\n</commentary>\n</example>"
-model: inherit
+model: opus
 color: cyan
 memory: project
 ---
