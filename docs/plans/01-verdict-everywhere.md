@@ -8,7 +8,7 @@ Context for the implementer: `resources/views/components/price-history.blade.php
 
 ## Phase Log
 
-- [ ] Phase 1.1 — Extract `<x-verdict-badge>` + add 30-day reference line (commit: )
+- [x] Phase 1.1 — Extract `<x-verdict-badge>` + add 30-day reference line (commit: fb94717)
 - [ ] Phase 1.2 — Product-card verdict chip (commit: )
 - [ ] Phase 1.3 — /deals adopts the shared badge + reference (commit: )
 - [ ] Phase 1.4 — "How we call deals" methodology + FAQ JSON-LD (commit: )
@@ -117,4 +117,6 @@ Standard template. Deltas: no migrations; step 6 adds `/deals`, `/how-we-review#
 
 ## Build Log
 
-(append one line per phase)
+(append one line per phase: date · what happened · surprises)
+
+- 2026-07-13 · Phase 1.1 · Extracted `<x-verdict-badge>` (verdict→label/class map moved verbatim from `price-history.blade.php` + `sm`/`md` literal-class size variants, purge-safe); refactored the widget to use it and added the Omnibus 30-day reference line ("Lowest price in the last 30 days: $X", using the already-computed-but-unused `low30`). Suite 262→270 green. gd-code-reviewer: APPROVE WITH NITS, 0 blockers (applied the low30-vs-low90 test-isolation fix). **Decision to ratify:** removed the old footer "% below typical" span so the badge doesn't double-render the magnitude — narrow side effect is a `typical` verdict sitting 1–5% below its 90-day avg no longer shows that note (arguably a copy improvement). NIT surfaced: the `good` tier reads "Below typical price · N% below typical" (double "typical") — kept the plan's literal string. Surprises: (1) local `npm run build` non-deterministically rehashes the ENTIRE `public/build` bundle (env/toolchain drift — committed build & source last shipped together in 042050a, yet rebuilding unchanged admin source yields byte-different chunks); verified the new classes compile into the committed CSS then reverted the churn (prod-safe: `bin/deploy.sh` ships the committed bundle and every new decl was already present). (2) Committed outside the normal flow during `/morning` as `fb94717` "Price history review" (not the prepared `feat(verdicts): …` message); reviewer agent-memory (`project_build-revert-verification.md`) rode along in that commit.
