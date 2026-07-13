@@ -1,27 +1,27 @@
-DATE: 2026-07-10
-DEDUPE: checked against 33 existing products (reviewed-products API OK)
-BRIEF: no demand-backed candidates yet (seo-brief.md 2026-07-09 says "No opportunities yet") — editorial pick
+DATE: 2026-07-13
+DEDUPE: checked against 34 existing products
+BRIEF: no demand-backed candidates yet (seo-brief.md generated 2026-07-10, "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: Govee Ceiling Light Ultra 21 Inch, 5000LM Smart Flush Mount Ceiling Light Fixture, Matter & Alexa Compatible, RGBIC & Tunable White 2700K-6500K
-ASIN: B0GR9VMV71
-PRICE: ~$250 (MSRP $249.99; seen at $199.99 on sale)
-TRENDING: Just-reviewed April/July 2026 release that turns a ceiling into a 616-LED "canvas"; wave of coverage (Gizmodo, AppleInsider, Reviewed, Matter Alpha) landed this week and buyers are Googling whether the AI-art gimmick is worth $250.
-ANGLE: Cut through the marketing. The pixel/AI art is the headline but reviewers call it blurry; the real value is a genuinely excellent 5000-lumen Matter ceiling light. Is it a smart light that does effects, or an effects gimmick pretending to be a light? Answer honestly.
-KEYWORD: Govee Ceiling Light Ultra review
-TARGET_QUERY: govee ceiling light ultra review
-CATEGORY: Smart Home
-TAGS: govee | smart lighting | matter | rgbic | ceiling light
-ALTERNATIVES: Govee standard RGBIC ceiling light / Nanoleaf | no-review (the cheaper effects-light rival); BenQ ScreenBar Halo 2 | /posts/benq-screenbar-halo-2 (for readers who want task lighting, not ambient ceiling art)
+NAME: XREAL 1S AR/XR Glasses, 500" Virtual Screen Smart Glasses with 52° FOV, Native 3DoF, REAL 3D, Powered by X1 Chip
+ASIN: B0GC56Z4CR
+PRICE: $449
+TRENDING: Newly reviewed across Tom's Guide, TechRadar and Gaming Nexus as "the best AR glasses you can buy right now" — the cheaper, brighter successor to the XREAL One, and a plug-and-play external screen for the Steam Deck / ROG Ally / iPhone 17 crowd.
+ANGLE: The honest "should a normal person buy $449 AR glasses in 2026?" review — what the 500" virtual screen actually replaces (a travel monitor / handheld screen), where 3DoF and 52° FOV fall short of the hype, and how the 1S undercuts the One Pro without giving up much. GadgetDrop has zero spatial-display coverage, so this opens a fresh lane; our tracked-price widget adds the "is $449 a fair price or wait for a drop?" answer nobody else gives.
+KEYWORD: XREAL 1S review
+TARGET_QUERY: XREAL 1S review worth it
+CATEGORY: Computers & Accessories
+TAGS: AR glasses | XREAL | portable display | Steam Deck | spatial computing
+ALTERNATIVES: XREAL One Pro | no-review ; Viture Luma Pro | no-review
 
 ===PRODUCT 2===
-NAME: Anbernic RG Rotate Handheld Game Console, 3.5 Inch 360° Swivel Touch Screen, 3+32GB, Android 12 (Polar Black)
-ASIN: B0GZKH3R9Q
-PRICE: ~$88 (Polar Black; Aurora Silver aluminum ~$108)
-TRENDING: The swiveling-screen retro handheld that shipped May 2026 for under $90; ongoing enthusiast buzz (RetroDodo, Notebookcheck, Engadget) over its unusual rotate-to-reveal-controls design at a budget price.
-ANGLE: A genuinely novel form factor at a rare sub-$90 price. Who is the swivel actually for (emulation to N64/PSP, plus a pocketable slab shape), and where the Unisoc T618 / 5-hour battery limit sets expectations.
-KEYWORD: Anbernic RG Rotate review
-TARGET_QUERY: anbernic rg rotate review
-CATEGORY: Gaming
-TAGS: anbernic | retro handheld | emulation | android handheld | budget gaming
-ALTERNATIVES: Retroid Pocket / Anbernic RG Slide | no-review (stronger chips, higher price); 8BitDo Ultimate 2 | /posts/8bitdo-ultimate-2-wireless-review-the-60-drift-fix (for readers who just want a controller for an existing device)
+NAME: Oura Ring 4 - Smart Ring - Silver - Sleep, Activity, Women's Health, AI Advisor, Up to 8 Days of Battery Life
+ASIN: B0D9WT1S2T
+PRICE: $349
+TRENDING: Consistently a top-selling wearable in 2026 and the default recommendation for screen-free sleep and recovery tracking; the Ring 4's AI Advisor and 8-day battery keep it in buyer-intent searches against the smart-ring field.
+ANGLE: The subscription-cost-included reality check — what the $5.99/mo Oura membership means for total cost of ownership, how sleep/readiness accuracy compares to a wrist wearable, and who a screen-free ring actually suits. Internal-links to our RingConn Gen 2 review for the no-subscription alternative.
+KEYWORD: Oura Ring 4 review
+TARGET_QUERY: Oura Ring 4 review worth it subscription
+CATEGORY: Wearables
+TAGS: smart ring | Oura | sleep tracking | fitness wearable | health tracker
+ALTERNATIVES: RingConn Gen 2 | /posts/ringconn-gen-2 ; Samsung Galaxy Watch 7 | /posts/samsung-galaxy-watch-7-review-flagship-smarts-under-200
