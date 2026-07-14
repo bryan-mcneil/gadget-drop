@@ -9,7 +9,7 @@
 - [x] Phase 2.1 — Schema + model (commit: 72422b3)
 - [x] Phase 2.2 — Livewire component (commit: d26e62a)
 - [x] Phase 2.3 — Surfaces: post pages + /deals (commit: 86e0021)
-- [x] Phase 2.4 — Dusk pass (commit: a27349b)
+- [x] Phase 2.4 — Dusk pass (commit: 89f44de)
 
 ## Design decisions
 
