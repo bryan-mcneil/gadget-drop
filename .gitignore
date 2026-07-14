@@ -17,6 +17,10 @@
 /bin/.prod-sync
 /database/dusk.sqlite
 /node_modules
+# Cypress test artifacts — specs and config are tracked; recordings are not
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
 # public/build is committed on purpose: assets are built locally (npm run build)
 # and deployed atomically with the code via git pull (see bin/deploy.sh).
 /public/fonts-manifest.dev.json
