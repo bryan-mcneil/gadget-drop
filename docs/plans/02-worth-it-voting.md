@@ -6,8 +6,8 @@
 
 ## Phase Log
 
-- [x] Phase 2.1 — Schema + model (commit: 2320f64)
-- [ ] Phase 2.2 — Livewire component (commit: )
+- [x] Phase 2.1 — Schema + model (commit: 72422b3)
+- [x] Phase 2.2 — Livewire component (commit: pending)
 - [ ] Phase 2.3 — Surfaces: post pages + /deals (commit: )
 - [ ] Phase 2.4 — Dusk pass (commit: )
 
@@ -96,3 +96,4 @@ Standard template + `php artisan migrate --force` delta (one additive table — 
 (append one line per phase)
 
 - 2026-07-14 · Phase 2.1 · Branch `feature/worth-it-voting`. Schema + `WorthItVote` model/factory + `Post::worthItSummary()`; honesty gate centralized in `WorthItVote::summarize()` (pct null < `MIN_VOTES_FOR_PCT` = 5). Suite 270 green, pint clean. gd-code-reviewer: APPROVE WITH NITS — applied the factory self-sufficiency test; `voter_hash` factory uses `hash()` (shape-only, real `hash_hmac` lands in 2.2). Divergence: no `PostFactory` in repo (tests seed via `Model::create`), so `WorthItVoteFactory` lazily mints a minimal `article` post in its `post_id` default.
+- 2026-07-14 · Phase 2.2 · `WorthItVote` Livewire component + view + 8 feature tests (suite 278 green, pint clean). Identity = `hash_hmac('sha256', session_id.'|'.ip, app.key)`; `insertOrIgnore` double-vote gate; 10/min silent RateLimiter; always-forget `deals.feed`. gd-code-reviewer: APPROVE WITH NITS (all doc/accept-as-is). **Divergence (important):** the component holds `#[Locked] public int $postId`, NOT the plan's `public Post $post` — `resources/views/public/show.blade.php` consumes `$post` as an ARRAY (`$post['slug']` etc.), so a model binding is impossible; `mount(int $postId)` takes the id and `render()` loads the post for the summary. Mounted via `@livewire('worth-it-vote', ['postId' => …])` (repo house style, not `<livewire:>` tags). Untested-but-accepted branch: the `insertOrIgnore` conflict/reload path (stale session) can't be reproduced in a Livewire test (hash is session-derived); covered structurally by the Phase 2.1 unique-constraint test.
