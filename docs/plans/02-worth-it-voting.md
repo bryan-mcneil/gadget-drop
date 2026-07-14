@@ -6,7 +6,7 @@
 
 ## Phase Log
 
-- [ ] Phase 2.1 — Schema + model (commit: )
+- [x] Phase 2.1 — Schema + model (commit: 2320f64)
 - [ ] Phase 2.2 — Livewire component (commit: )
 - [ ] Phase 2.3 — Surfaces: post pages + /deals (commit: )
 - [ ] Phase 2.4 — Dusk pass (commit: )
@@ -94,3 +94,5 @@ Standard template + `php artisan migrate --force` delta (one additive table — 
 ## Build Log
 
 (append one line per phase)
+
+- 2026-07-14 · Phase 2.1 · Branch `feature/worth-it-voting`. Schema + `WorthItVote` model/factory + `Post::worthItSummary()`; honesty gate centralized in `WorthItVote::summarize()` (pct null < `MIN_VOTES_FOR_PCT` = 5). Suite 270 green, pint clean. gd-code-reviewer: APPROVE WITH NITS — applied the factory self-sufficiency test; `voter_hash` factory uses `hash()` (shape-only, real `hash_hmac` lands in 2.2). Divergence: no `PostFactory` in repo (tests seed via `Model::create`), so `WorthItVoteFactory` lazily mints a minimal `article` post in its `post_id` default.
