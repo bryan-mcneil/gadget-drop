@@ -114,6 +114,10 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
                  the single product card above the body is the one affiliate link. --}}
         <x-verdict-box :post="$post" />
 
+        {{-- Worth-it vote — end-of-article engagement zone, deliberately away from
+                 the product card so the single affiliate CTA keeps its space. --}}
+        @livewire('worth-it-vote', ['postId' => $post['id']])
+
         {{-- Tags --}}
         @if(count($post['tags']) > 0)
         <div class="mt-8 flex flex-wrap gap-2">

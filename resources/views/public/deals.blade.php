@@ -70,6 +70,12 @@
                             Checked {{ \Illuminate\Support\Carbon::parse($deal['checked_at'])->diffForHumans() }}
                         </p>
 
+                        {{-- Read-only worth-it social proof (null until the ≥5-vote gate;
+                             ?? guards the 1h window where a pre-deploy cached feed lacks the key). --}}
+                        @if(($deal['worth_pct'] ?? null) !== null)
+                            <p class="text-xs font-semibold text-emerald-600">{{ $deal['worth_pct'] }}% of {{ $deal['worth_total'] }} readers say worth it</p>
+                        @endif
+
                         <div class="mt-auto pt-2 flex items-center justify-between gap-3">
                             <a href="{{ route('posts.show', $deal['post_slug']) }}" wire:navigate
                                 class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">Read our take →</a>
