@@ -1,27 +1,27 @@
-DATE: 2026-07-14
-DEDUPE: checked against 35 existing products
-BRIEF: no demand candidates yet (seo-brief.md generated 2026-07-13, "No opportunities yet") — editorial pick
+DATE: 2026-07-15
+DEDUPE: checked against 36 existing products
+BRIEF: 2026-07-15 brief present but reports "No opportunities yet" (not enough search data) — editorial pick, note per skill
 
 ===PRODUCT 1===
-NAME: eufy Security 4K Indoor Camera E30
-ASIN: B0DJVGZQW7
-PRICE: $69.99 (often $49-59 on deal)
-TRENDING: A wave of July 2026 coverage (Consumer Reports, HomeTheaterReview, TechRadar) is spotlighting it as the rare sub-$70 4K indoor cam with genuinely no mandatory subscription.
-ANGLE: "4K and no monthly fee for $69 — but read the fine print." Honest value review: real strengths (crisp 4K, on-device AI human/pet tracking, local microSD/HomeBase storage, HomeKit support) weighed against the catches buyers keep hitting — HomeKit streams cap at 1080p, no microSD card in the box, and full 4K viewing needs a reasonably recent phone.
-KEYWORD: eufy indoor cam e30 review
-TARGET_QUERY: eufy indoor cam e30 review
+NAME: Google Nest Learning Thermostat (4th gen) with Nest Temperature Sensor (2nd gen)
+ASIN: B0D5BBYRJM
+PRICE: $229 (list $279.99, frequently discounted to ~$229 on Amazon)
+TRENDING: The redesigned 4th-gen Learning Thermostat (bigger 2.7" mirror-finish display, improved energy AI, temperature sensor now in the box) has been sliding to ~$229 on Amazon, its best price since launch, putting the flagship smart thermostat back in buyer-intent territory.
+ANGLE: The honest "is the $229 flagship worth it over the $130 basic Nest Thermostat / an Ecobee?" buyer's decision — who the Learning model's auto-scheduling and included sensor actually pay off for, and who should save the money. First thermostat on GadgetDrop, so we own the price-history angle from day one.
+KEYWORD: nest learning thermostat 4th gen review
+TARGET_QUERY: is the nest learning thermostat 4th gen worth it
 CATEGORY: Smart Home
-TAGS: security camera | smart home | eufy | 4K camera | no subscription
-ALTERNATIVES: Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget | Wyze Cam Pan v3 | no-review
+TAGS: smart home | thermostat | google nest | energy savings | home automation
+ALTERNATIVES: Ecobee Smart Thermostat Premium | no-review ; Amazon Smart Thermostat | no-review
 
 ===PRODUCT 2===
-NAME: Tapo MagCam 4K Outdoor Wireless Security Camera (C460 KIT)
-ASIN: B0F5M9MC3M
-PRICE: $129.99 (kit with solar/hub varies)
-TRENDING: TP-Link's 4K MagCam line is getting steady 2026 buyer attention for battery + magnetic mount convenience and no-subscription local storage; the 4K C460 is the step-up from the Wirecutter-favorite 2K MagCam.
-ANGLE: "4K battery camera you can slap anywhere in seconds." Value review on the magnetic tool-free mount, up-to-200-day battery, solar-charge option, and subscription-free 512GB microSD storage vs. the extra cost of the hub and the real 4K-vs-battery tradeoff.
-KEYWORD: tapo magcam 4k review
-TARGET_QUERY: tapo magcam 4k review
+NAME: TP-Link Tapo RV30 Max Plus LiDAR Robot Vacuum and Mop with Self-Emptying Dock
+ASIN: B0DGRJKDKC
+PRICE: $229 (frequently $229-$279)
+TRENDING: TP-Link's Tapo robot-vacuum line went mainstream in 2026; the RV30 Max Plus (LiDAR nav, self-empty dock, native Matter/HomeKit/Alexa/Google, no proprietary hub) is repeatedly cited as the value top-pick under $300.
+ANGLE: The sub-$300 robot vacuum that skips the proprietary hub — native Matter/HomeKit and a self-empty dock at a price that usually buys a dumber machine; where it wins (larger debris, quiet, cheap) and where it doesn't (pet hair, fine dust, no obstacle camera).
+KEYWORD: tapo rv30 max plus review
+TARGET_QUERY: is the tapo rv30 max plus worth it
 CATEGORY: Smart Home
-TAGS: security camera | smart home | tapo | 4K camera | battery camera
-ALTERNATIVES: Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget | eufy SoloCam S340 | no-review
+TAGS: smart home | robot vacuum | tp-link tapo | matter | home automation
+ALTERNATIVES: Roborock Q5 Max+ | no-review ; eufy Security 4K Indoor Camera E30 | /posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee
