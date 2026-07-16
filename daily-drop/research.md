@@ -1,27 +1,27 @@
-DATE: 2026-07-14
-DEDUPE: checked against 35 existing products
-BRIEF: no demand candidates yet (seo-brief.md generated 2026-07-13, "No opportunities yet") — editorial pick
+DATE: 2026-07-16
+DEDUPE: checked against 36 existing products
+BRIEF: no demand candidates yet (seo-brief.md generated 2026-07-15, "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: eufy Security 4K Indoor Camera E30
-ASIN: B0DJVGZQW7
-PRICE: $69.99 (often $49-59 on deal)
-TRENDING: A wave of July 2026 coverage (Consumer Reports, HomeTheaterReview, TechRadar) is spotlighting it as the rare sub-$70 4K indoor cam with genuinely no mandatory subscription.
-ANGLE: "4K and no monthly fee for $69 — but read the fine print." Honest value review: real strengths (crisp 4K, on-device AI human/pet tracking, local microSD/HomeBase storage, HomeKit support) weighed against the catches buyers keep hitting — HomeKit streams cap at 1080p, no microSD card in the box, and full 4K viewing needs a reasonably recent phone.
-KEYWORD: eufy indoor cam e30 review
-TARGET_QUERY: eufy indoor cam e30 review
-CATEGORY: Smart Home
-TAGS: security camera | smart home | eufy | 4K camera | no subscription
-ALTERNATIVES: Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget | Wyze Cam Pan v3 | no-review
+NAME: ARZOPA 16.1'' 144Hz Portable Gaming Monitor (Z1FC), 106% sRGB 1080P FHD
+ASIN: B0CH9WTW56
+PRICE: $109.99 (frequently $89-99 on deal)
+TRENDING: 2026 coverage keeps naming it the go-to sub-$120 portable monitor — Wirecutter lists it as a top pick and ServeTheHome reviewed it favorably as one of the cheapest 144Hz panels you can buy, and it sits among Amazon's best-selling portable monitors.
+ANGLE: "144Hz and 16 inches for ~$100 — where's the catch?" Honest value review of a budget second screen: real strengths (genuinely smooth 144Hz, bright-enough 100%+ sRGB IPS, light 1.7 lb kickstand build, one-cable USB-C or HDMI) weighed against the catches buyers keep hitting — 1080p looks soft at desk distance on a 16" panel, no internal battery so it draws power from your device or a separate brick, tinny built-in speakers, and full 144Hz needs a USB-C DisplayPort-Alt-Mode source (many phones/laptops cap it lower over the wrong cable).
+KEYWORD: arzopa z1fc review
+TARGET_QUERY: arzopa portable monitor review
+CATEGORY: Computers & Accessories
+TAGS: portable monitor | second screen | arzopa | 144Hz | budget monitor
+ALTERNATIVES: BenQ GW2486TC | /posts/benq-gw2486tc-a-monitor-that-saves-you-money | Lenovo ThinkVision M14t | no-review
 
 ===PRODUCT 2===
-NAME: Tapo MagCam 4K Outdoor Wireless Security Camera (C460 KIT)
-ASIN: B0F5M9MC3M
-PRICE: $129.99 (kit with solar/hub varies)
-TRENDING: TP-Link's 4K MagCam line is getting steady 2026 buyer attention for battery + magnetic mount convenience and no-subscription local storage; the 4K C460 is the step-up from the Wirecutter-favorite 2K MagCam.
-ANGLE: "4K battery camera you can slap anywhere in seconds." Value review on the magnetic tool-free mount, up-to-200-day battery, solar-charge option, and subscription-free 512GB microSD storage vs. the extra cost of the hub and the real 4K-vs-battery tradeoff.
-KEYWORD: tapo magcam 4k review
-TARGET_QUERY: tapo magcam 4k review
+NAME: SHARK RV2620WD AI Ultra Robot Vacuum and Mop with Matrix Clean Navigation
+ASIN: B0B5HQ3Q1M
+PRICE: $349.99 (often $249-299 on deal)
+TRENDING: Sits at or near the top of Amazon's self-emptying robot-vacuum best sellers in 2026 and is repeatedly named the cheapest self-empty-plus-LiDAR combo that actually works.
+ANGLE: "The robot vacuum that mops too, for under $350 — who it's actually for." Honest look at a 2-in-1: Matrix Clean grid navigation and 360 LiDAR mapping and sonic mopping are real, but weigh the catches — the "self-empty" refers to the bagless base (not a self-wash mop), the mop is a light hard-floor pass rather than a scrub, and the app/subscription upsells frustrate some owners.
+KEYWORD: shark ai ultra robot vacuum review
+TARGET_QUERY: shark ai ultra robot vacuum review
 CATEGORY: Smart Home
-TAGS: security camera | smart home | tapo | 4K camera | battery camera
-ALTERNATIVES: Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget | eufy SoloCam S340 | no-review
+TAGS: robot vacuum | shark | smart home | self-emptying | robot mop
+ALTERNATIVES: Roborock Q5 Max+ | no-review | iRobot Roomba Combo j5+ | no-review
