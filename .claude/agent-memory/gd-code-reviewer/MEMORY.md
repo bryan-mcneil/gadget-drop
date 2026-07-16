@@ -2,3 +2,6 @@
 - [Dusk sqlite DatabaseTruncation](project_dusk-sqlite-truncation.md) — why Dusk uses DatabaseTruncation not DatabaseMigrations (sqlite down() bug); confirmed-safe, don't re-flag
 - [Dusk CI workflow](project_dusk-ci-workflow.md) — plan 00 §0.3 dusk.yml: backgrounded serve across steps + no readiness wait are confirmed-safe (official Laravel pattern), don't re-flag
 - [Build-revert verification](project_build-revert-verification.md) — deploy.sh doesn't npm-build; when a phase reverts public/build churn, grep committed CSS for the compiled decl instead of blocking
+- [Raw IP precedent](project_raw-ip-precedent.md) — raw ip_address on form-submission tables is confirmed-safe (Subscriber precedent); don't re-flag as PII violation
+- [No factory convention](project_no-factory-convention.md) — repo has no model factories; plan "factory" scope satisfied by makeX() create-helpers, don't require Model::factory()
+- [Fillable state columns](project_fillable-state-columns.md) — enforce: verification/state stamps OUT of $fillable (Subscriber discipline); WARN new models, CLAUDE.md promotion candidate

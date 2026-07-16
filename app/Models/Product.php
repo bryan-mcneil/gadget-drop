@@ -44,4 +44,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductPriceSnapshot::class);
     }
+
+    public function priceWatches(): HasMany
+    {
+        return $this->hasMany(PriceWatch::class);
+    }
 }

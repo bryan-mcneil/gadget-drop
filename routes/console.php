@@ -23,6 +23,10 @@ Schedule::command('images:optimize')->dailyAt('04:00');
 // The database cache store never sweeps expired rows it does not re-read.
 Schedule::command('cache:prune-expired')->dailyAt('05:00');
 
+// Prune soft data past its usefulness. Auto-discovers Prunable models in
+// app/Models; today that is PriceWatch (60 days after its return window closes).
+Schedule::command('model:prune')->dailyAt('05:00');
+
 // Lock the day's Drop Price puzzle. Hourly cron means it runs within the first
 // UTC hour; the read layer falls back to the latest puzzle until then.
 Schedule::command('dropprice:lock')->dailyAt('00:00');
