@@ -1,97 +1,97 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: eufy Indoor Cam E30 Review: 4K Without the Monthly Fee
-EXCERPT: Our eufy Indoor Cam E30 review digs into the 4K sub-$70 camera with no subscription: the AI tracking wins and the HomeKit and microSD catches.
+TITLE: eufy Omni C20 Review: Flagship Dock at a Mid-Tier Price
+EXCERPT: The eufy Omni C20 review buyers actually need: self-emptying, mop-washing, and where that $379 price quietly cuts real corners.
 TYPE: article
 CATEGORY: Smart Home
-TAGS: security camera | smart home | eufy | 4K camera | no subscription
-ASIN: B0DJVGZQW7
+TAGS: robot vacuum | smart home | eufy | vacuum mop combo | self-emptying
+ASIN: B0DCFNZF32
 RATING: 4
 PROS:
-- Genuine 4K detail at a sub-$70 price
-- Zero mandatory subscription fees
-- On-device AI tracks people and pets
+- Dock empties, washes, and dries the mop
+- Strong 7,000Pa suction on pet hair
+- 3.35-inch body fits under low furniture
 CONS:
-- HomeKit streams are capped at 1080p
-- No microSD card in the box
+- Weak obstacle avoidance around small clutter
 SEO_SCORE: 92
-META_TITLE: eufy Indoor Cam E30 Review: 4K Camera, No Monthly Fee
-META_DESCRIPTION: Our eufy Indoor Cam E30 review covers the 4K, no-subscription indoor camera: strong AI tracking, plus the HomeKit and storage catches to know.
-FOCUS_KEYWORD: eufy indoor cam e30 review
-TARGET_QUERY: eufy indoor cam e30 review
-SLUG: eufy-indoor-cam-e30-review
+META_TITLE: eufy Omni C20 Review: Is the $379 Robot Vac Worth It?
+META_DESCRIPTION: Our eufy Omni C20 review breaks down the self-emptying dock, 7,000Pa suction, real owner complaints, and whether $379 is a fair price.
+FOCUS_KEYWORD: eufy omni c20 review
+TARGET_QUERY: eufy omni c20 review
+SLUG: eufy-omni-c20-review
 BODY:
-Most indoor security cameras hide the real cost behind a monthly fee. You pay $30 for the hardware, then $6 a month forever just to see more than the last few seconds of a clip. The eufy Indoor Cam E30 flips that math: about $70 up front, 4K video, and no subscription required to actually use it. That combination is rare enough that it deserves a hard look before you assume there's a catch. There are a couple, and they matter, but they're not the ones most people expect.
+The features that used to define an $800 robot vacuum are the ones you stop thinking about: a dock that empties the dustbin for you, washes the mop pads, and dries them so they don't grow a smell between cleans. The eufy Omni C20 puts all three in a machine that sits around $379, and that price is exactly why it's worth a careful look before you buy.
 
 ---
 
-## What Is the eufy Indoor Cam E30?
+## What Is the eufy Omni C20 Robot Vacuum?
 
-The eufy Indoor Cam E30 is a hardwired indoor pan-and-tilt security camera that records in 4K UHD (3840 x 2160). It sits on a shelf or mounts to a wall, spins a full 360 degrees horizontally, and tilts 75 degrees up and down, so one unit can watch an entire room instead of a single corner. The lens covers a 125-degree diagonal field of view.
+The eufy Omni C20 is a vacuum-and-mop combo with a self-maintaining base station. The robot cleans your floors, then returns to a dock that does the chores most people hate: it empties the collected dust into a bag good for about 60 days, washes the two spinning mop pads with water, and air-dries them so they aren't sitting damp in the base.
 
-The headline feature is on-device AI. The camera identifies humans, pets, and specific audio cues like a baby crying, then auto-tracks a person or animal as they move across the frame. A built-in spotlight kicks in for color night vision, switching between infrared and full color depending on the light. Two-way audio lets you talk through it, which is why eufy pitches it as a pet, nanny, and baby monitor as much as a security camera.
-
-The part that sets it apart is storage. Footage saves locally to a microSD card or a eufy HomeBase, and none of the core features sit behind a paywall. You buy the camera once and you're done.
+It rates 7,000Pa of suction, uses LiDAR to map your home, and stands 3.35 inches tall, roughly half an inch shorter than a typical robot vacuum. The spinning mop pads lift when the robot detects carpet, so it can vacuum a rug and mop the hardwood next to it in one run without dragging a wet pad across the carpet. On Amazon it has crossed 80,000 ratings, which makes it one of the most-bought robot vacuums on the platform.
 
 ---
 
-## Who Should Buy the eufy Indoor Cam E30?
+## Who Should Buy the eufy Omni C20?
 
-This camera is for the person who wants to watch one important room and refuses to rent access to their own footage. Think a nursery, a living room with a new puppy, a front entryway, or an elderly parent's den where you want to check in without a running bill.
+This is a machine for people with pets and hard floors who want to stop thinking about the vacuum entirely. The self-emptying dock means you touch the dust bag once every couple of months instead of after every clean, and the auto mop-washing removes the single most annoying part of robot mopping: rinsing filthy pads by hand.
 
-It's a strong fit if you already resent subscription creep. Buy the camera, drop in a microSD card, and you own the whole system. It also suits renters and anyone who moves often, since a wired indoor unit is trivial to unplug and take with you.
+It fits best in homes that are mostly hardwood, tile, or laminate with some low-pile rugs. If your floors are open and you keep them reasonably clear of cables and small toys, the C20 will glide through a daily schedule and you'll rarely intervene. Owners with dogs and cats are the loudest fans here, repeatedly reporting that it keeps up with shedding better than they expected at this price.
 
-Skip it if you need outdoor coverage or want to run a dozen cameras across a property. This is a single-room indoor tool, and the wired-only power means you're planning around an outlet, not sticking it anywhere on a whim.
+It's a weaker fit if your home is a cluttered obstacle course or wall-to-wall thick carpet. More on both below.
 
 ---
 
-## The Features That Actually Matter
+## Key Features That Actually Matter
 
-- **4K that you'll actually use.** The extra resolution isn't just a spec-sheet number here. When the camera digitally zooms into a corner of the room, that 4K sensor keeps a face or a license plate readable where a 1080p cam turns to mush. For a nanny cam or a package-porch view through a window, clarity on zoom is the whole point.
-- **AI tracking that follows the action.** The camera locks onto a person or pet and pans to keep them centered. Owners consistently report this works well for watching a dog roam a room, so you get one continuous clip instead of a subject wandering out of a fixed frame.
-- **Color night vision with a real spotlight.** The integrated light means nighttime footage shows an intruder's shirt color, not a gray blur. It falls back to infrared when you'd rather stay dark.
-- **Local storage, no subscription.** A microSD card (up to 128GB) or a HomeBase holds your recordings, and the AI detection runs on the camera itself. That's the feature that saves you real money over the life of the product.
-- **Works with the big ecosystems.** It ties into HomeKit, Alexa, and Google, so a voice command or a smart display can pull up the feed.
+- **The all-in-one dock does the dirty work.** Auto-empty, auto mop-wash, and auto-dry together are what you're really paying for. Skipping the drying step is how cheaper docks end up smelling, so having it here matters for daily use.
+- **7,000Pa suction handles pet hair well.** Professional testers at Vacuum Wars measured the C20 lifting 96% of flattened pet hair from carpet, well above the category average. For a house with a shedding dog, that's the number that counts.
+- **The 3.35-inch profile reaches under furniture.** That half-inch of saved height is the difference between cleaning under a sofa or couch base and leaving a dust line the robot can't reach.
+- **Carpet-detect mop lift.** The pads raise on carpet, so you get vacuum-and-mop in a single pass without soaking your rugs, which is the whole point of a combo unit.
 
 ---
 
 ## What You'll Pay
 
-The E30 lists around $70, and it regularly dips lower during sales. For context, that's what a lot of brands charge for a 1080p or 2K camera that then asks for a monthly plan to keep more than a day of clips. Paying once for a 4K unit with local storage puts eufy at the value end of the category rather than the premium end. The price widget above this article shows where today's number sits against the history we track, so you can see whether right now is a genuine dip or just the standard price. Budget a little extra for a microSD card, since one isn't included.
+At roughly $379 against a $599 list price, the C20 sits in the sweet spot between bump-and-wander budget bots and the $800-plus flagships. You're paying for the dock automation, not raw cleaning power. The step down to a vacuum-only model like eufy's own C10 saves money but hands the mop chores back to you, and the step up to a $700 flagship mostly buys camera-based obstacle avoidance and fancier mopping, not better suction.
+
+Because eufy runs frequent promotions, the sticker you see today is the number that decides this purchase. The price widget above this article shows where the current price sits against the history we track, so you can tell at a glance whether you're looking at a genuine dip or the everyday price.
 
 ---
 
-## eufy Indoor Cam E30 vs. the Alternatives
+## The eufy Omni C20 vs. the Alternatives
 
-If your real need is watching a doorstep rather than a room, a doorbell makes more sense than a pan-and-tilt cam. Our [Ring Battery Doorbell (2nd gen) review](/posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget) covers the better pick for front-door package and visitor coverage, though Ring leans harder on its subscription for saved clips.
+If deep-carpet suction is your priority, the Dreame D20 Plus pushes 13,000Pa for often under $300, though it drops the auto mop-washing and stands taller, so it won't slide under the lowest furniture. The Roborock Q10 is the pick if you want stronger app smarts and more consistent obstacle avoidance, but you'll usually pay more for a comparable dock.
 
-At the rock-bottom end, the Wyze Cam Pan v3 costs less and covers the same room-scanning job, but it tops out at a lower resolution and its free storage tier is thin. The eufy earns its extra dollars with 4K detail and AI that runs without a plan. If you only want a cheap "is the dog on the couch" check, Wyze is enough. If you want footage clear enough to matter, the E30 is the smarter buy.
+Worth knowing: eufy has been on a strong run across smart-home categories lately. If you're building out the ecosystem, our [eufy Indoor Cam E30 review](/posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee) covers the brand's no-subscription camera, which pairs naturally with the C20 in the eufy app.
 
 ---
 
 ## One Thing to Consider Before You Buy
 
-Here's the catch Apple households need to know: if you monitor through HomeKit, the feed is capped at 1080p, not 4K. That's a HomeKit limitation, and the only way around it is to use the eufy app instead. Buyers who purchased specifically for 4K and live in the Home app end up feeling shortchanged. On top of that, viewing full 4K requires a reasonably recent phone, and the camera is wired-only, so you're tethered to an outlet. None of these are dealbreakers, but they're the difference between "this is perfect" and "this is great if I use it the way eufy intends."
+The C20's real weakness is obstacle avoidance. It navigates with LiDAR and infrared sensors but has no front camera, so it's poor at spotting small things on the floor. Owners and testers agree it handles big, static objects fine, but socks, charging cables, and pet toys are a problem. It'll nudge into new clutter and, on a bad day, drag a cable across the room or stall out.
+
+The practical fix is a quick floor sweep before you run it, which partly defeats the "set it and forget it" promise. There's also a smaller catch: the box is light on accessories, so spare mop pads and cleaning solution are extra. And while pet-hair pickup is strong, long 7-inch strands can still wrap the brush, so occasional detangling is part of ownership.
 
 ---
 
-## eufy Indoor Cam E30 FAQ
+## eufy Omni C20 FAQ
 
-**Q: Does the eufy Indoor Cam E30 require a subscription?**
-No. That's its main selling point. Recordings save to a microSD card or a eufy HomeBase, and the AI detection runs on the camera itself. An optional cloud plan exists, but every core feature works without paying a cent extra.
+**Q: Does the eufy Omni C20 actually mop, or just push water around?**
+It mops with two spinning pads and applies water from the dock, which scrubs better than a single dragged pad. It's genuinely good for light daily grime and pet paw prints. For dried-on, sticky spills you'll still want a manual pass, since no robot mop applies real scrubbing pressure.
 
-**Q: Is the 4K resolution real, or is there a catch?**
-The 4K is genuine when you view through the eufy app on a compatible phone. The catch is HomeKit, which caps the stream at 1080p. If you rely on Apple's Home app, you won't see the full resolution you paid for.
+**Q: How often do I need to empty the dock?**
+The auto-empty bag is rated for roughly 60 days of typical use before you swap it. Day to day you do nothing. In a heavy-shedding home you may hit closer to a month, but you're still emptying it far less often than a robot without a self-empty base.
 
-**Q: Does it come with a microSD card?**
-No, the card is sold separately. The camera supports microSD cards up to 128GB, and most owners pair it with a 64GB or 128GB card to balance recording length against cost. Factor that into your total spend.
+**Q: Is the eufy Omni C20 good for thick or high-pile carpet?**
+It's better on low-pile and hard floors than on deep carpet. The 7,000Pa suction lifts surface and flattened pet hair well, but it struggles to agitate fine debris out of high-pile fibers. If most of your home is plush carpet, a higher-suction bot like the Dreame D20 Plus is the safer choice.
 
 ---
 
 ## The Verdict
 
-The eufy Indoor Cam E30 is the rare 4K indoor camera that doesn't hold your footage hostage behind a monthly fee, and the AI tracking earns its keep. Buy it if you'll use the eufy app and want one room covered in real detail; think twice only if you're a HomeKit-first household chasing true 4K.
+The eufy Omni C20 delivers flagship dock convenience, self-empty, mop-wash, and dry, at a mid-tier price that's hard to argue with for pet owners on hard floors. Buy it if your floors are open and you'll keep them clear; wait for a step-up model if your home is cluttered or heavily carpeted.
 
 ---
 
-If the current price in the card above sits at or below its typical range, this is an easy yes for a subscription-free room camera.
+If the price in the card above is sitting at or below the range we've tracked, the eufy Omni C20 is an easy recommendation for the right home. Check it against your own floors first, then let the dock take over the chores.
