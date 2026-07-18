@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
@@ -84,6 +85,26 @@ class Post extends Model
     public function seoMeta(): HasOne
     {
         return $this->hasOne(SeoMeta::class);
+    }
+
+    public function worthItVotes(): HasMany
+    {
+        return $this->hasMany(WorthItVote::class);
+    }
+
+    /**
+     * Worth-it vote tally for this post with the small-sample honesty gate
+     * applied (see WorthItVote::summarize). Two cheap COUNT()s — fine for a
+     * single post page; the /deals feed uses withCount instead to avoid N+1.
+     *
+     * @return array{worth: int, skip: int, total: int, pct: ?int}
+     */
+    public function worthItSummary(): array
+    {
+        $worth = $this->worthItVotes()->worth()->count();
+        $skip = $this->worthItVotes()->skip()->count();
+
+        return WorthItVote::summarize($worth, $skip);
     }
 
     public function scopePublished($query)
