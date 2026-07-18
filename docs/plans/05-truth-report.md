@@ -6,7 +6,7 @@
 
 ## Phase Log
 
-- [ ] Phase 5.1 — Analyzer + `truth:report` command (commit: )
+- [x] Phase 5.1 — Analyzer + `truth:report` command (commit: 9b9149d)
 - [ ] Phase 5.2 — `/truth/{slug}` data page (commit: )
 - [ ] Phase 5.3 — Editorial wrapper + content guidelines (commit: )
 - [ ] Phase 5.4 — Prime Day 2026 pilot (runbook execution) (commit: )
@@ -105,3 +105,5 @@ Standard template + deltas: no migrations; `storage/app/truth/` must exist serve
 ## Build Log
 
 (append one line per phase)
+
+- 2026-07-18 · Phase 5.1 · Built `TruthReport::analyze()` (pre-event baseline vs event-window min over the carry-forward series via the promoted `PriceIntel::dailySeries($snapshots, $start, $end)` seam — explicit window because truth windows are retroactive; sole internal caller passes the identical window, all 37 existing price tests untouched), `truth:report {slug} --from --to [--dry-run]` writing stable-key-order JSON to `storage/app/truth/{slug}.json`, and `config/truth.php` (thresholds 0.95/1.05; `min_baseline_days=14` mirrors `PriceIntel::MIN_SPAN_DAYS` — the plan left the gate unquantified). Suite 270→282 green. gd-code-reviewer: APPROVE WITH NITS, 0 blockers (applied the zero-price-baseline test; **deferred to 5.4 calibration:** the span-only gate counts carry-forward-only products as judged — intended carry-forward stance, revisit after the pilot). Demo dry-run vs local prod-copy DB (guessed window 07-07→07-10): Tracked 35 / Judged 15 / 0 real deals / 11 repackaged / 4 worse / Echo Dot Max +53.9% — judged n=15 is under the ~30 "field notes" bar (Risks §), so event-week `/admin/prices` densification matters. Note for 5.2: the `local` disk roots at `storage/app/private`, so the artifact is written via `storage_path('app/truth')` directly — read it the same way.
