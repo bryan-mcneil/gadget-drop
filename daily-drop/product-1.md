@@ -1,97 +1,92 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: eufy Indoor Cam E30 Review: 4K Without the Monthly Fee
-EXCERPT: Our eufy Indoor Cam E30 review digs into the 4K sub-$70 camera with no subscription: the AI tracking wins and the HomeKit and microSD catches.
+TITLE: Roborock Q7 M5+ Review: The $250 Self-Empty Sweet Spot
+EXCERPT: Our Roborock Q7 M5+ review breaks down the 10,000Pa suction, 7-week auto-empty dock, and the price you should actually wait for before buying.
 TYPE: article
 CATEGORY: Smart Home
-TAGS: security camera | smart home | eufy | 4K camera | no subscription
-ASIN: B0DJVGZQW7
+TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
+ASIN: B0DWX69JVG
 RATING: 4
 PROS:
-- Genuine 4K detail at a sub-$70 price
-- Zero mandatory subscription fees
-- On-device AI tracks people and pets
+- Self-empties for 7 to 9 weeks
+- Strong 10,000Pa suction for the price
+- Accurate LiDAR mapping and no subscription
 CONS:
-- HomeKit streams are capped at 1080p
-- No microSD card in the box
-SEO_SCORE: 92
-META_TITLE: eufy Indoor Cam E30 Review: 4K Camera, No Monthly Fee
-META_DESCRIPTION: Our eufy Indoor Cam E30 review covers the 4K, no-subscription indoor camera: strong AI tracking, plus the HomeKit and storage catches to know.
-FOCUS_KEYWORD: eufy indoor cam e30 review
-TARGET_QUERY: eufy indoor cam e30 review
-SLUG: eufy-indoor-cam-e30-review
+- No camera, so it bumps obstacles
+SEO_SCORE: 88
+META_TITLE: Roborock Q7 M5+ Review: Specs, Price, and Verdict
+META_DESCRIPTION: Roborock Q7 M5+ review: 10,000Pa suction, a 7-week self-empty dock, honest downsides, and the price worth waiting for before you buy.
+FOCUS_KEYWORD: roborock Q7 M5+ review
+TARGET_QUERY: is the roborock Q7 M5+ worth it
+SLUG: roborock-q7-m5-plus-review
 BODY:
-Most indoor security cameras hide the real cost behind a monthly fee. You pay $30 for the hardware, then $6 a month forever just to see more than the last few seconds of a clip. The eufy Indoor Cam E30 flips that math: about $70 up front, 4K video, and no subscription required to actually use it. That combination is rare enough that it deserves a hard look before you assume there's a catch. There are a couple, and they matter, but they're not the ones most people expect.
+Robot vacuum pricing is a shell game. A model launches at $359, sits there for a month, then quietly bounces between $220 and $260 for the rest of the year while the "list price" stays frozen so every sale looks like a steal. The Roborock Q7 M5+ is one of the worst offenders, and also one of the better buys once you know what a fair number looks like.
 
 ---
 
-## What Is the eufy Indoor Cam E30?
+## What Is the Roborock Q7 M5+?
 
-The eufy Indoor Cam E30 is a hardwired indoor pan-and-tilt security camera that records in 4K UHD (3840 x 2160). It sits on a shelf or mounts to a wall, spins a full 360 degrees horizontally, and tilts 75 degrees up and down, so one unit can watch an entire room instead of a single corner. The lens covers a 125-degree diagonal field of view.
+The Q7 M5+ is a mid-range robot vacuum and mop that comes with an auto-empty dock, which is the part that matters. After each clean it backs into the base and sucks its own bin into a 2.7-liter bag, so you go weeks without touching it. Roborock rates the dock at 7 to 9 weeks between bag changes for an average home.
 
-The headline feature is on-device AI. The camera identifies humans, pets, and specific audio cues like a baby crying, then auto-tracks a person or animal as they move across the frame. A built-in spotlight kicks in for color night vision, switching between infrared and full color depending on the light. Two-way audio lets you talk through it, which is why eufy pitches it as a pet, nanny, and baby monitor as much as a security camera.
-
-The part that sets it apart is storage. Footage saves locally to a microSD card or a eufy HomeBase, and none of the core features sit behind a paywall. You buy the camera once and you're done.
+Under the hood it runs 10,000Pa of suction, PreciSense LiDAR navigation for room mapping, a dual anti-tangle brush and side brush, and a passive mopping pad you clip on when you want it. It pairs with the Roborock app plus Alexa and Google Assistant, and there is no mandatory subscription to use any of it. The "+" in the name is the tell: it means the self-empty dock is included, which is the whole reason to consider this one over the plain Q7 M5.
 
 ---
 
-## Who Should Buy the eufy Indoor Cam E30?
+## Who Should Buy the Roborock Q7 M5+?
 
-This camera is for the person who wants to watch one important room and refuses to rent access to their own footage. Think a nursery, a living room with a new puppy, a front entryway, or an elderly parent's den where you want to check in without a running bill.
+This is a vacuum-first machine for people who mostly have hard floors and low-pile rugs and want to stop thinking about the floors for a month at a time. If you have a shedding dog or cat, the auto-empty dock is the feature that earns its keep, since you are not emptying a tiny onboard bin every other day.
 
-It's a strong fit if you already resent subscription creep. Buy the camera, drop in a microSD card, and you own the whole system. It also suits renters and anyone who moves often, since a wired indoor unit is trivial to unplug and take with you.
-
-Skip it if you need outdoor coverage or want to run a dozen cameras across a property. This is a single-room indoor tool, and the wired-only power means you're planning around an outlet, not sticking it anywhere on a whim.
+It suits a first-time robot vacuum buyer who wants real mapping and self-emptying without paying flagship money. Owners with mostly carpet, a house full of cables and toys on the floor, or a serious mopping need should read the honest take below first. This is a strong generalist, not a specialist.
 
 ---
 
-## The Features That Actually Matter
+## Roborock Q7 M5+ Features That Actually Matter
 
-- **4K that you'll actually use.** The extra resolution isn't just a spec-sheet number here. When the camera digitally zooms into a corner of the room, that 4K sensor keeps a face or a license plate readable where a 1080p cam turns to mush. For a nanny cam or a package-porch view through a window, clarity on zoom is the whole point.
-- **AI tracking that follows the action.** The camera locks onto a person or pet and pans to keep them centered. Owners consistently report this works well for watching a dog roam a room, so you get one continuous clip instead of a subject wandering out of a fixed frame.
-- **Color night vision with a real spotlight.** The integrated light means nighttime footage shows an intruder's shirt color, not a gray blur. It falls back to infrared when you'd rather stay dark.
-- **Local storage, no subscription.** A microSD card (up to 128GB) or a HomeBase holds your recordings, and the AI detection runs on the camera itself. That's the feature that saves you real money over the life of the product.
-- **Works with the big ecosystems.** It ties into HomeKit, Alexa, and Google, so a voice command or a smart display can pull up the feed.
+- **7-to-9-week auto-empty dock.** The headline feature. The bin empties itself into the base bag, so hands-free time is measured in weeks, not days. This is what separates it from cheaper docked models.
+- **10,000Pa suction.** Plenty for hard floors, crumbs, and pet hair on bare surfaces. Professional testers rate it strong on hard floors and merely okay on thicker carpet, which is normal at this price.
+- **PreciSense LiDAR mapping.** It builds an accurate multi-floor map, lets you set no-go zones and room-by-room cleaning in the app, and navigates in tidy rows instead of bouncing around randomly.
+- **Dual anti-tangle brush.** Designed to reduce hair wrap. In practice it helps, though long-haired-pet owners still report some wrap over time, so temper expectations.
+- **No subscription.** Mapping, scheduling, and zone cleaning are all free in the app. Like the [eufy Indoor Cam E30](/posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee) we looked at recently, the appeal is a smart-home device that does its job without a monthly bill hanging over it.
 
 ---
 
 ## What You'll Pay
 
-The E30 lists around $70, and it regularly dips lower during sales. For context, that's what a lot of brands charge for a 1080p or 2K camera that then asks for a monthly plan to keep more than a day of clips. Paying once for a 4K unit with local storage puts eufy at the value end of the category rather than the premium end. The price widget above this article shows where today's number sits against the history we track, so you can see whether right now is a genuine dip or just the standard price. Budget a little extra for a microSD card, since one isn't included.
+Here is where the Q7 M5+ gets interesting. It carries a $359 list price, but it spends most of the year discounted into the $250 range and has dipped closer to $220 during major sale events. Paying full list is the one mistake to avoid. At $250 or below, a self-emptying LiDAR vacuum is genuinely good value, since that used to be flagship-only territory. At $359 you are overpaying for what the hardware delivers.
+
+The price widget above shows where today's tracked number sits against our recorded history, so you can see whether the current price is one of the good ones or a lull between drops. If it is sitting near list, this is a wait, not a buy.
 
 ---
 
-## eufy Indoor Cam E30 vs. the Alternatives
+## The Roborock Q7 M5+ vs. the Alternatives
 
-If your real need is watching a doorstep rather than a room, a doorbell makes more sense than a pan-and-tilt cam. Our [Ring Battery Doorbell (2nd gen) review](/posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget) covers the better pick for front-door package and visitor coverage, though Ring leans harder on its subscription for saved clips.
-
-At the rock-bottom end, the Wyze Cam Pan v3 costs less and covers the same room-scanning job, but it tops out at a lower resolution and its free storage tier is thin. The eufy earns its extra dollars with 4K detail and AI that runs without a plan. If you only want a cheap "is the dog on the couch" check, Wyze is enough. If you want footage clear enough to matter, the E30 is the smarter buy.
+The closest rival is the **eufy C10**, another self-emptying LiDAR vacuum that trades some suction (4,000Pa) for an even lower street price and a slimmer body that fits under low furniture. If your priority is the cheapest trustworthy self-emptier and you do not care about maximum suction, the eufy is the better buy. Step up to the **MOVA P10 Pro Ultra** instead if mopping is your real goal: it adds hot-water pad washing and camera-based obstacle avoidance, but it costs roughly double and lands in a different budget entirely. The Q7 M5+ sits in the sensible middle, stronger suction than the eufy, far cheaper than the MOVA.
 
 ---
 
-## One Thing to Consider Before You Buy
+## One Thing to Consider
 
-Here's the catch Apple households need to know: if you monitor through HomeKit, the feed is capped at 1080p, not 4K. That's a HomeKit limitation, and the only way around it is to use the eufy app instead. Buyers who purchased specifically for 4K and live in the Home app end up feeling shortchanged. On top of that, viewing full 4K requires a reasonably recent phone, and the camera is wired-only, so you're tethered to an outlet. None of these are dealbreakers, but they're the difference between "this is perfect" and "this is great if I use it the way eufy intends."
-
----
-
-## eufy Indoor Cam E30 FAQ
-
-**Q: Does the eufy Indoor Cam E30 require a subscription?**
-No. That's its main selling point. Recordings save to a microSD card or a eufy HomeBase, and the AI detection runs on the camera itself. An optional cloud plan exists, but every core feature works without paying a cent extra.
-
-**Q: Is the 4K resolution real, or is there a catch?**
-The 4K is genuine when you view through the eufy app on a compatible phone. The catch is HomeKit, which caps the stream at 1080p. If you rely on Apple's Home app, you won't see the full resolution you paid for.
-
-**Q: Does it come with a microSD card?**
-No, the card is sold separately. The camera supports microSD cards up to 128GB, and most owners pair it with a 64GB or 128GB card to balance recording length against cost. Factor that into your total spend.
+The Q7 M5+ has no front camera or 3D obstacle sensor, so it navigates by bumping. It maps a room well, but it does not see a charging cable, a sock, or a pet accident in its path. Owners consistently report it running over or dragging small objects left on the floor, so a quick pre-clean tidy is part of the deal. The mopping is the other soft spot: the pad drags passively with no scrubbing pressure and does not lift, so it is fine for a light once-over on sealed floors but will dampen a rug if it wanders onto one. A few owners also mention the app needing an occasional reconnect. None of this is a dealbreaker at the right price, but it is why this is a four-star vacuum and not a five.
 
 ---
 
-## The Verdict
+## Roborock Q7 M5+ FAQ
 
-The eufy Indoor Cam E30 is the rare 4K indoor camera that doesn't hold your footage hostage behind a monthly fee, and the AI tracking earns its keep. Buy it if you'll use the eufy app and want one room covered in real detail; think twice only if you're a HomeKit-first household chasing true 4K.
+**Q: Is the Roborock Q7 M5+ worth it?**
+At its frequent $250 or lower street price, yes, for hard-floor homes that want weeks of hands-free cleaning. At the $359 list price it is a hard no, because rivals with the same core features cost less. Watch the price and buy the dip.
+
+**Q: Does the Roborock Q7 M5+ avoid obstacles?**
+Not really. It uses LiDAR for mapping but has no camera or dedicated obstacle-avoidance sensor, so it bumps into and can run over cables, toys, and pet messes. Clear the floor before a run for best results.
+
+**Q: How often do you empty the Roborock Q7 M5+?**
+The included dock empties the vacuum's bin automatically into a 2.7-liter bag, which Roborock rates for 7 to 9 weeks in an average home. You still change that bag every couple of months and rinse the filter periodically.
 
 ---
 
-If the current price in the card above sits at or below its typical range, this is an easy yes for a subscription-free room camera.
+## Verdict
+
+The Roborock Q7 M5+ is one of the best hands-free deals in robot vacuums when it is discounted, delivering flagship-style self-emptying and mapping for a mid-range price. Buy it on a dip below $260, skip it at full list, and do not expect much from the mop.
+
+---
+
+If the current price in the card above is sitting at or below the typical street price, this is an easy yes for a hard-floor home. If it is near list, save it and wait for the next drop.
