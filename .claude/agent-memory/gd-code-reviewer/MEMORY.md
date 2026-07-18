@@ -2,3 +2,5 @@
 - [Dusk sqlite DatabaseTruncation](project_dusk-sqlite-truncation.md) — why Dusk uses DatabaseTruncation not DatabaseMigrations (sqlite down() bug); confirmed-safe, don't re-flag
 - [Dusk CI workflow](project_dusk-ci-workflow.md) — plan 00 §0.3 dusk.yml: backgrounded serve across steps + no readiness wait are confirmed-safe (official Laravel pattern), don't re-flag
 - [Build-revert verification](project_build-revert-verification.md) — deploy.sh doesn't npm-build; when a phase reverts public/build churn, grep committed CSS for the compiled decl instead of blocking
+- [Truth report gate is span-only](project_truth-report-gate.md) — plan 05: TruthReport "judged" gate has no MIN_POINTS by design (carry-forward); intended+tested, don't re-flag in 5.2–5.4
+- [Raw-amazon BLOCKER scope](feedback_raw-amazon-blocker-scope.md) — the raw amazon.com BLOCKER is for output surfaces, NOT Product.affiliate_url column/fixtures; check WHERE the match lives first

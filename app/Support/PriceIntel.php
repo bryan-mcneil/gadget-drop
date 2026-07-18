@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Product;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -104,7 +105,7 @@ class PriceIntel
         // Daily carry-forward series across the last 90 days (a price that held
         // for 60 days counts 60 times). Seed with the price in effect at the
         // window start, then walk day by day.
-        $daily = self::dailySeries($snapshots, 90);
+        $daily = self::dailySeries($snapshots, now()->subDays(89), now());
 
         $window = fn (int $days) => array_slice($daily, -$days, $days);
 
@@ -148,12 +149,18 @@ class PriceIntel
     }
 
     /**
-     * @param  Collection<int, array{date: Carbon, price: float}>  $snapshots  ascending
+     * Daily carry-forward series over an inclusive date window (both ends are
+     * normalized to start-of-day). This is the single source of price-series
+     * truth — TruthReport reuses it for retroactive event windows; keep the
+     * math here rather than copying it.
+     *
+     * @param  Collection<int, array{date: Carbon, price: float}>  $snapshots  ascending, non-empty
      * @return array<int, array{date: string, price: float}> one entry per day, oldest first
      */
-    private static function dailySeries($snapshots, int $days): array
+    public static function dailySeries(Collection $snapshots, CarbonInterface $start, CarbonInterface $end): array
     {
-        $start = now()->copy()->subDays($days - 1)->startOfDay();
+        $start = $start->copy()->startOfDay();
+        $end = $end->copy()->startOfDay();
 
         // Price in effect when the window opens: last snapshot at or before start,
         // else the first snapshot's price (window opens before tracking began).
@@ -173,9 +180,8 @@ class PriceIntel
 
         $series = [];
         $cursor = $start->copy();
-        $today = now()->startOfDay();
 
-        while ($cursor->lte($today)) {
+        while ($cursor->lte($end)) {
             $key = $cursor->toDateString();
             if (array_key_exists($key, $byDay)) {
                 $carry = $byDay[$key];
