@@ -28,7 +28,17 @@ class SitemapController extends Controller
 
             // Published Truth Reports (config + artifact double-gate) — static
             // once published, so they only change when a report is re-generated.
-            foreach (array_keys(TruthReport::published()) as $truthSlug) {
+            // The /truth index only becomes a real page at 2+ reports (below
+            // that it 404s or 302s to the single report), so it joins then.
+            $truthSlugs = array_keys(TruthReport::published());
+
+            if (count($truthSlugs) >= 2) {
+                $sitemap->add(Url::create(route('truth.index'))
+                    ->setPriority(0.6)
+                    ->setChangeFrequency('yearly'));
+            }
+
+            foreach ($truthSlugs as $truthSlug) {
                 $sitemap->add(Url::create(route('truth.show', $truthSlug))
                     ->setPriority(0.8)
                     ->setChangeFrequency('yearly'));

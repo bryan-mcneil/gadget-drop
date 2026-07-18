@@ -17,6 +17,13 @@
             so confirm the final number at checkout. The tracking method is documented on
             <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
+        @if($truthPromo)
+            <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
+                Sale event just wrapped? We graded every deal we tracked against its own pre-event price
+                history — read
+                <a href="{{ route('truth.show', $truthPromo['slug']) }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">{{ $truthPromo['title'] }}</a>.
+            </p>
+        @endif
     </div>
 </div>
 

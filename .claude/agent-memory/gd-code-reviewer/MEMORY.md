@@ -5,3 +5,4 @@
 - [Truth report gate is span-only](project_truth-report-gate.md) — plan 05: TruthReport "judged" gate has no MIN_POINTS by design (carry-forward); intended+tested, don't re-flag in 5.2–5.4
 - [Raw-amazon BLOCKER scope](feedback_raw-amazon-blocker-scope.md) — the raw amazon.com BLOCKER is for output surfaces, NOT Product.affiliate_url column/fixtures; check WHERE the match lives first
 - [wire:navigate fragment exception](project_wire-navigate-fragment-exception.md) — internal #fragment links intentionally omit wire:navigate (reliable anchor scroll); don't re-flag when commented
+- [Truth cross-link gates](project_truth-crosslink-gates.md) — plan 05 §5.3: methodology link renders ≥1 report, sitemap /truth index ≥2 — by design, not inconsistent; deals promo intentionally outside feed cache

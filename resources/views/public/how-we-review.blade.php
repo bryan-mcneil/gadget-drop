@@ -77,6 +77,13 @@
             there is the only one that counts. When we call something a good deal, it means the current price
             sits below what our own tracking says is typical for that product, and we show our working.
         </p>
+        @if($truthReports !== [])
+            <p class="text-gray-600 leading-relaxed">
+                After every major sale event we grade each tracked product's "deal" against its own
+                pre-event price history and publish the full per-product data.
+                <a href="{{ route('truth.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">See our Truth Reports &rarr;</a>
+            </p>
+        @endif
     </section>
 
     <section class="space-y-4">

@@ -44,4 +44,15 @@ return [
         //     'published' => false,
         // ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Event-week /deals promo
+    |--------------------------------------------------------------------------
+    | Slug of ONE report to promote in the /deals intro during event weeks,
+    | or null (default: off). The slug must also pass the publication gate
+    | above, or the line stays hidden. Flip back to null after the event —
+    | the line is a moment-in-time pointer, not permanent furniture.
+    */
+    'promote_on_deals' => null,
 ];

@@ -195,7 +195,69 @@ class TruthPageTest extends TestCase
             ->assertOk()
             ->assertSee(route('truth.show', 'phpunit-page'), false)
             ->assertDontSee('phpunit-page-two', false)
-            ->assertDontSee('phpunit-page-off', false);
+            ->assertDontSee('phpunit-page-off', false)
+            // One published report: /truth still redirects, so it stays out.
+            ->assertDontSee(route('truth.index').'</loc>', false);
+    }
+
+    public function test_sitemap_lists_the_truth_index_at_two_published_reports(): void
+    {
+        config(['truth.publish' => [
+            'phpunit-page' => ['title' => self::TITLE, 'published' => true],
+            'phpunit-page-two' => ['title' => 'Black Friday Test Report', 'published' => true],
+        ]]);
+        $this->writeArtifact('phpunit-page');
+        $this->writeArtifact('phpunit-page-two');
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertSee(route('truth.index').'</loc>', false);
+    }
+
+    public function test_the_deals_promo_line_is_off_by_default(): void
+    {
+        // A report is fully published, but truth.promote_on_deals stays null.
+        $this->publish();
+
+        $this->get('/deals')
+            ->assertOk()
+            ->assertDontSee(route('truth.show', 'phpunit-page'), false);
+    }
+
+    public function test_the_deals_promo_links_the_promoted_report(): void
+    {
+        $this->publish();
+        config(['truth.promote_on_deals' => 'phpunit-page']);
+
+        $this->get('/deals')
+            ->assertOk()
+            ->assertSee(route('truth.show', 'phpunit-page'), false)
+            ->assertSee(self::TITLE);
+    }
+
+    public function test_the_deals_promo_requires_the_report_to_be_published(): void
+    {
+        // Config points at a slug with no artifact — the double-gate hides it.
+        config(['truth.publish' => ['phpunit-page' => ['title' => self::TITLE, 'published' => true]]]);
+        config(['truth.promote_on_deals' => 'phpunit-page']);
+
+        $this->get('/deals')
+            ->assertOk()
+            ->assertDontSee(route('truth.show', 'phpunit-page'), false);
+    }
+
+    public function test_the_methodology_page_links_truth_reports_only_once_one_is_published(): void
+    {
+        $this->get('/how-we-review')
+            ->assertOk()
+            ->assertDontSee('See our Truth Reports');
+
+        $this->publish();
+
+        $this->get('/how-we-review')
+            ->assertOk()
+            ->assertSee('See our Truth Reports')
+            ->assertSee(route('truth.index'), false);
     }
 
     public function test_truth_index_404s_with_no_published_reports(): void
