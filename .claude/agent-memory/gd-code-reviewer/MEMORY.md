@@ -4,3 +4,4 @@
 - [Build-revert verification](project_build-revert-verification.md) — deploy.sh doesn't npm-build; when a phase reverts public/build churn, grep committed CSS for the compiled decl instead of blocking
 - [Truth report gate is span-only](project_truth-report-gate.md) — plan 05: TruthReport "judged" gate has no MIN_POINTS by design (carry-forward); intended+tested, don't re-flag in 5.2–5.4
 - [Raw-amazon BLOCKER scope](feedback_raw-amazon-blocker-scope.md) — the raw amazon.com BLOCKER is for output surfaces, NOT Product.affiliate_url column/fixtures; check WHERE the match lives first
+- [wire:navigate fragment exception](project_wire-navigate-fragment-exception.md) — internal #fragment links intentionally omit wire:navigate (reliable anchor scroll); don't re-flag when commented

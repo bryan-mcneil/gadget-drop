@@ -62,6 +62,46 @@ class TruthReport
     private const CLASS_ORDER = ['real_deal' => 0, 'repackaged' => 1, 'worse' => 2, 'insufficient' => 3];
 
     /**
+     * Absolute path of a report's JSON artifact. Built via storage_path()
+     * directly — the `local` disk roots at storage/app/private, which is
+     * not where truth:report writes.
+     */
+    public static function path(string $slug): string
+    {
+        return storage_path('app/truth'.DIRECTORY_SEPARATOR."{$slug}.json");
+    }
+
+    /**
+     * Publication is double-gated (two keys to turn): a report is live only
+     * when config/truth.php lists its slug with published => true AND its
+     * artifact file exists. Returns slug => config entry, in config order.
+     */
+    public static function published(): array
+    {
+        return array_filter(
+            config('truth.publish', []),
+            fn ($entry, $slug) => ($entry['published'] ?? false) && is_file(self::path($slug)),
+            ARRAY_FILTER_USE_BOTH,
+        );
+    }
+
+    /**
+     * Decode a report artifact, or null when it is missing or corrupt.
+     */
+    public static function load(string $slug): ?array
+    {
+        $path = self::path($slug);
+
+        if (! is_file($path)) {
+            return null;
+        }
+
+        $data = json_decode((string) file_get_contents($path), true);
+
+        return is_array($data) ? $data : null;
+    }
+
+    /**
      * Analyze every product with any snapshot over an inclusive event window.
      */
     public static function analyze(CarbonInterface $from, CarbonInterface $to): array

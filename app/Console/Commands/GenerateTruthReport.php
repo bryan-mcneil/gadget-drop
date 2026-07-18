@@ -62,10 +62,9 @@ class GenerateTruthReport extends Command
             return self::SUCCESS;
         }
 
-        $dir = storage_path('app/truth');
-        File::ensureDirectoryExists($dir);
+        $path = TruthReport::path($slug);
+        File::ensureDirectoryExists(dirname($path));
 
-        $path = $dir.DIRECTORY_SEPARATOR."{$slug}.json";
         File::put($path, json_encode(
             $report,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION

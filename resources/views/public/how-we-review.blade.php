@@ -64,7 +64,7 @@
         </p>
     </section>
 
-    <section class="space-y-4">
+    <section id="deal-verdicts" class="space-y-4 scroll-mt-24">
         <h2 class="text-xl font-bold text-gray-900">How our price data works</h2>
         <p class="text-gray-600 leading-relaxed">
             "Was $199, now $149" claims on the internet are usually built on inflated list prices. Ours aren't.

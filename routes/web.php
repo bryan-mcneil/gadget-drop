@@ -20,6 +20,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\TruthReportController;
 use Illuminate\Support\Facades\Route;
 
 // Sitemap
@@ -45,6 +46,8 @@ foreach (config('site.category_map', []) as $oldCategorySlug => $newCategorySlug
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
 Route::get('/deals', [DealsController::class, 'index'])->name('deals');
+Route::get('/truth', [TruthReportController::class, 'index'])->name('truth.index');
+Route::get('/truth/{slug}', [TruthReportController::class, 'show'])->name('truth.show');
 Route::get('/drop-price', [DropPriceController::class, 'index'])->name('drop-price.index');
 Route::get('/drop-price/{puzzle:puzzle_number}', [DropPriceController::class, 'show'])->name('drop-price.show');
 Route::get('/out/{product}', [PublicController::class, 'redirect'])->name('affiliate.redirect');
