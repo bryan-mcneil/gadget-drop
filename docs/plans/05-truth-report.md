@@ -9,7 +9,8 @@
 - [x] Phase 5.1 — Analyzer + `truth:report` command (commit: 9b9149d)
 - [x] Phase 5.2 — `/truth/{slug}` data page (commit: 3b39178)
 - [ ] Phase 5.3 — Editorial wrapper + content guidelines (commit: )
-- [ ] Phase 5.4 — Prime Day 2026 pilot (runbook execution) (commit: )
+- [x] Phase 5.4 — Prime Day 2026 pilot (runbook execution) (commit: none — no-publish decision; see Build Log)
+- [ ] Phase 5.5 — Event-observation gate (pre-BF, from pilot lessons) (commit: )
 
 ## Design decisions
 
@@ -72,7 +73,7 @@ Review checklist: no new posts.type value anywhere; /deals line off by default; 
 
 ## Phase 5.4 — Prime Day 2026 pilot (runbook execution)
 
-**Scope:** run the machine for real. Prime Day is mid-July 2026 — snapshots are accumulating NOW regardless (the pipeline is retroactive by design).
+**Scope:** run the machine for real. Prime Day is mid-July 2026 — snapshots are accumulating NOW regardless (the pipeline is retroactive by design). *(2026 reality check, post-pilot: Amazon ran the event June 23–26 — before the snapshot layer existed. See Build Log.)*
 
 Runbook (this phase is executed, not coded):
 1. Pre/during event: one `/admin/prices` manual pass daily on the most-viewed products (top 20 by `view_count`-linked posts) — provenance `manual` snapshots densify event coverage within $0 budget.
@@ -81,6 +82,22 @@ Runbook (this phase is executed, not coded):
 4. Log honest lessons in the Build Log: coverage %, which classification thresholds felt wrong, what Black Friday needs (this pilot's REAL deliverable is calibration for BF, where the traffic is).
 
 Commit: `chore(truth): prime-day-2026 report published` (config + any threshold tuning from review)
+
+## Phase 5.5 — Event-observation gate (pre-BF calibration fix) *(added 2026-07-18 from the 5.4 pilot)*
+
+**Scope:** `TruthReport::classify()` + tests + page grade handling. The pilot judged 10 products "repackaged" purely from carry-forward — zero snapshots existed inside the event window. Carry-forward flatness must never masquerade as an event verdict. **Must land before Black Friday.**
+
+Steps:
+1. `classify()`: a product with a valid baseline but NO snapshot actually *recorded* inside `[from, to]` is not judged — new classification `unobserved` (distinct from `insufficient`: the history was fine; the event wasn't watched). Carry-forward still fills gaps *between* event-window snapshots; it just can't be the only event source.
+2. JSON: `totals` gains `unobserved`; `classes` stays judged-only; schema docblock updated. Re-running prime-day-2026 after this change must yield Judged 0 / Unobserved 10 (the acceptance test for the gate).
+3. Page: grades map gains `unobserved` ("Not observed during event", gray); denominator ¶ counts it; the empty-scoreboard hero copy must be generalized — it currently claims "none had enough pre-event history", which is wrong for the unobserved case.
+4. Decide at implementation: distinct table styling for `unobserved` vs `insufficient` (lean: distinct label, same muted treatment — they're different honesty stories).
+
+Tests: baseline-ok-but-no-event-snapshot → unobserved; one event snapshot → judged with carry-forward across the rest of the window; totals math includes unobserved; page renders the new label; empty-scoreboard branch still keys on judged === 0; existing fixtures that relied on carry-forward-only judging flip deliberately.
+
+Commit: `feat(truth): event-observation gate — carry-forward can't judge an unwatched event`
+
+Review checklist: no existing test weakened silently; the honesty-gate comment block in `config/truth.php` updated; `TruthPageTest` empty-scoreboard fixture updated to the generalized copy.
 
 ## Testing summary
 
@@ -108,3 +125,4 @@ Standard template + deltas: no migrations; `storage/app/truth/` must exist serve
 
 - 2026-07-18 · Phase 5.1 · Built `TruthReport::analyze()` (pre-event baseline vs event-window min over the carry-forward series via the promoted `PriceIntel::dailySeries($snapshots, $start, $end)` seam — explicit window because truth windows are retroactive; sole internal caller passes the identical window, all 37 existing price tests untouched), `truth:report {slug} --from --to [--dry-run]` writing stable-key-order JSON to `storage/app/truth/{slug}.json`, and `config/truth.php` (thresholds 0.95/1.05; `min_baseline_days=14` mirrors `PriceIntel::MIN_SPAN_DAYS` — the plan left the gate unquantified). Suite 270→282 green. gd-code-reviewer: APPROVE WITH NITS, 0 blockers (applied the zero-price-baseline test; **deferred to 5.4 calibration:** the span-only gate counts carry-forward-only products as judged — intended carry-forward stance, revisit after the pilot). Demo dry-run vs local prod-copy DB (guessed window 07-07→07-10): Tracked 35 / Judged 15 / 0 real deals / 11 repackaged / 4 worse / Echo Dot Max +53.9% — judged n=15 is under the ~30 "field notes" bar (Risks §), so event-week `/admin/prices` densification matters. Note for 5.2: the `local` disk roots at `storage/app/private`, so the artifact is written via `storage_path('app/truth')` directly — read it the same way.
 - 2026-07-18 · Phase 5.2 · Built `TruthReportController` (+`/truth`, `/truth/{slug}` routes), `truth/show` + `truth/index` Blade views, Dataset JSON-LD, and sitemap entries for published reports (0.8/yearly). Pages render the stored artifact only, double-gated by `TruthReport::published()` (config flag AND file — new `path()/published()/load()` statics shared by command/controller/sitemap); copy quotes the artifact's stored thresholds, never live config (tested). Index: 404 empty → 302 while a single report exists → list at 2+. Added the missing `id="deal-verdicts"` anchor to /how-we-review (plan linked an anchor that never existed); that one link skips `wire:navigate` (native fragment scroll — divergence recorded in reviewer memory). OG: default image (stat-callout variant failed the "if cheap" bar). Suite 282→292 green. gd-code-reviewer: APPROVE WITH NITS, 0 blockers (applied the all-insufficient empty-scoreboard test + stored-vs-live-config proof). **For 5.4 runbook:** sitemap XML caches 1 day — publication deploy needs `Cache::forget('sitemap.xml')` or accepts the delay; `/truth` index joins the sitemap once a 2nd report exists (deferred to 5.3/5.4).
+- 2026-07-18 · Phase 5.4 · Pilot executed — **decision: NO PUBLISH.** Prime Day 2026 ran **June 23–26** (Amazon moved it out of July; the plan's mid-July premise was wrong) and the snapshot layer was born 2026-07-02 — **zero snapshots exist inside the event window**, verified identically on prod via read-only tinker (0 event-window rows, 15 pre-event, 10 past the judged gate). `truth:report` on the local prod-copy (bit-equivalent for this retroactive window — the event predates the 2026-07-10 restore): Tracked 35 / Judged 10 / Insufficient 25 / **100% "repackaged", median 0.0%** — pure carry-forward of each judged product's single backfilled snapshot; hand-recomputed all 10 rows from raw snapshot rows, 10/10 exact (analyzer correct, input empty). Judged-10 is under the ~30 field-notes bar AND judged>0 means the page would render a confident scoreboard for an unwatched event — the 5.1-deferred carry-forward hazard, demonstrated on real data → **Phase 5.5 added (event-observation gate; must land before BF).** Other lessons: BF-week manual `/admin/prices` densification is existential (Canopy 3/day cannot cover an event); prod snapshot timestamps read +6h vs the restored local copy of the same rows — verify UTC consistency before BF (midnight-boundary bucketing risk); artifact provenance (Deployment § "decide at pilot"): generate server-side over SSH post-deploy — local generation only proved equivalent because the window predated the restore. Window variants 06-23→06-26 vs →06-27 (UTC tail) byte-identical. Artifact kept locally only (`storage/app/truth/prime-day-2026.json`, gitignored); nothing deployed; prod untouched beyond read-only queries. Thresholds (±5%) never exercised — BF is their first real test. A field-notes editorial post ("we built the machine, it told us we couldn't judge honestly") stays open as a 5.3-dependent option.
