@@ -6,4 +6,7 @@
 - [/deals query-count guard](project_deals-query-count-guard.md) — loose fixed query ceiling on /deals N+1 guards is plan-blessed; WARN on small-seed sensitivity, don't BLOCK
 - [WorthIt Dusk asserts thanks not pct](project_worthit-dusk-thanks-not-pct.md) — Phase 2.4 correctly asserts "Thanks for voting!" not a %; ≥5 gate hides pct at 1-2 votes, not a coverage gap
 - [Build-revert verification](project_build-revert-verification.md) — deploy.sh doesn't npm-build; when a phase reverts public/build churn, grep committed CSS for the compiled decl instead of blocking
+- [Raw IP precedent](project_raw-ip-precedent.md) — raw ip_address on form-submission tables is confirmed-safe (Subscriber precedent); don't re-flag as PII violation
+- [No factory convention](project_no-factory-convention.md) — repo has no model factories; plan "factory" scope satisfied by makeX() create-helpers, don't require Model::factory()
+- [Fillable state columns](project_fillable-state-columns.md) — enforce: verification/state stamps OUT of $fillable (Subscriber discipline); WARN new models, CLAUDE.md promotion candidate
 - [MCP server invariants](project_mcp-server-invariants.md) — Plan 04 laravel/mcp v0.8.2: CSRF-exclusion, two-limit distinct-key throttle, route-cache early-return all confirmed-safe, don't re-flag in 4.2–4.4
