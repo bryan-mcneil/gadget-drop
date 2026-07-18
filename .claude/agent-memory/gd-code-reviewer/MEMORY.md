@@ -5,3 +5,4 @@
 - [show.blade $post is an array](project_show-post-is-array.md) — public/show.blade.php passes $post as array not model; post-page Livewire uses int postId not public Post $post, confirmed-safe divergence
 - [/deals query-count guard](project_deals-query-count-guard.md) — loose fixed query ceiling on /deals N+1 guards is plan-blessed; WARN on small-seed sensitivity, don't BLOCK
 - [WorthIt Dusk asserts thanks not pct](project_worthit-dusk-thanks-not-pct.md) — Phase 2.4 correctly asserts "Thanks for voting!" not a %; ≥5 gate hides pct at 1-2 votes, not a coverage gap
+- [Build-revert verification](project_build-revert-verification.md) — deploy.sh doesn't npm-build; when a phase reverts public/build churn, grep committed CSS for the compiled decl instead of blocking

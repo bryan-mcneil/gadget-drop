@@ -9,6 +9,7 @@ use App\Models\ProductPriceSnapshot;
 use App\Models\User;
 use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class PriceHistoryWidgetTest extends TestCase
@@ -165,5 +166,90 @@ class PriceHistoryWidgetTest extends TestCase
         ]);
 
         $this->assertMatchesRegularExpression('/^[\d.]+,[\d.]+( [\d.]+,[\d.]+)+$/', $points);
+    }
+
+    /**
+     * The extracted <x-verdict-badge> is the single source of verdict language.
+     * Each tier must render its label; this locks the copy against drift.
+     */
+    #[DataProvider('verdictTiers')]
+    public function test_verdict_badge_renders_each_tier(string $verdict, string $label): void
+    {
+        $this->blade('<x-verdict-badge :verdict="$verdict" />', ['verdict' => $verdict])
+            ->assertSee($label, false);
+    }
+
+    public static function verdictTiers(): array
+    {
+        return [
+            'lowest' => ['lowest', 'Lowest tracked price'],
+            'good' => ['good', 'Below typical price'],
+            'typical' => ['typical', 'Typical price'],
+            'elevated' => ['elevated', 'Higher than usual'],
+        ];
+    }
+
+    public function test_verdict_badge_renders_nothing_for_null_or_unknown_verdict(): void
+    {
+        // ring-inset is unique to the badge pill — its absence proves no span rendered.
+        $this->blade('<x-verdict-badge :verdict="$verdict" />', ['verdict' => null])
+            ->assertDontSee('ring-inset', false);
+
+        $this->blade('<x-verdict-badge :verdict="$verdict" />', ['verdict' => 'bogus'])
+            ->assertDontSee('ring-inset', false);
+    }
+
+    public function test_drop_pct_is_appended_only_for_the_deal_tiers(): void
+    {
+        // lowest + good append the magnitude (dropPct is pre-rounded by PriceIntel).
+        $this->blade('<x-verdict-badge :verdict="$v" :drop-pct="$d" />', ['v' => 'lowest', 'd' => 7.0])
+            ->assertSee('Lowest tracked price · 7% below typical', false);
+        $this->blade('<x-verdict-badge :verdict="$v" :drop-pct="$d" />', ['v' => 'good', 'd' => 6.3])
+            ->assertSee('Below typical price · 6.3% below typical', false);
+
+        // typical + elevated never append, even when a drop figure is present.
+        $this->blade('<x-verdict-badge :verdict="$v" :drop-pct="$d" />', ['v' => 'typical', 'd' => 3.0])
+            ->assertSee('Typical price', false)
+            ->assertDontSee('·', false);
+
+        // Below the 1% floor: no append even on a deal tier.
+        $this->blade('<x-verdict-badge :verdict="$v" :drop-pct="$d" />', ['v' => 'good', 'd' => 0.4])
+            ->assertSee('Below typical price', false)
+            ->assertDontSee('·', false);
+    }
+
+    public function test_thirty_day_reference_line_shows_the_low30_figure(): void
+    {
+        // Dip to 50 sixty days ago (inside the 90-day window, OUTSIDE the 30-day
+        // one), 110 at 40 days, 80 at 20 days, now 90. So low90 = 50 but low30 =
+        // 80 — divergent on purpose, so "$80.00" can only be the 30-day line
+        // (not the 90-day-low span, which shows $50, nor the $90 current price).
+        [$post, $product] = $this->makeReviewWithProduct(90);
+        $this->snapshot($product, 50, 60);
+        $this->snapshot($product, 110, 40);
+        $this->snapshot($product, 80, 20);
+
+        $stats = PriceIntel::stats($product->id);
+        $this->assertTrue($stats['has_stats']);
+        $this->assertSame(80.0, $stats['low30']);
+        $this->assertSame(50.0, $stats['low90']); // guards the divergence the assertion below relies on
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertSee('Lowest price in the last 30 days', false)
+            ->assertSee('$80.00', false);
+    }
+
+    public function test_thirty_day_reference_line_and_badge_are_absent_without_stats(): void
+    {
+        // Only the observer's initial snapshot — one point, no span → gates unpassed.
+        [$post] = $this->makeReviewWithProduct(120);
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertSee('Price checked', false)                        // baseline truth still shows
+            ->assertDontSee('Lowest price in the last 30 days', false) // reference line gated off
+            ->assertDontSee('Lowest tracked price', false)             // verdict badge gated off
+            ->assertDontSee('Typical price', false);
     }
 }
