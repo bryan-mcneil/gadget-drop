@@ -469,6 +469,69 @@ class PublicController extends Controller
         );
     }
 
+    /**
+     * FAQPage JSON-LD for /how-we-review — the answer-engine mirror of the
+     * #deal-verdicts section. Every number is interpolated from the same
+     * constants the code enforces (PriceIntel gates, the /deals bar) so the
+     * structured data can't drift from reality (plan 01 §1.4 checklist).
+     */
+    private function buildFaqJsonLd(): string
+    {
+        $minPoints = PriceIntel::MIN_POINTS;
+        $minSpanDays = PriceIntel::MIN_SPAN_DAYS;
+        $dealPct = PriceIntel::DEAL_PCT * 100;
+        $dealsBar = DealsController::MIN_DROP_PCT;
+
+        $faqs = [
+            [
+                'q' => 'What does "Lowest tracked price" mean on GadgetDrop?',
+                'a' => "It means the product's current price matches the lowest point in our own recorded"
+                    .' price history over the last 90 days, and the price has genuinely varied in that window.'
+                    .' A price that never moved is labeled "Typical price", never "Lowest tracked price".'
+                    .' The data is our own snapshot history, not a live Amazon price, so we always show when'
+                    .' we last checked and the price at checkout is the one that counts.',
+            ],
+            [
+                'q' => "Where does GadgetDrop's price data come from?",
+                'a' => 'From our own snapshot log. We record a snapshot every time we check a product\'s'
+                    ." price, through the editor's manual checks and Amazon's product-data APIs. We never"
+                    .' scrape Amazon pages, and we never use a manufacturer\'s suggested price as the'
+                    .' "was" price in a comparison.',
+            ],
+            [
+                'q' => 'When does GadgetDrop show price verdicts?',
+                'a' => "Only once a product has at least {$minPoints} price snapshots spanning at least"
+                    ." {$minSpanDays} days. Until then we show the current price and when we checked it,"
+                    .' nothing more.',
+            ],
+            [
+                'q' => 'What counts as a deal on GadgetDrop?',
+                'a' => "A current price at least {$dealPct}% below that product's own tracked 90-day"
+                    .' average, always measured against our recorded history, never against an MSRP.'
+                    .' Our Price Drops page lists a product only when it carries one of our two deal'
+                    ." verdicts, its price sits at least {$dealsBar}% below its tracked 90-day average,"
+                    .' and we have a published review for it.',
+            ],
+            [
+                'q' => 'What is the 30-day reference price on GadgetDrop?',
+                'a' => 'The lowest price we have tracked for a product in the last 30 days. EU rules'
+                    .' require retailers to disclose that figure when advertising a discount; US law has'
+                    .' no equivalent. We publish it voluntarily so a deal can be checked against recent'
+                    .' history instead of a list price.',
+            ],
+        ];
+
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(fn (array $faq) => [
+                '@type' => 'Question',
+                'name' => $faq['q'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq['a']],
+            ], $faqs),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
     private function buildServerMeta(array $d): array
     {
         $seo = $d['seo_meta'] ?? [];
@@ -844,6 +907,8 @@ class PublicController extends Controller
             'og_type' => 'website',
             'canonical' => route('how-we-review'),
         ]);
+
+        view()->share('serverJsonLd', $this->buildFaqJsonLd());
 
         return view('public.how-we-review', [
             // The methodology page links the Truth Reports index once the

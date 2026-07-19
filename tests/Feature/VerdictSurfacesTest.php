@@ -12,11 +12,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Phase 1.2 — the verdict chip on the review product card.
+ * Phases 1.2 + 1.4 — the verdict chip on the review product card, and the
+ * methodology section + FAQ structured data the chips link to.
  *
  * The tracked-price widget's own rendering is covered by
- * PriceHistoryWidgetTest; these tests pin the CARD surface: sm chip beside
- * the price, the quiet methodology link, and the single-CTA rule.
+ * PriceHistoryWidgetTest; these tests pin the CARD surface (sm chip beside
+ * the price, the quiet methodology link, the single-CTA rule) and the
+ * /how-we-review #deal-verdicts surface (copy quotes the real PriceIntel
+ * gates, FAQPage JSON-LD parses).
  */
 class VerdictSurfacesTest extends TestCase
 {
@@ -107,6 +110,72 @@ class VerdictSurfacesTest extends TestCase
             1,
             substr_count($response->getContent(), $cardCta),
             'The verdict chip/methodology link must not add a second affiliate CTA to the card.'
+        );
+    }
+
+    public function test_the_methodology_section_documents_the_verdict_system(): void
+    {
+        $this->get('/how-we-review')
+            ->assertOk()
+            // The anchor the card chips, /deals, and the MCP server all cite.
+            ->assertSee('id="deal-verdicts"', false)
+            ->assertSee('Where the numbers come from', false)
+            ->assertSee('The honesty gates', false)
+            ->assertSee('The four verdicts', false)
+            ->assertSee('The 30-day reference price', false)
+            ->assertSee('What we never do', false)
+            // The section renders the real <x-verdict-badge>, so the four
+            // labels users see on chips are the ones documented here.
+            ->assertSee('Lowest tracked price', false)
+            ->assertSee('Below typical price', false)
+            ->assertSee('Typical price', false)
+            ->assertSee('Higher than usual', false);
+    }
+
+    public function test_the_methodology_copy_quotes_the_real_gates_and_thresholds(): void
+    {
+        // Built from the constants, so this test fails if the copy's numbers
+        // ever stop matching what the code enforces.
+        $this->get('/how-we-review')
+            ->assertOk()
+            ->assertSee(
+                PriceIntel::MIN_POINTS.' price snapshots spanning at least '.PriceIntel::MIN_SPAN_DAYS.' days',
+                false
+            )
+            ->assertSee('At least '.(PriceIntel::DEAL_PCT * 100).'% below the 90-day average', false)
+            ->assertSee(
+                'sits at least '.\App\Http\Controllers\DealsController::MIN_DROP_PCT.'% below its tracked',
+                false
+            )
+            ->assertSee('scrape Amazon pages', false)
+            ->assertSee('No MSRP theater', false);
+    }
+
+    public function test_the_page_emits_valid_faqpage_json_ld(): void
+    {
+        $html = $this->get('/how-we-review')->assertOk()->getContent();
+
+        preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $html, $m);
+        $this->assertCount(1, $m[1], 'Exactly one JSON-LD block should be emitted on /how-we-review.');
+
+        $data = json_decode($m[1][0], true);
+
+        $this->assertIsArray($data, 'The FAQ JSON-LD must be parseable JSON.');
+        $this->assertSame('FAQPage', $data['@type']);
+        $this->assertCount(5, $data['mainEntity']);
+
+        foreach ($data['mainEntity'] as $entity) {
+            $this->assertSame('Question', $entity['@type']);
+            $this->assertNotSame('', $entity['name']);
+            $this->assertSame('Answer', $entity['acceptedAnswer']['@type']);
+            $this->assertNotSame('', $entity['acceptedAnswer']['text']);
+        }
+
+        // The structured answers quote the same constants as the visible copy.
+        $blob = $m[1][0];
+        $this->assertStringContainsString(
+            PriceIntel::MIN_POINTS.' price snapshots spanning at least '.PriceIntel::MIN_SPAN_DAYS.' days',
+            $blob
         );
     }
 }
