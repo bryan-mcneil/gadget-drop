@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Post;
+use App\Models\PostSlugRedirect;
 use App\Models\SearchSubmission;
 use App\Services\GoogleSearchConsoleService;
 use App\Services\IndexNowService;
@@ -43,6 +44,8 @@ class PostObserver
 
     public function updated(Post $post): void
     {
+        $this->recordSlugHistory($post);
+
         // Draft → published (or any edit that flips status to published).
         if ($post->wasChanged('status') && $post->status === 'published') {
             $this->ping($post, $this->publishUrls($post), 'publish');
@@ -68,6 +71,30 @@ class PostObserver
         }
 
         $this->ping($post, $urls, 'update');
+    }
+
+    /**
+     * A slug change on a post that was already published orphans a URL that may
+     * be indexed or linked — record the old slug so /posts/{old} can 301 to the
+     * post's current slug (see the posts.show missing() fallback). Draft-era
+     * renames never served a URL, so they are skipped. When a post reclaims a
+     * slug that is in the table, the real page shadows the redirect — the stale
+     * row is dropped so it cannot resurface after a later rename.
+     */
+    private function recordSlugHistory(Post $post): void
+    {
+        if (! $post->wasChanged('slug') || $post->getOriginal('status') !== 'published') {
+            return;
+        }
+
+        $old = $post->getOriginal('slug');
+
+        if (! $old || $old === $post->slug) {
+            return;
+        }
+
+        PostSlugRedirect::updateOrCreate(['old_slug' => $old], ['post_id' => $post->id]);
+        PostSlugRedirect::where('old_slug', $post->slug)->delete();
     }
 
     /**

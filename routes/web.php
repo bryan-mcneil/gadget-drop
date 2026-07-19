@@ -21,6 +21,8 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\TruthReportController;
+use App\Models\PostSlugRedirect;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Sitemap
@@ -34,7 +36,17 @@ Route::get('/llms.txt', [SearchController::class, 'llms'])->name('llms');
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/news', [PublicController::class, 'news'])->name('news');
 Route::get('/search', [PublicController::class, 'search'])->name('search');
-Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts.show');
+// Unknown post slugs fall through to the post_slug_redirects table (rows are
+// recorded by PostObserver on every rename of a published post) and 301 to the
+// post's current URL. Route-cache safe: missing() closures are serialized.
+Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->name('posts.show')
+    ->missing(function (Request $request) {
+        $target = PostSlugRedirect::resolve((string) $request->route('post'));
+
+        abort_unless($target, 404);
+
+        return redirect()->to(route('posts.show', $target), 301);
+    });
 Route::get('/og/posts/{post:slug}.jpg', [OgImageController::class, 'post'])->name('og.posts.show');
 Route::get('/og/default.jpg', [OgImageController::class, 'default'])->name('og.default');
 Route::get('/og/preview', [OgImageController::class, 'preview'])->name('og.preview');
@@ -75,8 +87,6 @@ Route::get('/tools/base64-encoder', [ToolController::class, 'base64Encoder'])->n
 Route::get('/tools/color-palette', [ToolController::class, 'colorPalette'])->name('tools.color-palette');
 Route::get('/tools/meta-tag-previewer', [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
 Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
-Route::permanentRedirect('/posts/mega-raichu-x-lands-in-pokémon-champions-as-the-game-hits-mobile', '/posts/mega-raichu-x-lands-in-pokémon-champions');
-Route::permanentRedirect('/posts/samsung-galaxy-unpacked-set-for-july-22-watch-9-fold-8', '/posts/samsung-galaxy-unpacked-set-for-july-22');
 
 // Server-side tools scaffold (Phase 2+)
 Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {
