@@ -103,6 +103,7 @@ class DealsController extends Controller
                 'current' => $stats['current'],
                 'typical' => $stats['avg90'],
                 'low90' => $stats['low90'],
+                'low30' => $stats['low30'],
                 'drop_pct' => $stats['drop_pct'],
                 'verdict' => $stats['verdict'],
                 'checked_at' => $stats['checked_at'],

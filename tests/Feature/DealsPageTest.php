@@ -9,6 +9,7 @@ use App\Models\ProductPriceSnapshot;
 use App\Models\User;
 use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class DealsPageTest extends TestCase
@@ -140,5 +141,74 @@ class DealsPageTest extends TestCase
         $this->get('/sitemap.xml')
             ->assertOk()
             ->assertSee(route('deals'), false);
+    }
+
+    public function test_deal_cards_show_the_shared_badge_and_the_30_day_low(): void
+    {
+        // Held at 100 for weeks, dipped to 70 ten days ago, recovered to 80
+        // today: ~16% below the 90-day average (qualifies) but not the record
+        // low → the 'good' tier. low30 = 70 — divergent from current (80) and
+        // typical (~95), so "$70.00" can only be the 30-day-low span.
+        $product = $this->trackedProduct('Recovered Widget', 100, 80);
+        ProductPriceSnapshot::create([
+            'product_id' => $product->id,
+            'price' => 70,
+            'source' => 'manual',
+            'created_at' => now()->subDays(10),
+        ]);
+        PriceIntel::flush($product->id);
+
+        $stats = PriceIntel::stats($product->id);
+        $this->assertSame('good', $stats['verdict']);
+        $this->assertSame(70.0, $stats['low30']);
+
+        $this->get('/deals')
+            ->assertOk()
+            ->assertSee('Below typical price', false)      // shared badge label
+            ->assertSee('text-[10px] px-2 py-0.5', false)  // the sm badge sizing string
+            ->assertSee('30-day low', false)
+            ->assertSee('$70.00', false);
+    }
+
+    public function test_the_feed_passes_low30_through(): void
+    {
+        $this->trackedProduct('Dropped Widget', 100, 80);
+
+        $this->get('/deals')->assertOk();
+
+        $feed = Cache::get('deals.feed');
+        $this->assertIsArray($feed);
+        $this->assertNotEmpty($feed);
+        $this->assertArrayHasKey('low30', $feed[0]);
+        $this->assertSame(80.0, $feed[0]['low30']);
+    }
+
+    public function test_a_stale_cached_feed_without_low30_still_renders(): void
+    {
+        // Simulates the ≤1h post-deploy window: a cached feed in the pre-deploy
+        // shape (no 'low30' key). The card must render, minus the 30-day line.
+        Cache::put('deals.feed', [[
+            'product_id' => 1,
+            'name' => 'Stale Widget',
+            'image_url' => null,
+            'current' => 80.0,
+            'typical' => 95.0,
+            'low90' => 70.0,
+            'drop_pct' => 15.8,
+            'verdict' => 'good',
+            'checked_at' => now()->subHours(3)->toDateTimeString(),
+            'points' => [],
+            'post_id' => 1,
+            'post_title' => 'Stale Widget Review',
+            'post_slug' => 'stale-widget-review',
+            'worth_pct' => null,
+            'worth_total' => 0,
+        ]], 60);
+
+        $this->get('/deals')
+            ->assertOk()
+            ->assertSee('Stale Widget', false)
+            ->assertSee('Below typical price', false)
+            ->assertDontSee('30-day low', false);
     }
 }

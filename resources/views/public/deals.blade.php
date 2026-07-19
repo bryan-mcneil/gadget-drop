@@ -13,9 +13,12 @@
             real Amazon price of every product we cover each time we check it, and a gadget only lands on
             this page when its current price sits at least {{ \App\Http\Controllers\DealsController::MIN_DROP_PCT }}%
             below what our own history says is typical. "Usually" means <em>our tracked 90-day average</em>,
-            never a manufacturer's suggested price. Every card shows when we last checked; prices move fast,
-            so confirm the final number at checkout. The tracking method is documented on
-            <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
+            never a manufacturer's suggested price. Every card shows the lowest price we've tracked in the
+            last 30 days (the disclosure EU law requires of retailers, and US law doesn't) and when we last
+            checked; prices move fast, so confirm the final number at checkout. The tracking method is documented on
+            {{-- Plain link (no wire:navigate): it targets a #fragment, and the
+                 browser's native navigation is what reliably scrolls to it. --}}
+            <a href="{{ route('how-we-review') }}#deal-verdicts" class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
         @if($truthPromo)
             <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
@@ -58,9 +61,16 @@
                             <span class="shrink-0 text-[11px] font-bold px-2 py-1 rounded-full bg-sky-100 text-sky-800 tabular-nums">−{{ round($deal['drop_pct']) }}%</span>
                         </div>
 
-                        <div class="flex items-baseline gap-2 tabular-nums">
+                        {{-- gap-y-1 (not 0.5): already in the compiled bundle, so the
+                             build stays byte-identical and the committed CSS needs no churn. --}}
+                        <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 tabular-nums">
                             <span class="text-2xl font-extrabold text-gray-900">${{ number_format($deal['current'], 2) }}</span>
                             <span class="text-sm text-gray-400">usually ${{ number_format($deal['typical'], 2) }}</span>
+                            {{-- The Omnibus reference line. ?? guards the 1h window where a
+                                 pre-deploy cached feed lacks the key (worth_pct precedent). --}}
+                            @if(($deal['low30'] ?? null) !== null)
+                                <span class="text-sm text-gray-400">30-day low ${{ number_format($deal['low30'], 2) }}</span>
+                            @endif
                         </div>
 
                         @if(count($deal['points']) > 1)
@@ -71,9 +81,10 @@
                         @endif
 
                         <p class="text-xs text-gray-400">
-                            @if($deal['verdict'] === 'lowest')
-                                <span class="text-sky-700 font-semibold">Lowest price we've tracked.</span>
-                            @endif
+                            {{-- Shared verdict language (feed only admits lowest|good, so a badge
+                                 always renders). No :drop-pct: the −N% pill above already carries
+                                 the magnitude. --}}
+                            <x-verdict-badge :verdict="$deal['verdict']" size="sm" />
                             Checked {{ \Illuminate\Support\Carbon::parse($deal['checked_at'])->diffForHumans() }}
                         </p>
 
