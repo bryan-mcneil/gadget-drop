@@ -17,3 +17,5 @@
 - [MCP server invariants](project_mcp-server-invariants.md) — Plan 04 laravel/mcp v0.8.2: CSRF-exclusion, two-limit distinct-key throttle, route-cache early-return all confirmed-safe, don't re-flag in 4.2–4.4
 - [Verdict badge card width](project_verdict-badge-card-width.md) — Plan 01: sm badge overflows the ~167px review-card content column at 375px for long lowest/good+dropPct labels (fix=drop dropPct at sm); verdict!==null is honesty-safe has_stats proxy
 - [Honesty gate tri-surface](project_honesty-gate-tri-surface.md) — Plan 01 §1.4: 2-snapshot/14-day gate stated in PriceIntel(source) + how-we-review(pulls constants, safe) + MCP server(spelled words, drift-prone); DEAL_PCT*100=exact 5
+- [Dusk clickLink navigation race](project_dusk-clicklink-navigation-race.md) — clickLink is a JS synthetic click; it does NOT block for native nav, so following assertPathIs/Fragment/Visible race the load — WARN, fix with waitForLocation
+- [Dusk PriceIntel seeding](project_dusk-priceintel-seeding.md) — Dusk price fixtures use relative dates (no setTestNow) + trailing PriceIntel::flush() because CACHE_STORE=file survives DatabaseTruncation; confirmed-safe, don't re-flag
