@@ -53,7 +53,7 @@ class TruthPageTest extends TestCase
                 'min_baseline_days' => 14,
                 'thresholds' => ['real_deal' => 0.95, 'worse' => 1.05],
             ],
-            'totals' => ['tracked' => 5, 'judged' => 4, 'insufficient' => 1],
+            'totals' => ['tracked' => 6, 'judged' => 4, 'unobserved' => 1, 'insufficient' => 1],
             'classes' => [
                 'real_deal' => ['count' => 2, 'pct' => 50.0],
                 'repackaged' => ['count' => 1, 'pct' => 25.0],
@@ -69,6 +69,7 @@ class TruthPageTest extends TestCase
                 ['product_id' => 1, 'name' => 'Widget A', 'post_slug' => 'widget-a-review', 'tracked_since' => '2026-05-01', 'classification' => 'real_deal', 'pre_min' => 100.0, 'pre_avg' => 104.5, 'event_min' => 70.0, 'discount_pct' => 30.0],
                 ['product_id' => 2, 'name' => 'Widget B', 'post_slug' => 'widget-b-review', 'tracked_since' => '2026-05-10', 'classification' => 'repackaged', 'pre_min' => 80.0, 'pre_avg' => 82.0, 'event_min' => 79.0, 'discount_pct' => 1.3],
                 ['product_id' => 3, 'name' => 'Widget D', 'post_slug' => null, 'tracked_since' => '2026-05-20', 'classification' => 'worse', 'pre_min' => 50.0, 'pre_avg' => 51.0, 'event_min' => 56.0, 'discount_pct' => -12.0],
+                ['product_id' => 5, 'name' => 'Widget C', 'post_slug' => null, 'tracked_since' => '2026-05-15', 'classification' => 'unobserved', 'pre_min' => 60.0, 'pre_avg' => 62.5, 'event_min' => null, 'discount_pct' => null],
                 ['product_id' => 4, 'name' => 'Widget E', 'post_slug' => null, 'tracked_since' => '2026-07-01', 'classification' => 'insufficient', 'pre_min' => null, 'pre_avg' => null, 'event_min' => null, 'discount_pct' => null],
             ],
         ];
@@ -119,20 +120,26 @@ class TruthPageTest extends TestCase
             ->assertOk()
             ->assertSee(self::TITLE)
             ->assertSee('50.0%')
-            ->assertSee('Of the 5 products we track')
+            ->assertSee('Of the 6 products we track')
             ->assertSee('Report generated Aug 1, 2026')
             ->assertSee('Not enough history')
+            // The 5.5 grade: watched history, unwatched event — the row keeps
+            // its valid pre-event low while the event columns stay dashed.
+            ->assertSee('Not observed during event')
+            ->assertSee('$60.00')
             ->assertSee('5% below the product')
             ->assertDontSee('20% below the product')
             // These pages are meant to rank — noindex must never be set.
             ->assertDontSee('noindex');
     }
 
-    public function test_an_all_insufficient_report_renders_the_empty_scoreboard(): void
+    public function test_a_zero_judged_report_renders_the_empty_scoreboard(): void
     {
+        // Mixed unjudged reasons — the prime-day-2026 shape: watched history,
+        // unwatched event (unobserved) alongside too-new products.
         config(['truth.publish' => ['phpunit-page' => ['title' => self::TITLE, 'published' => true]]]);
         $this->writeArtifact('phpunit-page', [
-            'totals' => ['tracked' => 3, 'judged' => 0, 'insufficient' => 3],
+            'totals' => ['tracked' => 3, 'judged' => 0, 'unobserved' => 2, 'insufficient' => 1],
             'classes' => [
                 'real_deal' => ['count' => 0, 'pct' => null],
                 'repackaged' => ['count' => 0, 'pct' => null],
@@ -145,16 +152,22 @@ class TruthPageTest extends TestCase
                 'median_discount_pct' => null,
             ],
             'products' => [
+                ['product_id' => 5, 'name' => 'Widget C', 'post_slug' => null, 'tracked_since' => '2026-05-15', 'classification' => 'unobserved', 'pre_min' => 60.0, 'pre_avg' => 62.5, 'event_min' => null, 'discount_pct' => null],
+                ['product_id' => 6, 'name' => 'Widget F', 'post_slug' => null, 'tracked_since' => '2026-05-16', 'classification' => 'unobserved', 'pre_min' => 80.0, 'pre_avg' => 80.0, 'event_min' => null, 'discount_pct' => null],
                 ['product_id' => 4, 'name' => 'Widget E', 'post_slug' => null, 'tracked_since' => '2026-07-01', 'classification' => 'insufficient', 'pre_min' => null, 'pre_avg' => null, 'event_min' => null, 'discount_pct' => null],
             ],
         ]);
 
         $this->get('/truth/phpunit-page')
             ->assertOk()
-            // Hero takes the honest-empty branch...
+            // Hero takes the honest-empty branch, generalized past the old
+            // "not enough history" claim (wrong for unobserved rows)...
             ->assertSee('empty scoreboard')
-            // ...as does the meta description...
-            ->assertSee('none had enough pre-event history to judge honestly')
+            ->assertDontSee('none of them had enough pre-event history')
+            // ...the denominator paragraph splits the unjudged reasons...
+            ->assertSee('2 we never observed during the event itself')
+            // ...the meta description takes the generalized copy too...
+            ->assertSee('none cleared the bar for an honest verdict')
             // ...and the grade bars (share of zero judged) never render.
             ->assertDontSee('How the deals graded out');
     }

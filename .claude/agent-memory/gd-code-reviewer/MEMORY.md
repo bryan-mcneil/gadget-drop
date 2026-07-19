@@ -6,3 +6,4 @@
 - [Raw-amazon BLOCKER scope](feedback_raw-amazon-blocker-scope.md) — the raw amazon.com BLOCKER is for output surfaces, NOT Product.affiliate_url column/fixtures; check WHERE the match lives first
 - [wire:navigate fragment exception](project_wire-navigate-fragment-exception.md) — internal #fragment links intentionally omit wire:navigate (reliable anchor scroll); don't re-flag when commented
 - [Truth cross-link gates](project_truth-crosslink-gates.md) — plan 05 §5.3: methodology link renders ≥1 report, sitemap /truth index ≥2 — by design, not inconsistent; deals promo intentionally outside feed cache
+- [Truth observation gate](project_truth-observation-gate.md) — plan 05 §5.5 unobserved gate is correct; confirm-unchanged paths record no snapshot → BF honesty risk (flat watched products classify unobserved), track before BF

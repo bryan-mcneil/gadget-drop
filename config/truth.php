@@ -18,6 +18,12 @@ return [
     // days before the event starts, or it is reported as `insufficient`
     // (counted, never guessed). Mirrors PriceIntel::MIN_SPAN_DAYS — one
     // sitewide standard for "enough history to make a claim".
+    //
+    // A second, structural gate lives in TruthReport::classify() and is not
+    // configurable: a product also needs at least one snapshot RECORDED
+    // inside the event window, or it is reported as `unobserved` — a valid
+    // baseline plus carry-forward flatness is not an event verdict (the 2026
+    // Prime Day pilot judged 10 unwatched products "repackaged" without it).
     'min_baseline_days' => 14,
 
     'thresholds' => [

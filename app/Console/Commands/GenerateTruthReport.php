@@ -107,7 +107,7 @@ class GenerateTruthReport extends Command
         $pct = fn (?float $p) => $p === null ? 'n/a' : number_format($p, 1).'%';
 
         $this->info("Truth Report: {$report['slug']} ({$report['window']['from']} to {$report['window']['to']})");
-        $this->line("Tracked: {$totals['tracked']} | Judged: {$totals['judged']} | Insufficient history: {$totals['insufficient']}");
+        $this->line("Tracked: {$totals['tracked']} | Judged: {$totals['judged']} | Unobserved during event: {$totals['unobserved']} | Insufficient history: {$totals['insufficient']}");
         $this->line(sprintf(
             'Real deals: %d (%s) | Repackaged: %d (%s) | Worse: %d (%s)',
             $classes['real_deal']['count'], $pct($classes['real_deal']['pct']),

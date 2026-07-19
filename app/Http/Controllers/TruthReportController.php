@@ -77,7 +77,7 @@ class TruthReportController extends Controller
 
         if ($realPct === null) {
             return sprintf(
-                'We tracked %d products through this event window; none had enough pre-event history to judge honestly. The full ledger, from our own recorded prices.',
+                'We tracked %d products through this event window; none cleared the bar for an honest verdict. The full ledger, from our own recorded prices.',
                 $totals['tracked'],
             );
         }
@@ -86,7 +86,7 @@ class TruthReportController extends Controller
             '%s%% of the %d deals we could judge were genuinely below their pre-event low. Per-product data from our own recorded price history — including the %d products we could not judge.',
             number_format($realPct, 1),
             $totals['judged'],
-            $totals['insufficient'],
+            $totals['unobserved'] + $totals['insufficient'],
         );
     }
 

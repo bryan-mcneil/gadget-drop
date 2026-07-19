@@ -118,6 +118,7 @@ Standard template + deltas: no migrations; `storage/app/truth/` must exist serve
 
 - **Thin coverage undermines the headline** — mitigated by the denominator-forward copy rule and the pilot's manual-snapshot densification; if coverage < ~30 products, publish as "field notes" post without the standalone page (decision gate in 5.4 step 3).
 - **Perceived Amazon hostility** — tone rules in 5.3; grade deals, cite data, offer the service angle. Keepa/CCC have surfaced identical truths for a decade without Associates trouble.
+- **Unchanged-price checks are invisible to the observation gate** *(found in 5.5)* — every unchanged-price path (`/admin/prices` "Unchanged" and same-price submit, `prices:refresh` unchanged branch) stamps only the mutable `price_checked_at`; no snapshot row is written, so "checked during the event, price held flat" is retroactively indistinguishable from "never checked" and classifies `unobserved` — undercounting the repackaged story, BF's likely headline. The fix is a confirmation-snapshot mechanism (a snapshot-recording semantics change — Bryan's design call, its own phase before BF); until then, event-week `/admin/prices` passes only densify products whose price actually moved.
 
 ## Build Log
 

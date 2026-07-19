@@ -13,6 +13,7 @@
     'real_deal' => ['label' => 'Real deals', 'badge' => 'bg-emerald-100 text-emerald-800', 'bar' => 'bg-emerald-500'],
     'repackaged' => ['label' => 'Repackaged', 'badge' => 'bg-amber-100 text-amber-800', 'bar' => 'bg-amber-400'],
     'worse' => ['label' => 'Worse than before', 'badge' => 'bg-rose-100 text-rose-800', 'bar' => 'bg-rose-500'],
+    'unobserved' => ['label' => 'Not observed during event', 'badge' => 'bg-gray-100 text-gray-600', 'bar' => 'bg-gray-300'],
     'insufficient' => ['label' => 'Not enough history', 'badge' => 'bg-gray-100 text-gray-600', 'bar' => 'bg-gray-300'],
 ])
 
@@ -34,15 +35,17 @@
         @else
             <p class="text-lg text-gray-700 max-w-2xl leading-relaxed">
                 We tracked <strong>{{ $totals['tracked'] }}</strong> products through this event window —
-                and none of them had enough pre-event history for an honest verdict. That's the report:
-                we'd rather show you an empty scoreboard than a guessed one.
+                and none of them cleared the bar for an honest verdict. The ledger below says why,
+                product by product. That's the report: we'd rather show you an empty scoreboard than
+                a guessed one.
             </p>
         @endif
 
         <p class="mt-4 text-gray-600 max-w-2xl leading-relaxed">
-            Of the {{ $totals['tracked'] }} products we track, {{ $totals['judged'] }} had enough
-            pre-event price history to judge; {{ $totals['insufficient'] }} did not, and we say so
-            rather than guess.
+            Of the {{ $totals['tracked'] }} products we track, {{ $totals['judged'] }} met the bar for
+            an honest verdict; {{ $totals['unobserved'] }} we never observed during the event itself,
+            and {{ $totals['insufficient'] }} lacked enough pre-event history — we say so rather
+            than guess.
             Every number below comes from our own recorded price snapshots — never a list price.
         </p>
 
@@ -187,8 +190,10 @@
             Within ±{{ $worseCut }}%, the "sale price" was just&hellip; the price — <strong>repackaged</strong>.
             Above it, the event price was <strong>worse</strong>. Products with less than
             {{ $report['config']['min_baseline_days'] }} days of pre-event history are reported as unjudged,
-            never guessed. We grade deals, not the retailer — a repackaged deal is a marketing decision
-            somewhere upstream, and the same product is often a genuine bargain a month later.
+            never guessed — and a product whose price we never actually recorded during the event window
+            is reported as not observed, not graded from stale data. We grade deals, not the retailer —
+            a repackaged deal is a marketing decision somewhere upstream, and the same product is often
+            a genuine bargain a month later.
         </p>
         {{-- Plain link (no wire:navigate): it targets a #fragment, and the
              browser's native navigation is what reliably scrolls to it. --}}

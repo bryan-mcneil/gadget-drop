@@ -27,7 +27,9 @@ use Carbon\CarbonInterface;
  *   },
  *   "totals": {
  *     "tracked": 61,                       // products with >= 1 snapshot
- *     "judged": 48,                        // tracked minus insufficient
+ *     "judged": 45,                        // tracked minus unobserved minus insufficient
+ *     "unobserved": 3,                     // observation gate: baseline fine, but no snapshot
+ *                                          // recorded inside the event window
  *     "insufficient": 13                   // honesty gate: too little pre-event history
  *   },
  *   "classes": {                           // judged products only; pct is share of judged
@@ -41,16 +43,16 @@ use Carbon\CarbonInterface;
  *     "biggest_markup":    {"product": "…", "post_slug": "…"|null, "markup_pct": 12.0} | null,
  *     "median_discount_pct": 1.8 | null    // median over judged products
  *   },
- *   "products": [                          // real_deal, repackaged, worse, insufficient;
- *     {                                    // best discount first within each class
+ *   "products": [                          // real_deal, repackaged, worse, unobserved,
+ *     {                                    // insufficient; best discount first within each class
  *       "product_id": 7,
  *       "name": "…",
  *       "post_slug": "…" | null,           // earliest published review, for linking
  *       "tracked_since": "2026-05-01",     // first snapshot date
- *       "classification": "real_deal" | "repackaged" | "worse" | "insufficient",
- *       "pre_min": 99.99 | null,           // nulls on insufficient rows
- *       "pre_avg": 104.50 | null,
- *       "event_min": 79.99 | null,
+ *       "classification": "real_deal" | "repackaged" | "worse" | "unobserved" | "insufficient",
+ *       "pre_min": 99.99 | null,           // nulls on insufficient rows; unobserved rows keep
+ *       "pre_avg": 104.50 | null,          // their (valid) pre-event stats
+ *       "event_min": 79.99 | null,         // null on unobserved rows: nothing was seen
  *       "discount_pct": 20.0 | null        // vs pre_min; positive = cheaper during the event
  *     }
  *   ]
@@ -59,7 +61,10 @@ use Carbon\CarbonInterface;
 class TruthReport
 {
     /** Artifact sort order: the story first, the honesty ledger last. */
-    private const CLASS_ORDER = ['real_deal' => 0, 'repackaged' => 1, 'worse' => 2, 'insufficient' => 3];
+    private const CLASS_ORDER = ['real_deal' => 0, 'repackaged' => 1, 'worse' => 2, 'unobserved' => 3, 'insufficient' => 4];
+
+    /** The classes that carry an actual event verdict. */
+    private const JUDGED = ['real_deal', 'repackaged', 'worse'];
 
     /**
      * Absolute path of a report's JSON artifact. Built via storage_path()
@@ -133,7 +138,7 @@ class TruthReport
         }
 
         $tracked = count($rows);
-        $judged = $tracked - $counts['insufficient'];
+        $judged = $tracked - $counts['unobserved'] - $counts['insufficient'];
         $pct = fn (int $n) => $judged > 0 ? round($n / $judged * 100, 1) : null;
 
         return [
@@ -149,6 +154,7 @@ class TruthReport
             'totals' => [
                 'tracked' => $tracked,
                 'judged' => $judged,
+                'unobserved' => $counts['unobserved'],
                 'insufficient' => $counts['insufficient'],
             ],
             'classes' => [
@@ -163,7 +169,12 @@ class TruthReport
 
     /**
      * One product's report row. Insufficient pre-event history means every
-     * stat stays null — reported and counted, never guessed.
+     * stat stays null — reported and counted, never guessed. A valid baseline
+     * alone is not enough: at least one snapshot must have been RECORDED
+     * inside the event window, or the row is `unobserved` (2026 Prime Day
+     * pilot lesson — carry-forward flatness must never masquerade as an
+     * event verdict). Carry-forward still fills gaps between event-window
+     * snapshots; it just can't be the only event source.
      */
     private static function classify(Product $product, CarbonInterface $from, CarbonInterface $to, int $baselineDays, int $minBaselineDays, array $thresholds): array
     {
@@ -190,11 +201,9 @@ class TruthReport
         }
 
         $baseline = PriceIntel::dailySeries($snapshots, $from->copy()->subDays($baselineDays), $from->copy()->subDay());
-        $event = PriceIntel::dailySeries($snapshots, $from, $to);
 
         $prePrices = array_column($baseline, 'price');
         $preMin = min($prePrices);
-        $eventMin = min(array_column($event, 'price'));
 
         // A zero/negative baseline can't anchor a ratio — bad data stays unjudged.
         if ($preMin <= 0) {
@@ -203,6 +212,19 @@ class TruthReport
 
         $row['pre_min'] = round($preMin, 2);
         $row['pre_avg'] = round(array_sum($prePrices) / count($prePrices), 2);
+
+        // Event-observation gate: the history was fine, but nobody actually
+        // saw a price during the event — the pre-event stats stand, the
+        // event columns stay empty.
+        if (! $snapshots->contains(fn ($s) => $s['date']->gte($from) && $s['date']->lte($to))) {
+            $row['classification'] = 'unobserved';
+
+            return $row;
+        }
+
+        $event = PriceIntel::dailySeries($snapshots, $from, $to);
+        $eventMin = min(array_column($event, 'price'));
+
         $row['event_min'] = round($eventMin, 2);
         $row['discount_pct'] = round(($preMin - $eventMin) / $preMin * 100, 1);
         $row['classification'] = match (true) {
@@ -219,7 +241,7 @@ class TruthReport
      */
     private static function headline(array $rows, ?float $realDealPct): array
     {
-        $judged = array_values(array_filter($rows, fn ($r) => $r['classification'] !== 'insufficient'));
+        $judged = array_values(array_filter($rows, fn ($r) => in_array($r['classification'], self::JUDGED, true)));
 
         // Rows are sorted best-discount-first within each class, so the first
         // real_deal row is the biggest real deal and the last worse row is
