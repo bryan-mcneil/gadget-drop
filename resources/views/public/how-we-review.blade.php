@@ -64,6 +64,8 @@
         </p>
     </section>
 
+    {{-- #deal-verdicts: the deal-verdict methodology the MCP server (Plan 04) and
+         Phase 4.3's methodology resource cite. Keep this anchor stable. --}}
     <section id="deal-verdicts" class="space-y-4 scroll-mt-24">
         <h2 class="text-xl font-bold text-gray-900">How our price data works</h2>
         <p class="text-gray-600 leading-relaxed">

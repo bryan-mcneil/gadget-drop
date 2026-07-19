@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\WorthItVote;
 use App\Support\PriceIntel;
 use App\Support\TruthReport;
 use Illuminate\Contracts\View\View;
@@ -62,7 +63,12 @@ class DealsController extends Controller
             ->with(['posts' => fn ($q) => $q->published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
                 ->latest('published_at')
-                ->select(['posts.id', 'title', 'slug', 'published_at']),
+                ->select(['posts.id', 'title', 'slug', 'published_at'])
+                // Worth-it tallies folded into the eager-load (no per-post N+1).
+                ->withCount([
+                    'worthItVotes as worth_count' => fn ($q) => $q->where('choice', 'worth'),
+                    'worthItVotes as skip_count' => fn ($q) => $q->where('choice', 'skip'),
+                ]),
             ])
             ->get();
 
@@ -86,6 +92,10 @@ class DealsController extends Controller
                 continue;
             }
 
+            // Read-only worth-it social proof (same ≥5-vote honesty gate as the
+            // post page); pct stays null below the gate and the card hides the line.
+            $worth = WorthItVote::summarize((int) ($post->worth_count ?? 0), (int) ($post->skip_count ?? 0));
+
             $deals[] = [
                 'product_id' => $product->id,
                 'name' => $product->name,
@@ -100,6 +110,8 @@ class DealsController extends Controller
                 'post_id' => $post->id,
                 'post_title' => $post->title,
                 'post_slug' => $post->slug,
+                'worth_pct' => $worth['pct'],
+                'worth_total' => $worth['total'],
             ];
         }
 

@@ -1,51 +1,46 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Wi-Fi Security Camera Keeps Going Offline? Here's the Fix
-EXCERPT: If your security camera keeps going offline, band steering is usually the culprit. Here's how to split your 2.4GHz Wi-Fi and keep it connected.
+TITLE: Robot Vacuum Won't Connect to Wi-Fi? The 2.4GHz Fix
+EXCERPT: If your robot vacuum won't connect to Wi-Fi, the culprit is almost always your 2.4GHz band. Here's the exact router fix that gets setup to finish.
 TYPE: tech_tip
 CATEGORY: Smart Home
-TAGS: security camera | wifi | smart home | troubleshooting
-SOURCE_URL: https://alfred.camera/blog/why-do-my-wireless-cameras-keep-disconnecting/
-SEO_SCORE: 90
-META_TITLE: Security Camera Keeps Going Offline? Fix the Wi-Fi
-META_DESCRIPTION: A security camera that keeps going offline is usually a band-steering problem. Split your 2.4GHz Wi-Fi and follow these steps to keep it online.
-FOCUS_KEYWORD: security camera keeps going offline
-TARGET_QUERY: security camera keeps going offline
-SLUG: security-camera-keeps-going-offline-fix
+TAGS: robot vacuum | wifi | 2.4ghz | smart home | troubleshooting
+SOURCE_URL: https://www.techradar.com/home/robot-vacuums/what-to-do-if-your-robot-vacuum-keeps-losing-connection
+SEO_SCORE: 87
+META_TITLE: Robot Vacuum Won't Connect to Wi-Fi? The 2.4GHz Fix
+META_DESCRIPTION: Robot vacuum won't connect to Wi-Fi? It's almost always a 2.4GHz band issue. Here's the exact router setting to change so setup finishes.
+FOCUS_KEYWORD: robot vacuum won't connect to wifi
+TARGET_QUERY: robot vacuum won't connect to wifi
+SLUG: robot-vacuum-wont-connect-to-wifi
 BODY:
-Your camera worked fine for weeks, then it started dropping off the app for no reason. You reboot it, it comes back, and a day later it's offline again. Nine times out of ten this isn't a broken camera. It's your router shoving the camera onto a Wi-Fi band it can't hold. Here's how to fix it for good.
+You unbox a new robot vacuum, download the app, and it stalls forever on "connecting." The vacuum blinks, the app times out, and you start wondering if you got a lemon. You almost certainly didn't. The problem is the Wi-Fi band, and the fix takes about five minutes in your router settings.
 
-## Fix a Security Camera That Keeps Going Offline
+## Fix a Robot Vacuum That Won't Connect to Wi-Fi
 
-Most Wi-Fi security cameras connect only to the 2.4GHz band, because 2.4GHz reaches farther through walls than 5GHz. Modern routers try to be helpful with "band steering" (also called Smart Connect), which merges both bands into one network name and automatically pushes devices toward 5GHz. Your camera gets shoved onto a band it can't use, drops, reconnects on 2.4GHz, then gets shoved again. That loop is what you see as the camera going offline.
+Nearly every robot vacuum, Roborock, eufy, Dreame, Shark, and the rest, connects only to the 2.4GHz Wi-Fi band, not the faster 5GHz band. Modern routers hide both bands behind a single network name and quietly shuffle your devices between them. That is great for your laptop and terrible for a vacuum that can only see one of them. Here is how to force the connection.
 
-The fix is to give the camera a stable 2.4GHz connection it won't get bounced off:
+1. Open your router's admin page. Type `192.168.0.1` or `192.168.1.1` into a browser, or use your router brand's app (Google Home, Eero, Deco, Orbi, and so on).
+2. Find the Wi-Fi or wireless settings. Look for a feature called "Smart Connect," "band steering," or "one Wi-Fi name."
+3. Turn that feature off, or split your bands. Splitting means giving the 2.4GHz and 5GHz networks two different names, for example `MyHouse-24` and `MyHouse-5`.
+4. On your phone, connect to the 2.4GHz network on purpose. The vacuum's app pairs by handing your phone's current Wi-Fi to the vacuum, so your phone has to be on 2.4GHz during setup.
+5. Run the vacuum's setup again, standing within a few feet of your main router. Once it connects, you can switch your phone back to 5GHz for daily use. The vacuum stays put.
 
-1. Open your router's admin page. Type the router's IP (often `192.168.1.1` or `192.168.0.1`) into a browser, or use your router's phone app.
-2. Find the wireless settings. Look for a section named Wi-Fi, Wireless, or Network, then find "Band Steering," "Smart Connect," or "Dual-Band."
-3. Split the bands. Turn off band steering / Smart Connect. Your router will now broadcast two separate names, one ending in something like "2.4G" and one in "5G." If your router won't let you disable steering, create a separate 2.4GHz-only guest network instead.
-4. Name the 2.4GHz network something you'll recognize, like `Home_2G`. Give it its own password and leave that name and password alone from now on.
-5. Reconnect the camera. In the camera's app, remove the device or run Wi-Fi setup again, and this time pick the 2.4GHz network. During setup, your phone should be on the same 2.4GHz network so the pairing hands off cleanly.
-6. Lock the channel. In the 2.4GHz settings, set the channel manually to 1, 6, or 11 (whichever your router's Wi-Fi analyzer shows as least crowded) instead of "Auto."
+## Why This Works
 
-Give it a full day. A camera that used to drop every few hours should now stay put.
-
-### Why This Works
-
-Band steering assumes every device can happily jump between 2.4GHz and 5GHz. Cameras and most smart-home gear can't. By handing the camera a dedicated 2.4GHz network with a fixed channel, you stop the router from ever trying to move it. The connection stops flapping, and the reconnect loop that showed up as "offline" disappears.
+When your router broadcasts both bands under one name, your phone grabs 5GHz because it's faster. During setup the app tries to pass that 5GHz network to the vacuum, and the vacuum, which physically cannot tune to 5GHz, never completes the handshake. Forcing your phone onto the 2.4GHz network removes the mismatch. The vacuum finally receives credentials for a band it can actually join, and setup finishes.
 
 ## If That Didn't Work
 
-Work through these in order, cheapest first.
+Try these in order, cheapest first:
 
-- **Check the signal strength.** Open the camera's app and find Device Health or Network status, then look at the RSSI number. Anything worse than about -70 dBm means the signal is too weak, and the camera will drop even on a clean 2.4GHz network. Move the camera closer to the router, or put a mesh node or extender between them.
-- **Reserve the camera's IP address.** In your router's DHCP settings, assign the camera a fixed (reserved) IP based on its MAC address. This stops the router from handing the camera a new address mid-session, which some cameras handle badly by dropping the connection.
-- **Update and power-cycle.** Update the camera's firmware in its app, then unplug both the camera and the router for 30 seconds and power them back up. If the camera runs off a USB adapter, try a different 5V power brick. An underpowered supply causes random reboots that look exactly like Wi-Fi drops.
+- **Change your encryption to WPA2.** Some routers default the 2.4GHz band to WPA3 or a WPA3-only mode that older smart devices can't read. In your router's wireless security settings, set the 2.4GHz band to "WPA2-PSK" or "WPA2/WPA3 mixed" and try setup again. This one fixes a surprising number of stuck connections.
+- **Move away from mesh satellites during setup.** Mesh systems like Eero, Deco, and Orbi steer devices between nodes automatically, which confuses a vacuum mid-handshake. Do the initial pairing right next to the main router or gateway, not a satellite unit in another room.
+- **Simplify your Wi-Fi password temporarily.** A few special characters trip up smart-home devices. If nothing else works, set a simple password with only letters and numbers, connect the vacuum, then change the password back later. The vacuum keeps working after the change.
 
-## Pro Tips to Keep It From Happening Again
+## Pro Tips
 
-- **Put all your smart-home gear on one 2.4GHz network.** A dedicated IoT SSID (cameras, plugs, bulbs) keeps them off the band-steering merry-go-round and away from your phones and laptops. Set it once and forget it.
-- **Mind the walls.** 2.4GHz is good, not magic. Every wall between the camera and the router costs signal. Two interior walls is a reasonable limit before you should add a mesh point.
-- **Pick a camera that records locally.** A camera with onboard microSD or hub storage keeps recording even when the internet blips, so a momentary drop doesn't mean a gap in your footage. Our [eufy Indoor Cam E30 review](/posts/eufy-indoor-cam-e30-review) covers a subscription-free option that stores clips on the device itself.
+- **Keep a dedicated 2.4GHz network.** Once you split your bands, leave them split. A separate 2.4GHz name makes every future smart-home device, plugs, bulbs, cameras, doorbells, connect on the first try instead of the fifth.
+- **The 2.4GHz rule is nearly universal for smart home gear.** It caught people setting up the camera in our [eufy Indoor Cam E30 review](/posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee) too. When any new device stalls at "connecting," check the band before you assume the hardware is broken.
+- **Note your working setup.** After the vacuum connects, write down which network name and security mode worked. If you ever change routers or reset the vacuum, you'll skip the whole troubleshooting loop next time.
 
-This band-steering fix comes up again and again in r/HomeNetworking and camera support forums for a reason: it's almost always the router, not the camera. Split the bands, lock the channel, and your feed stays online.
+This band mismatch is the single most common reason a robot vacuum, or any budget smart-home device, refuses to finish setup. It shows up constantly in r/techsupport and manufacturer support forums, and it's almost never a defective unit. Change the band, and the "connecting" spinner finally stops.
