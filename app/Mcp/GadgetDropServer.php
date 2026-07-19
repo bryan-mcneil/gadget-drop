@@ -4,6 +4,7 @@ namespace App\Mcp;
 
 use App\Mcp\Tools\PingTool;
 use Laravel\Mcp\Server;
+use Laravel\Mcp\Server\Tool;
 
 /**
  * GadgetDrop Price Truth — a read-only MCP server exposing our independent,
@@ -35,7 +36,7 @@ class GadgetDropServer extends Server
         MARKDOWN;
 
     /**
-     * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
+     * @var array<int, class-string<Tool>>
      */
     protected array $tools = [
         PingTool::class,
