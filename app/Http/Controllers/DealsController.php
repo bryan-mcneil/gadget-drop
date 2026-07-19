@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\WorthItVote;
 use App\Support\PriceIntel;
+use App\Support\TruthReport;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
 
@@ -38,7 +39,17 @@ class DealsController extends Controller
             'canonical' => route('deals'),
         ]);
 
-        return view('public.deals', ['deals' => $deals]);
+        // Event-week pointer to a Truth Report: config names the slug AND the
+        // report must pass the publication gate, or the line stays hidden.
+        $promoSlug = config('truth.promote_on_deals');
+        $published = TruthReport::published();
+
+        return view('public.deals', [
+            'deals' => $deals,
+            'truthPromo' => ($promoSlug && isset($published[$promoSlug]))
+                ? ['slug' => $promoSlug, 'title' => $published[$promoSlug]['title']]
+                : null,
+        ]);
     }
 
     private function buildFeed(): array

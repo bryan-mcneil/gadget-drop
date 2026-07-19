@@ -12,8 +12,9 @@ use Inertia\Response;
 /**
  * The daily price-confirmation screen: products listed stalest-first so a
  * 5-minute pass keeps "Price checked" labels honest. Saving a new price lets
- * ProductObserver snapshot it; "confirm unchanged" only refreshes the
- * checked-at stamp.
+ * ProductObserver snapshot it; "confirm unchanged" refreshes the checked-at
+ * stamp, and the observer records the check as a same-price snapshot (max
+ * one per day) so it stays durable.
  */
 class PriceController extends Controller
 {

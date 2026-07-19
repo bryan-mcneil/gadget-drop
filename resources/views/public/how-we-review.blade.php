@@ -66,7 +66,7 @@
 
     {{-- #deal-verdicts: the deal-verdict methodology the MCP server (Plan 04) and
          Phase 4.3's methodology resource cite. Keep this anchor stable. --}}
-    <section id="deal-verdicts" class="space-y-4">
+    <section id="deal-verdicts" class="space-y-4 scroll-mt-24">
         <h2 class="text-xl font-bold text-gray-900">How our price data works</h2>
         <p class="text-gray-600 leading-relaxed">
             "Was $199, now $149" claims on the internet are usually built on inflated list prices. Ours aren't.
@@ -79,6 +79,13 @@
             there is the only one that counts. When we call something a good deal, it means the current price
             sits below what our own tracking says is typical for that product, and we show our working.
         </p>
+        @if($truthReports !== [])
+            <p class="text-gray-600 leading-relaxed">
+                After every major sale event we grade each tracked product's "deal" against its own
+                pre-event price history and publish the full per-product data.
+                <a href="{{ route('truth.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">See our Truth Reports &rarr;</a>
+            </p>
+        @endif
     </section>
 
     <section class="space-y-4">

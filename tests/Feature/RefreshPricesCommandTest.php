@@ -96,16 +96,24 @@ class RefreshPricesCommandTest extends TestCase
         $this->assertSame(1, app(CanopyApiService::class)->usageThisMonth());
     }
 
-    public function test_unchanged_price_stamps_the_check_without_a_snapshot(): void
+    public function test_unchanged_price_records_a_check_snapshot_with_the_api_source(): void
     {
         config(['services.canopy.api_key' => 'test-key']);
         $this->fakeCanopy(100.00);
         $product = $this->trackedProduct(100);
+        $product->priceSnapshots()->update(['created_at' => now()->subDays(9)]);
         $snapshotsBefore = $product->priceSnapshots()->count();
 
         $this->artisan('prices:refresh')->assertSuccessful();
 
-        $this->assertSame($snapshotsBefore, $product->priceSnapshots()->count());
+        // An unchanged price is still an observation — recorded as a
+        // same-price snapshot with the API's provenance.
+        $this->assertSame($snapshotsBefore + 1, $product->priceSnapshots()->count());
+        $this->assertDatabaseHas('product_price_snapshots', [
+            'product_id' => $product->id,
+            'price' => 100.00,
+            'source' => 'canopy',
+        ]);
         $this->assertTrue($product->fresh()->price_checked_at->isToday());
     }
 

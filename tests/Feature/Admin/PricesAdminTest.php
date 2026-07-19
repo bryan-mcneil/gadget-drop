@@ -83,12 +83,16 @@ class PricesAdminTest extends TestCase
     {
         $product = $this->productWithPublishedPost(['price' => 100]);
         $product->forceFill(['price_checked_at' => now()->subDays(10)])->saveQuietly();
+        $product->priceSnapshots()->update(['created_at' => now()->subDays(10)]);
 
         $this->actingAs(User::factory()->create())
             ->post("/admin/prices/{$product->id}", ['price' => 100])
             ->assertRedirect();
 
-        $this->assertSame(1, $product->priceSnapshots()->count());
+        // Not a price change — but the check itself is recorded as a
+        // same-price snapshot so it stays durable.
+        $this->assertSame(2, $product->priceSnapshots()->count());
+        $this->assertSame('100.00', (string) $product->priceSnapshots()->latest('id')->first()->price);
         $this->assertTrue($product->fresh()->price_checked_at->isToday());
     }
 
@@ -108,16 +112,33 @@ class PricesAdminTest extends TestCase
             );
     }
 
-    public function test_confirm_refreshes_the_checked_stamp_without_a_snapshot(): void
+    public function test_confirm_records_a_durable_same_price_check(): void
     {
         $product = $this->productWithPublishedPost(['price' => 100]);
         $product->forceFill(['price_checked_at' => now()->subDays(10)])->saveQuietly();
+        $product->priceSnapshots()->update(['created_at' => now()->subDays(10)]);
 
-        $this->actingAs(User::factory()->create())
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
             ->post("/admin/prices/{$product->id}/confirm")
             ->assertRedirect();
 
-        $this->assertSame(1, $product->priceSnapshots()->count());
         $this->assertTrue($product->fresh()->price_checked_at->isToday());
+
+        // The check is a snapshot row (Truth Report observation evidence +
+        // PriceIntel cache flush), not just the mutable stamp.
+        $this->assertSame(2, $product->priceSnapshots()->count());
+        $latest = $product->priceSnapshots()->latest('id')->first();
+        $this->assertSame('100.00', (string) $latest->price);
+        $this->assertSame('manual', $latest->source);
+        $this->assertTrue($latest->created_at->isToday());
+
+        // A second confirm the same day moves the stamp, never pads history.
+        $this->actingAs($user)
+            ->post("/admin/prices/{$product->id}/confirm")
+            ->assertRedirect();
+
+        $this->assertSame(2, $product->priceSnapshots()->count());
     }
 }

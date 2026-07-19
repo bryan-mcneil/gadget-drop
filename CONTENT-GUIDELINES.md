@@ -40,6 +40,18 @@ One problem, one page. Exact menu paths and setting names; steps someone can fol
 ### Tech News (`tech_news`)
 Buyer-decision framing only (price cuts, launches, recalls, spec bumps). Inverted pyramid; most of the words go to original what-it-means-for-buyers analysis, never a wholesale rewrite of the source (quote at most one short phrase). Cite the source (`source_url`, rendered as "Source: {domain}"). The `## Buy or Wait?` section is the format's signature and is enforced by the build script.
 
+### Truth Report posts (a `tech_news` variant — NOT a fourth type)
+The editorial wrapper around a published `/truth/{slug}` data page (plan: `docs/plans/05-truth-report.md`). Created **by hand via `/admin` as a normal `tech_news` post** after the event report goes live — it is not on the daily-drop cadence and does not pass through `bin/daily-drop-build.php`. Never add a new `posts.type` value for it.
+
+Tone rules:
+1. **Grade deals, never Amazon.** A repackaged deal is a marketing decision somewhere upstream, and the same product is often a genuine bargain a month later. We publish math, not outrage — no retailer-hostility framing (Associates-safe by design).
+2. **The number IS the headline.** "38% of the Prime Day deals we tracked were real" — never bait ("Amazon's FAKE sale EXPOSED" is an instant rewrite).
+3. **Every claim cites the data page.** Any stat in the body must appear on `/truth/{slug}`; link the page in the first 100 words as the canonical source. The body quotes 3–4 headline stats and stops — the page is the dataset, the post is the story.
+4. **Denominator-forward.** Say how many products we could judge and how many we couldn't, the first time a stat appears. Thin coverage isn't a weakness to hide; it IS the story ("we could only verify N — here's why that matters").
+5. **Service section required.** `## Buy or Wait?` (the tech_news signature) becomes the "what to do about it" close: what's *currently* below typical on [/deals](/deals), how the grading works ([/how-we-review](/how-we-review)), and a Join the Drop nudge. Analysis without a next step is a takedown, not service journalism.
+
+Mechanics: `source_url` = the `/truth/{slug}` URL (renders "Source: gadgetdrop.tech" — the source is our own tracked data; say so in the body). All standing rules apply: no Amazon links in the body, no invented numbers, internal review links where products are named, Bryan's byline.
+
 ## Enforcement map
 
 | Rule | Enforced by |

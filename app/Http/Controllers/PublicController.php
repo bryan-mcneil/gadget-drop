@@ -13,6 +13,7 @@ use App\Support\ArticleBody;
 use App\Support\DropPrice;
 use App\Support\NavigationData;
 use App\Support\PriceIntel;
+use App\Support\TruthReport;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -844,7 +845,11 @@ class PublicController extends Controller
             'canonical' => route('how-we-review'),
         ]);
 
-        return view('public.how-we-review');
+        return view('public.how-we-review', [
+            // The methodology page links the Truth Reports index once the
+            // first report is live (config flag AND artifact — the 5.2 gate).
+            'truthReports' => TruthReport::published(),
+        ]);
     }
 
     public function privacy(): View

@@ -13,6 +13,7 @@ Seven implementation plans, each broken into small, individually reviewable phas
 | 04 | [Price-Truth MCP server](04-price-truth-mcp.md) | M | 01 |
 | 05 | [Truth Report pipeline](05-truth-report.md) | M | 01 |
 | 06 | [Buy-or-Wait engine](06-buy-or-wait.md) | L | 01, 04 (last phase) |
+| 07 | [Automated review videos → YouTube (drop-studio)](07-video-pipeline.md) | L | — (new sibling repo; consumes daily-drop output) |
 
 Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for humans (badges, votes, post-purchase protection, truth reports) and for AI agents (MCP). All features run structurally $0 on current hosting.
 
