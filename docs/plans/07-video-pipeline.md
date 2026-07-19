@@ -190,8 +190,8 @@ Built during planning, in the Cowork sandbox, $0: a 22s 1080×1920 Short — ani
 
 ## Phase Log
 
-- [ ] Phase 1 —
-- [ ] Phase 2 —
+- [x] Phase 1 — 2026-07-19: drop-studio repo created (`../drop-studio`, github.com/bryan-mcneil/drop-studio, private). Storyboard schema v1 + validation, deterministic builder from `output.json`, Pillow renderer (hook/product/feature×3/price/cta, Ken Burns, animated sparkline with honesty gates, auto-fit text shared with QA), QA gates, golden-frame tests. See `drop-studio/MORNING-REVIEW.md`.
+- [x] Phase 2 — 2026-07-19 (same session): Kokoro-82M per-scene TTS (kokoro→piper→openai→none chain) driving scene duration + caption timing; synth music bed + licensed-track manifest; VO ducking; two-pass loudnorm to −14 LUFS. Demo Short renders end-to-end, 37 tests green.
 - [ ] Phase 3 —
 - [ ] Phase 4 —
 - [ ] Phase 5 —
