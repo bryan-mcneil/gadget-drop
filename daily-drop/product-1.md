@@ -1,92 +1,99 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Roborock Q7 M5+ Review: The $250 Self-Empty Sweet Spot
-EXCERPT: Our Roborock Q7 M5+ review breaks down the 10,000Pa suction, 7-week auto-empty dock, and the price you should actually wait for before buying.
+TITLE: DJI Osmo Pocket 3 Review: Is It Still Worth It in 2026?
+EXCERPT: The DJI Osmo Pocket 3 is still the pocket vlog camera to beat in 2026, but a wide-only lens and no US successor complicate the buy. Here's the honest call.
 TYPE: article
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ASIN: B0DWX69JVG
+CATEGORY: Cameras
+TAGS: vlogging camera | DJI | gimbal camera | 4K video | content creation
+ASIN: B0CG19QXWD
 RATING: 4
 PROS:
-- Self-empties for 7 to 9 weeks
-- Strong 10,000Pa suction for the price
-- Accurate LiDAR mapping and no subscription
+- One-inch sensor holds up in low light
+- True 3-axis gimbal kills handshake
+- Rotatable screen switches vertical to wide instantly
+- Face and object tracking that actually sticks
+- Pocketable at 179 grams
 CONS:
-- No camera, so it bumps obstacles
-SEO_SCORE: 88
-META_TITLE: Roborock Q7 M5+ Review: Specs, Price, and Verdict
-META_DESCRIPTION: Roborock Q7 M5+ review: 10,000Pa suction, a 7-week self-empty dock, honest downsides, and the price worth waiting for before you buy.
-FOCUS_KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-SLUG: roborock-q7-m5-plus-review
+- Wide-only 20mm lens distorts non-vlog b-roll
+- No weather sealing and no internal storage
+SEO_SCORE: 92
+META_TITLE: DJI Osmo Pocket 3 Review: Is It Still Worth It in 2026?
+META_DESCRIPTION: Our DJI Osmo Pocket 3 review covers specs, real owner feedback, price, and who should buy the pocket vlog camera in 2026, plus its honest downsides.
+FOCUS_KEYWORD: DJI Osmo Pocket 3 review
+TARGET_QUERY: is the DJI Osmo Pocket 3 worth it in 2026
+SLUG: dji-osmo-pocket-3-review
 BODY:
-Robot vacuum pricing is a shell game. A model launches at $359, sits there for a month, then quietly bounces between $220 and $260 for the rest of the year while the "list price" stays frozen so every sale looks like a steal. The Roborock Q7 M5+ is one of the worst offenders, and also one of the better buys once you know what a fair number looks like.
+You want to film your kid's soccer game, a walking tour of a new city, or a talking-head clip for YouTube, and you want it to look steady and sharp without hauling a camera bag or fighting a phone that shakes on every step. That gap is exactly where the DJI Osmo Pocket 3 has lived for almost three years, and it is still the first thing most solo creators reach for. The question in 2026 is not whether it is good. It is whether an aging pocket cam with no US successor is still the smart buy at today's price.
 
 ---
 
-## What Is the Roborock Q7 M5+?
+## What Is the DJI Osmo Pocket 3?
 
-The Q7 M5+ is a mid-range robot vacuum and mop that comes with an auto-empty dock, which is the part that matters. After each clean it backs into the base and sucks its own bin into a 2.7-liter bag, so you go weeks without touching it. Roborock rates the dock at 7 to 9 weeks between bag changes for an average home.
+The DJI Osmo Pocket 3 is a pocket-sized vlogging camera built around a 1-inch CMOS sensor bolted to a true 3-axis mechanical gimbal. That combination is the whole pitch. The big sensor pulls in far more light than a phone or an action cam, and the motorized gimbal physically cancels out your hand movement instead of cropping and warping the frame the way software stabilization does.
 
-Under the hood it runs 10,000Pa of suction, PreciSense LiDAR navigation for room mapping, a dual anti-tangle brush and side brush, and a passive mopping pad you clip on when you want it. It pairs with the Roborock app plus Alexa and Google Assistant, and there is no mandatory subscription to use any of it. The "+" in the name is the tell: it means the self-empty dock is included, which is the whole reason to consider this one over the plain Q7 M5.
-
----
-
-## Who Should Buy the Roborock Q7 M5+?
-
-This is a vacuum-first machine for people who mostly have hard floors and low-pile rugs and want to stop thinking about the floors for a month at a time. If you have a shedding dog or cat, the auto-empty dock is the feature that earns its keep, since you are not emptying a tiny onboard bin every other day.
-
-It suits a first-time robot vacuum buyer who wants real mapping and self-emptying without paying flagship money. Owners with mostly carpet, a house full of cables and toys on the floor, or a serious mopping need should read the honest take below first. This is a strong generalist, not a specialist.
+It shoots up to 4K at 120fps, weighs 179 grams, and folds down small enough to actually live in a jacket pocket. A 2-inch touchscreen flips between horizontal and vertical, so you can frame a wide cinematic shot or a phone-native vertical clip without any menu digging. DJI rates the battery at around 166 minutes, and a 65W charger takes it to 80 percent in about 16 minutes. There is no internal storage, so you supply a microSD card up to 512GB.
 
 ---
 
-## Roborock Q7 M5+ Features That Actually Matter
+## Who Should Buy the DJI Osmo Pocket 3?
 
-- **7-to-9-week auto-empty dock.** The headline feature. The bin empties itself into the base bag, so hands-free time is measured in weeks, not days. This is what separates it from cheaper docked models.
-- **10,000Pa suction.** Plenty for hard floors, crumbs, and pet hair on bare surfaces. Professional testers rate it strong on hard floors and merely okay on thicker carpet, which is normal at this price.
-- **PreciSense LiDAR mapping.** It builds an accurate multi-floor map, lets you set no-go zones and room-by-room cleaning in the app, and navigates in tidy rows instead of bouncing around randomly.
-- **Dual anti-tangle brush.** Designed to reduce hair wrap. In practice it helps, though long-haired-pet owners still report some wrap over time, so temper expectations.
-- **No subscription.** Mapping, scheduling, and zone cleaning are all free in the app. Like the [eufy Indoor Cam E30](/posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee) we looked at recently, the appeal is a smart-home device that does its job without a monthly bill hanging over it.
+This camera is built for one person doing everything at once. If you vlog solo, travel light, cover events, or shoot behind-the-scenes footage where stopping to set up a rig kills the moment, the Pocket 3 fits the job better than almost anything at its size.
+
+It is also a strong pick for parents and creators who are tired of shaky phone video but do not want to learn a full mirrorless camera. Point it, let the gimbal do its thing, and the footage looks like you tried harder than you did. It is the wrong tool if you shoot mostly stills, need a long zoom, or want a rugged camera for surfing and mountain biking. That is action-cam territory, and the Pocket 3 is not weather-sealed.
 
 ---
 
-## What You'll Pay
+## Features That Actually Matter
 
-Here is where the Q7 M5+ gets interesting. It carries a $359 list price, but it spends most of the year discounted into the $250 range and has dipped closer to $220 during major sale events. Paying full list is the one mistake to avoid. At $250 or below, a self-emptying LiDAR vacuum is genuinely good value, since that used to be flagship-only territory. At $359 you are overpaying for what the hardware delivers.
-
-The price widget above shows where today's tracked number sits against our recorded history, so you can see whether the current price is one of the good ones or a lull between drops. If it is sitting near list, this is a wait, not a buy.
-
----
-
-## The Roborock Q7 M5+ vs. the Alternatives
-
-The closest rival is the **eufy C10**, another self-emptying LiDAR vacuum that trades some suction (4,000Pa) for an even lower street price and a slimmer body that fits under low furniture. If your priority is the cheapest trustworthy self-emptier and you do not care about maximum suction, the eufy is the better buy. Step up to the **MOVA P10 Pro Ultra** instead if mopping is your real goal: it adds hot-water pad washing and camera-based obstacle avoidance, but it costs roughly double and lands in a different budget entirely. The Q7 M5+ sits in the sensible middle, stronger suction than the eufy, far cheaper than the MOVA.
+- **The 1-inch sensor is the reason to buy it.** In dim restaurants, evening streets, and indoor light, footage stays cleaner and less noisy than what a phone or a tiny-sensor action cam produces. Reviewers consistently rank it above its category for low light.
+- **The 3-axis gimbal removes handshake for real.** Because it moves the camera physically, walking shots come out smooth without the cropped, rubbery look of digital stabilization. This is the feature phones still cannot match.
+- **The rotatable screen saves you from reshoots.** A quick twist reframes from wide landscape to vertical, so a clip meant for YouTube and one meant for a Reel come from the same take.
+- **Face and object tracking that holds.** ActiveTrack keeps you centered as you move, which is the difference between a usable solo vlog and one where your head drifts out of frame.
+- **It disappears into a pocket.** At 179 grams it is light enough that you actually bring it, and the gadget you carry beats the better one you left home.
 
 ---
 
-## One Thing to Consider
+## What You'll Pay for the Osmo Pocket 3
 
-The Q7 M5+ has no front camera or 3D obstacle sensor, so it navigates by bumping. It maps a room well, but it does not see a charging cable, a sock, or a pet accident in its path. Owners consistently report it running over or dragging small objects left on the floor, so a quick pre-clean tidy is part of the deal. The mopping is the other soft spot: the pad drags passively with no scrubbing pressure and does not lift, so it is fine for a light once-over on sealed floors but will dampen a rug if it wanders onto one. A few owners also mention the app needing an occasional reconnect. None of this is a dealbreaker at the right price, but it is why this is a four-star vacuum and not a five.
+The Pocket 3 launched at a list price near $499 for the standard kit, and that number has softened over its lifetime as newer discounts land. You are paying for the sensor-plus-gimbal hardware, which is genuinely hard to find anywhere else this small. The step-down option, a phone gimbal or an action cam, costs less but gives up the big sensor and the mechanical stabilization together, which is the exact pairing you came here for.
+
+DJI runs frequent sales on this camera, so the price you see today may not be the price from last month. The tracked price widget above this article shows where the current number sits against the history we log, so you can tell at a glance whether now is a dip or a lull. The Creator Combo, which adds a DJI Mic 2, a battery handle, and a wide lens, sells for more and makes sense only if you know you need the mic.
 
 ---
 
-## Roborock Q7 M5+ FAQ
+## DJI Osmo Pocket 3 vs. the Alternatives
 
-**Q: Is the Roborock Q7 M5+ worth it?**
-At its frequent $250 or lower street price, yes, for hard-floor homes that want weeks of hands-free cleaning. At the $359 list price it is a hard no, because rivals with the same core features cost less. Watch the price and buy the dip.
+The most common cross-shop is an action cam, and that comparison comes down to what you film. If your footage is mostly first-person and rugged, mounted on a helmet, a chest strap, or a bike, [our GoPro HERO13 Black review](/posts/gopro-hero13-black-review) covers the better fit. The HERO13 is waterproof, takes a beating, and shoots a wide adventure look, but its small sensor cannot match the Pocket 3 in low light and it has no real gimbal.
 
-**Q: Does the Roborock Q7 M5+ avoid obstacles?**
-Not really. It uses LiDAR for mapping but has no camera or dedicated obstacle-avoidance sensor, so it bumps into and can run over cables, toys, and pet messes. Clear the floor before a run for best results.
+The Insta360 Ace Pro 2 is the other name that comes up. It is a stronger low-light action cam with a flip screen, so if you want one camera that survives a river and still shoots decent evening footage, it splits the difference. For pure talking-head vlogging and travel storytelling, though, the Pocket 3's gimbal and one-inch sensor still pull ahead.
 
-**Q: How often do you empty the Roborock Q7 M5+?**
-The included dock empties the vacuum's bin automatically into a 2.7-liter bag, which Roborock rates for 7 to 9 weeks in an average home. You still change that bag every couple of months and rinse the filter periodically.
+---
+
+## One Thing to Consider Before You Buy
+
+The lens is wide and fixed, roughly 20mm, with a fixed f/2 aperture. That ultra-wide view flatters vlogging because it holds you and your background in frame at arm's length, but owners note it distorts faces up close and feels too wide for tidy b-roll or product shots. You cannot zoom in optically or swap the lens, so what you frame is what you get.
+
+Two smaller cautions round it out. The camera is not weather-sealed, and owners report the gimbal seams can trap grit at the beach, so it is not a throw-in-your-bag-anywhere device. And the DJI Mimo app is mandatory for setup and firmware, which some buyers find fiddly on first activation. None of these are dealbreakers for its core job, but they are the reasons this is a specialist, not a do-everything camera.
+
+---
+
+## FAQ
+
+**Q: Is the DJI Osmo Pocket 3 still worth buying in 2026?**
+For solo vlogging, travel, and event footage, yes. There is no Osmo Pocket 4 selling in the US, and nothing else at this size pairs a 1-inch sensor with a true gimbal, so it remains the category pick. Time your purchase to a price dip and it is an easy recommendation.
+
+**Q: Does the Osmo Pocket 3 work well in low light?**
+This is its strong suit. The 1-inch sensor gathers far more light than a phone or a standard action cam, so indoor and evening clips stay cleaner with less noise. It is the main reason creators pick it over smaller-sensor rivals.
+
+**Q: Do I need the Creator Combo or is the standard kit enough?**
+The standard kit covers most people. The Creator Combo adds a DJI Mic 2, a battery handle, and a wide-angle lens, which is worth the premium only if you already know you need better audio or longer runtime. Start with the base kit if you are unsure.
 
 ---
 
 ## Verdict
 
-The Roborock Q7 M5+ is one of the best hands-free deals in robot vacuums when it is discounted, delivering flagship-style self-emptying and mapping for a mid-range price. Buy it on a dip below $260, skip it at full list, and do not expect much from the mop.
+The DJI Osmo Pocket 3 is still the best pocket vlog camera you can buy in 2026, as long as you accept a wide-only lens and no weather sealing. Buy it if you shoot solo video and want phone-beating footage without a bag of gear, and skip it if you need a rugged action cam or a zoom.
 
 ---
 
-If the current price in the card above is sitting at or below the typical street price, this is an easy yes for a hard-floor home. If it is near list, save it and wait for the next drop.
+If the current price in the card above sits at or below where DJI usually lands it, this is one of the easiest cameras to recommend for anyone who films themselves.

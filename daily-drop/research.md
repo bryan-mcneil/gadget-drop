@@ -1,27 +1,27 @@
-DATE: 2026-07-18
-DEDUPE: checked against 36 existing products
-BRIEF: no demand-backed candidates (seo-brief.md generated 2026-07-15, "No opportunities yet") — editorial pick
+DATE: 2026-07-19
+DEDUPE: checked against 37 existing products
+BRIEF: seo-brief.md (generated 2026-07-18, "No opportunities yet" — no demand-backed candidates) — editorial pick
 
 ===PRODUCT 1===
-NAME: roborock Q7 M5+ Robot Vacuum and Mop, Upgraded from Q5 Max+, Up to 7-9 Weeks Self-Empty, 10000Pa Suction, Dual Anti-Tangle System for Pet Hair & Carpet, PreciSense LiDAR Navigation, App Control, Black
-ASIN: B0DWX69JVG
-PRICE: $360 MSRP (frequently discounted to ~$250, has hit ~$220)
-TRENDING: A wave of mid-2026 deal coverage (9to5Toys, Kotaku) flagged it dropping ~40% off its $359 list to ~$220–$250, making a self-emptying LiDAR robot vac a genuine budget buy.
-ANGLE: The price-history play — MSRP is $359 but it swings to ~$220–$250 so often that the real buyer question is "what should I actually pay, and is now the moment?" Pair that with the honest ceiling of a sub-$300 self-emptier: 10,000Pa + 7–9 week auto-empty + dual anti-tangle for pet hair, but a small mop pad and no obstacle camera. Perfect fit for our price-tracking value layer.
-KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ALTERNATIVES: eufy C10 | no-review; MOVA P10 Pro Ultra | no-review
+NAME: DJI Osmo Pocket 3, Vlogging Cameras with 1'' CMOS & 4K/120fps Vlog Camera, 3-Axis Stabilization, Fast Focusing, Face/Object Tracking, Digital Vlogging Camera for YouTube
+ASIN: B0CG19QXWD
+PRICE: ~$429 (list $499; hit a record-low ~$379 during Prime Day 2026)
+TRENDING: A run of June–July 2026 deal coverage (Tom's Guide, Gizmodo, Yahoo Tech, TechRadar) flagged the Pocket 3 hitting record-low prices while no Osmo Pocket 4 ships in the US, keeping it the pocket vlog camera to buy.
+ANGLE: The price-timing + honest-ceiling play. Nearly three years on, the 1-inch sensor + true 3-axis gimbal combo still has no real rival at this size, so the buyer question is not "is it good" but "which config and is now the moment?" DJI's price swings ($379–$499) make that a live question our price-history layer answers. Distinct from our only other camera reviews: this is a stabilized gimbal vlog cam, not a GoPro-style action cam — so we can be honest about who each one is for.
+KEYWORD: DJI Osmo Pocket 3 review
+TARGET_QUERY: is the DJI Osmo Pocket 3 worth it in 2026
+CATEGORY: Cameras
+TAGS: vlogging camera | DJI | gimbal camera | 4K video | content creation
+ALTERNATIVES: GoPro HERO13 Black | /posts/gopro-hero13-black-review; Insta360 Ace Pro 2 | no-review
 
 ===PRODUCT 2===
-NAME: eufy C10 Robot Vacuum with Self-Emptying, LiDAR Navigation | 8 Weeks Hands-Free, 2.85in Slim Design, Edge Expansion Brush for Pet Hair, Carpet Detection, Smart Mapping
-ASIN: B0DR7W6CZM
-PRICE: $479 MSRP (regularly ~$250–$300, has hit ~$219)
-TRENDING: Repeatedly called the cheapest self-emptying LiDAR robot vac worth trusting; mid-2026 coverage (Gizmodo) flagged a 54% drop to $219, its all-time low.
-ANGLE: The "cheapest self-emptier that isn't junk" budget pick — 4,000Pa, LiDAR mapping, 8-week/60-day auto-empty, slim 2.85in body that fits under low furniture. Value question: pay list or wait for the recurring sub-$300 dip. Backup to Product 1 in the same category so the comparison writes itself.
-KEYWORD: eufy C10 robot vacuum review
-TARGET_QUERY: is the eufy C10 robot vacuum worth it
+NAME: Google Nest Learning Thermostat (4th Gen, 2024) with Nest Temperature Sensor - Energy Saving Smart Thermostat - Compatible with Alexa, Apple HomeKit and Google Home App
+ASIN: B0D5BBYRJM
+PRICE: ~$279 (list $279.99; dips toward ~$220 on sales)
+TRENDING: 2026 smart-home roundups (BGR, Security.org, Consumer Reports) keep naming the 4th-gen Nest the single smart-home upgrade that pays for itself, citing real 10–15% HVAC savings from schedule + weather learning.
+ANGLE: The "does it actually save money?" honesty angle. The 4th gen adds a 60% larger display and Adaptive Eco, but the payback math only works if your HVAC is compatible (the C-wire / low-voltage caveat) and the price is right — exactly what our price history is for. No thermostat exists in our catalog yet, so this is a clean category gap without cannibalizing Echo/Ring/eufy/roborock.
+KEYWORD: Nest Learning Thermostat 4th gen review
+TARGET_QUERY: is the Nest Learning Thermostat worth it
 CATEGORY: Smart Home
-TAGS: robot vacuum | eufy | self-emptying | budget | smart home
-ALTERNATIVES: roborock Q7 M5+ | no-review
+TAGS: smart thermostat | Google Nest | energy savings | home automation | Matter
+ALTERNATIVES: ecobee Smart Thermostat Premium | no-review; Amazon Smart Thermostat | no-review
