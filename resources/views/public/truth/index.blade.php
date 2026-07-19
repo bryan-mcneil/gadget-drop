@@ -9,7 +9,7 @@
         </h1>
         <p class="text-gray-600 leading-relaxed max-w-2xl">
             After every big sale event we grade each product we track against its own recorded pre-event
-            price history — real deal, repackaged, or worse — and publish the full per-product data.
+            price history (real deal, repackaged, or worse) and publish the full per-product data.
             No list prices, no guesses, and no store links on the report pages.
         </p>
     </div>

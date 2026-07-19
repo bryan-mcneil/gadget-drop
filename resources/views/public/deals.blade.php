@@ -20,7 +20,7 @@
         @if($truthPromo)
             <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
                 Sale event just wrapped? We graded every deal we tracked against its own pre-event price
-                history — read
+                history. Read
                 <a href="{{ route('truth.show', $truthPromo['slug']) }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">{{ $truthPromo['title'] }}</a>.
             </p>
         @endif

@@ -34,7 +34,7 @@
             </p>
         @else
             <p class="text-lg text-gray-700 max-w-2xl leading-relaxed">
-                We tracked <strong>{{ $totals['tracked'] }}</strong> products through this event window —
+                We tracked <strong>{{ $totals['tracked'] }}</strong> products through this event window,
                 and none of them cleared the bar for an honest verdict. The ledger below says why,
                 product by product. That's the report: we'd rather show you an empty scoreboard than
                 a guessed one.
@@ -44,9 +44,9 @@
         <p class="mt-4 text-gray-600 max-w-2xl leading-relaxed">
             Of the {{ $totals['tracked'] }} products we track, {{ $totals['judged'] }} met the bar for
             an honest verdict; {{ $totals['unobserved'] }} we never observed during the event itself,
-            and {{ $totals['insufficient'] }} lacked enough pre-event history — we say so rather
+            and {{ $totals['insufficient'] }} lacked enough pre-event history; we say so rather
             than guess.
-            Every number below comes from our own recorded price snapshots — never a list price.
+            Every number below comes from our own recorded price snapshots, never a list price.
         </p>
 
         <p class="mt-4 text-xs text-gray-400">
@@ -125,7 +125,7 @@
     <section>
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Every product we tracked</h2>
         <p class="text-sm text-gray-500 mb-6 max-w-2xl">
-            Product names link to our reviews. There are no store links on this page — grading deals
+            Product names link to our reviews. There are no store links on this page: grading deals
             and selling them don't belong on the same screen.
         </p>
         <div class="overflow-x-auto rounded-2xl border border-gray-200 bg-white">
@@ -185,13 +185,13 @@
         <h2 class="text-lg font-bold text-gray-900 mb-3">How we grade a deal</h2>
         <p class="text-sm text-gray-600 leading-relaxed">
             A product's lowest price during the event is compared against its lowest recorded price in the
-            {{ $report['baseline_days'] }} days before it — from our own snapshot history, never a list price.
+            {{ $report['baseline_days'] }} days before it, from our own snapshot history, never a list price.
             <strong>Real deal</strong> means at least {{ $realCut }}% below that pre-event low.
-            Within ±{{ $worseCut }}%, the "sale price" was just&hellip; the price — <strong>repackaged</strong>.
+            Within ±{{ $worseCut }}%, the "sale price" was just&hellip; the price: <strong>repackaged</strong>.
             Above it, the event price was <strong>worse</strong>. Products with less than
             {{ $report['config']['min_baseline_days'] }} days of pre-event history are reported as unjudged,
-            never guessed — and a product whose price we never actually recorded during the event window
-            is reported as not observed, not graded from stale data. We grade deals, not the retailer —
+            never guessed, and a product whose price we never actually recorded during the event window
+            is reported as not observed, not graded from stale data. We grade deals, not the retailer:
             a repackaged deal is a marketing decision somewhere upstream, and the same product is often
             a genuine bargain a month later.
         </p>
@@ -203,8 +203,8 @@
     </section>
 
     <p class="text-center text-xs text-gray-400 max-w-xl mx-auto">
-        This page contains no affiliate links. Where a product name links anywhere, it links to our review
-        — that's where our take (and the single store button) lives.
+        This page contains no affiliate links. Where a product name links anywhere, it links to our review,
+        and that's where our take (and the single store button) lives.
     </p>
 </div>
 @endsection

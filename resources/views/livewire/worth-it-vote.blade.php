@@ -18,7 +18,7 @@
             </div>
             <p class="text-[11px] font-bold uppercase tracking-widest text-emerald-600">Your take</p>
             <p class="mt-1 text-lg font-extrabold text-gray-900">Was this worth it?</p>
-            <p class="mx-auto mt-1.5 mb-6 max-w-xs text-xs leading-relaxed text-gray-500">One tap, no account — your vote is anonymous and helps other readers.</p>
+            <p class="mx-auto mt-1.5 mb-6 max-w-xs text-xs leading-relaxed text-gray-500">One tap, no account. Your vote is anonymous and helps other readers.</p>
 
             <div class="mx-auto flex max-w-sm items-stretch justify-center gap-3">
                 <button type="button" wire:click="vote('worth')" wire:loading.attr="disabled" wire:target="vote"
@@ -61,7 +61,7 @@
                 </div>
             @else
                 <p class="mx-auto mt-1.5 max-w-xs text-sm leading-relaxed text-gray-500">
-                    Early votes — you're one of the first {{ $summary['total'] }}. Check back as more readers weigh in.
+                    Early votes: you're one of the first {{ $summary['total'] }}. Check back as more readers weigh in.
                 </p>
             @endif
 
