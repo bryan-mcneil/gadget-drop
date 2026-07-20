@@ -1,27 +1,27 @@
-DATE: 2026-07-18
-DEDUPE: checked against 36 existing products
-BRIEF: no demand-backed candidates (seo-brief.md generated 2026-07-15, "No opportunities yet") — editorial pick
+DATE: 2026-07-20
+DEDUPE: checked against 37 existing products
+BRIEF: no demand-backed candidates (seo-brief.md generated 2026-07-18, within 3 days but reports "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: roborock Q7 M5+ Robot Vacuum and Mop, Upgraded from Q5 Max+, Up to 7-9 Weeks Self-Empty, 10000Pa Suction, Dual Anti-Tangle System for Pet Hair & Carpet, PreciSense LiDAR Navigation, App Control, Black
-ASIN: B0DWX69JVG
-PRICE: $360 MSRP (frequently discounted to ~$250, has hit ~$220)
-TRENDING: A wave of mid-2026 deal coverage (9to5Toys, Kotaku) flagged it dropping ~40% off its $359 list to ~$220–$250, making a self-emptying LiDAR robot vac a genuine budget buy.
-ANGLE: The price-history play — MSRP is $359 but it swings to ~$220–$250 so often that the real buyer question is "what should I actually pay, and is now the moment?" Pair that with the honest ceiling of a sub-$300 self-emptier: 10,000Pa + 7–9 week auto-empty + dual anti-tangle for pet hair, but a small mop pad and no obstacle camera. Perfect fit for our price-tracking value layer.
-KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ALTERNATIVES: eufy C10 | no-review; MOVA P10 Pro Ultra | no-review
+NAME: Anker Portable Power Station SOLIX C300, 288Wh LiFePO4 Backup Battery, 300W Solar Generator, 140W Two-Way Fast Charging, for Camping, Hunting, Travel, Blackout & Emergencies
+ASIN: B0D62GMQ3F
+PRICE: ~$209 (MSRP $299; frequently discounts to ~$199–$219)
+TRENDING: A wave of mid-July 2026 deal coverage (Gizmodo, Kotaku, 9to5Toys) flagged Amazon "clearing out" the C300 to an all-time low around $199–$209, ~30% off its $299 list — right in blackout/camping season.
+ANGLE: The price-history play that fits our tracking layer exactly. MSRP is $299 but the C300 swings to ~$199–$219 so routinely that the real buyer question is "what should I actually pay, and is $209 the moment or will it hit $199 again?" Pair that with the honest ceiling of a 288Wh unit: three real AC outlets + 140W USB-C PD (recharges 0–80% in ~50 min) make it a genuine laptop/CPAP/mini-fridge bridge, but 288Wh is a weekend/outage buffer, not whole-home backup, and there's no wall charger friction to explain. Internal-link the Anker 737 Power Bank review as the smaller sibling.
+KEYWORD: Anker SOLIX C300 review
+TARGET_QUERY: is the Anker SOLIX C300 worth it
+CATEGORY: Computers & Accessories
+TAGS: portable power station | anker | solix | camping | power outage
+ALTERNATIVES: Anker 737 Power Bank | /posts/anker-737-power-bank-work-from-anywhere; EcoFlow River 3 | no-review; Jackery Explorer 300 Plus | no-review
 
 ===PRODUCT 2===
-NAME: eufy C10 Robot Vacuum with Self-Emptying, LiDAR Navigation | 8 Weeks Hands-Free, 2.85in Slim Design, Edge Expansion Brush for Pet Hair, Carpet Detection, Smart Mapping
-ASIN: B0DR7W6CZM
-PRICE: $479 MSRP (regularly ~$250–$300, has hit ~$219)
-TRENDING: Repeatedly called the cheapest self-emptying LiDAR robot vac worth trusting; mid-2026 coverage (Gizmodo) flagged a 54% drop to $219, its all-time low.
-ANGLE: The "cheapest self-emptier that isn't junk" budget pick — 4,000Pa, LiDAR mapping, 8-week/60-day auto-empty, slim 2.85in body that fits under low furniture. Value question: pay list or wait for the recurring sub-$300 dip. Backup to Product 1 in the same category so the comparison writes itself.
-KEYWORD: eufy C10 robot vacuum review
-TARGET_QUERY: is the eufy C10 robot vacuum worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | eufy | self-emptying | budget | smart home
-ALTERNATIVES: roborock Q7 M5+ | no-review
+NAME: Anker SOLIX C300 DC Power Bank Station, Outdoor 288Wh Portable Power Station, LiFePO4 Battery, 300W Solar Generator, for Camping, Traveling, and Emergencies (No Wall Charger Included)
+ASIN: B0D62PMB3R
+PRICE: ~$199 (MSRP $249; the DC-only variant, no AC outlets)
+TRENDING: The DC/USB-only sibling of the C300 rode the same mid-July 2026 discount wave to near-Black-Friday pricing; positioned as the ultralight camping option for people who only charge phones/laptops/cameras and don't need AC outlets.
+ANGLE: Backup to Product 1 in the same family — same 288Wh LiFePO4 cell and 300W surge, but USB-C/USB-A/car-socket only (no AC inverter, so lighter and cheaper). Value question: is skipping the AC outlets worth ~$10–$50, or does most of the audience actually need a wall plug? Writes the C300 vs C300 DC comparison for free if the primary listing is a dud.
+KEYWORD: Anker SOLIX C300 DC review
+TARGET_QUERY: is the Anker SOLIX C300 DC worth it
+CATEGORY: Computers & Accessories
+TAGS: portable power station | anker | solix | camping | usb-c charging
+ALTERNATIVES: Anker SOLIX C300 (AC version) | no-review; Anker 737 Power Bank | /posts/anker-737-power-bank-work-from-anywhere
