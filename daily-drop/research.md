@@ -1,27 +1,27 @@
-DATE: 2026-07-18
-DEDUPE: checked against 36 existing products
-BRIEF: no demand-backed candidates (seo-brief.md generated 2026-07-15, "No opportunities yet") — editorial pick
+DATE: 2026-07-21
+DEDUPE: checked against 37 existing products
+BRIEF: no demand-backed candidates (seo-brief.md dated 2026-07-18 says "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: roborock Q7 M5+ Robot Vacuum and Mop, Upgraded from Q5 Max+, Up to 7-9 Weeks Self-Empty, 10000Pa Suction, Dual Anti-Tangle System for Pet Hair & Carpet, PreciSense LiDAR Navigation, App Control, Black
-ASIN: B0DWX69JVG
-PRICE: $360 MSRP (frequently discounted to ~$250, has hit ~$220)
-TRENDING: A wave of mid-2026 deal coverage (9to5Toys, Kotaku) flagged it dropping ~40% off its $359 list to ~$220–$250, making a self-emptying LiDAR robot vac a genuine budget buy.
-ANGLE: The price-history play — MSRP is $359 but it swings to ~$220–$250 so often that the real buyer question is "what should I actually pay, and is now the moment?" Pair that with the honest ceiling of a sub-$300 self-emptier: 10,000Pa + 7–9 week auto-empty + dual anti-tangle for pet hair, but a small mop pad and no obstacle camera. Perfect fit for our price-tracking value layer.
-KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ALTERNATIVES: eufy C10 | no-review; MOVA P10 Pro Ultra | no-review
+NAME: Crucial X9 Pro 2TB Portable SSD, Up to 1050MB/s Read & Write, 3.2 USB-C, External Solid State Drive (CT2000X9PROSSD902)
+ASIN: B0C9WHSZZN
+PRICE: $120
+TRENDING: A perennial Amazon best-seller in external storage that keeps hitting fresh discounts — currently ~$119 versus its $179 MSRP, near its all-time low, which makes it a live price-history story rather than a static spec sheet.
+ANGLE: The price-tracking pick — a fast, pocketable 2TB drive whose real story is WHEN to buy it. We've watched it swing from $179 MSRP down to ~$105, so the honest advice is about the price band, not just the specs. Diversifies us into Computers & Accessories with genuine price-intelligence value.
+KEYWORD: crucial x9 pro review
+TARGET_QUERY: crucial x9 pro 2tb worth it
+CATEGORY: Computers & Accessories
+TAGS: portable ssd | external storage | usb-c | data backup | crucial
+ALTERNATIVES: Samsung T7 Shield 2TB (MU-PE2T0S) | no-review | SanDisk Extreme Portable SSD V2 2TB | no-review
 
 ===PRODUCT 2===
-NAME: eufy C10 Robot Vacuum with Self-Emptying, LiDAR Navigation | 8 Weeks Hands-Free, 2.85in Slim Design, Edge Expansion Brush for Pet Hair, Carpet Detection, Smart Mapping
-ASIN: B0DR7W6CZM
-PRICE: $479 MSRP (regularly ~$250–$300, has hit ~$219)
-TRENDING: Repeatedly called the cheapest self-emptying LiDAR robot vac worth trusting; mid-2026 coverage (Gizmodo) flagged a 54% drop to $219, its all-time low.
-ANGLE: The "cheapest self-emptier that isn't junk" budget pick — 4,000Pa, LiDAR mapping, 8-week/60-day auto-empty, slim 2.85in body that fits under low furniture. Value question: pay list or wait for the recurring sub-$300 dip. Backup to Product 1 in the same category so the comparison writes itself.
-KEYWORD: eufy C10 robot vacuum review
-TARGET_QUERY: is the eufy C10 robot vacuum worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | eufy | self-emptying | budget | smart home
-ALTERNATIVES: roborock Q7 M5+ | no-review
+NAME: Beelink SER8 Mini PC, AMD Ryzen 7 8845HS (8C/16T, up to 5.1GHz), 32GB DDR5, 1TB PCIe 4.0 SSD, Radeon 780M, 4K Triple Display
+ASIN: B0D31KTLS9
+PRICE: $499
+TRENDING: The r/MiniPCs and home-office favorite of 2026 — a near-silent Ryzen 8845HS box that reviewers (ServeTheHome, TechRadar) keep flagging as the value sweet spot for a desktop replacement.
+ANGLE: The quiet tower-killer — who actually needs a mini PC over a laptop or a full desktop, and where the 780M iGPU's limits (light gaming, not AAA) matter. Backup pick; note that street price hovers right at the top of our $20–$500 band, so verify it's ≤$500 at write time.
+KEYWORD: beelink ser8 review
+TARGET_QUERY: beelink ser8 worth it
+CATEGORY: Computers & Accessories
+TAGS: mini pc | ryzen 8845hs | home office | desktop replacement | beelink
+ALTERNATIVES: Minisforum UM870 | no-review | GMKtec NucBox K8 | no-review
