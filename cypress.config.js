@@ -8,7 +8,7 @@ export default defineConfig({
   e2e: {
     // The app is served by Laravel Herd at this custom local domain.
     // Every cy.visit('/path') is resolved relative to this baseUrl.
-    baseUrl: 'http://gadget-drop.test',
+    baseUrl: 'http://127.0.0.1:8888',
 
     // Herd serves real, changing dev content, so a spec can occasionally race
     // the page. Retry a failed test in headless runs; never retry in the
