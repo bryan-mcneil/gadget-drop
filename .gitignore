@@ -4,6 +4,7 @@
 .env.backup
 .env.dusk.local
 .env.production
+.env.cypress
 .phpactor.json
 .phpunit.result.cache
 /.codex
