@@ -1,27 +1,28 @@
-DATE: 2026-07-18
-DEDUPE: checked against 36 existing products
-BRIEF: no demand-backed candidates (seo-brief.md generated 2026-07-15, "No opportunities yet") — editorial pick
+DATE: 2026-07-22
+DEDUPE: checked against 37 existing products
+
+BRIEF: stale/missing — editorial pick (seo-brief.md generated 2026-07-18 is >3 days old and reports "No opportunities yet")
 
 ===PRODUCT 1===
-NAME: roborock Q7 M5+ Robot Vacuum and Mop, Upgraded from Q5 Max+, Up to 7-9 Weeks Self-Empty, 10000Pa Suction, Dual Anti-Tangle System for Pet Hair & Carpet, PreciSense LiDAR Navigation, App Control, Black
-ASIN: B0DWX69JVG
-PRICE: $360 MSRP (frequently discounted to ~$250, has hit ~$220)
-TRENDING: A wave of mid-2026 deal coverage (9to5Toys, Kotaku) flagged it dropping ~40% off its $359 list to ~$220–$250, making a self-emptying LiDAR robot vac a genuine budget buy.
-ANGLE: The price-history play — MSRP is $359 but it swings to ~$220–$250 so often that the real buyer question is "what should I actually pay, and is now the moment?" Pair that with the honest ceiling of a sub-$300 self-emptier: 10,000Pa + 7–9 week auto-empty + dual anti-tangle for pet hair, but a small mop pad and no obstacle camera. Perfect fit for our price-tracking value layer.
-KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ALTERNATIVES: eufy C10 | no-review; MOVA P10 Pro Ultra | no-review
+NAME: ARZOPA 16.1'' 144Hz Portable Gaming Monitor, 106% sRGB 1080P FHD (G1 Game)
+ASIN: B0B2PN9215
+PRICE: $130 (MSRP $189.99; typically street-priced ~$130, dips lower on deal days)
+TRENDING: Repeatedly named the value pick in mid-2026 "best portable monitor" roundups (Tom's Hardware Editor's Choice, PCWorld) for pairing a genuine 144Hz panel with a sub-$150 price — a combo budget 60Hz rivals can't match.
+ANGLE: The portable monitor that finally makes 144Hz affordable — a second screen for a laptop desk setup by day and a grab-and-go display for PS5/Switch/Steam Deck by night. Lead with who it's actually for (hybrid workers + console travelers) and where the corners were cut (brightness, single-cable power quirks), then let our price tracking show whether the "deal" pricing is real.
+KEYWORD: portable gaming monitor
+TARGET_QUERY: arzopa g1 game portable monitor review
+CATEGORY: Computers & Accessories
+TAGS: portable monitor | gaming monitor | 144Hz | usb-c | work from anywhere
+ALTERNATIVES: ASUS ZenScreen MB16AHV | no-review | BenQ GW2486TC | /posts/benq-gw2486tc-a-monitor-that-saves-you-money
 
 ===PRODUCT 2===
-NAME: eufy C10 Robot Vacuum with Self-Emptying, LiDAR Navigation | 8 Weeks Hands-Free, 2.85in Slim Design, Edge Expansion Brush for Pet Hair, Carpet Detection, Smart Mapping
-ASIN: B0DR7W6CZM
-PRICE: $479 MSRP (regularly ~$250–$300, has hit ~$219)
-TRENDING: Repeatedly called the cheapest self-emptying LiDAR robot vac worth trusting; mid-2026 coverage (Gizmodo) flagged a 54% drop to $219, its all-time low.
-ANGLE: The "cheapest self-emptier that isn't junk" budget pick — 4,000Pa, LiDAR mapping, 8-week/60-day auto-empty, slim 2.85in body that fits under low furniture. Value question: pay list or wait for the recurring sub-$300 dip. Backup to Product 1 in the same category so the comparison writes itself.
-KEYWORD: eufy C10 robot vacuum review
-TARGET_QUERY: is the eufy C10 robot vacuum worth it
+NAME: Tapo C460, 4K 8MP Dual-Band WiFi Battery-Powered Outdoor Security Camera, Free AI Detection
+ASIN: B0F3PDJC9F
+PRICE: $100 (frequently $99.99; MSRP ~$129.99)
+TRENDING: Headlined 2026 "best AI security camera" coverage (The Gadgeteer: "Tapo C460 Beats Ring") for running person/pet/vehicle detection on-device with no subscription paywall, plus a 10,000mAh battery rated up to 200 days.
+ANGLE: The anti-Ring outdoor cam — 4K, free on-device AI detection, subscription-free local storage, and a magnetic wire-free mount. Frame the whole review around total cost of ownership: the sticker price is only half the story once Ring's monthly fee is in the math.
+KEYWORD: outdoor security camera no subscription
+TARGET_QUERY: tapo c460 review no subscription
 CATEGORY: Smart Home
-TAGS: robot vacuum | eufy | self-emptying | budget | smart home
-ALTERNATIVES: roborock Q7 M5+ | no-review
+TAGS: security camera | outdoor camera | 4k | wire-free | no subscription
+ALTERNATIVES: eufy Security 4K Indoor Camera E30 | /posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee | Ring Battery Doorbell 2nd gen | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget

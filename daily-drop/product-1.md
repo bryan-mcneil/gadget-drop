@@ -1,92 +1,89 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Roborock Q7 M5+ Review: The $250 Self-Empty Sweet Spot
-EXCERPT: Our Roborock Q7 M5+ review breaks down the 10,000Pa suction, 7-week auto-empty dock, and the price you should actually wait for before buying.
+TITLE: Arzopa G1 Game Review: 144Hz Portable Gaming Monitor
+EXCERPT: The Arzopa G1 Game brings a genuine 144Hz portable gaming monitor to around $130. Here's who it's for and the three corners it quietly cuts.
 TYPE: article
-CATEGORY: Smart Home
-TAGS: robot vacuum | roborock | self-emptying | pet hair | smart home
-ASIN: B0DWX69JVG
+CATEGORY: Computers & Accessories
+TAGS: portable monitor | gaming monitor | 144Hz | usb-c | work from anywhere
+ASIN: B0B2PN9215
 RATING: 4
 PROS:
-- Self-empties for 7 to 9 weeks
-- Strong 10,000Pa suction for the price
-- Accurate LiDAR mapping and no subscription
+- Genuine 144Hz refresh at a sub-$150 price
+- Bright, accurate 106% sRGB IPS panel
+- Light 1.4-pound, backpack-friendly build
+- Dual USB-C plus mini HDMI inputs
 CONS:
-- No camera, so it bumps obstacles
-SEO_SCORE: 88
-META_TITLE: Roborock Q7 M5+ Review: Specs, Price, and Verdict
-META_DESCRIPTION: Roborock Q7 M5+ review: 10,000Pa suction, a 7-week self-empty dock, honest downsides, and the price worth waiting for before you buy.
-FOCUS_KEYWORD: roborock Q7 M5+ review
-TARGET_QUERY: is the roborock Q7 M5+ worth it
-SLUG: roborock-q7-m5-plus-review
+- No Adaptive-Sync, so no variable refresh
+- Full brightness needs the bundled adapter
+- Built-in speakers are an afterthought
+SEO_SCORE: 92
+META_TITLE: Portable Gaming Monitor: Arzopa G1 Game 144Hz Review
+META_DESCRIPTION: The Arzopa G1 Game is a 144Hz portable gaming monitor for about $130. See who should buy it, what it cuts, and how the price tracks over time.
+FOCUS_KEYWORD: portable gaming monitor
+TARGET_QUERY: arzopa g1 game portable monitor review
+SLUG: arzopa-g1-game-review-144hz-portable-monitor
 BODY:
-Robot vacuum pricing is a shell game. A model launches at $359, sits there for a month, then quietly bounces between $220 and $260 for the rest of the year while the "list price" stays frozen so every sale looks like a steal. The Roborock Q7 M5+ is one of the worst offenders, and also one of the better buys once you know what a fair number looks like.
+You buy a portable monitor to give your laptop a second screen, then discover most of them run at a sluggish 60Hz that makes even scrolling feel like a step backward from your phone. The Arzopa G1 Game is the budget answer to that problem: a 16-inch portable gaming monitor that actually runs at 144Hz, usually for around $130. The real question is whether a screen this cheap cuts corners you'll end up regretting.
 
 ---
 
-## What Is the Roborock Q7 M5+?
+## What Is the Arzopa G1 Game?
 
-The Q7 M5+ is a mid-range robot vacuum and mop that comes with an auto-empty dock, which is the part that matters. After each clean it backs into the base and sucks its own bin into a 2.7-liter bag, so you go weeks without touching it. Roborock rates the dock at 7 to 9 weeks between bag changes for an average home.
-
-Under the hood it runs 10,000Pa of suction, PreciSense LiDAR navigation for room mapping, a dual anti-tangle brush and side brush, and a passive mopping pad you clip on when you want it. It pairs with the Roborock app plus Alexa and Google Assistant, and there is no mandatory subscription to use any of it. The "+" in the name is the tell: it means the self-empty dock is included, which is the whole reason to consider this one over the plain Q7 M5.
+The Arzopa G1 Game is a 16.1-inch portable gaming monitor built around a 1080p IPS panel with a 144Hz refresh rate. It weighs about 1.4 pounds, measures roughly a third of an inch thick, and covers 106% of the sRGB color space, so colors look accurate for everyday work and streaming. Connectivity covers two USB-C ports and a mini HDMI input, which means it can pull video and power from a single cable on laptops and phones that support it, or take HDMI from a console. Arzopa rates brightness at 300 nits, and professional testers at Tom's Hardware measured it a touch higher, closer to 357 nits in standard mode. That's bright enough for indoor use and shaded outdoor spots, though not for battling direct sunlight.
 
 ---
 
-## Who Should Buy the Roborock Q7 M5+?
+## Who Should Buy the Arzopa G1 Game?
 
-This is a vacuum-first machine for people who mostly have hard floors and low-pile rugs and want to stop thinking about the floors for a month at a time. If you have a shedding dog or cat, the auto-empty dock is the feature that earns its keep, since you are not emptying a tiny onboard bin every other day.
-
-It suits a first-time robot vacuum buyer who wants real mapping and self-emptying without paying flagship money. Owners with mostly carpet, a house full of cables and toys on the floor, or a serious mopping need should read the honest take below first. This is a strong generalist, not a specialist.
+This is a screen for people who need a second display that travels. Think hybrid workers who want a dual-monitor setup in a coffee shop or hotel room, students who code or write with reference material open beside them, and console gamers who want to bring a PS5, Xbox, or Switch to a friend's place without hauling a TV. The 144Hz refresh rate matters most to that last group. It makes fast-paced games and even plain cursor movement look noticeably smoother than the 60Hz you get on most budget portables. If you only ever plan to view spreadsheets and email, you can save money with a slower panel. If motion smoothness is part of why you're buying, this is where the G1 Game earns its keep.
 
 ---
 
-## Roborock Q7 M5+ Features That Actually Matter
+## What the 144Hz Panel Actually Gets You
 
-- **7-to-9-week auto-empty dock.** The headline feature. The bin empties itself into the base bag, so hands-free time is measured in weeks, not days. This is what separates it from cheaper docked models.
-- **10,000Pa suction.** Plenty for hard floors, crumbs, and pet hair on bare surfaces. Professional testers rate it strong on hard floors and merely okay on thicker carpet, which is normal at this price.
-- **PreciSense LiDAR mapping.** It builds an accurate multi-floor map, lets you set no-go zones and room-by-room cleaning in the app, and navigates in tidy rows instead of bouncing around randomly.
-- **Dual anti-tangle brush.** Designed to reduce hair wrap. In practice it helps, though long-haired-pet owners still report some wrap over time, so temper expectations.
-- **No subscription.** Mapping, scheduling, and zone cleaning are all free in the app. Like the [eufy Indoor Cam E30](/posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee) we looked at recently, the appeal is a smart-home device that does its job without a monthly bill hanging over it.
+- **144Hz refresh you can feel.** Everything from gameplay to dragging windows looks smoother than a standard 60Hz portable, and the difference shows up within seconds.
+- **Accurate color out of the box.** The 106% sRGB coverage means photos, video, and design work look true to life without you fiddling with settings.
+- **One-cable convenience.** A single USB-C connection carries both video and power from compatible laptops and phones, so travel setup takes seconds.
+- **Genuinely portable.** At about 1.4 pounds and a third of an inch thick, it slips into a laptop bag without adding noticeable weight.
+- **Console and handheld friendly.** The mini HDMI input takes a PS5, Xbox, Switch, or Steam Deck, turning any room into a gaming station.
 
 ---
 
 ## What You'll Pay
 
-Here is where the Q7 M5+ gets interesting. It carries a $359 list price, but it spends most of the year discounted into the $250 range and has dipped closer to $220 during major sale events. Paying full list is the one mistake to avoid. At $250 or below, a self-emptying LiDAR vacuum is genuinely good value, since that used to be flagship-only territory. At $359 you are overpaying for what the hardware delivers.
-
-The price widget above shows where today's tracked number sits against our recorded history, so you can see whether the current price is one of the good ones or a lull between drops. If it is sitting near list, this is a wait, not a buy.
+The G1 Game carries a $189.99 list price but spends most of its life closer to $130, which puts it near the bottom of the 144Hz portable-monitor market. You're paying for the high refresh rate more than anything else. Step down to a 60Hz portable and you can save $30 to $50; step up to a sharper 2.5K model and you'll pay more for text clarity you may not need. The price widget above shows where today's number sits against our tracked history, so you can tell at a glance whether a listed "deal" is a real discount or just the usual price with a bigger crossed-out number next to it.
 
 ---
 
-## The Roborock Q7 M5+ vs. the Alternatives
+## Arzopa G1 Game vs. the Alternatives
 
-The closest rival is the **eufy C10**, another self-emptying LiDAR vacuum that trades some suction (4,000Pa) for an even lower street price and a slimmer body that fits under low furniture. If your priority is the cheapest trustworthy self-emptier and you do not care about maximum suction, the eufy is the better buy. Step up to the **MOVA P10 Pro Ultra** instead if mopping is your real goal: it adds hot-water pad washing and camera-based obstacle avoidance, but it costs roughly double and lands in a different budget entirely. The Q7 M5+ sits in the sensible middle, stronger suction than the eufy, far cheaper than the MOVA.
-
----
-
-## One Thing to Consider
-
-The Q7 M5+ has no front camera or 3D obstacle sensor, so it navigates by bumping. It maps a room well, but it does not see a charging cable, a sock, or a pet accident in its path. Owners consistently report it running over or dragging small objects left on the floor, so a quick pre-clean tidy is part of the deal. The mopping is the other soft spot: the pad drags passively with no scrubbing pressure and does not lift, so it is fine for a light once-over on sealed floors but will dampen a rug if it wanders onto one. A few owners also mention the app needing an occasional reconnect. None of this is a dealbreaker at the right price, but it is why this is a four-star vacuum and not a five.
+If you want a fixed screen for a permanent desk rather than something that travels, a full-size budget monitor makes more sense for the money. Our [BenQ GW2486TC review](/posts/benq-gw2486tc-a-monitor-that-saves-you-money) covers a 24-inch option that gives you far more screen real estate and eye-comfort features for home use, though it never leaves the desk. On the portable side, the ASUS ZenScreen MB16AHV is the safer pick if you value brand support and a slightly more polished build over raw refresh rate, since it tops out at 60Hz but tends to feel more premium in hand. The G1 Game wins on one clear metric: almost nobody else puts a true 144Hz panel this close to $100.
 
 ---
 
-## Roborock Q7 M5+ FAQ
+## One Thing to Consider (Actually, a Few)
 
-**Q: Is the Roborock Q7 M5+ worth it?**
-At its frequent $250 or lower street price, yes, for hard-floor homes that want weeks of hands-free cleaning. At the $359 list price it is a hard no, because rivals with the same core features cost less. Watch the price and buy the dip.
-
-**Q: Does the Roborock Q7 M5+ avoid obstacles?**
-Not really. It uses LiDAR for mapping but has no camera or dedicated obstacle-avoidance sensor, so it bumps into and can run over cables, toys, and pet messes. Clear the floor before a run for best results.
-
-**Q: How often do you empty the Roborock Q7 M5+?**
-The included dock empties the vacuum's bin automatically into a 2.7-liter bag, which Roborock rates for 7 to 9 weeks in an average home. You still change that bag every couple of months and rinse the filter periodically.
+The G1 Game's biggest catch hides in how it handles power. Reviewers at Tom's Hardware found the panel caps its brightness at 80% when it draws power over USB-C or USB-A alone, and only reaches full brightness with the bundled power adapter plugged in. If you plan to run it off a single laptop cable, expect a dimmer picture than the spec sheet promises. Two other limits are worth knowing about. There's no Adaptive-Sync, so serious gamers won't get variable refresh rate to smooth out screen tearing, and the built-in speakers are an afterthought that owners and testers describe as worse than laptop audio, with distortion past 80% volume. Plan on headphones or external speakers for anything beyond system sounds.
 
 ---
 
-## Verdict
+## FAQ
 
-The Roborock Q7 M5+ is one of the best hands-free deals in robot vacuums when it is discounted, delivering flagship-style self-emptying and mapping for a mid-range price. Buy it on a dip below $260, skip it at full list, and do not expect much from the mop.
+**Q: Does the Arzopa G1 Game work with a Nintendo Switch and PS5?**
+Yes. The mini HDMI input accepts a Switch, PS5, Xbox, or Steam Deck with the right cable, and the 144Hz panel displays their output smoothly. Just remember that consoles only send video over HDMI, so you'll still power the monitor separately over USB-C.
+
+**Q: Can it run on a single USB-C cable from my laptop?**
+On laptops and phones that send video over USB-C, yes, one cable carries both picture and power. The catch is brightness: on USB power alone the panel is limited to about 80% of its maximum, so use the included adapter when you want the screen at its brightest.
+
+**Q: Is 144Hz actually worth it on a portable monitor?**
+If you game or care about motion smoothness, yes. The jump from 60Hz to 144Hz is easy to see in fast games and even routine scrolling. If you only use the screen for documents and browsing, a cheaper 60Hz portable will serve you just as well.
 
 ---
 
-If the current price in the card above is sitting at or below the typical street price, this is an easy yes for a hard-floor home. If it is near list, save it and wait for the next drop.
+## The Verdict
+
+The Arzopa G1 Game is the portable monitor to buy if you want real 144Hz smoothness without paying premium-brand prices, as long as you can live with mediocre speakers and a brightness cap on USB power. Skip it only if you need variable refresh rate or a screen bright enough for direct sunlight.
+
+---
+
+If the price in the card above is sitting near its usual $130, this is an easy recommendation for anyone who wants a second screen that keeps up with their eyes. Only hold out for a dip below that if your budget is genuinely tight.
