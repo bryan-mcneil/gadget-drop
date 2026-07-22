@@ -19,3 +19,4 @@
 - [Honesty gate tri-surface](project_honesty-gate-tri-surface.md) — Plan 01 §1.4: 2-snapshot/14-day gate stated in PriceIntel(source) + how-we-review(pulls constants, safe) + MCP server(spelled words, drift-prone); DEAL_PCT*100=exact 5
 - [Dusk clickLink navigation race](project_dusk-clicklink-navigation-race.md) — clickLink is a JS synthetic click; it does NOT block for native nav, so following assertPathIs/Fragment/Visible race the load — WARN, fix with waitForLocation
 - [Dusk PriceIntel seeding](project_dusk-priceintel-seeding.md) — Dusk price fixtures use relative dates (no setTestNow) + trailing PriceIntel::flush() because CACHE_STORE=file survives DatabaseTruncation; confirmed-safe, don't re-flag
+- [Market import review](project_market-import-review.md) — market:import confirmed-safe patterns (2-query chunk, url is data, seen_at fillable) + 2 deviations (brand, warnings) with test gaps; dont re-flag
