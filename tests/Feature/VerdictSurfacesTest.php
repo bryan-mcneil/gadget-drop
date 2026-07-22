@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\DealsController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
@@ -144,7 +145,7 @@ class VerdictSurfacesTest extends TestCase
             )
             ->assertSee('At least '.(PriceIntel::DEAL_PCT * 100).'% below the 90-day average', false)
             ->assertSee(
-                'sits at least '.\App\Http\Controllers\DealsController::MIN_DROP_PCT.'% below its tracked',
+                'sits at least '.DealsController::MIN_DROP_PCT.'% below its tracked',
                 false
             )
             ->assertSee('scrape Amazon pages', false)

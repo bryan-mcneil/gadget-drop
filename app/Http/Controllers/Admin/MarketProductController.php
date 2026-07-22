@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Services\MarketPromotionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -138,7 +139,7 @@ class MarketProductController extends Controller
             ->with('success', 'Market product updated.');
     }
 
-    private function categories(): \Illuminate\Support\Collection
+    private function categories(): Collection
     {
         return MarketProduct::whereNotNull('category')
             ->where('category', '!=', '')
