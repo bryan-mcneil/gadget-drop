@@ -97,9 +97,13 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
             fetchpriority="high" />
         @endif
 
-        {{-- Products --}}
+        {{-- Body — split into thirds with inline images between sections --}}
+        <x-article-body :sections="$sections" />
+
+        {{-- Products — the single affiliate CTA, placed after the body just
+                 above the verdict so the reader hits it with full context. --}}
         @if(count($post['products']) > 0)
-        <div class="mb-8 space-y-4">
+        <div class="mt-8 space-y-4">
             @foreach($post['products'] as $product)
             <x-product-card :product="$product" :post-id="$post['id']" />
             <x-price-history :stats="$product['price_intel'] ?? null" />
@@ -115,11 +119,8 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
         </div>
         @endif
 
-        {{-- Body — split into thirds with inline images between sections --}}
-        <x-article-body :sections="$sections" />
-
         {{-- Verdict summary (rating + pros/cons). Editorial depth, no extra CTA —
-                 the single product card above the body is the one affiliate link. --}}
+                 the single product card above is the one affiliate link. --}}
         <x-verdict-box :post="$post" />
 
         {{-- Worth-it vote — end-of-article engagement zone, deliberately away from
