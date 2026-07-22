@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ImageUploader from '@/Components/ImageUploader';
 
-export default function MarketProductEdit({ product, snapshots, categories }) {
+export default function MarketProductEdit({ product, snapshots, categories, curated, siteCategories }) {
     // Admin-only link — public surfaces must use affiliate.redirect instead.
     const amazonUrl = product.url ?? `https://www.amazon.com/dp/${product.asin}`;
 
@@ -14,9 +14,16 @@ export default function MarketProductEdit({ product, snapshots, categories }) {
         image_url:   product.image_url ?? '',
     });
 
+    const promoteForm = useForm({ category_id: '' });
+
     function handleSubmit(e) {
         e.preventDefault();
         put(route('admin.market-products.update', product.id));
+    }
+
+    function handlePromote(e) {
+        e.preventDefault();
+        promoteForm.post(route('admin.market-products.promote', product.id));
     }
 
     return (
@@ -105,6 +112,44 @@ export default function MarketProductEdit({ product, snapshots, categories }) {
                                 View on Amazon ↗
                             </a>
                         </div>
+                    </div>
+
+                    <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+                        <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Catalog</h3>
+                        {curated ? (
+                            <>
+                                <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-2">
+                                    ✓ In catalog as <strong>{curated.name}</strong>
+                                </p>
+                                <Link href={route('admin.products.edit', curated.id)}
+                                    className="text-xs text-indigo-600 hover:underline">
+                                    Edit catalog product →
+                                </Link>
+                            </>
+                        ) : (
+                            <form onSubmit={handlePromote} className="space-y-3">
+                                <p className="text-xs text-gray-500">
+                                    Creates a catalog product from this row and copies its full price
+                                    history (source “market”), so the price widget is live from day one.
+                                    Future imports keep the catalog price current by ASIN.
+                                </p>
+                                <select
+                                    value={promoteForm.data.category_id}
+                                    onChange={(e) => promoteForm.setData('category_id', e.target.value)}
+                                    className="w-full border-gray-300 rounded-lg shadow-sm text-sm">
+                                    <option value="">No category</option>
+                                    {siteCategories.map((c) => (
+                                        <option key={c.id} value={c.id}>{c.name}</option>
+                                    ))}
+                                </select>
+                                {promoteForm.errors.category_id && <p className="text-xs text-red-500">{promoteForm.errors.category_id}</p>}
+                                {promoteForm.errors.promote && <p className="text-xs text-red-500">{promoteForm.errors.promote}</p>}
+                                <button type="submit" disabled={promoteForm.processing}
+                                    className="w-full bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50">
+                                    {promoteForm.processing ? 'Promoting…' : 'Promote to catalog'}
+                                </button>
+                            </form>
+                        )}
                     </div>
 
                     <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">

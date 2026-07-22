@@ -6,6 +6,16 @@ The curated price layer (`products` + `product_price_snapshots`) tracks the few 
 
 How the two layers connect: rows whose ASIN matches a curated `products.asin` also push their price through `ProductObserver` with `source = 'import'`, so the curated layer applies its own rules unchanged — snapshot on change, same-price check capped at one per day, `PriceIntel` cache flush. A scrape older than the product's `price_checked_at` is skipped (`stale_skipped` in the report) so it never regresses fresher API/manual data.
 
+## Promoting into the catalog
+
+When a market product earns a review, **promote** it from `/admin/market-products/{id}/edit` (Catalog panel: pick a site category, click Promote). `MarketPromotionService` then, in one transaction:
+
+- creates the curated `Product` prefilled from the market row (`title`→`name`, brand, ASIN, price, image, rating/review count, description) with `affiliate_url` set to the canonical `https://www.amazon.com/dp/{ASIN}` — never the scraped `url`;
+- **copies the ASIN's full `market_price_snapshots` history into `product_price_snapshots`** with `source = 'market'`, preserving the original observation dates, so the PriceIntel gates (≥2 points spanning ≥14 days) open immediately when the market history supports them;
+- stamps `price_checked_at` from the market row's `last_seen_at` (a promotion is not a price observation — the create runs `withoutEvents()` so `ProductObserver` doesn't append an "observed today" snapshot).
+
+It's an insert-with-history, **never a move**: the market row stays, keeps accumulating history, and from then on the ASIN merge above keeps the promoted product's price current on every import. Promotion is blocked when the ASIN is already in the catalog (the panel shows an "In catalog" link instead; the index shows a badge). Plan: `docs/plans/08-market-promote.md`.
+
 ## CSV contract (of record)
 
 Header rules: column names are matched **case- and order-insensitively**; a UTF-8 BOM on the first cell is stripped; missing any **required** column aborts the run naming it; unknown columns are ignored but listed in the report. UTF-16 output (a Power Automate misconfiguration) is detected and aborts with a pointer at the encoding setting.

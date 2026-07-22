@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\MarketProduct;
+use App\Models\Product;
+use App\Services\MarketPromotionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +18,8 @@ use Inertia\Response;
  * the fields the import can't provide (image) or that need cleanup (category,
  * title/description/brand). Import-owned numbers (prices, rating, seen dates)
  * are read-only here so the change-only snapshot invariant can't be broken
- * from the admin.
+ * from the admin. Promotion into the curated catalog is the one write that
+ * crosses layers — MarketPromotionService, docs/plans/08-market-promote.md.
  */
 class MarketProductController extends Controller
 {
@@ -26,26 +30,32 @@ class MarketProductController extends Controller
             'category' => (string) $request->query('category', ''),
         ];
 
+        $products = MarketProduct::query()
+            ->when($filters['search'] !== '', fn ($q) => $q->where(fn ($q) => $q
+                ->where('title', 'like', '%'.$filters['search'].'%')
+                ->orWhere('brand', 'like', '%'.$filters['search'].'%')
+                ->orWhere('asin', strtoupper($filters['search']))))
+            ->when($filters['category'] !== '', fn ($q) => $q->where('category', $filters['category']))
+            ->orderByDesc('last_seen_at')
+            ->paginate(25)
+            ->withQueryString();
+
+        $curatedAsins = Product::whereIn('asin', $products->getCollection()->pluck('asin'))
+            ->pluck('asin')
+            ->all();
+
         return Inertia::render('Admin/MarketProducts/Index', [
-            'products' => MarketProduct::query()
-                ->when($filters['search'] !== '', fn ($q) => $q->where(fn ($q) => $q
-                    ->where('title', 'like', '%'.$filters['search'].'%')
-                    ->orWhere('brand', 'like', '%'.$filters['search'].'%')
-                    ->orWhere('asin', strtoupper($filters['search']))))
-                ->when($filters['category'] !== '', fn ($q) => $q->where('category', $filters['category']))
-                ->orderByDesc('last_seen_at')
-                ->paginate(25)
-                ->withQueryString()
-                ->through(fn ($p) => [
-                    'id' => $p->id,
-                    'asin' => $p->asin,
-                    'title' => $p->title,
-                    'brand' => $p->brand,
-                    'category' => $p->category,
-                    'image_url' => $p->image_url,
-                    'current_price' => $p->current_price,
-                    'last_seen_at' => $p->last_seen_at->format('M j, Y'),
-                ]),
+            'products' => $products->through(fn ($p) => [
+                'id' => $p->id,
+                'asin' => $p->asin,
+                'title' => $p->title,
+                'brand' => $p->brand,
+                'category' => $p->category,
+                'image_url' => $p->image_url,
+                'current_price' => $p->current_price,
+                'last_seen_at' => $p->last_seen_at->format('M j, Y'),
+                'curated' => in_array($p->asin, $curatedAsins, true),
+            ]),
             'categories' => $this->categories(),
             'filters' => $filters,
         ]);
@@ -79,7 +89,36 @@ class MarketProductController extends Controller
                     'date' => $s->created_at->format('M j, Y'),
                 ]),
             'categories' => $this->categories(),
+            'curated' => ($catalog = Product::where('asin', $marketProduct->asin)->first(['id', 'name']))
+                ? ['id' => $catalog->id, 'name' => $catalog->name]
+                : null,
+            'siteCategories' => Category::orderBy('name')->get(['id', 'name']),
         ]);
+    }
+
+    /**
+     * Promote this market row into the curated catalog: create the Product
+     * prefilled from the market data and seed its price history from the
+     * market snapshots (source='market'). The market row stays — from here on
+     * the ASIN match keeps the catalog price current on every import.
+     */
+    public function promote(Request $request, MarketProduct $marketProduct, MarketPromotionService $promoter): RedirectResponse
+    {
+        $data = $request->validate([
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        if (Product::where('asin', $marketProduct->asin)->exists()) {
+            return redirect()
+                ->route('admin.market-products.edit', $marketProduct)
+                ->withErrors(['promote' => "ASIN {$marketProduct->asin} is already in the catalog."]);
+        }
+
+        $product = $promoter->promote($marketProduct, isset($data['category_id']) ? (int) $data['category_id'] : null);
+
+        return redirect()
+            ->route('admin.products.edit', $product)
+            ->with('success', 'Promoted to the catalog with '.$product->priceSnapshots()->count().' price snapshot(s) — review the details and save.');
     }
 
     public function update(Request $request, MarketProduct $marketProduct): RedirectResponse

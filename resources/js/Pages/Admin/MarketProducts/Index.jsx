@@ -84,7 +84,16 @@ export default function MarketProductsIndex({ products, categories, filters }) {
                                             <div className="w-10 h-10 rounded bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-300 text-xs">—</div>
                                         )}
                                     </td>
-                                    <td className="px-4 py-2 font-medium text-gray-900 max-w-sm truncate">{p.title}</td>
+                                    <td className="px-4 py-2 max-w-sm">
+                                        <div className="flex items-center gap-2 min-w-0">
+                                            <span className="font-medium text-gray-900 truncate">{p.title}</span>
+                                            {p.curated && (
+                                                <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-1.5 py-0.5">
+                                                    In catalog
+                                                </span>
+                                            )}
+                                        </div>
+                                    </td>
                                     <td className="px-4 py-2 font-mono text-xs whitespace-nowrap">
                                         {/* Admin-only link — public surfaces must use affiliate.redirect instead */}
                                         <a href={`https://www.amazon.com/dp/${p.asin}`} target="_blank"
