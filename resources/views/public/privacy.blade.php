@@ -5,7 +5,7 @@
         <div class="max-w-3xl mx-auto px-4 py-12">
             <p class="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-2">Legal</p>
             <h1 class="text-3xl font-extrabold text-gray-900">Privacy Policy</h1>
-            <p class="text-sm text-gray-400 mt-2">Last updated: May 2026</p>
+            <p class="text-sm text-gray-400 mt-2">Last updated: July 2026</p>
         </div>
     </div>
 
@@ -57,6 +57,18 @@
                 If you subscribe to our newsletter, we store your email address for the sole purpose of sending you the weekly GadgetDrop digest.
                 We use a one-click unsubscribe link in every email. You can also unsubscribe at any time by visiting <strong>GadgetDrop.tech/unsubscribe</strong>.
                 We do not share subscriber email addresses with any third party.
+            </p>
+        </x-legal-section>
+
+        <x-legal-section title="Price watch">
+            <p>
+                If you set up a post-purchase price watch on a review, we store your email address, the purchase date you enter, our tracked price for that date, and the IP address the request came from (kept solely for abuse prevention and never displayed anywhere).
+                We use this only to send you at most two emails about that specific watch: a price-drop alert if the tracked price falls meaningfully during your return window, or a single closing summary when the window ends.
+                A watch only activates after you click the confirmation link we email you.
+            </p>
+            <p>
+                Every watch email contains a one-click link that deletes the watch and your email address immediately. Watches that are never confirmed, and all expired watches, are permanently deleted no later than 60 days after the return window closes — nothing about a watch is retained beyond that.
+                We never share watch email addresses with any third party.
             </p>
         </x-legal-section>
 

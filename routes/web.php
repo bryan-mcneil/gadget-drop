@@ -16,6 +16,7 @@ use App\Http\Controllers\DealsController;
 use App\Http\Controllers\DropPriceController;
 use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PriceWatchController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
@@ -93,6 +94,10 @@ Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
 Route::prefix('api/tools')->middleware(['throttle:tools'])->group(function () {
     // Phase 2 server-side tool endpoints go here
 });
+
+// Post-purchase price watch magic links (signed URLs; controller validates).
+Route::get('/watch/verify/{token}', [PriceWatchController::class, 'verify'])->name('watch.verify');
+Route::get('/watch/unsubscribe/{token}', [PriceWatchController::class, 'unsubscribe'])->name('watch.unsubscribe');
 
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe');
 Route::get('/unsubscribe', [SubscriberController::class, 'showUnsubscribe'])->name('unsubscribe');

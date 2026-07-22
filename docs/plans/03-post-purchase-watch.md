@@ -6,11 +6,11 @@
 
 ## Phase Log
 
-- [ ] Phase 3.1 — Schema + model + pruning (commit: )
-- [ ] Phase 3.2 — Signup Livewire component + verification mail (commit: )
-- [ ] Phase 3.3 — `watches:check` hourly command + drop alert mail (commit: )
-- [ ] Phase 3.4 — Closing-window courtesy mail (optional but recommended) (commit: )
-- [ ] Phase 3.5 — Dusk pass + privacy-page copy (commit: )
+- [x] Phase 3.1 — Schema + model + pruning (commit: 5eb94d1 — was never ticked here; recovered 2026-07-22)
+- [x] Phase 3.2 — Signup Livewire component + verification mail (commit: 2026-07-22 session, single commit with 3.3–3.5)
+- [x] Phase 3.3 — `watches:check` hourly command + drop alert mail (commit: same)
+- [x] Phase 3.4 — Closing-window courtesy mail (optional but recommended) (commit: same)
+- [x] Phase 3.5 — Dusk pass + privacy-page copy (commit: same)
 
 ## Design decisions
 
@@ -114,3 +114,12 @@ Standard template + deltas: `migrate --force` (additive table; down = drop, no d
 ## Build Log
 
 (append one line per phase)
+
+- 2026-07-15 · Phase 3.1 · `price_watches` schema, `PriceWatch` model (Prunable, active/expired scopes, savings()), `model:prune` at 05:00 — commit 5eb94d1 (landed on main untracked by this log).
+- 2026-07-22 · Phases 3.2–3.5 in one session (Bryan's call: review the whole feature, not per-phase). Suite 425/425; Dusk 9/9. Notable deviations from the letter of the plan, all reviewed by gd-code-reviewer (verdict: approve):
+  - **purchase_price is derived, not typed.** §3.2's field list is email + purchased_on only, so the baseline comes from the new `PriceIntel::priceOn()` (carry-forward tracked price on the purchase date; live price when no snapshots). All copy says "our tracked price for your purchase date" — a claim snapshots can back, unlike "what you paid".
+  - **The Livewire action is `startWatch()`, not `watch()`** — `wire:submit="watch"` dies client-side (name collides with Alpine's internal `watch` in the expression evaluator). Caught by the Phase 3.5 Dusk pass; feature tests can't see it (they invoke the method server-side).
+  - §3.4 runs inside `watches:check` after the drop pass (as the plan asks); a drop alert always preempts the closing summary, including within a single run.
+  - `PriceIntel::verdictFor()` is now the single source of verdict tiers (compute() and the closing mail both call it — reviewer WARN, fixed).
+  - Emails are lowercased at signup so casing can't mint duplicate watches.
+  - No feature branch (standing 2026-07-18 decision) — work done directly on main.

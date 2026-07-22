@@ -103,6 +103,14 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
             @foreach($post['products'] as $product)
             <x-product-card :product="$product" :post-id="$post['id']" />
             <x-price-history :stats="$product['price_intel'] ?? null" />
+            {{-- Post-purchase price watch — review pages with a tracked price only
+                 (price_intel is null on tips/news and priceless products). The CTA
+                 here is an email field, so the single-affiliate-CTA rule holds.
+                 $product is an array here (not a model), so the component takes
+                 the id and resolves its own model. --}}
+            @if(!empty($product['price_intel']))
+                @livewire('price-watch-signup', ['productId' => $product['id']])
+            @endif
             @endforeach
         </div>
         @endif

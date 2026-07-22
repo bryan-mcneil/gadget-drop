@@ -45,3 +45,7 @@ Schedule::command('search:inspect')->dailyAt('09:00');
 // Drain the social outbox (no-op while SOCIAL_ENABLED=false). hourly() runs at
 // minute :00, which is exactly when the hPanel cron fires — every run counts.
 Schedule::command('social:publish')->hourly();
+
+// Post-purchase price watches: drop alerts + closing-window summaries. Reads
+// products.price only (no fetching); idempotent by stamp. hourly() == :00.
+Schedule::command('watches:check')->hourly();

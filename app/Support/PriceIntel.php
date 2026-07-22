@@ -120,16 +120,7 @@ class PriceIntel
         $result['high90'] = round(max($w90), 2);
         $result['avg90'] = round(array_sum($w90) / count($w90), 2);
 
-        // "Lowest tracked" needs actual variation in the window — a price that
-        // never moved is typical, not a record low.
-        $hasVariation = ($result['high90'] - $result['low90']) > 0.009;
-
-        $result['verdict'] = match (true) {
-            $hasVariation && $current <= $result['low90'] + 0.009 => 'lowest',
-            $current <= $result['avg90'] * (1 - self::DEAL_PCT) => 'good',
-            $current >= $result['avg90'] * (1 + self::DEAL_PCT) => 'elevated',
-            default => 'typical',
-        };
+        $result['verdict'] = self::verdictFor($current, $result);
 
         if ($current < $result['avg90']) {
             $result['drop_pct'] = round(($result['avg90'] - $current) / $result['avg90'] * 100, 1);
@@ -146,6 +137,62 @@ class PriceIntel
         $result['points'] = $points;
 
         return $result;
+    }
+
+    /**
+     * The tracked price in effect on a given date, from the same carry-forward
+     * series the stats use. Falls back to the live price when no snapshots
+     * exist yet, and null when the product has no price at all. The price-watch
+     * signup uses this as the purchase baseline — "our tracked price on your
+     * purchase date," which is the only paid-price claim we can honestly make.
+     */
+    public static function priceOn(int $productId, CarbonInterface $date): ?float
+    {
+        $product = Product::find($productId);
+
+        if (! $product) {
+            return null;
+        }
+
+        $snapshots = $product->priceSnapshots()
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get(['price', 'created_at'])
+            ->map(fn ($s) => ['date' => $s->created_at->copy()->startOfDay(), 'price' => (float) $s->price])
+            ->values();
+
+        if ($snapshots->isEmpty()) {
+            return $product->price !== null ? (float) $product->price : null;
+        }
+
+        $series = self::dailySeries($snapshots, $date, $date);
+
+        return $series[0]['price'];
+    }
+
+    /**
+     * Classify a price against a product's window stats. The SINGLE source of
+     * the verdict tiers — compute() feeds it the current price, the closing-
+     * window watch mail feeds it what the reader paid ("you paid a {verdict}
+     * price"); a tier change here moves every surface together. Null while the
+     * stats are still honesty-gated.
+     */
+    public static function verdictFor(float $price, ?array $stats): ?string
+    {
+        if (empty($stats['has_stats'])) {
+            return null;
+        }
+
+        // "Lowest tracked" needs actual variation in the window — a price that
+        // never moved is typical, not a record low.
+        $hasVariation = ($stats['high90'] - $stats['low90']) > 0.009;
+
+        return match (true) {
+            $hasVariation && $price <= $stats['low90'] + 0.009 => 'lowest',
+            $price <= $stats['avg90'] * (1 - self::DEAL_PCT) => 'good',
+            $price >= $stats['avg90'] * (1 + self::DEAL_PCT) => 'elevated',
+            default => 'typical',
+        };
     }
 
     /**

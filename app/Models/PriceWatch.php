@@ -76,6 +76,21 @@ class PriceWatch extends Model
         return max(0, (float) $this->purchase_price - $current);
     }
 
+    /**
+     * The product's most recent published review — where watch mails send
+     * readers (never an /out affiliate link: email → out would skew click
+     * attribution, and the review page holds the disclosure context).
+     */
+    public function reviewUrl(): string
+    {
+        $post = $this->product?->posts()
+            ->published()
+            ->latest('published_at')
+            ->first(['posts.id', 'posts.slug']);
+
+        return $post ? url('/posts/'.$post->slug) : route('deals');
+    }
+
     /** Auto-pruned 60 days after the return window closes (light-PII hygiene). */
     public function prunable(): Builder
     {
