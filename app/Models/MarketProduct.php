@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MarketProduct extends Model
 {
     protected $fillable = [
-        'asin', 'title', 'description', 'brand', 'category', 'url', 'current_price',
-        'list_price', 'rating', 'review_count', 'first_seen_at', 'last_seen_at',
+        'asin', 'title', 'description', 'brand', 'category', 'url', 'image_url',
+        'current_price', 'list_price', 'rating', 'review_count', 'first_seen_at', 'last_seen_at',
     ];
 
     protected $casts = [

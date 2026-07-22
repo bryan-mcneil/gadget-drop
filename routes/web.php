@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DailyDropController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\MarketProductController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PriceController;
@@ -103,6 +104,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('posts', PostController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
+    // Market layer rows are created by market:import only — no create/destroy.
+    Route::resource('market-products', MarketProductController::class)->only(['index', 'edit', 'update']);
     Route::get('prices', [PriceController::class, 'index'])->name('prices.index');
     Route::post('prices/{product}', [PriceController::class, 'update'])->name('prices.update');
     Route::post('prices/{product}/confirm', [PriceController::class, 'confirm'])->name('prices.confirm');
