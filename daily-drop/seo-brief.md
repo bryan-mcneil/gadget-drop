@@ -1,5 +1,5 @@
-# SEO Brief — generated 2026-07-18
-Data through: 2026-07-17 (Google finalized data lags ~2 days).
+# SEO Brief — generated 2026-07-22
+Data through: 2026-07-21 (Google finalized data lags ~2 days).
 
 ## How to use this
 - These are demand signals, not orders. Pick a candidate ONLY if it passes the /drop-research value gate (real price-history, testing, or comparison value to add).
