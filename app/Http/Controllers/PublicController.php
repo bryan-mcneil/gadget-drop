@@ -6,10 +6,12 @@ use App\Models\AffiliateClick;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\ReleaseCycle;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\AmazonProductService;
 use App\Support\ArticleBody;
+use App\Support\BuyOrWait;
 use App\Support\DropPrice;
 use App\Support\NavigationData;
 use App\Support\PriceIntel;
@@ -276,23 +278,31 @@ class PublicController extends Controller
             'published_at_iso' => $post->published_at?->toIso8601String(),
             'categories' => $post->categories->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug]),
             'tags' => $post->tags->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
-            'products' => $post->products->map(fn ($p) => [
-                'id' => $p->id,
-                'name' => $p->name,
-                'description' => $p->description,
-                'price' => $p->price,
-                'image_url' => $p->image_url,
-                'brand' => $p->brand,
-                'gtin' => $p->gtin,
-                'amazon_rating' => $p->amazon_rating,
-                'amazon_review_count' => $p->amazon_review_count,
+            'products' => $post->products->map(function ($p) use ($post) {
                 // Tracked-price history for the <x-price-history> widget.
                 // Only meaningful on review-type posts, and null until the
-                // product has a price.
-                'price_intel' => in_array($post->type, ['tech_tip', 'tech_news'])
-                    ? null
-                    : PriceIntel::stats($p->id),
-            ]),
+                // product has a price. Computed once and reused by the
+                // buy-or-wait strip below so the stats aren't built twice.
+                $isReview = ! in_array($post->type, ['tech_tip', 'tech_news']);
+                $priceIntel = $isReview ? PriceIntel::stats($p->id) : null;
+
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'description' => $p->description,
+                    'price' => $p->price,
+                    'image_url' => $p->image_url,
+                    'brand' => $p->brand,
+                    'gtin' => $p->gtin,
+                    'amazon_rating' => $p->amazon_rating,
+                    'amazon_review_count' => $p->amazon_review_count,
+                    'price_intel' => $priceIntel,
+                    // Release-cycle timing strip. Null unless this product's line
+                    // resolves to a cycle; ReleaseCycle::forProduct() refuses to
+                    // guess when a category holds more than one line.
+                    'buy_or_wait' => $isReview ? $this->buyOrWaitStrip($p, $priceIntel) : null,
+                ];
+            }),
             'seo_meta' => $post->seoMeta ? [
                 'meta_title' => $post->seoMeta->meta_title,
                 'meta_description' => $post->seoMeta->meta_description,
@@ -407,6 +417,32 @@ class PublicController extends Controller
             'recentPosts' => $recentPosts,
             'relatedProducts' => $relatedProducts,
         ]);
+    }
+
+    /**
+     * Data for the <x-buy-or-wait-strip> under a review's product card, or null
+     * when the product's line has no release cycle. Informational only: the
+     * strip is an internal link, so the single-affiliate-CTA rule holds.
+     *
+     * @param  array<string, mixed>|null  $priceIntel
+     * @return array<string, string>|null
+     */
+    private function buyOrWaitStrip(Product $product, ?array $priceIntel): ?array
+    {
+        $cycle = ReleaseCycle::forProduct($product);
+
+        if (! $cycle) {
+            return null;
+        }
+
+        $verdict = BuyOrWait::verdict($cycle, $priceIntel);
+
+        return [
+            'slug' => $cycle->slug,
+            'name' => $cycle->name,
+            'verdict' => $verdict['verdict'],
+            'short' => BuyOrWait::shortLabel($verdict['verdict']),
+        ];
     }
 
     /**

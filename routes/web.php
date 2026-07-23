@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\BuyOrWaitController;
 use App\Http\Controllers\DealsController;
 use App\Http\Controllers\DropPriceController;
 use App\Http\Controllers\OgImageController;
@@ -60,6 +61,10 @@ foreach (config('site.category_map', []) as $oldCategorySlug => $newCategorySlug
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->name('category');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tag');
 Route::get('/deals', [DealsController::class, 'index'])->name('deals');
+// Buy-or-wait verdict pages. {cycle:slug} binds ReleaseCycle by slug, so an
+// unknown line 404s without a missing() fallback.
+Route::get('/buy-or-wait', [BuyOrWaitController::class, 'index'])->name('buy-or-wait.index');
+Route::get('/buy-or-wait/{cycle:slug}', [BuyOrWaitController::class, 'show'])->name('buy-or-wait.show');
 Route::get('/truth', [TruthReportController::class, 'index'])->name('truth.index');
 Route::get('/truth/{slug}', [TruthReportController::class, 'show'])->name('truth.show');
 Route::get('/drop-price', [DropPriceController::class, 'index'])->name('drop-price.index');

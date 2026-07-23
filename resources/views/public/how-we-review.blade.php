@@ -70,6 +70,43 @@
          agent-facing text can never fork. Keep the anchor stable. --}}
     @include('public.partials.deal-methodology')
 
+    {{-- #buy-or-wait: the release-cycle methodology. Every /buy-or-wait page,
+         the index, and the MCP tool deep-link to this anchor; keep it stable. --}}
+    <section id="buy-or-wait" class="space-y-4 scroll-mt-24">
+        <h2 class="text-xl font-bold text-gray-900">How our buy-or-wait verdicts work</h2>
+        <p class="text-gray-600 leading-relaxed">
+            Timing is half of what you pay for a gadget, so we track it the same way we track prices: with
+            recorded facts and a visible source. For each product line we cover we keep the date the current
+            model went on sale, how often that line has actually refreshed, and a link to the manufacturer's
+            own announcement. Every one of those rows carries the date a human last checked it against that
+            source, and that date is printed on the page.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            A verdict is two things crossed: where the line sits in its cycle, and where today's price sits
+            against <em>our own recorded history</em> for the product we review on it. Nothing else goes in.
+            The four outcomes are deliberately blunt about their limits:
+        </p>
+        <div class="space-y-2 text-sm">
+            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-40 shrink-0">Buy now</span><span class="text-gray-600">Early in the cycle and priced below its own tracked typical price.</span></div>
+            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-40 shrink-0">Wait for the refresh</span><span class="text-gray-600">Late in the cycle. A successor usually drags the outgoing model's price down, so waiting tends to pay twice.</span></div>
+            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-40 shrink-0">Wait for a better price</span><span class="text-gray-600">Nothing to wait for product-wise, but the price is running above its own tracked history.</span></div>
+            <div class="flex gap-3 items-baseline"><span class="font-bold text-gray-900 w-40 shrink-0">No strong signal</span><span class="text-gray-600">Mid-cycle, or a typical price. Most of the year, for most products, this is the truthful answer.</span></div>
+        </div>
+        <p class="text-gray-600 leading-relaxed">
+            Each verdict also carries a confidence level. It can never read "high" if we have no tracked price
+            history for the line, or if nobody has re-checked the cycle dates in the last
+            {{ \App\Models\ReleaseCycle::STALE_AFTER_MONTHS }} months. When the data has gone stale
+            the page says so above the verdict rather than quietly carrying on.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            What we <strong>don't</strong> do is rumours. We publish no predictions about unannounced products,
+            no supply-chain leaks, and no "sources say" release dates. Everything on these pages is either
+            something a manufacturer announced or something that already shipped. That means we are sometimes
+            less specific than a rumour blog, and it means we are not wrong on purpose.
+            <a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">See the current verdicts</a>.
+        </p>
+    </section>
+
     <section class="space-y-4">
         <h2 class="text-xl font-bold text-gray-900">How AI is used here</h2>
         <p class="text-gray-600 leading-relaxed">

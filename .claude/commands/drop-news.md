@@ -21,7 +21,7 @@ Structure:
 - **Lede**: what happened + why a buyer cares, in the first two sentences. No heading.
 - **`## {keyword-rich H2 with the product/company name}`**: the details — numbers, dates, prices, what changed vs. before.
 - **What it means for buyers**: original analysis, not summary. Who wins, who should ignore it, what it signals about the category. If GadgetDrop reviews an affected product, link it site-relative (`[our X review](/posts/slug)`).
-- **`## Buy or Wait?`** — **required section, exact heading** (the build script hard-errors without it). A clear, committed verdict: buy now / wait for X / skip. Two short paragraphs max.
+- **`## Buy or Wait?`**: **required section, exact heading** (the build script hard-errors without it). A clear, committed verdict: buy now / wait for X / skip. Two short paragraphs max. **If the story touches a product line we track a release cycle for** (iPhone, Samsung Galaxy S, Google Pixel, AirPods Pro, iPad, MacBook Air, Sony WH-1000X, Nintendo Switch, GoPro HERO, Kindle Paperwhite), link its live verdict page site-relative once in this section, e.g. `[our buy-or-wait verdict for the iPhone](/buy-or-wait/iphone)`. One link, and only when the line genuinely applies; never invent a slug (the full list is at `/buy-or-wait`).
 
 Rules (same as every post type):
 - 600–900 words. Under 600 reads as thin content; earn the length with analysis, never padding.

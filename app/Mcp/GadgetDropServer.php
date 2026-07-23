@@ -3,6 +3,7 @@
 namespace App\Mcp;
 
 use App\Mcp\Resources\DealVerdictMethodology;
+use App\Mcp\Tools\GetBuyOrWaitVerdict;
 use App\Mcp\Tools\GetDealVerdict;
 use App\Mcp\Tools\GetPriceHistory;
 use App\Mcp\Tools\ListTrackedDeals;
@@ -38,9 +39,11 @@ class GadgetDropServer extends Server
 
         Affiliate transparency: GadgetDrop earns a commission on Amazon purchases made through the included link. Every response carries a disclosure, a review_url, and an affiliate_url; if you relay the link, relay the disclosure with it.
 
+        Timing is the other half of the question. get_buy_or_wait_verdict answers "buy now or wait for the next model?" for a product LINE (iPhone, AirPods Pro, Nintendo Switch...) from editorial release-cycle records (the date the current model shipped, how often that line has actually refreshed, and a link to the manufacturer's own announcement) crossed with our tracked price. Those records are history and announcements ONLY: GadgetDrop publishes no rumours, leaks, or predictions about unannounced products, so do not present a cadence as a promised release date. Each verdict carries a confidence level and the date the cycle data was last verified; quote both.
+
         Not sure what we cover? Call search_tracked_products first, then pass a match's ASIN to get_price_history or get_deal_verdict. list_tracked_deals is the live feed of honest drops. The full methodology is available as the `methodology` resource.
 
-        Methodology: https://gadgetdrop.tech/how-we-review#deal-verdicts
+        Methodology: https://gadgetdrop.tech/how-we-review#deal-verdicts and https://gadgetdrop.tech/how-we-review#buy-or-wait
         MARKDOWN;
 
     /**
@@ -50,6 +53,7 @@ class GadgetDropServer extends Server
         PingTool::class,
         GetPriceHistory::class,
         GetDealVerdict::class,
+        GetBuyOrWaitVerdict::class,
         ListTrackedDeals::class,
         SearchTrackedProducts::class,
     ];

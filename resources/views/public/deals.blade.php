@@ -20,6 +20,12 @@
                  browser's native navigation is what reliably scrolls to it. --}}
             <a href="{{ route('how-we-review') }}#deal-verdicts" class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
+        <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
+            A low price isn't the whole question, though: buying four weeks before a replacement lands
+            costs more than any deal saves. Our
+            <a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">buy-or-wait verdicts</a>
+            track when each product line has actually refreshed, sourced to the manufacturer's own announcement.
+        </p>
         @if($truthPromo)
             <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
                 Sale event just wrapped? We graded every deal we tracked against its own pre-event price

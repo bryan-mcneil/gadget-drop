@@ -24,6 +24,10 @@
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Explore</h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li><a href="{{ route('deals') }}" wire:navigate class="text-gray-400 hover:text-sky-300 transition-colors">Deals</a></li>
+                        {{-- Footer, not the header: the desktop nav already crams at
+                             the md breakpoint (see CLAUDE.md), and /deals + the
+                             review-page strip carry the discovery load. --}}
+                        <li><a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-gray-400 hover:text-indigo-300 transition-colors">Buy or Wait</a></li>
                         <li><a href="{{ route('drop-price.index') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Drop Price Archive</a></li>
                         {{-- Tools stays a full page load: tools.js only ships on /tools/* and
                              registers its Alpine components on alpine:init, which a

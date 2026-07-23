@@ -58,6 +58,10 @@
                 <span class="text-gray-600">One honest, dated sentence — "18% below its tracked 90-day average" — plus the stats behind it.</span>
             </div>
             <div class="flex gap-3 items-baseline">
+                <code class="shrink-0 font-mono font-bold text-gray-900">get_buy_or_wait_verdict</code>
+                <span class="text-gray-600">Buy now or wait for the next model? Where a product line sits in its documented <a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">release cycle</a>, crossed with our tracked price, sourced to the manufacturer's own announcement, never a rumour.</span>
+            </div>
+            <div class="flex gap-3 items-baseline">
                 <code class="shrink-0 font-mono font-bold text-gray-900">list_tracked_deals</code>
                 <span class="text-gray-600">The live feed behind our <a href="{{ route('deals') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">Price Drops page</a>: products ≥{{ \App\Support\DealsFeed::MIN_DROP_PCT }}% below their tracked 90-day average.</span>
             </div>

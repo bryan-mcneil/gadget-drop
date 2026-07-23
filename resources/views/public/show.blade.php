@@ -107,6 +107,9 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
             @foreach($post['products'] as $product)
             <x-product-card :product="$product" :post-id="$post['id']" />
             <x-price-history :stats="$product['price_intel'] ?? null" />
+            {{-- Release-cycle timing. Internal link only (no CTA, no price), and
+                 renders nothing when the product's line has no cycle. --}}
+            <x-buy-or-wait-strip :data="$product['buy_or_wait'] ?? null" />
             {{-- Post-purchase price watch — review pages with a tracked price only
                  (price_intel is null on tips/news and priceless products). The CTA
                  here is an email field, so the single-affiliate-CTA rule holds.

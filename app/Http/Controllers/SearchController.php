@@ -45,6 +45,9 @@ class SearchController extends Controller
             '',
             '## Key pages',
             '- [Deals]('.route('deals').'): products currently below their tracked 90-day average',
+            '- [Buy or Wait]('.route('buy-or-wait.index').'): should you buy now or wait for the next model?'
+                .' Sourced release-cycle history per product line, crossed with our tracked prices.'
+                .' History and announcements only, with no rumours or predictions.',
             '- [Latest news]('.route('news').'): buyer-focused tech news',
             '- [How we review]('.route('how-we-review').'): our testing and rating method',
             '',
