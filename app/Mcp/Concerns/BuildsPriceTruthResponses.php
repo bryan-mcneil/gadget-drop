@@ -2,7 +2,6 @@
 
 namespace App\Mcp\Concerns;
 
-use App\Mcp\Support\ProductResolver;
 use App\Models\Post;
 use App\Models\Product;
 use App\Support\PriceIntel;

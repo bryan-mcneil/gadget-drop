@@ -10,7 +10,9 @@ use App\Mcp\Tools\ListTrackedDeals;
 use App\Mcp\Tools\PingTool;
 use App\Mcp\Tools\SearchTrackedProducts;
 use Laravel\Mcp\Server;
-use Laravel\Mcp\Server\Resource;
+// Aliased: Pint's phpdoc_types fixer lowercases a bare `Resource` in a docblock
+// to PHP's native `resource` pseudo-type, which would make the @var below a lie.
+use Laravel\Mcp\Server\Resource as McpResource;
 use Laravel\Mcp\Server\Tool;
 
 /**
@@ -59,7 +61,7 @@ class GadgetDropServer extends Server
     ];
 
     /**
-     * @var array<int, class-string<Resource>>
+     * @var array<int, class-string<McpResource>>
      */
     protected array $resources = [
         DealVerdictMethodology::class,

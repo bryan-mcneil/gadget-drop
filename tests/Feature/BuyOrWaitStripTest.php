@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -73,7 +74,7 @@ class BuyOrWaitStripTest extends TestCase
         $post = Post::create([
             'user_id' => User::factory()->create()->id,
             'title' => "{$productName} Review",
-            'slug' => \Illuminate\Support\Str::slug($productName).'-review-'.$i,
+            'slug' => Str::slug($productName).'-review-'.$i,
             'type' => $type,
             'body' => 'Body.',
             'status' => 'published',

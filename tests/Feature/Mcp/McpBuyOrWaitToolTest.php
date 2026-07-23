@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
@@ -75,7 +76,7 @@ class McpBuyOrWaitToolTest extends TestCase
         $post = Post::create([
             'user_id' => User::factory()->create()->id,
             'title' => "{$name} Review",
-            'slug' => \Illuminate\Support\Str::slug($name).'-review',
+            'slug' => Str::slug($name).'-review',
             'type' => 'article',
             'body' => 'Body.',
             'status' => 'published',

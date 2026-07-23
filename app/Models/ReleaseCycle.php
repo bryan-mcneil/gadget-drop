@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\BuyOrWait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,7 @@ use Illuminate\Support\Collection;
  * Every row carries a `source_url` and a `verified_at` because the whole
  * feature rests on the dates being right: stale cycle data is the highest-stakes
  * honesty risk on the site. Staleness is never hidden. It renders on the page,
- * downgrades the verdict's confidence (see {@see \App\Support\BuyOrWait}), and
+ * downgrades the verdict's confidence (see {@see BuyOrWait}), and
  * shows up in the {@see scopeStale()} scope that /gd-health reads.
  *
  * The seeder is the editing interface (v1): data changes go through code review

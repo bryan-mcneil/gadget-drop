@@ -8,6 +8,7 @@ use App\Models\ReleaseCycle;
 use App\Support\BuyOrWait;
 use App\Support\PriceIntel;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -129,7 +130,7 @@ class BuyOrWaitController extends Controller
      * Other reviews a reader weighing this line would want. Category-scoped, so
      * a line with no category simply shows none rather than padding the page.
      *
-     * @return \Illuminate\Support\Collection<int, Post>
+     * @return Collection<int, Post>
      */
     private function relatedReviews(ReleaseCycle $cycle, ?int $excludeId)
     {

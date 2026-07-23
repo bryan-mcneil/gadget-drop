@@ -129,7 +129,7 @@ class ReleaseCycleSeeder extends Seeder
                 'cadence_months' => 12,
                 'last_release_name' => 'MacBook Air (M5)',
                 'last_release_at' => '2026-03-11', // on sale; announced March 3, 2026
-                'next_expected_note' => "Apple has moved MacBook Air to a new chip each spring since the M2: M3 in March 2024, M4 in March 2025, M5 in March 2026.",
+                'next_expected_note' => 'Apple has moved MacBook Air to a new chip each spring since the M2: M3 in March 2024, M4 in March 2025, M5 in March 2026.',
                 'source_url' => 'https://www.apple.com/newsroom/2026/03/apple-introduces-the-new-macbook-air-with-m5/',
             ],
             [
