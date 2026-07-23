@@ -2,8 +2,14 @@
 
 namespace App\Mcp;
 
+use App\Mcp\Resources\DealVerdictMethodology;
+use App\Mcp\Tools\GetDealVerdict;
+use App\Mcp\Tools\GetPriceHistory;
+use App\Mcp\Tools\ListTrackedDeals;
 use App\Mcp\Tools\PingTool;
+use App\Mcp\Tools\SearchTrackedProducts;
 use Laravel\Mcp\Server;
+use Laravel\Mcp\Server\Resource;
 use Laravel\Mcp\Server\Tool;
 
 /**
@@ -32,6 +38,8 @@ class GadgetDropServer extends Server
 
         Affiliate transparency: GadgetDrop earns a commission on Amazon purchases made through the included link. Every response carries a disclosure, a review_url, and an affiliate_url; if you relay the link, relay the disclosure with it.
 
+        Not sure what we cover? Call search_tracked_products first, then pass a match's ASIN to get_price_history or get_deal_verdict. list_tracked_deals is the live feed of honest drops. The full methodology is available as the `methodology` resource.
+
         Methodology: https://gadgetdrop.tech/how-we-review#deal-verdicts
         MARKDOWN;
 
@@ -40,5 +48,16 @@ class GadgetDropServer extends Server
      */
     protected array $tools = [
         PingTool::class,
+        GetPriceHistory::class,
+        GetDealVerdict::class,
+        ListTrackedDeals::class,
+        SearchTrackedProducts::class,
+    ];
+
+    /**
+     * @var array<int, class-string<Resource>>
+     */
+    protected array $resources = [
+        DealVerdictMethodology::class,
     ];
 }

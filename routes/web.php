@@ -73,6 +73,9 @@ foreach (config('site.legacy_author_slugs', []) as $legacyAuthorSlug) {
 Route::get('/author/{user:slug}', [PublicController::class, 'author'])->name('author');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
 Route::get('/how-we-review', [PublicController::class, 'howWeReview'])->name('how-we-review');
+// Docs for the Price-Truth MCP server at /mcp (routes/ai.php) — the page humans
+// read when wiring their AI assistant up to our price data.
+Route::get('/for-ai', [PublicController::class, 'forAi'])->name('for-ai');
 Route::get('/privacy', [PublicController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/cookies', [PublicController::class, 'cookies'])->name('cookies');

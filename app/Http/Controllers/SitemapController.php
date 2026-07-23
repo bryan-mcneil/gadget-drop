@@ -24,7 +24,8 @@ class SitemapController extends Controller
                 ->add(Url::create(route('deals'))->setPriority(0.8)->setChangeFrequency('daily'))
                 ->add(Url::create(route('drop-price.index'))->setPriority(0.7)->setChangeFrequency('daily'))
                 ->add(Url::create(route('about'))->setPriority(0.5)->setChangeFrequency('monthly'))
-                ->add(Url::create(route('how-we-review'))->setPriority(0.5)->setChangeFrequency('monthly'));
+                ->add(Url::create(route('how-we-review'))->setPriority(0.5)->setChangeFrequency('monthly'))
+                ->add(Url::create(route('for-ai'))->setPriority(0.5)->setChangeFrequency('monthly'));
 
             // Published Truth Reports (config + artifact double-gate) — static
             // once published, so they only change when a report is re-generated.

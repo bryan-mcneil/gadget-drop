@@ -48,6 +48,10 @@ class SearchController extends Controller
             '- [Latest news]('.route('news').'): buyer-focused tech news',
             '- [How we review]('.route('how-we-review').'): our testing and rating method',
             '',
+            '## For AI agents',
+            '- [For AI agents]('.route('for-ai').'): connect an assistant to our price-truth MCP server',
+            '- MCP endpoint (Streamable HTTP; tracked price history, deal verdicts, live drops feed): '.url('/mcp'),
+            '',
             '## Categories',
         ];
 

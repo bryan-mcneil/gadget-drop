@@ -6,10 +6,10 @@
 
 ## Phase Log
 
-- [ ] Phase 4.1 — Package install + server skeleton + throttle (commit: )
-- [ ] Phase 4.2 — Core tools: history, verdict, deals (commit: )
-- [ ] Phase 4.3 — Search tool + methodology resource + `/for-ai` docs page (commit: )
-- [ ] Phase 4.4 — Hardening, usage counter, prod verification (commit: )
+- [x] Phase 4.1 — Package install + server skeleton + throttle (commit: fdbf4ba + c48f3bd)
+- [x] Phase 4.2 — Core tools: history, verdict, deals (commit: pending — one combined 4.2–4.4 review)
+- [x] Phase 4.3 — Search tool + methodology resource + `/for-ai` docs page (commit: pending — one combined 4.2–4.4 review)
+- [x] Phase 4.4 — Hardening, usage counter, prod verification (commit: pending; prod checklist runs post-deploy)
 
 ## Design decisions
 
@@ -91,7 +91,7 @@ Feature: ~18 new tests under `tests/Feature/Mcp/`. E2E: MCP Inspector manual mat
 
 ## Deployment
 
-Standard template + deltas: `composer install --no-dev` on server picks up `laravel/mcp` (it's in `require`, not require-dev — verify before merging); pre-deploy local `route:cache` rehearsal (step 3 above); post-deploy run the 4.4 prod checklist; THEN submit directories (4.3 step 4). No migrations.
+Standard template + deltas: `composer install --no-dev` on server picks up `laravel/mcp` (it's in `require`, not require-dev — verified: `require` block, `^0.8.2`); pre-deploy local `route:cache` rehearsal (step 3 above); post-deploy run the 4.4 prod checklist; THEN submit directories (4.3 step 4). No migrations. Additional 4.3 deltas: `npm run build` must be part of the deploy commit (`/for-ai` introduces classes like `whitespace-pre` that the committed bundle doesn't have yet — verified present after a local build, then reverted to keep the review diff source-only), and post-deploy bust the day-long `sitemap.xml` + `search.llms_txt` cache keys (`php artisan cache:forget` or tinker) so `/for-ai` + the MCP lines appear without waiting a day; purge the hcdn CDN as usual.
 
 ## Maintenance
 
@@ -109,3 +109,8 @@ Standard template + deltas: `composer install --no-dev` on server picks up `lara
 ## Build Log
 
 (append one line per phase)
+
+- 4.1 (2026-07, commits fdbf4ba + c48f3bd): `laravel/mcp ^0.8.2` (0.x caret = minor-pinned); registration reality: `Mcp::web('/mcp', GadgetDropServer::class)` in `routes/ai.php`, auto-loaded OUTSIDE the web group (no session/CSRF — verified by test); throttle `mcp` = 30/min + 300/day per IP with distinct limiter keys; `McpCacheControl` forces no-store; 7 tests in `McpServerTest`.
+- 4.2 (2026-07-22): `DealsController::buildFeed()` extracted to `App\Support\DealsFeed` (constants aliased on the controller for existing view/test refs) so `/deals` and `list_tracked_deals` share one builder + the 1h `deals.feed` cache. Resolver at `App\Mcp\Support\ProductResolver` (ASIN exact → review-slug exact → name LIKE, published non-tip/news reviews only, LIKE wildcards escaped); shared response shape in `App\Mcp\Concerns\BuildsPriceTruthResponses` (disclosure, /out/ affiliate URLs, gate reason from the real PriceIntel constants, checked_at always present). Validation is manual in-tool (calm `Response::error`, exactly-one identifier). Conscious divergence from step 4's per-tool try/catch: EXPECTED errors return calm `Response::error` in-tool; UNEXPECTED throwables rely on the package's global handler (`vendor/laravel/mcp/src/Server.php:213`), which returns a calm generic `-32603` when `app.debug` is false — prod-safe (APP_DEBUG=false there), and debug envs get the real trace, which is what you want locally. Tests in `McpToolsTest` incl. a no-raw-amazon.com sweep across all four tools.
+- 4.3 (2026-07-22): `search_tracked_products` (name/brand LIKE + ASIN exact, cap 10); the `#deal-verdicts` section of /how-we-review extracted VERBATIM into `public/partials/deal-methodology.blade.php` — the page includes it, the `methodology` resource (`gadgetdrop://methodology/deal-verdicts`, text/markdown) renders the same partial and strips it to text, so the copy cannot fork; `/for-ai` page (indexable, serverMeta, sitemap) + llms.txt "For AI agents" section. The `claude mcp add --transport http gadgetdrop <url>` snippet verified live against local (`✔ Connected`, then removed). 12 tests in `McpDiscoveryTest`. Directory submission (step 4) = Bryan, after prod verify.
+- 4.4 (2026-07-22): `McpPayloadCap` (413 + JSON-RPC error body on >1KB tool arguments) + `McpUsageMeter` (`mcp.calls.{tool}.{Y-m-d}`, 35-day TTL, sanitized bounded key, counts only requests that pass the cap; package catches JsonRpcException at Server.php:211 and all other Throwables at :213 so post-`$next` metering always runs); middleware order throttle → cache-control → cap → meter, reasons documented in routes/ai.php. `route:cache` rehearsal: cached, `/mcp` + `/for-ai` + Livewire routes verified present, MCP+Livewire suites green under cached routes, then cleared. MCP Inspector CLI matrix run against local Herd (all 5 tools + resources/list + resources/read + both-params and not-tracked error paths, real data) — log at scratchpad `mcp-inspector-matrix.log`. 5 tests in `McpHardeningTest`. Full suite 453 green. Prod checklist (external handshake, per-tool calls, throttle fire, LiteSpeed POST, hcdn no-cache) runs post-deploy.

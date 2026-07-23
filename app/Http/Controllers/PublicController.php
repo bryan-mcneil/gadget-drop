@@ -917,6 +917,19 @@ class PublicController extends Controller
         ]);
     }
 
+    public function forAi(): View
+    {
+        view()->share('serverMeta', [
+            'title' => 'GadgetDrop for AI Agents — Price-Truth MCP Server',
+            'description' => 'Connect your AI assistant to GadgetDrop\'s free MCP server: independently tracked price history, honest deal verdicts, and the live price-drops feed for every product we review.',
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('for-ai'),
+        ]);
+
+        return view('public.for-ai');
+    }
+
     public function privacy(): View
     {
         view()->share('serverMeta', [

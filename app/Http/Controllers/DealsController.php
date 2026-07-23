@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\WorthItVote;
-use App\Support\PriceIntel;
+use App\Support\DealsFeed;
 use App\Support\TruthReport;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * "Price Drops" feed — products whose CURRENT price sits meaningfully below
  * what our own snapshot history says is typical. Every number on the page
  * comes from tracked data (never an MSRP), and products qualify only once
  * PriceIntel's honesty gates pass, so an empty feed is a truthful feed.
+ *
+ * The feed itself is built by App\Support\DealsFeed (shared with the MCP
+ * list_tracked_deals tool); this controller only renders it.
  */
 class DealsController extends Controller
 {
-    /** Minimum percent below the 90-day average to qualify as a drop. */
-    public const MIN_DROP_PCT = 5;
+    /** @deprecated The feed rules live in DealsFeed; these aliases keep existing view/test references valid. */
+    public const MIN_DROP_PCT = DealsFeed::MIN_DROP_PCT;
 
-    /** Max entries on the page. */
-    public const MAX_ENTRIES = 24;
+    /** @deprecated See MIN_DROP_PCT. */
+    public const MAX_ENTRIES = DealsFeed::MAX_ENTRIES;
 
     public function index(): View
     {
-        try {
-            $deals = Cache::remember('deals.feed', now()->addHour(), fn () => $this->buildFeed());
-        } catch (\Throwable) {
-            $deals = $this->buildFeed();
-        }
+        $deals = DealsFeed::get();
 
         view()->share('serverMeta', [
             'title' => 'Tech Price Drops We Actually Tracked | GadgetDrop',
@@ -50,74 +46,5 @@ class DealsController extends Controller
                 ? ['slug' => $promoSlug, 'title' => $published[$promoSlug]['title']]
                 : null,
         ]);
-    }
-
-    private function buildFeed(): array
-    {
-        // Product counts are small (low hundreds); assembling in PHP keeps the
-        // qualifying rules in one place (PriceIntel) and works on any driver.
-        $candidates = Product::query()
-            ->whereNotNull('price')
-            ->whereHas('posts', fn ($q) => $q->published())
-            ->whereHas('priceSnapshots')
-            ->with(['posts' => fn ($q) => $q->published()
-                ->whereNotIn('type', ['tech_tip', 'tech_news'])
-                ->latest('published_at')
-                ->select(['posts.id', 'title', 'slug', 'published_at'])
-                // Worth-it tallies folded into the eager-load (no per-post N+1).
-                ->withCount([
-                    'worthItVotes as worth_count' => fn ($q) => $q->where('choice', 'worth'),
-                    'worthItVotes as skip_count' => fn ($q) => $q->where('choice', 'skip'),
-                ]),
-            ])
-            ->get();
-
-        $deals = [];
-
-        foreach ($candidates as $product) {
-            $stats = PriceIntel::stats($product->id);
-
-            if (
-                ! $stats
-                || ! $stats['has_stats']
-                || ! in_array($stats['verdict'], ['lowest', 'good'], true)
-                || ($stats['drop_pct'] ?? 0) < self::MIN_DROP_PCT
-            ) {
-                continue;
-            }
-
-            $post = $product->posts->first();
-
-            if (! $post) {
-                continue;
-            }
-
-            // Read-only worth-it social proof (same ≥5-vote honesty gate as the
-            // post page); pct stays null below the gate and the card hides the line.
-            $worth = WorthItVote::summarize((int) ($post->worth_count ?? 0), (int) ($post->skip_count ?? 0));
-
-            $deals[] = [
-                'product_id' => $product->id,
-                'name' => $product->name,
-                'image_url' => $product->image_url,
-                'current' => $stats['current'],
-                'typical' => $stats['avg90'],
-                'low90' => $stats['low90'],
-                'low30' => $stats['low30'],
-                'drop_pct' => $stats['drop_pct'],
-                'verdict' => $stats['verdict'],
-                'checked_at' => $stats['checked_at'],
-                'points' => $stats['points'],
-                'post_id' => $post->id,
-                'post_title' => $post->title,
-                'post_slug' => $post->slug,
-                'worth_pct' => $worth['pct'],
-                'worth_total' => $worth['total'],
-            ];
-        }
-
-        usort($deals, fn ($a, $b) => $b['drop_pct'] <=> $a['drop_pct']);
-
-        return array_slice($deals, 0, self::MAX_ENTRIES);
     }
 }
