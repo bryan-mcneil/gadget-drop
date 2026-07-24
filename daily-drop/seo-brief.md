@@ -1,4 +1,4 @@
-# SEO Brief — generated 2026-07-23
+# SEO Brief — generated 2026-07-24
 Data through: 2026-07-22 (Google finalized data lags ~2 days).
 
 ## How to use this
