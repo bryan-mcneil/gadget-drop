@@ -58,7 +58,7 @@
             @endif
 
             <p class="mt-2 text-[11px] text-gray-400">
-                One email max, only if it drops. Your address is deleted after the window closes. <a href="{{ route('privacy') }}" wire:navigate class="underline hover:text-gray-600">Privacy</a>
+                Two email max, confirmation and only if it drops. Your email is deleted after the window closes. <a href="{{ route('privacy') }}" wire:navigate class="underline hover:text-gray-600">Privacy</a>
             </p>
         </form>
     @endif

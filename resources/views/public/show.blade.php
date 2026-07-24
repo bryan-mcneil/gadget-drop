@@ -97,15 +97,11 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
             fetchpriority="high" />
         @endif
 
-        {{-- Body — split into thirds with inline images between sections --}}
-        <x-article-body :sections="$sections" />
-
         {{-- Products — the single affiliate CTA, placed after the body just
                  above the verdict so the reader hits it with full context. --}}
         @if(count($post['products']) > 0)
-        <div class="mt-8 space-y-4">
+        <div class="mt-8 space-y-4 mb-5">
             @foreach($post['products'] as $product)
-            <x-product-card :product="$product" :post-id="$post['id']" />
             <x-price-history :stats="$product['price_intel'] ?? null" />
             {{-- Release-cycle timing. Internal link only (no CTA, no price), and
                  renders nothing when the product's line has no cycle. --}}
@@ -118,6 +114,19 @@ if ($host) { $sourceDomain = preg_replace('/^www\./', '', $host); }
             @if(!empty($product['price_intel']))
                 @livewire('price-watch-signup', ['productId' => $product['id']])
             @endif
+            @endforeach
+        </div>
+        @endif
+
+        {{-- Body — split into thirds with inline images between sections --}}
+        <x-article-body :sections="$sections" />
+
+        {{-- Products — the single affiliate CTA, placed after the body just
+                 above the verdict so the reader hits it with full context. --}}
+        @if(count($post['products']) > 0)
+        <div class="mt-8 space-y-4">
+            @foreach($post['products'] as $product)
+            <x-product-card :product="$product" :post-id="$post['id']" />
             @endforeach
         </div>
         @endif
