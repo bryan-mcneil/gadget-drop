@@ -1,96 +1,105 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: SwitchBot Hub 3 Review: Is the Matter Hub Worth $119?
-EXCERPT: The SwitchBot Hub 3 adds a color screen, a rotary dial, and Matter support for 30 devices. Here's who should pay $119 and who's fine with the Hub 2.
+TITLE: Endgame Gear KB65HE Review: Cheap Hall Effect Done Right
+EXCERPT: Our Endgame Gear KB65HE review: is this 8000Hz, aluminum-cased Hall effect keyboard the budget rapid-trigger board to buy, or are you paying for specs?
 TYPE: article
-CATEGORY: Smart Home
-TAGS: smart home | matter | switchbot | home automation | smart hub
-ASIN: B0F5QKQ6PV
+CATEGORY: Computers & Accessories
+TAGS: hall effect keyboard | gaming keyboard | rapid trigger | 65% keyboard | Endgame Gear
+ASIN: B0F47MJ1GM
 RATING: 4
 PROS:
-- Color screen and dial for app-free control
-- Bridges up to 30 Matter devices
-- Built-in temp, humidity, and presence sensors
-- Learning IR blaster runs old remotes
+- 8000Hz polling feels genuinely instant
+- Per-key adjustable actuation and rapid trigger
+- CNC aluminum case with no flex
+- Doubleshot PBT keycaps resist shine
 CONS:
-- Wi-Fi only, no Zigbee or Thread radios
-SEO_SCORE: 88
-META_TITLE: SwitchBot Hub 3 Review: Worth $119 Over the Hub 2?
-META_DESCRIPTION: SwitchBot Hub 3 review: a $119 Matter hub with a color screen, dial, and 30-device support. See who should buy it and who should grab the cheaper Hub 2.
-FOCUS_KEYWORD: SwitchBot Hub 3 review
-TARGET_QUERY: switchbot hub 3 review
-SLUG: switchbot-hub-3-review-worth-119
+- Wired-only, and the software is Windows-only
+SEO_SCORE: 92
+META_TITLE: Endgame Gear KB65HE Review: Is the Budget Hall Effect Worth It?
+META_DESCRIPTION: Endgame Gear KB65HE review: an 8000Hz aluminum Hall effect keyboard under $100. Who rapid trigger actually helps, and the wired-only catch.
+FOCUS_KEYWORD: Endgame Gear KB65HE review
+TARGET_QUERY: endgame gear kb65he review
+SLUG: endgame-gear-kb65he-review
 BODY:
-Most smart home hubs hide in a drawer or behind the TV, blinking quietly while you poke at an app to change anything. The SwitchBot Hub 3 wants to be the opposite. It puts a 2.4-inch color screen and a physical dial on your wall or counter, so you can nudge the thermostat or fire off a scene without unlocking your phone. At $119, though, it costs roughly double the older Hub 2, and that gap is the whole question.
+Two years ago, a Hall effect keyboard with adjustable actuation meant a Wooting and a $180 receipt. That was the price of admission for magnetic switches and rapid trigger, the features competitive shooter players kept saying were worth it. The Endgame Gear KB65HE is the reason that sentence is now out of date. It puts an aluminum case, 8000Hz polling, and per-key actuation tuning under $100, and it does it without feeling like a corner was cut to get there.
 
-This SwitchBot Hub 3 review is built from spec sheets, manufacturer documentation, and the pattern of verified-purchase owner feedback, not a first-hand bench test. The goal is simple: figure out who the extra money actually helps.
-
----
-
-## What Is the SwitchBot Hub 3?
-
-The Hub 3 is SwitchBot's flagship smart home controller. Strip away the marketing and it does four jobs at once. It's an infrared blaster that learns your old TV, air conditioner, and fan remotes. It's a sensor station with built-in temperature, humidity, light, and presence detection. It's a Matter bridge that pulls SwitchBot gear and some third-party Matter devices into Apple Home, Alexa, Google Home, SmartThings, and Home Assistant. And it's a physical control panel, with a color display, a rotary knob, and four shortcut buttons you can map to scenes.
-
-That last part is what separates it from almost everything else in this price range. Bluetooth reaches up to 200 meters for SwitchBot's own accessories, and the hub connects to your network over 2.4GHz Wi-Fi. It can display a CO2 reading too, if you pair it with SwitchBot's Meter Pro.
+The question isn't whether the KB65HE is good. Reviewers across the board like it. The question is whether the specific things it does well are things you'll actually use, or whether you're about to pay for a number on a box.
 
 ---
 
-## Who Should Buy the SwitchBot Hub 3?
+## What Is the Endgame Gear KB65HE?
 
-Buy the Hub 3 if you want tactile control that lives in a room, not just on a phone. Think a kitchen counter where you spin the dial to dim the lights while your hands are full, or a hallway panel that runs a "leaving home" scene with one press. It suits people who already own SwitchBot curtains, bots, or blinds and want a single command center for them.
+The KB65HE is a 65% wired gaming keyboard, 68 keys, in the ANSI US layout. The "HE" stands for Hall effect: instead of a mechanical contact, each key sits over a magnetic sensor that reads exactly how far down you've pressed. That single design choice is what unlocks the features gamers care about.
 
-It also fits anyone stitching together a mixed ecosystem. If you've got a few Matter bulbs from one brand and a lock from another, the Hub 3 acts as the bridge that lets Apple Home or Alexa see them together. Renters like it because the IR blaster makes a "dumb" window AC unit voice-controllable without touching the wiring.
+The headline number is 8000Hz. That's how often the board reports to your PC, eight times faster than the 1000Hz standard most keyboards still ship with. In practical terms, the gap between pressing a key and the game seeing it drops to a fraction of a millisecond. You won't feel 8000Hz as a dramatic difference over 1000Hz, but you will feel that the whole thing responds the instant you touch it.
 
-Skip it if your smart home is three bulbs and a plug. You don't need a $119 control surface for that, and the app on your phone will do the job for free.
+More useful day to day is the adjustable actuation. You can set the trigger point anywhere from 0.1mm to a full 4.0mm of travel, per key. Feather-light for movement keys in an FPS, deliberate and deep for the ones you don't want to fire by accident. Pair that with rapid trigger, which resets a key the moment you start lifting it, and counter-strafing or quick double-taps register faster than a normal switch physically allows.
+
+Underneath, it's a CNC-machined single block of aluminum with doubleshot PBT keycaps. Professional reviewers repeatedly single out the chassis as one of the sturdiest at this price, with no deck flex and a solid, dense feel in the hand.
 
 ---
 
-## What $119 Actually Buys You
+## Who Should Buy the Endgame Gear KB65HE?
 
-- **A real control panel.** The 2.4-inch color screen, rotary dial, and four capacitive shortcut buttons mean common actions happen without the app. For a device you walk past twenty times a day, that convenience adds up fast.
-- **A wider Matter bridge.** The Hub 3 handles up to 30 secondary Matter devices, versus 8 on the Hub 2. It can also relay some third-party Matter products like Philips Hue and IKEA, not just SwitchBot's own hardware.
-- **Four sensors in one puck.** Temperature, humidity, light, and presence detection are built in, so you can trigger automations ("turn on the fan above 78F") without buying separate sensors.
-- **A learning IR blaster.** Point your old remotes at it once and the hub can run your TV, soundbar, or air conditioner inside scenes and schedules.
+This is a keyboard for people who play competitive shooters and want every millisecond, but who refuse to spend Wooting money to get there. If you're grinding ranked Valorant, CS2, or Apex, rapid trigger and tunable actuation are the exact tools that separate this class of board from a normal mechanical keyboard.
+
+It's also a smart pick if desk space is tight. The 65% layout keeps the arrow keys but drops the number pad and function row, so your mouse hand gets more room to swing. That matters more than people expect for aim-heavy games.
+
+Upgraders coming from a membrane board or an older mechanical keyboard will feel the biggest jump. If your current keyboard is already a decent mechanical and you don't play twitch shooters, the Hall effect features are a nice-to-have rather than a reason to buy. And if you want a full desk refresh, a good mouse matters just as much as the board. Our [Logitech MX Master 3S review](/posts/logitech-mx-master-3s-why-worth-it) covers the productivity side of that pairing.
+
+---
+
+## Key Features That Actually Matter
+
+- **8000Hz polling** keeps input latency low enough that the board never feels like the thing holding you back.
+- **Per-key adjustable actuation, 0.1mm to 4.0mm** lets you make movement keys hair-trigger and everything else deliberate.
+- **Rapid trigger** resets keys the instant you lift, which is the feature FPS players are really buying a Hall effect board for.
+- **CNC aluminum case** gives it a rigid, premium feel that most sub-$100 boards can't match.
+- **Doubleshot PBT keycaps** keep their texture and won't go shiny after months of use.
 
 ---
 
 ## What You'll Pay
 
-At $119, the Hub 3 sits at the premium end of smart home hubs, and you're paying for the screen and physical controls more than the connectivity. The step-down Hub 2 covers the same core Matter-bridge and IR-blaster duties for meaningfully less, minus the color display, the dial, presence sensing, and the higher device ceiling. The price widget above shows where today's number lands against the price we've tracked, so you can tell whether the current listing is a genuine discount or just the standard rate before you commit.
+The KB65HE lands in the low triple digits, and it has dipped under that at times. That places it in a useful spot: well above the $40 entry Hall effect boards that skimp on the case and keycaps, and well below the $150-plus premium tier led by Wooting. What the extra money over a cheap board buys you here is the aluminum chassis, the PBT keycaps, and the 8000Hz ceiling, all things you can feel every day rather than spec-sheet trivia.
+
+The price widget above shows where today's tracked number sits against our recorded history, so you can see whether it's currently near the low end of its range before you commit. Hall effect boards in this bracket move around in price more than you'd think, and a good week can shave real money off.
 
 ---
 
-## SwitchBot Hub 3 vs. the Alternatives
+## The Alternatives Worth Considering
 
-The obvious internal comparison is the SwitchBot Hub 2. It's the better buy if you only need a Matter bridge and IR blaster and don't care about a display or a dial. You lose presence sensing and drop from 30 Matter devices to 8, but you keep the parts most people actually use, for less money.
+The **Wooting 60HE** is still the reference point at roughly $175. If you want the deepest software, the most mature rapid-trigger tuning, and a 60% layout with a big enthusiast community behind it, Wooting earns the premium. It's the better buy for someone who treats keyboard tuning as a hobby, not just a means to an end.
 
-The other rival is Amazon's Echo Hub, a wall-mounted Alexa control panel. Echo Hub is the smarter pick if your home runs entirely on Alexa and you want a bigger touchscreen dashboard, but it leans on Alexa's ecosystem rather than acting as a broad Matter bridge with built-in sensors. If your control surface is really about voice and video, our [Echo Show 8 review](/posts/echo-show-8-3rd-gen-worth-buying) covers that Alexa-first angle, since a Show can double as a countertop panel too.
+The **DrunkDeer A75 Pro** sits closer, around $119, and answers a different question. It's a hot-swappable 75% board with a volume knob, so you keep the function row and gain a physical dial. If a compact 65% feels too stripped down for you, the DrunkDeer's extra keys and knob are worth the small step up in price.
 
 ---
 
 ## One Thing to Consider
 
-The Hub 3 is Wi-Fi only. There's no Zigbee or Thread radio inside, which matters more than it sounds. A lot of the smart home world, including many locks, sensors, and bulbs, runs on Thread now, and Matter increasingly assumes a Thread border router in the house. The Hub 3 can bridge Matter-over-Wi-Fi devices, but it won't act as that Thread router. Some owners and reviewers also describe the hub as trying to be too many things at once, with a feature set that outruns how polished the software feels day to day. If you were hoping this one box would become the single Thread hub for your whole home, it isn't that.
+The KB65HE is wired only. There's no Bluetooth, no 2.4GHz dongle, so if a clean wireless desk is non-negotiable, this isn't your board. For a competitive keyboard that's a defensible trade, wired is lower latency anyway, but it's the first thing to check against how you actually work.
+
+Two smaller catches back it up. The configuration software is Windows only, which leaves Mac and Linux users tuning nothing. And the secondary functions on the compact layout aren't printed on the keycaps, so there's a short learning curve while you memorize where the missing function row went. None of these are dealbreakers for the target buyer, but they're real, and you should know them before checkout.
 
 ---
 
 ## FAQ
 
-**Q: Does the SwitchBot Hub 3 work with Apple HomeKit?**
-Yes. It bridges compatible SwitchBot and Matter devices into Apple Home, alongside Alexa, Google Home, SmartThings, and Home Assistant. Note that only devices SwitchBot exposes over Matter show up in Apple Home, not every feature in the SwitchBot app.
+**Q: Is the Endgame Gear KB65HE hot-swappable?**
+Yes, but only with magnetic Hall effect switches, not standard mechanical ones. You can pull and replace switches to change the feel later, just make sure each one is seated correctly, since a magnetic switch installed upside down physically fits but won't register.
 
-**Q: Is the Hub 3 worth it over the Hub 2?**
-It's worth the jump if you'll use the color screen, the dial, and presence sensing, or if you plan to bridge more than eight Matter devices. If you just need a Matter bridge and IR blaster, the cheaper Hub 2 does that same core job.
+**Q: Does the KB65HE work wirelessly or on a Mac?**
+No on both counts for the full experience. It's a wired-only keyboard with no Bluetooth or dongle, and while it'll type on a Mac, the tuning software that controls actuation and rapid trigger runs on Windows only.
 
-**Q: Does the Hub 3 support Thread or Zigbee?**
-No. It connects over 2.4GHz Wi-Fi and Bluetooth only. If you need a Thread border router or Zigbee coordinator for locks and sensors, you'll want a different or additional hub.
+**Q: Is 8000Hz polling and rapid trigger actually worth it?**
+For competitive FPS players, rapid trigger is the real prize, and it makes a felt difference in fast movement and counter-strafing. The 8000Hz polling is a smaller, harder-to-notice upgrade over 1000Hz. If you don't play twitch shooters, you're mostly buying a very well-built keyboard, which is still a fine reason.
 
 ---
 
 ## The Verdict
 
-The SwitchBot Hub 3 is the best physical control panel SwitchBot has made, and the sensor suite plus wider Matter support justify the $119 for a genuine smart home enthusiast. If you only want a quiet bridge in a drawer, or you need Thread, save your money and grab the Hub 2 or something with the right radios.
+The KB65HE takes the features that used to cost $180 and delivers them in a sturdier-than-expected package for under $100, and the only real caveats are the wired connection and Windows-only software. If you play competitive shooters and want Hall effect performance without the premium tax, this is one of the easiest recommendations in the category right now.
 
 ---
 
-If the price in the card above sits near or below what we've tracked, and you actually want dials and a screen instead of another app, the Hub 3 is an easy yes.
+If the price in the card above sits near the low end of its tracked range, a keyboard this well built at this spec level doesn't stay on the shelf, and it's a straightforward yes.
