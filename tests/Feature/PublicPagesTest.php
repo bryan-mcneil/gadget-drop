@@ -70,6 +70,33 @@ class PublicPagesTest extends TestCase
             ->assertSee('Page not found', false);
     }
 
+    public function test_post_body_renders_framed_inline_image_with_caption(): void
+    {
+        Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Figure Test Drop',
+            'slug' => 'figure-test-drop',
+            'type' => 'article',
+            'body' => implode("\n\n", [
+                'Intro paragraph with enough text to anchor the drop cap and the layout.',
+                'Second paragraph so the body has an in-flow slot between paragraphs.',
+                'Third paragraph continuing the running text for the placement logic.',
+                'Fourth paragraph closing out the article body for this feature test.',
+            ]),
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+            'image_1' => '/storage/posts/inline-1.jpg',
+            'image_1_fit' => 'contain',
+            'image_1_caption' => 'The 616-LED matrix in DIY mode',
+        ]);
+
+        $this->get('/posts/figure-test-drop')
+            ->assertOk()
+            ->assertSee('<figure class="not-prose', false)
+            ->assertSee('<figcaption', false)
+            ->assertSee('The 616-LED matrix in DIY mode');
+    }
+
     public function test_home_renders_the_drop_price_game_without_leaking_the_price(): void
     {
         // The puzzle product is attached to a published article — the exact pool

@@ -22,3 +22,4 @@
 - [Market import review](project_market-import-review.md) — market:import confirmed-safe patterns (2-query chunk, url is data, seen_at fillable) + 2 deviations (brand, warnings) with test gaps; dont re-flag
 - [Market promote review](project_market-promote-review.md) — Plan 08 MarketPromotionService: withoutEvents+seeded-history confirmed-safe (only Product event is observer); standing WARN = column-width mapping branches untested
 - [PriceIntel verdict duplication](project_priceintel-verdict-duplication.md) — plan 03 verdictFor() copies compute()'s inline tier match; drift = honesty bug; check both sites on any tier/DEAL_PCT change
+- [Importer writes no image fields](project_importer-no-image-fields.md) — posts:import/DailyDropImporterService sets no image_* or caption fields; plan "importer passthrough" steps are moot, not a gap

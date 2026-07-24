@@ -16,6 +16,7 @@ Seven implementation plans, each broken into small, individually reviewable phas
 | 07 | [Automated review videos → YouTube (drop-studio)](07-video-pipeline.md) | L | — (new sibling repo; consumes daily-drop output) |
 | 08 | [Market → catalog promotion](08-market-promote.md) | S | — (market layer on main) |
 | 09 | [Mention-driven review selection](09-review-queue.md) | M | — (market layer + reviewed-products API on main) |
+| 10 | [Design refresh: price-truth instrument](10-design-refresh.md) | L | 01, 03, 06 (all shipped) |
 
 Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for humans (badges, votes, post-purchase protection, truth reports) and for AI agents (MCP). All features run structurally $0 on current hosting.
 

@@ -402,11 +402,12 @@ class PublicController extends Controller
         view()->share('serverMeta', $this->buildServerMeta($postData));
         view()->share('serverJsonLd', $this->buildServerJsonLd($postData));
 
-        // Server-side Markdown: body split into thirds with inline images injected
+        // Server-side Markdown: structure-aware inline image placement
         $sections = ArticleBody::sections(
             $post->body,
             [$post->image_1, $post->image_2, $post->image_3],
             [$post->image_1_fit ?? 'cover', $post->image_2_fit ?? 'cover', $post->image_3_fit ?? 'cover'],
+            [$post->image_1_caption, $post->image_2_caption, $post->image_3_caption],
         );
 
         return view('public.show', [

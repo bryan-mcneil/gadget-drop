@@ -27,10 +27,13 @@ export default function PostForm({ post, categories, tags, products }) {
         hero_image_position: post?.hero_image_position ?? 'center center',
         image_1: post?.image_1 ?? '',
         image_1_fit: post?.image_1_fit ?? 'cover',
+        image_1_caption: post?.image_1_caption ?? '',
         image_2: post?.image_2 ?? '',
         image_2_fit: post?.image_2_fit ?? 'cover',
+        image_2_caption: post?.image_2_caption ?? '',
         image_3: post?.image_3 ?? '',
         image_3_fit: post?.image_3_fit ?? 'cover',
+        image_3_caption: post?.image_3_caption ?? '',
         status: post?.status ?? 'draft',
         published_at: toDatetimeLocal(post?.published_at),
         // Single-author site: user_id is defaulted server-side (User::siteAuthor).
@@ -243,7 +246,7 @@ export default function PostForm({ post, categories, tags, products }) {
                         {/* Inline Images */}
                         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
                             <h3 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">Inline Images</h3>
-                            <p className="text-xs text-gray-400">These appear at ~⅓, ~⅔, and end of the post body.</p>
+                            <p className="text-xs text-gray-400">Placed automatically between paragraphs, spread through the body — never against a heading or at the end.</p>
                             {[1, 2, 3].map((n) => (
                                 <Field key={n} label={`Image ${n}`} error={errors[`image_${n}`]}>
                                     <ImageUploader
@@ -256,6 +259,11 @@ export default function PostForm({ post, categories, tags, products }) {
                                             value={data[`image_${n}_fit`]}
                                             onChange={(v) => setData(`image_${n}_fit`, v)}
                                         />
+                                    )}
+                                    {data[`image_${n}`] && (
+                                        <input type="text" maxLength={255} value={data[`image_${n}_caption`]}
+                                            onChange={(e) => setData(`image_${n}_caption`, e.target.value)}
+                                            className="mt-2 w-full border-gray-300 rounded-lg shadow-sm text-sm" placeholder="Caption (optional)" />
                                     )}
                                 </Field>
                             ))}

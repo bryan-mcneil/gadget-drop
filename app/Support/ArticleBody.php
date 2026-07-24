@@ -6,59 +6,79 @@ use Illuminate\Support\Facades\Cache;
 use League\CommonMark\CommonMarkConverter;
 
 /**
- * Server-side rendering of a post body, reproducing the behaviour the React
- * client used to perform with react-markdown:
- *  - the body is split on blank lines into paragraphs
- *  - paragraphs are divided into three roughly-equal sections
- *  - inline images (image_1/2/3 with their fits) are injected between sections
+ * Server-side rendering of a post body with structure-aware inline images:
+ *  - the body is split on blank lines into blocks, each classified as
+ *    paragraph / heading / hr / list / blockquote
+ *  - inline images (image_1/2/3 with fit + caption) are placed only in legal
+ *    slots: between two paragraphs of running text (first tier), or after the
+ *    closing paragraph of a section that continues (second tier) — never
+ *    directly against a heading or divider, and never at the document end
+ *    while an in-flow slot exists
+ *  - slots are spread across the reading flow by cumulative text length
  *  - <hr> becomes a gradient divider and <blockquote> gets the indigo styling
  *
  * The DOM shape (`.post-body > div:first-child .prose p:first-child`) is kept
- * so the existing drop-cap CSS in resources/css/app.css still applies.
+ * so the existing drop-cap CSS in resources/css/app.css still applies: the
+ * first section always starts at the first block of the body.
  */
 class ArticleBody
 {
     /**
-     * @param  array{0:?string,1:?string,2:?string}  $images
-     * @param  array{0:?string,1:?string,2:?string}  $fits
-     * @return array<int, array{html:string, image:?string, fit:string}>
+     * Bumped whenever placement or markup logic changes so every cached render
+     * dies with its old key on deploy (keys are input-hashed, entries expire).
      */
-    public static function sections(?string $body, array $images = [], array $fits = []): array
-    {
-        // Markdown rendering is pure: the same body/images/fits always produce the
-        // same HTML. Cache on a hash of the inputs so it re-renders only when the
-        // content changes (the new hash is a fresh key; stale entries expire).
-        // Integer TTL (30 days) keeps this free of the date/cache facades; if the
-        // cache layer is unavailable (e.g. a pure unit test) we just render.
-        $key = 'article-body.'.md5(serialize([$body, $images, $fits]));
-
-        try {
-            return Cache::remember($key, 60 * 60 * 24 * 30, fn () => self::render($body, $images, $fits));
-        } catch (\Throwable $e) {
-            return self::render($body, $images, $fits);
-        }
-    }
+    private const VERSION = 'v2';
 
     /**
      * @param  array{0:?string,1:?string,2:?string}  $images
      * @param  array{0:?string,1:?string,2:?string}  $fits
-     * @return array<int, array{html:string, image:?string, fit:string}>
+     * @param  array{0:?string,1:?string,2:?string}  $captions
+     * @return array<int, array{html:string, image:?string, fit:string, caption:?string}>
      */
-    private static function render(?string $body, array $images, array $fits): array
+    public static function sections(?string $body, array $images = [], array $fits = [], array $captions = []): array
     {
-        $paragraphs = $body !== null && $body !== ''
-            ? preg_split('/\n\n+/', $body)
+        // Markdown rendering is pure: the same inputs always produce the same
+        // HTML. Cache on a hash of the inputs so it re-renders only when the
+        // content changes. Integer TTL (30 days) keeps this free of the
+        // date/cache facades; if the cache layer is unavailable (e.g. a pure
+        // unit test) we just render.
+        $key = 'article-body.'.self::VERSION.'.'.md5(serialize([$body, $images, $fits, $captions]));
+
+        try {
+            return Cache::remember($key, 60 * 60 * 24 * 30, fn () => self::render($body, $images, $fits, $captions));
+        } catch (\Throwable $e) {
+            return self::render($body, $images, $fits, $captions);
+        }
+    }
+
+    /**
+     * @return array<int, array{html:string, image:?string, fit:string, caption:?string}>
+     */
+    private static function render(?string $body, array $images, array $fits, array $captions): array
+    {
+        $blocks = $body !== null && trim($body) !== ''
+            ? array_values(array_filter(array_map('trim', preg_split('/\n\n+/', $body)), fn ($b) => $b !== ''))
             : [];
-        $total = count($paragraphs);
 
-        $cut1 = max(1, intdiv($total, 3));
-        $cut2 = max($cut1 + 1, intdiv(2 * $total, 3));
+        $media = [];
+        for ($i = 0; $i < 3; $i++) {
+            if (! empty($images[$i])) {
+                $fit = in_array($fits[$i] ?? null, ['cover', 'contain'], true) ? $fits[$i] : 'cover';
+                $caption = trim((string) ($captions[$i] ?? ''));
+                $media[] = ['image' => $images[$i], 'fit' => $fit, 'caption' => $caption !== '' ? $caption : null];
+            }
+        }
 
-        $chunks = [
-            implode("\n\n", array_slice($paragraphs, 0, $cut1)),
-            implode("\n\n", array_slice($paragraphs, $cut1, $cut2 - $cut1)),
-            implode("\n\n", array_slice($paragraphs, $cut2)),
-        ];
+        if ($blocks === []) {
+            // No body: still render any uploaded images so content is never lost.
+            return array_map(
+                fn ($m) => ['html' => '', 'image' => $m['image'], 'fit' => $m['fit'], 'caption' => $m['caption']],
+                $media
+            );
+        }
+
+        $types = array_map(self::classify(...), $blocks);
+        $slots = self::chooseSlots($types, $blocks, count($media));
 
         $converter = new CommonMarkConverter([
             'html_input' => 'escape',
@@ -66,19 +86,155 @@ class ArticleBody
         ]);
 
         $sections = [];
-        foreach ($chunks as $i => $text) {
-            $html = trim($text) !== ''
-                ? self::style((string) $converter->convert($text))
-                : '';
-
+        $start = 0;
+        foreach ($media as $k => $m) {
+            $end = $slots[$k];
+            $text = $end >= $start ? implode("\n\n", array_slice($blocks, $start, $end - $start + 1)) : '';
             $sections[] = [
-                'html' => $html,
-                'image' => $images[$i] ?? null,
-                'fit' => $fits[$i] ?? 'cover',
+                'html' => $text !== '' ? self::style((string) $converter->convert($text)) : '',
+                'image' => $m['image'],
+                'fit' => $m['fit'],
+                'caption' => $m['caption'],
+            ];
+            $start = max($start, $end + 1);
+        }
+
+        $tail = $start < count($blocks) ? implode("\n\n", array_slice($blocks, $start)) : '';
+        if ($tail !== '' || $sections === []) {
+            $sections[] = [
+                'html' => $tail !== '' ? self::style((string) $converter->convert($tail)) : '',
+                'image' => null,
+                'fit' => 'cover',
+                'caption' => null,
             ];
         }
 
         return $sections;
+    }
+
+    /**
+     * One markdown block → its structural role. Blocks are blank-line
+     * separated, so a heading and its paragraph normally arrive separately.
+     */
+    private static function classify(string $block): string
+    {
+        if (preg_match('/^#{1,6}\s/', $block)) {
+            return 'heading';
+        }
+        if (preg_match('/^(-{3,}|\*{3,}|_{3,})$/', trim($block))) {
+            return 'hr';
+        }
+        if (str_starts_with($block, '>')) {
+            return 'quote';
+        }
+        $firstLine = strtok($block, "\n") ?: $block;
+        if (preg_match('/^([-*+]|\d+\.)\s/', $firstLine)) {
+            return 'list';
+        }
+
+        return 'paragraph';
+    }
+
+    /**
+     * Pick one insertion index per image (image renders AFTER that block).
+     *
+     * Tier 1: between two paragraphs of running text.
+     * Tier 2: after a paragraph that closes a section which continues (next
+     *         block is a heading, or a divider with content beyond it).
+     * Fallback: after the last paragraph — only when no legal slot remains,
+     *         because dropping an uploaded image is worse than a tail image.
+     *
+     * Targets sit at fractions of cumulative text length so images spread
+     * through the *reading flow* rather than the block count.
+     *
+     * @param  array<int, string>  $types
+     * @param  array<int, string>  $blocks
+     * @return array<int, int> ascending block indices, one per image
+     */
+    private static function chooseSlots(array $types, array $blocks, int $count): array
+    {
+        if ($count === 0) {
+            return [];
+        }
+
+        $n = count($blocks);
+        $tier1 = [];
+        $tier2 = [];
+        for ($i = 0; $i < $n - 1; $i++) {
+            if ($types[$i] !== 'paragraph') {
+                continue;
+            }
+            if ($types[$i + 1] === 'paragraph') {
+                $tier1[] = $i;
+            } elseif ($types[$i + 1] === 'heading' || ($types[$i + 1] === 'hr' && $i + 2 < $n)) {
+                $tier2[] = $i;
+            }
+        }
+
+        $lengths = array_map(mb_strlen(...), $blocks);
+        $total = max(1, array_sum($lengths));
+        $cum = [];
+        $running = 0;
+        foreach ($lengths as $i => $len) {
+            $running += $len;
+            $cum[$i] = $running / $total;
+        }
+
+        $targets = [1 => [0.5], 2 => [0.35, 0.7], 3 => [0.3, 0.55, 0.8]][min(3, $count)];
+
+        $chosen = [];
+        foreach ($targets as $target) {
+            $slot = self::nearestSlot($tier1, $cum, $target, $chosen, 2)
+                ?? self::nearestSlot($tier2, $cum, $target, $chosen, 2)
+                ?? self::nearestSlot($tier1, $cum, $target, $chosen, 1)
+                ?? self::nearestSlot($tier2, $cum, $target, $chosen, 1);
+            if ($slot !== null) {
+                $chosen[] = $slot;
+            }
+        }
+
+        if (count($chosen) < $count) {
+            $lastParagraph = null;
+            for ($i = $n - 1; $i >= 0; $i--) {
+                if ($types[$i] === 'paragraph') {
+                    $lastParagraph = $i;
+                    break;
+                }
+            }
+            $fallback = $lastParagraph ?? $n - 1;
+            while (count($chosen) < $count) {
+                $chosen[] = $fallback;
+            }
+        }
+
+        sort($chosen);
+
+        return $chosen;
+    }
+
+    /**
+     * @param  array<int, int>  $pool
+     * @param  array<int, float>  $cum
+     * @param  array<int, int>  $chosen
+     */
+    private static function nearestSlot(array $pool, array $cum, float $target, array $chosen, int $minGap): ?int
+    {
+        $best = null;
+        $bestDistance = INF;
+        foreach ($pool as $i) {
+            foreach ($chosen as $c) {
+                if (abs($i - $c) < $minGap) {
+                    continue 2;
+                }
+            }
+            $distance = abs($cum[$i] - $target);
+            if ($distance < $bestDistance) {
+                $bestDistance = $distance;
+                $best = $i;
+            }
+        }
+
+        return $best;
     }
 
     /**
