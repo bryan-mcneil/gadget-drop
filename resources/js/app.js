@@ -521,6 +521,54 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
+    /* ── Intel-band price sparkline draw-in (post page) ──────────
+       The signature price-truth moment: the 90-day sparkline strokes
+       itself once, the first time it scrolls into view (~600ms). The
+       server already renders the line fully drawn, so this only ever
+       hides it then reveals it — under prefers-reduced-motion, a browser
+       without SVG geometry, or any early bail-out the line simply stays
+       visible. The IntersectionObserver is the one manual handle, so it's
+       disconnected in destroy() (wire:navigate tears the component down on
+       every page swap). */
+    Alpine.data('sparklineDraw', () => ({
+        observer: null,
+        init() {
+            const line = this.$refs.line;
+            if (!line || typeof line.getTotalLength !== 'function') return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            let len = 0;
+            try {
+                len = line.getTotalLength();
+            } catch (e) {
+                return;
+            }
+            if (!len) return;
+            // Hide the stroke synchronously in init (before first paint), then
+            // reveal it on viewport entry — avoids a draw → blank → redraw flash.
+            line.style.strokeDasharray = len;
+            line.style.strokeDashoffset = len;
+            this.observer = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (!entry.isIntersecting) continue;
+                    line.style.transition = 'stroke-dashoffset 600ms ease-out';
+                    line.style.strokeDashoffset = '0';
+                    this.teardown();
+                    break;
+                }
+            }, { threshold: 0.4 });
+            this.observer.observe(this.$el);
+        },
+        teardown() {
+            if (this.observer) {
+                this.observer.disconnect();
+                this.observer = null;
+            }
+        },
+        destroy() {
+            this.teardown();
+        },
+    }));
+
     /* ── Share bar ───────────────────────────────────────────── */
     Alpine.data('shareBar', (shortUrl, title) => ({
         copied: false,

@@ -123,11 +123,11 @@ class ArticleBodyTest extends TestCase
         $this->assertCount(1, $withImage);
         $this->assertStringEndsWith('</p>', trim($withImage[0]['html']));
 
-        // The image is followed by more content (the next section's heading),
-        // not parked at the document end.
+        // The image is followed by more content (the next section's heading,
+        // now id-stamped for the "On this page" nav), not parked at the end.
         $last = end($sections);
         $this->assertNull($last['image']);
-        $this->assertStringContainsString('<h2>', $last['html']);
+        $this->assertStringContainsString('<h2 id=', $last['html']);
     }
 
     public function test_short_body_still_renders_every_image(): void
@@ -187,5 +187,63 @@ class ArticleBodyTest extends TestCase
         $this->assertSame('', $sections[0]['html']);
         $this->assertSame('img1.jpg', $sections[0]['image']);
         $this->assertSame('A caption', $sections[0]['caption']);
+    }
+
+    public function test_headings_lists_h2_sections_in_order_with_slugs(): void
+    {
+        $this->assertSame(
+            [
+                ['text' => 'What Is It', 'slug' => 'what-is-it'],
+                ['text' => 'Who Should Buy It', 'slug' => 'who-should-buy-it'],
+                ['text' => 'Verdict', 'slug' => 'verdict'],
+            ],
+            ArticleBody::headings($this->longBody())
+        );
+    }
+
+    public function test_headings_ignores_h1_and_h3_levels(): void
+    {
+        // The page title is an H1 (never in the body) and H3s are sub-points:
+        // a flat one-level "On this page" list stays scannable with H2 only.
+        $body = "# Page Title\n\n## Real Section\n\nBody text.\n\n### Sub Point\n\nMore text.";
+
+        $this->assertSame([['text' => 'Real Section', 'slug' => 'real-section']], ArticleBody::headings($body));
+    }
+
+    public function test_headings_is_empty_without_h2s(): void
+    {
+        $this->assertSame([], ArticleBody::headings('Just a paragraph, no headings at all here.'));
+        $this->assertSame([], ArticleBody::headings(''));
+        $this->assertSame([], ArticleBody::headings(null));
+    }
+
+    public function test_h2_blocks_render_with_ids_matching_their_heading_slug(): void
+    {
+        $sections = ArticleBody::sections($this->longBody(), [], []);
+        $html = implode('', array_column($sections, 'html'));
+
+        // Every slug headings() reports is stamped on the rendered <h2>, so the
+        // sidebar anchor always finds its heading.
+        foreach (ArticleBody::headings($this->longBody()) as $h) {
+            $this->assertStringContainsString('<h2 id="'.$h['slug'].'">', $html);
+        }
+    }
+
+    public function test_heading_with_inline_markdown_anchors_to_the_same_slug(): void
+    {
+        // The dual-slug hazard: headings() and style() must agree on the slug
+        // even when the heading carries inline markdown (a link here) — both
+        // reduce the SAME CommonMark rendering to plain text before slugging.
+        $body = "Intro paragraph here.\n\n## See our [full guide](/guide) today\n\nBody text follows here for length.";
+
+        $headings = ArticleBody::headings($body);
+        $this->assertCount(1, $headings);
+        // The TOC label is the link's text only (no URL), and the slug drops it too.
+        $this->assertSame('See our full guide today', $headings[0]['text']);
+        $this->assertSame('see-our-full-guide-today', $headings[0]['slug']);
+
+        $sections = ArticleBody::sections($body, [], []);
+        $html = implode('', array_column($sections, 'html'));
+        $this->assertStringContainsString('<h2 id="'.$headings[0]['slug'].'">', $html);
     }
 }

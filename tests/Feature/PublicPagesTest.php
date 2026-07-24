@@ -6,7 +6,9 @@ use App\Models\Category;
 use App\Models\DropPricePuzzle;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\ProductPriceSnapshot;
 use App\Models\User;
+use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -95,6 +97,103 @@ class PublicPagesTest extends TestCase
             ->assertSee('<figure class="not-prose', false)
             ->assertSee('<figcaption', false)
             ->assertSee('The 616-LED matrix in DIY mode');
+    }
+
+    public function test_post_page_renders_exactly_one_h1_with_the_title(): void
+    {
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'The One True Headline',
+            'slug' => 'one-h1-review',
+            'type' => 'article',
+            'body' => "Intro paragraph here.\n\n## A Section\n\nMore body text for the reader.",
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+
+        $html = $this->get("/posts/{$post->slug}")->assertOk()->getContent();
+
+        // The dark intel band holds the single <h1>; the sidebar TOC and
+        // verdict box use lower heading levels.
+        $this->assertSame(1, substr_count($html, '<h1'), 'the post page must have exactly one <h1>');
+        $this->assertStringContainsString('The One True Headline', $html);
+    }
+
+    public function test_intel_strip_summarises_a_tracked_price_on_a_gated_review(): void
+    {
+        $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Tracked Widget',
+            'asin' => 'B00INTEL0',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00INTEL0',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 90,
+            'description' => 'A widget worth tracking.',
+        ]);
+
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Tracked Widget Review',
+            'slug' => 'tracked-widget-intel',
+            'type' => 'article',
+            'body' => "Intro paragraph.\n\nSecond paragraph of the review body.",
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+        $post->products()->attach($product->id, ['display_order' => 1]);
+
+        // Two snapshots spanning > 14 days → PriceIntel's honesty gates open.
+        ProductPriceSnapshot::create(['product_id' => $product->id, 'price' => 110, 'source' => 'manual', 'created_at' => now()->subDays(40)]);
+        ProductPriceSnapshot::create(['product_id' => $product->id, 'price' => 80, 'source' => 'manual', 'created_at' => now()->subDays(20)]);
+        PriceIntel::flush($product->id);
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertSee('data-intel-strip', false);
+    }
+
+    public function test_intel_strip_is_absent_on_a_tip(): void
+    {
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'A Handy Tip',
+            'slug' => 'a-handy-tip',
+            'type' => 'tech_tip',
+            'body' => "Tip body paragraph one.\n\nTip body paragraph two.",
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertDontSee('data-intel-strip', false);
+    }
+
+    public function test_body_h2s_get_scroll_anchor_ids_and_an_on_this_page_nav(): void
+    {
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Anchored Review',
+            'slug' => 'anchored-review',
+            'type' => 'article',
+            'body' => implode("\n\n", [
+                'Intro paragraph long enough to anchor the layout and the drop cap.',
+                '## First Section',
+                'First section paragraph with a bit of running text for the reader.',
+                '## Second Section',
+                'Second section paragraph closing out this short anchored article.',
+            ]),
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+
+        $this->get("/posts/{$post->slug}")
+            ->assertOk()
+            ->assertSee('<h2 id="first-section">', false)
+            ->assertSee('<h2 id="second-section">', false)
+            ->assertSee('aria-label="On this page"', false)
+            ->assertSee('href="#first-section"', false);
     }
 
     public function test_home_renders_the_drop_price_game_without_leaking_the_price(): void

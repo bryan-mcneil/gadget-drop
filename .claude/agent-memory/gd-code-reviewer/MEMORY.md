@@ -23,3 +23,4 @@
 - [Market promote review](project_market-promote-review.md) — Plan 08 MarketPromotionService: withoutEvents+seeded-history confirmed-safe (only Product event is observer); standing WARN = column-width mapping branches untested
 - [PriceIntel verdict duplication](project_priceintel-verdict-duplication.md) — plan 03 verdictFor() copies compute()'s inline tier match; drift = honesty bug; check both sites on any tier/DEAL_PCT change
 - [Importer writes no image fields](project_importer-no-image-fields.md) — posts:import/DailyDropImporterService sets no image_* or caption fields; plan "importer passthrough" steps are moot, not a gap
+- [ArticleBody dual-slug convergence](project_articlebody-dual-slug.md) — plan 10.2 TOC: dual-path slug divergence RESOLVED in-phase via shared headingSlug() over one CommonMark render; keep the single source, don't reintroduce a second slug computation

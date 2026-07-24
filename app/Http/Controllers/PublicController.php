@@ -413,6 +413,9 @@ class PublicController extends Controller
         return view('public.show', [
             'post' => $postData,
             'sections' => $sections,
+            // H2 anchor list for the sidebar "On this page" nav; ids are
+            // stamped on the matching <h2>s by ArticleBody::style().
+            'toc' => ArticleBody::headings($post->body),
             'categoryPosts' => $categoryPosts,
             'tagPosts' => $tagPosts,
             'recentPosts' => $recentPosts,

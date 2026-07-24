@@ -6,7 +6,11 @@
     @foreach($sections as $section)
         <div>
             @if(!empty($section['html']))
-                <div class="prose prose-gray max-w-none">
+                {{-- Comfortable reading measure (~68ch). Figures below are
+                     siblings, so they still span the full article column while
+                     the running text stays narrow. `.prose` is preserved for
+                     the first-child drop-cap selector in app.css. --}}
+                <div class="prose prose-lg prose-gray max-w-[68ch]">
                     {!! $section['html'] !!}
                 </div>
             @endif

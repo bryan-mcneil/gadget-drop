@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use League\CommonMark\CommonMarkConverter;
 
 /**
@@ -27,7 +28,7 @@ class ArticleBody
      * Bumped whenever placement or markup logic changes so every cached render
      * dies with its old key on deploy (keys are input-hashed, entries expire).
      */
-    private const VERSION = 'v2';
+    private const VERSION = 'v3';
 
     /**
      * @param  array{0:?string,1:?string,2:?string}  $images
@@ -49,6 +50,66 @@ class ArticleBody
         } catch (\Throwable $e) {
             return self::render($body, $images, $fits, $captions);
         }
+    }
+
+    /**
+     * The H2 section headings of a body, in document order, for the post page's
+     * "On this page" anchor list. Each heading is rendered through the same
+     * CommonMark converter the body uses, then reduced to its plain text — the
+     * identical path style() takes over the <h2> it stamps — so headingSlug()
+     * produces the SAME slug on both sides even when a heading carries inline
+     * markdown (a link, code, emphasis). The anchor always finds its heading.
+     *
+     * H2 only (##, not # or ###): H1 is the page title (never in the body) and
+     * H3s are sub-points, so a flat one-level table of contents stays scannable.
+     * CommonMark is a plain object (no facade), so ArticleBodyTest can exercise
+     * this without booting the framework.
+     *
+     * @return array<int, array{text: string, slug: string}>
+     */
+    public static function headings(?string $body): array
+    {
+        if ($body === null || trim($body) === '') {
+            return [];
+        }
+
+        $blocks = array_values(array_filter(array_map('trim', preg_split('/\n\n+/', $body)), fn ($b) => $b !== ''));
+
+        $converter = null;
+        $out = [];
+        foreach ($blocks as $block) {
+            $firstLine = strtok($block, "\n") ?: $block;
+            if (! preg_match('/^##\s+(.+)$/', $firstLine, $m)) {
+                continue;
+            }
+            $converter ??= self::converter();
+            $html = (string) $converter->convert('## '.$m[1]);
+            if (! preg_match('/<h2>(.*?)<\/h2>/is', $html, $h)) {
+                continue;
+            }
+            $text = trim(strip_tags($h[1]));
+            $slug = self::headingSlug($h[1]);
+            if ($slug !== '') {
+                $out[] = ['text' => $text, 'slug' => $slug];
+            }
+        }
+
+        return $out;
+    }
+
+    /** The scroll-anchor slug for a rendered <h2>'s inner HTML. Single source
+     *  of the id, shared by headings() and style() so they never disagree. */
+    private static function headingSlug(string $innerHtml): string
+    {
+        return Str::slug(strip_tags($innerHtml));
+    }
+
+    private static function converter(): CommonMarkConverter
+    {
+        return new CommonMarkConverter([
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
+        ]);
     }
 
     /**
@@ -80,10 +141,7 @@ class ArticleBody
         $types = array_map(self::classify(...), $blocks);
         $slots = self::chooseSlots($types, $blocks, count($media));
 
-        $converter = new CommonMarkConverter([
-            'html_input' => 'escape',
-            'allow_unsafe_links' => false,
-        ]);
+        $converter = self::converter();
 
         $sections = [];
         $start = 0;
@@ -253,6 +311,19 @@ class ArticleBody
         $html = preg_replace(
             '/<blockquote>/i',
             '<blockquote class="not-prose my-6 border-l-4 border-indigo-400 bg-indigo-50/70 px-5 py-4 rounded-r-xl italic text-gray-700 leading-relaxed text-base">',
+            $html
+        );
+
+        // <h2> → scroll anchor, id = headingSlug() (shared with headings() so the
+        // "On this page" links always land). Only stamps bare <h2> (CommonMark
+        // emits attribute-free headings), so a re-run never double-stamps.
+        $html = preg_replace_callback(
+            '/<h2>(.*?)<\/h2>/is',
+            function (array $m): string {
+                $slug = self::headingSlug($m[1]);
+
+                return $slug !== '' ? '<h2 id="'.$slug.'">'.$m[1].'</h2>' : $m[0];
+            },
             $html
         );
 
