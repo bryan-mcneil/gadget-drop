@@ -1,27 +1,27 @@
-DATE: 2026-07-24
+DATE: 2026-07-25
 DEDUPE: checked against 39 existing products
-BRIEF: seo-brief.md present (generated 2026-07-23, fresh) but reports "No opportunities yet" — editorial pick
+BRIEF: no demand-backed candidates yet (seo-brief.md 2026-07-24 says "No opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: ENDGAME GEAR KB65HE 8k Gaming Keyboard – 8000Hz Hall Effect Keyboard with Raesha Silent Magnetic Switches, Aluminum Case, Doubleshot PBT Keycaps, RGB Lighting, ANSI US Layout
-ASIN: B0F47MJ1GM
-PRICE: ~$99
-TRENDING: The 8k refresh of the KB65HE is 2026's most-recommended budget Hall-effect board — PC Gamer, Tom's Hardware and GamesRadar+ all name it a top pick, and "best hall effect keyboard 2026" buyer-intent searches are climbing as rapid-trigger boards go mainstream.
-ANGLE: The Hall-effect gap in our catalog: we review the mouse (MX Master 3S) and the monitors but never a keyboard. Frame it as "you don't need a $180 Wooting" — a genuine value/comparison piece on whether an aluminum, adjustable-actuation, 8000Hz board under ~$100 is the sweet spot, and who actually benefits from rapid trigger vs. who's paying for a spec sheet.
-KEYWORD: Endgame Gear KB65HE review
-TARGET_QUERY: endgame gear kb65he review
+NAME: GMKtec M6 Ultra Gaming Mini PC Ryzen 7640HS, 32GB RAM DDR5 1TB SSD
+ASIN: B0FLJQW1RD
+PRICE: $389
+TRENDING: Freshly reviewed by TechRadar ("serious potential for the price") as one of 2026's most talked-about sub-$400 mini PCs — a Ryzen 7640HS box with a USB4 port that can drive an external GPU, which is rare at this price.
+ANGLE: The "$389 mini PC that can grow into a gaming rig" — most buyers compare it to a $400 Beelink or a used tower; the real story is the USB4/eGPU headroom plus triple-4K output, framed honestly against its thin warranty/support reputation. First actual computer we've reviewed (catalog is all peripherals), so the buying guide has room to breathe.
+KEYWORD: GMKtec M6 Ultra review
+TARGET_QUERY: gmktec m6 ultra mini pc review
 CATEGORY: Computers & Accessories
-TAGS: hall effect keyboard | gaming keyboard | rapid trigger | 65% keyboard | Endgame Gear
-ALTERNATIVES: Wooting 60HE | no-review | DrunkDeer A75 Pro | no-review
+TAGS: mini pc | GMKtec | Ryzen 7640HS | budget desktop | USB4 eGPU
+ALTERNATIVES: Beelink SER8 (Ryzen 7 8745HS, 32GB/1TB, ~$498) | no-review | GMKtec K12 (best all-round budget pick) | no-review
 
 ===PRODUCT 2===
-NAME: DrunkDeer A75 Pro Rapid Trigger Silent Magnetic Switch Mechanical Gaming Keyboard, ANSI Adjustable Actuation HE Hall Effect RGB PBT Keycap 75% TKL 82 Keys Wired with Knob
-ASIN: B0D9LLN9KL
-PRICE: ~$119
-TRENDING: Frequently cited as the "Hall-effect keyboard for the masses" and the go-to budget Wooting alternative; the hot-swappable 75% layout with a volume knob keeps it in every 2026 best-of-HE roundup.
-ANGLE: The hot-swappable angle — a 75% board you can re-switch later, with Raesha magnetic switches reviewers put next to Gateron Jade, and DrunkDeer's well-liked Antler software. Value question: is the extra ~$20 over an entry board worth hot-swap + a knob?
-KEYWORD: DrunkDeer A75 Pro review
-TARGET_QUERY: drunkdeer a75 pro review
+NAME: Beelink SER8 Mini PC AMD Ryzen 7 8745HS, 32GB DDR5 1TB PCIe4.0 SSD
+ASIN: B0DPMRPSMG
+PRICE: $498
+TRENDING: Widely covered as the "low end of the high end" mini PC of 2026 — Ryzen 7 8745HS (8C/16T), Radeon 780M, USB4/Thunderbolt-compatible, routinely discounted toward $464–498 on deal trackers.
+ANGLE: The mini PC to buy when you want desktop-replacement muscle (video editing, 4K gaming on the 780M iGPU, AI inference) in a Mac-mini-sized box, and you value Beelink's stronger support/warranty reputation over GMKtec's budget cut. Honest 780M-iGPU-gaming expectations, not a discrete-GPU promise.
+KEYWORD: Beelink SER8 review
+TARGET_QUERY: beelink ser8 mini pc review
 CATEGORY: Computers & Accessories
-TAGS: hall effect keyboard | gaming keyboard | rapid trigger | hot-swappable | DrunkDeer
-ALTERNATIVES: Wooting 60HE | no-review | Endgame Gear KB65HE | no-review
+TAGS: mini pc | Beelink SER8 | Ryzen 7 8745HS | Radeon 780M | small form factor
+ALTERNATIVES: GMKtec M6 Ultra (Ryzen 7640HS, 32GB/1TB, ~$389) | no-review | Beelink SER5 Pro (Ryzen 5, ~$385) | no-review
