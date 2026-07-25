@@ -112,7 +112,7 @@ class PublicController extends Controller
             ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
             ->take(12)
-            ->get(['id', 'slug']);
+            ->get(['id', 'slug', 'excerpt']);
 
         $seenProductIds = [];
         $topPicks = [];
@@ -121,12 +121,23 @@ class PublicController extends Controller
             if ($product && $product->id !== $puzzleProductId && ! in_array($product->id, $seenProductIds)) {
                 $seenProductIds[] = $product->id;
                 $api = $this->resolveApiData($product->asin);
+                // Verdict for the featured pick's chip — same db-cached stats,
+                // null (chip hidden) until the honesty gates open.
+                $stats = PriceIntel::stats($product->id);
+                $verdict = $stats['verdict'] ?? null;
                 $topPicks[] = [
                     'id' => $product->id,
                     'name' => $api['name'] ?? $product->name,
-                    'price' => $api['price'] ?? $product->price,
+                    // When a verdict is shown, the price beside it MUST be the
+                    // tracked number the verdict describes (stats.current), not a
+                    // fresher API price; without one, show the freshest display
+                    // price. Keeps "the number next to the verdict is the number
+                    // the verdict describes" true even once PA-API is configured.
+                    'price' => $verdict !== null ? $stats['current'] : ($api['price'] ?? $product->price),
                     'image_url' => $product->image_url,
                     'post_slug' => $tp->slug,
+                    'excerpt' => $tp->excerpt,
+                    'verdict' => $verdict,
                 ];
             }
             if (count($topPicks) >= 6) {
@@ -185,11 +196,12 @@ class PublicController extends Controller
             'dropPrice' => $dropPrice,
             'recentPosts' => Post::published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
+                ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
                 ->latest('published_at')
                 ->skip(1)
                 ->take(8)
                 ->get($cols)
-                ->map($fmt),
+                ->map(fn ($p) => [...$fmt($p), ...$this->cardIntel($p)]),
             'categories' => Category::whereHas('posts', fn ($q) => $q->published())
                 ->withCount(['posts' => fn ($q) => $q->published()])
                 ->orderBy('name')
@@ -421,6 +433,41 @@ class PublicController extends Controller
             'recentPosts' => $recentPosts,
             'relatedProducts' => $relatedProducts,
         ]);
+    }
+
+    /**
+     * Card-scale price + verdict for a review post's lead product, gated on the
+     * SAME honesty rules the rest of the site uses: the row appears only once
+     * PriceIntel's window stats open (verdict !== null), never with placeholder
+     * data. Reads the db-cached PriceIntel::stats — no query per card beyond the
+     * lead product the listing already eager-loads — so the grid stays N+1-free.
+     * Tips/news never carry a card verdict. The drop-pct is deliberately dropped
+     * at card scale: the sm badge + a long "· X% below typical" suffix overflows
+     * the ~167px card content column at 375px (verdict-badge card-width note).
+     *
+     * @return array{card_price: float|null, card_verdict: string|null}
+     */
+    private function cardIntel(Post $post): array
+    {
+        $blank = ['card_price' => null, 'card_verdict' => null];
+
+        if (in_array($post->type, ['tech_tip', 'tech_news'], true) || ! $post->relationLoaded('products')) {
+            return $blank;
+        }
+
+        $product = $post->products->first();
+
+        if (! $product) {
+            return $blank;
+        }
+
+        $stats = PriceIntel::stats($product->id);
+
+        if (! $stats || $stats['verdict'] === null) {
+            return $blank;
+        }
+
+        return ['card_price' => $stats['current'], 'card_verdict' => $stats['verdict']];
     }
 
     /**
@@ -784,6 +831,7 @@ class PublicController extends Controller
 
         $posts = Post::published()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
+            ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
             ->paginate(12)
             ->through(fn ($p) => [
@@ -794,6 +842,7 @@ class PublicController extends Controller
                 'excerpt' => $p->excerpt,
                 'featured_image' => $p->featured_image,
                 'published_at' => $p->published_at?->toDateString(),
+                ...$this->cardIntel($p),
             ]);
 
         $categories = Category::whereHas('posts', fn ($q) => $q->published())

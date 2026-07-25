@@ -210,39 +210,90 @@
                     <h2 class="text-xs font-bold text-indigo-600 uppercase tracking-[0.2em]">This Week's Top Picks</h2>
                     <span class="flex-1 h-px bg-gradient-to-r from-indigo-200 to-transparent"></span>
                 </div>
-                <div class="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
-                    @foreach($topPicks as $product)
-                        <div class="group flex-shrink-0 w-52 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                            <div class="relative bg-gray-50 flex items-center justify-center h-44 overflow-hidden">
-                                @if($product['image_url'])
-                                    <x-responsive-image :src="$product['image_url']" :alt="$product['name']" loading="lazy" sizes="208px" class="max-h-36 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
-                                @else
-                                    <div class="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-6xl select-none">G</span></div>
+                @php $feat = $topPicks[0]; $rest = array_slice($topPicks, 1); @endphp
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {{-- Featured pick — spans two columns, a horizontal card with a
+                         bigger image, the verdict chip, a one-line why, and the one
+                         filled CTA. The rest are compact with a quiet text link, so
+                         the row of identical buttons is broken. --}}
+                    <div class="group relative col-span-2 flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+                        <span aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-indigo-500/20">
+                            <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r from-transparent via-indigo-500 to-indigo-400"></span>
+                        </span>
+                        <div class="relative bg-gray-50 flex items-center justify-center p-5 sm:w-2/5 min-h-[176px] overflow-hidden">
+                            @if($feat['image_url'])
+                                <x-responsive-image :src="$feat['image_url']" :alt="$feat['name']" loading="lazy" sizes="(min-width: 640px) 260px, 100vw" class="max-h-40 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+                            @else
+                                <div class="w-full h-full min-h-[140px] bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-6xl select-none">G</span></div>
+                            @endif
+                        </div>
+                        <div class="flex flex-col flex-1 p-5 min-w-0">
+                            <span class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-indigo-600 mb-2">
+                                <span class="w-4 h-px bg-indigo-500"></span>
+                                Top Pick
+                            </span>
+                            <h3 class="text-base font-extrabold text-gray-900 leading-snug line-clamp-2 group-hover:text-indigo-600 transition-colors">{{ $feat['name'] }}</h3>
+                            @if(!empty($feat['excerpt']))
+                                <p class="mt-2 text-sm text-gray-500 leading-relaxed line-clamp-2">{{ \Illuminate\Support\Str::limit($feat['excerpt'], 120) }}</p>
+                            @endif
+                            <div class="mt-3 flex flex-wrap items-center gap-2">
+                                @if($feat['price'])
+                                    <span class="text-lg font-black text-gray-900 tabular-nums">${{ number_format((float) $feat['price'], 2) }}</span>
                                 @endif
-                                @if($product['price'])
-                                    <span class="absolute top-2 right-2 bg-indigo-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">${{ number_format((float) $product['price'], 2) }}</span>
+                                @if(!empty($feat['verdict']))
+                                    <x-verdict-badge :verdict="$feat['verdict']" size="sm" />
                                 @endif
                             </div>
-                            <div class="p-4 flex flex-col flex-1">
-                                <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2 flex-1">{{ $product['name'] }}</h3>
-                                {{-- Route shoppers into the review first (editorial, not an affiliate
-                                     bridge). Falls back to the Amazon link only when there's no post. --}}
-                                <div class="mt-4">
-                                    @if(!empty($product['post_slug']))
-                                        <a href="{{ route('posts.show', $product['post_slug']) }}" wire:navigate
-                                            class="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:scale-[1.02] shadow-sm">
-                                            Read review
-                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('affiliate.redirect', $product['id']) }}" target="_blank" rel="nofollow noopener"
-                                            class="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-xs font-bold text-gray-900 transition-all duration-200 hover:scale-[1.02] shadow-sm"
-                                            style="background: linear-gradient(135deg, #FFB84D 0%, #FF9900 100%)">
-                                            View on Amazon
-                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                                        </a>
-                                    @endif
-                                </div>
+                            <div class="mt-auto pt-4">
+                                @if(!empty($feat['post_slug']))
+                                    <a href="{{ route('posts.show', $feat['post_slug']) }}" wire:navigate
+                                        class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">
+                                        Read review
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                    </a>
+                                @else
+                                    <a href="{{ route('affiliate.redirect', $feat['id']) }}" target="_blank" rel="nofollow noopener"
+                                        class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-bold text-gray-900 transition-colors shadow-sm"
+                                        style="background: linear-gradient(135deg, #FFB84D 0%, #FF9900 100%)">
+                                        View on Amazon
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Compact picks --}}
+                    @foreach($rest as $product)
+                        <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                            <span aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-indigo-500/20">
+                                <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r from-transparent via-indigo-500 to-indigo-400"></span>
+                            </span>
+                            <div class="relative bg-gray-50 flex items-center justify-center h-32 overflow-hidden">
+                                @if($product['image_url'])
+                                    <x-responsive-image :src="$product['image_url']" :alt="$product['name']" loading="lazy" sizes="180px" class="max-h-24 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-5xl select-none">G</span></div>
+                                @endif
+                            </div>
+                            <div class="p-4 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2 flex-1 group-hover:text-indigo-600 transition-colors">{{ $product['name'] }}</h3>
+                                @if($product['price'])
+                                    <span class="mt-2 text-sm font-extrabold text-gray-900 tabular-nums">${{ number_format((float) $product['price'], 2) }}</span>
+                                @endif
+                                @if(!empty($product['post_slug']))
+                                    <a href="{{ route('posts.show', $product['post_slug']) }}" wire:navigate
+                                        class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                                        Read review
+                                        <svg class="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                    </a>
+                                @else
+                                    <a href="{{ route('affiliate.redirect', $product['id']) }}" target="_blank" rel="nofollow noopener"
+                                        class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                                        View on Amazon
+                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @endforeach

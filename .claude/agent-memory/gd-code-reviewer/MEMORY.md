@@ -24,3 +24,5 @@
 - [PriceIntel verdict duplication](project_priceintel-verdict-duplication.md) — plan 03 verdictFor() copies compute()'s inline tier match; drift = honesty bug; check both sites on any tier/DEAL_PCT change
 - [Importer writes no image fields](project_importer-no-image-fields.md) — posts:import/DailyDropImporterService sets no image_* or caption fields; plan "importer passthrough" steps are moot, not a gap
 - [ArticleBody dual-slug convergence](project_articlebody-dual-slug.md) — plan 10.2 TOC: dual-path slug divergence RESOLVED in-phase via shared headingSlug() over one CommonMark render; keep the single source, don't reintroduce a second slug computation
+- [cardIntel eager-load](project_cardintel-eager-load.md) — plan 10.3: belongsToMany limit(1) lead-product eager-load is per-parent on sqlite (confirmed-safe) AND required — relationLoaded guard makes the verdict chip a silent no-op without it
+- [Public vs admin CSS bundle](reference_public-vs-admin-css-bundle.md) — grep the manifest-mapped public app-*.css (not `ls -t`) to verify Tailwind purge; the other app-*.css is admin/jsx

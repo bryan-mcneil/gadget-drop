@@ -241,4 +241,123 @@ class PublicPagesTest extends TestCase
             ->assertDontSee('4242')                      // the snapshot answer, never
             ->assertDontSee('4,242');                    // …nor leaked via Top Picks / Spotlight
     }
+
+    public function test_top_picks_featured_card_shows_the_verdict_chip_once_gates_open(): void
+    {
+        $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Featured Gated Widget',
+            'asin' => 'B00FEAT01',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00FEAT01',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 80,
+            'description' => 'A featured widget.',
+        ]);
+
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Featured Gated Widget Review',
+            'slug' => 'featured-gated-widget',
+            'type' => 'article',
+            'body' => 'Body paragraph.',
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+        $post->products()->attach($product->id, ['display_order' => 1]);
+
+        // Held at $110 for weeks, now $80 → gates open, current == 90-day low.
+        ProductPriceSnapshot::create(['product_id' => $product->id, 'price' => 110, 'source' => 'manual', 'created_at' => now()->subDays(40)]);
+        ProductPriceSnapshot::create(['product_id' => $product->id, 'price' => 80, 'source' => 'manual', 'created_at' => now()->subDays(20)]);
+        PriceIntel::flush($product->id);
+
+        // The newest article's lead product is the featured Top Pick; its verdict
+        // chip renders because the honesty gates are open.
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Lowest tracked price', false);
+    }
+
+    public function test_category_review_cards_show_the_verdict_chip_only_when_gates_open(): void
+    {
+        $category = Category::firstOrCreate(['slug' => 'gadgets'], ['name' => 'Gadgets']);
+        $author = User::factory()->create()->id;
+
+        // Gated product: two snapshots spanning > 14 days, current == the low.
+        $gated = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Gated Card Widget',
+            'asin' => 'B00CARD01',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00CARD01',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 80,
+            'description' => 'A gated widget.',
+        ]);
+        ProductPriceSnapshot::create(['product_id' => $gated->id, 'price' => 110, 'source' => 'manual', 'created_at' => now()->subDays(40)]);
+        ProductPriceSnapshot::create(['product_id' => $gated->id, 'price' => 80, 'source' => 'manual', 'created_at' => now()->subDays(20)]);
+        PriceIntel::flush($gated->id);
+
+        $gatedPost = Post::create([
+            'user_id' => $author,
+            'title' => 'Gated Card Review',
+            'slug' => 'gated-card-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+        $gatedPost->products()->attach($gated->id, ['display_order' => 1]);
+        $gatedPost->categories()->attach($category->id);
+
+        // Ungated product: priced but no snapshot history → no verdict, ever.
+        $ungated = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Ungated Card Widget',
+            'asin' => 'B00CARD02',
+            'affiliate_url' => 'https://www.amazon.com/dp/B00CARD02',
+            'image_url' => 'https://example.com/img.jpg',
+            'price' => 50,
+            'description' => 'An ungated widget.',
+        ]);
+        $ungatedPost = Post::create([
+            'user_id' => $author,
+            'title' => 'Ungated Card Review',
+            'slug' => 'ungated-card-review',
+            'type' => 'article',
+            'body' => 'Body.',
+            'status' => 'published',
+            'published_at' => now()->subDays(2),
+        ]);
+        $ungatedPost->products()->attach($ungated->id, ['display_order' => 1]);
+        $ungatedPost->categories()->attach($category->id);
+
+        // A tip in the same category takes the emerald accent and NEVER a price/
+        // verdict row — cardIntel() is type-gated even if a product is attached.
+        $tipPost = Post::create([
+            'user_id' => $author,
+            'title' => 'Handy Category Tip',
+            'slug' => 'handy-category-tip',
+            'type' => 'tech_tip',
+            'body' => 'Tip body.',
+            'status' => 'published',
+            'published_at' => now()->subDays(3),
+        ]);
+        $tipPost->categories()->attach($category->id);
+
+        $html = $this->get(route('category', $category->slug))->assertOk()->getContent();
+
+        // Both review cards render and instant-nav to their posts.
+        $this->assertStringContainsString('Gated Card Review', $html);
+        $this->assertStringContainsString('Ungated Card Review', $html);
+        $this->assertStringContainsString('href="'.route('posts.show', 'gated-card-review').'"', $html);
+        $this->assertStringContainsString('wire:navigate', $html);
+
+        // The tip card rendered with its emerald type badge, not a verdict.
+        $this->assertStringContainsString('Handy Category Tip', $html);
+        $this->assertStringContainsString('Tech Tip', $html);
+
+        // Exactly one verdict chip: the gated card has it; the ungated review and
+        // the tip never do.
+        $this->assertSame(1, substr_count($html, 'Lowest tracked price'), 'only the gated card carries a verdict chip');
+    }
 }

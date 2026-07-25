@@ -6,17 +6,20 @@
 ])
 
 @php
+    // Colored accent bar + title carry the type identity; the section divider
+    // itself is the neutral border-gray-200 the card system uses, so the whole
+    // page reads on one surface scale (10.3).
     $palette = [
-        'indigo'  => ['accent' => 'bg-indigo-400',  'title' => 'text-indigo-700',  'hover' => 'group-hover:text-indigo-600',  'placeholder' => 'bg-indigo-50',  'icon' => 'text-indigo-300',  'border' => 'border-indigo-200'],
-        'emerald' => ['accent' => 'bg-emerald-400', 'title' => 'text-emerald-700', 'hover' => 'group-hover:text-emerald-600', 'placeholder' => 'bg-emerald-50', 'icon' => 'text-emerald-300', 'border' => 'border-emerald-200'],
-        'rose'    => ['accent' => 'bg-rose-400',    'title' => 'text-rose-700',    'hover' => 'group-hover:text-rose-600',    'placeholder' => 'bg-rose-50',    'icon' => 'text-rose-300',    'border' => 'border-rose-200'],
+        'indigo'  => ['accent' => 'bg-indigo-400',  'title' => 'text-indigo-700',  'hover' => 'group-hover:text-indigo-600',  'placeholder' => 'bg-indigo-50',  'icon' => 'text-indigo-300'],
+        'emerald' => ['accent' => 'bg-emerald-400', 'title' => 'text-emerald-700', 'hover' => 'group-hover:text-emerald-600', 'placeholder' => 'bg-emerald-50', 'icon' => 'text-emerald-300'],
+        'rose'    => ['accent' => 'bg-rose-400',    'title' => 'text-rose-700',    'hover' => 'group-hover:text-rose-600',    'placeholder' => 'bg-rose-50',    'icon' => 'text-rose-300'],
     ];
     $c = $palette[$color] ?? $palette['indigo'];
     $count = is_countable($posts) ? count($posts) : 0;
 @endphp
 
 @if($count > 0 || $emptyLabel)
-    <div class="border-b {{ $c['border'] }} pb-8">
+    <div class="border-b border-gray-200 pb-8">
         <div class="flex items-center gap-2 mb-4">
             <span class="block w-1 h-4 rounded-full {{ $c['accent'] }}"></span>
             <h3 class="text-xs font-bold uppercase tracking-widest {{ $c['title'] }}">{{ $title }}</h3>
