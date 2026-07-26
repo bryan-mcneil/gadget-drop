@@ -51,16 +51,31 @@
         <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r {{ $a['sweep'] }}"></span>
     </span>
 
-    <div class="relative overflow-hidden {{ $a['imgBg'] }}">
+    {{-- Hover zoom lives on this overscan div — image AND bottom fade together —
+         not on the <img>. As a sibling painted over an animating image, the fade
+         is forced onto its own compositor layer, and during the card lift + zoom
+         the two layers can misregister by a (sub)pixel, letting the image's dark
+         bottom row flash past the fade's solid-white foot: the thin line under
+         the image on hover. One animated layer = nothing to misregister, at any
+         DPR. The -inset-px overscan keeps the image's antialiased edge outside
+         the overflow-hidden clip, and the static under-fade behind it turns a
+         transient clip gap white-on-white instead of a tinted hairline. Don't
+         move the scale back onto the <img>; don't hoist the inner fade out of
+         the animated div. --}}
+    <div class="relative h-48 overflow-hidden {{ $a['imgBg'] }}">
         @if(!empty($post['featured_image']))
-            <x-responsive-image :src="$post['featured_image']" :alt="$post['title']"
-                loading="lazy" width="400" height="192" sizes="(min-width: 640px) 400px, 100vw"
-                class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
-                style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
+            <div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
+            <div class="absolute -inset-px transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100">
+                <x-responsive-image :src="$post['featured_image']" :alt="$post['title']"
+                    loading="lazy" width="400" height="192" sizes="(min-width: 640px) 400px, 100vw"
+                    class="w-full h-full object-cover"
+                    style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
+                <div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
+            </div>
         @else
-            <div class="w-full h-48 bg-gradient-to-br {{ $a['ph'] }} flex items-center justify-center"><span class="{{ $a['phText'] }} font-black text-5xl select-none">G</span></div>
+            <div class="h-full w-full bg-gradient-to-br {{ $a['ph'] }} flex items-center justify-center"><span class="{{ $a['phText'] }} font-black text-5xl select-none">G</span></div>
+            <div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         @endif
-        <div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
     </div>
     <div class="p-5 flex flex-col flex-1">
         <div class="flex items-center gap-2 mb-2 min-w-0">
