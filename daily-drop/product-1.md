@@ -1,105 +1,100 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Endgame Gear KB65HE Review: Cheap Hall Effect Done Right
-EXCERPT: Our Endgame Gear KB65HE review: is this 8000Hz, aluminum-cased Hall effect keyboard the budget rapid-trigger board to buy, or are you paying for specs?
+TITLE: GMKtec M6 Ultra Review: A $389 Mini PC With Room to Grow
+EXCERPT: The GMKtec M6 Ultra pairs a Ryzen 5 7640HS, 32GB of RAM and a USB4 port in a sub-$400 mini PC. Here's who it's for and where it cuts corners.
 TYPE: article
 CATEGORY: Computers & Accessories
-TAGS: hall effect keyboard | gaming keyboard | rapid trigger | 65% keyboard | Endgame Gear
-ASIN: B0F47MJ1GM
+TAGS: mini pc | GMKtec | Ryzen 7640HS | budget desktop | USB4 eGPU
+ASIN: B0FLJQW1RD
 RATING: 4
 PROS:
-- 8000Hz polling feels genuinely instant
-- Per-key adjustable actuation and rapid trigger
-- CNC aluminum case with no flex
-- Doubleshot PBT keycaps resist shine
+- Six-core Ryzen 5 handles real desktop work
+- USB4 port adds external GPU headroom
+- Triple 4K output, dual 2.5G Ethernet
+- 32GB RAM and 1TB SSD, both upgradeable
 CONS:
-- Wired-only, and the software is Windows-only
+- One-year warranty and budget-tier support
 SEO_SCORE: 92
-META_TITLE: Endgame Gear KB65HE Review: Is the Budget Hall Effect Worth It?
-META_DESCRIPTION: Endgame Gear KB65HE review: an 8000Hz aluminum Hall effect keyboard under $100. Who rapid trigger actually helps, and the wired-only catch.
-FOCUS_KEYWORD: Endgame Gear KB65HE review
-TARGET_QUERY: endgame gear kb65he review
-SLUG: endgame-gear-kb65he-review
+META_TITLE: GMKtec M6 Ultra Review: A $389 Mini PC With eGPU Headroom
+META_DESCRIPTION: Our GMKtec M6 Ultra review covers the Ryzen 5 7640HS specs, real gaming limits, price, and the warranty catch every buyer should know first.
+FOCUS_KEYWORD: GMKtec M6 Ultra review
+TARGET_QUERY: gmktec m6 ultra mini pc review
+SLUG: gmktec-m6-ultra-review
 BODY:
-Two years ago, a Hall effect keyboard with adjustable actuation meant a Wooting and a $180 receipt. That was the price of admission for magnetic switches and rapid trigger, the features competitive shooter players kept saying were worth it. The Endgame Gear KB65HE is the reason that sentence is now out of date. It puts an aluminum case, 8000Hz polling, and per-key actuation tuning under $100, and it does it without feeling like a corner was cut to get there.
-
-The question isn't whether the KB65HE is good. Reviewers across the board like it. The question is whether the specific things it does well are things you'll actually use, or whether you're about to pay for a number on a box.
+The case for a full desktop tower gets thinner every year, and a box like this is why. The GMKtec M6 Ultra is smaller than a stack of paperbacks, yet it runs an AMD Ryzen 5 7640HS, ships with 32GB of RAM and a 1TB SSD, and puts a USB4 port on the back that can later drive an external graphics card over a single cable. It sells for around $389 in the 32GB/1TB trim. The pitch is almost too clean, so this GMKtec M6 Ultra review is about where the box delivers and where it quietly cuts a corner or two.
 
 ---
 
-## What Is the Endgame Gear KB65HE?
+## What Is the GMKtec M6 Ultra?
 
-The KB65HE is a 65% wired gaming keyboard, 68 keys, in the ANSI US layout. The "HE" stands for Hall effect: instead of a mechanical contact, each key sits over a magnetic sensor that reads exactly how far down you've pressed. That single design choice is what unlocks the features gamers care about.
+The M6 Ultra is a compact desktop computer, the kind that hides behind a monitor or tucks under a shelf. Inside sits AMD's Ryzen 5 7640HS, a six-core, twelve-thread chip that boosts to 5.0GHz, paired with RDNA 3 Radeon 760M integrated graphics. The version most people buy comes with 32GB of DDR5 memory and a 1TB PCIe 4.0 SSD, and both the RAM and the drive are user-upgradeable, so you aren't locked into the factory config.
 
-The headline number is 8000Hz. That's how often the board reports to your PC, eight times faster than the 1000Hz standard most keyboards still ship with. In practical terms, the gap between pressing a key and the game seeing it drops to a fraction of a millisecond. You won't feel 8000Hz as a dramatic difference over 1000Hz, but you will feel that the whole thing responds the instant you touch it.
-
-More useful day to day is the adjustable actuation. You can set the trigger point anywhere from 0.1mm to a full 4.0mm of travel, per key. Feather-light for movement keys in an FPS, deliberate and deep for the ones you don't want to fire by accident. Pair that with rapid trigger, which resets a key the moment you start lifting it, and counter-strafing or quick double-taps register faster than a normal switch physically allows.
-
-Underneath, it's a CNC-machined single block of aluminum with doubleshot PBT keycaps. Professional reviewers repeatedly single out the chassis as one of the sturdiest at this price, with no deck flex and a solid, dense feel in the hand.
+The back panel is where GMKtec spent its attention. You get a USB4 port rated for 40Gbps, three USB 3.2 Type-A ports, HDMI 2.0, DisplayPort, and two 2.5-gigabit Ethernet jacks. That USB4 connection is the headline feature. It supports triple 4K displays and, more interesting, it can host an external GPU enclosure. Buy an eGPU down the road and this little box turns into something closer to a gaming rig, no new computer required.
 
 ---
 
-## Who Should Buy the Endgame Gear KB65HE?
+## Who Should Buy the GMKtec M6 Ultra?
 
-This is a keyboard for people who play competitive shooters and want every millisecond, but who refuse to spend Wooting money to get there. If you're grinding ranked Valorant, CS2, or Apex, rapid trigger and tunable actuation are the exact tools that separate this class of board from a normal mechanical keyboard.
+This is a great fit if you want a quiet, capable everyday desktop and you care about a clean desk. Web work, a wall of browser tabs, office apps, photo edits, and light-to-moderate video editing all run comfortably on six modern cores and 32GB of RAM. Verified-purchase owners consistently point to smooth 4K video playback and painless multitasking as the reasons they stopped missing their old tower.
 
-It's also a smart pick if desk space is tight. The 65% layout keeps the arrow keys but drops the number pad and function row, so your mouse hand gets more room to swing. That matters more than people expect for aim-heavy games.
+It's also a smart pick for a home lab or a media box. Two 2.5G Ethernet ports and low idle power make it easy to leave running, and the triple-display support suits a productivity setup with a couple of monitors and a spare screen for reference.
 
-Upgraders coming from a membrane board or an older mechanical keyboard will feel the biggest jump. If your current keyboard is already a decent mechanical and you don't play twitch shooters, the Hall effect features are a nice-to-have rather than a reason to buy. And if you want a full desk refresh, a good mouse matters just as much as the board. Our [Logitech MX Master 3S review](/posts/logitech-mx-master-3s-why-worth-it) covers the productivity side of that pairing.
+Skip it if you're a serious gamer buying today and expecting to play the latest AAA titles at high settings out of the box. The Radeon 760M is a capable current-generation integrated GPU, but it is a step behind the Radeon 780M in pricier boxes, and demanding games need lower settings or that eGPU upgrade to feel good.
 
 ---
 
-## Key Features That Actually Matter
+## What You Actually Get for $389
 
-- **8000Hz polling** keeps input latency low enough that the board never feels like the thing holding you back.
-- **Per-key adjustable actuation, 0.1mm to 4.0mm** lets you make movement keys hair-trigger and everything else deliberate.
-- **Rapid trigger** resets keys the instant you lift, which is the feature FPS players are really buying a Hall effect board for.
-- **CNC aluminum case** gives it a rigid, premium feel that most sub-$100 boards can't match.
-- **Doubleshot PBT keycaps** keep their texture and won't go shiny after months of use.
+- **A real six-core chip, not a netbook part.** The Ryzen 5 7640HS chews through spreadsheets, code compiles, and DaVinci Resolve timelines that would stall a budget N-series mini PC.
+- **A USB4 port that future-proofs the box.** Add an external GPU later and you get a gaming machine without replacing anything you already bought. Few sub-$400 minis offer that door.
+- **Triple 4K output and dual 2.5G Ethernet.** Enough display and network headroom for a genuine multi-monitor desk or a small home server, not just a single screen.
+- **32GB of RAM and a 1TB SSD, both upgradeable.** You start with room to work and can add more memory or storage yourself instead of paying a premium for a factory bump.
+
+On casual gaming, set expectations honestly. Owner feedback and professional reviewers put the 760M at roughly 60 fps in lighter 1080p titles, with 1440p possible if you drop settings. It's fine for indie games and older favorites, not for maxed-out new releases.
 
 ---
 
 ## What You'll Pay
 
-The KB65HE lands in the low triple digits, and it has dipped under that at times. That places it in a useful spot: well above the $40 entry Hall effect boards that skimp on the case and keycaps, and well below the $150-plus premium tier led by Wooting. What the extra money over a cheap board buys you here is the aluminum chassis, the PBT keycaps, and the 8000Hz ceiling, all things you can feel every day rather than spec-sheet trivia.
+At about $389 for the 32GB/1TB build, the M6 Ultra sits at the value end of the capable-mini-PC bracket. A barebones unit without RAM or storage runs closer to $259 if you'd rather supply your own parts. Step up to a box with the newer Radeon 780M and you're usually looking at $450 or more, so the M6 Ultra's savings are real, and they mostly come out of the integrated graphics and the support side rather than the CPU.
 
-The price widget above shows where today's tracked number sits against our recorded history, so you can see whether it's currently near the low end of its range before you commit. Hall effect boards in this bracket move around in price more than you'd think, and a good week can shave real money off.
-
----
-
-## The Alternatives Worth Considering
-
-The **Wooting 60HE** is still the reference point at roughly $175. If you want the deepest software, the most mature rapid-trigger tuning, and a 60% layout with a big enthusiast community behind it, Wooting earns the premium. It's the better buy for someone who treats keyboard tuning as a hobby, not just a means to an end.
-
-The **DrunkDeer A75 Pro** sits closer, around $119, and answers a different question. It's a hot-swappable 75% board with a volume knob, so you keep the function row and gain a physical dial. If a compact 65% feels too stripped down for you, the DrunkDeer's extra keys and knob are worth the small step up in price.
+The price widget above shows where today's number sits against the history we track, so you can see whether the current listing is a genuine dip or just the usual price. Pair it with an affordable 1080p panel like the [BenQ GW2486TC](/posts/benq-gw2486tc-a-monitor-that-saves-you-money) and you have a complete desk for well under the cost of a comparable prebuilt tower.
 
 ---
 
-## One Thing to Consider
+## GMKtec M6 Ultra vs. the Alternatives
 
-The KB65HE is wired only. There's no Bluetooth, no 2.4GHz dongle, so if a clean wireless desk is non-negotiable, this isn't your board. For a competitive keyboard that's a defensible trade, wired is lower latency anyway, but it's the first thing to check against how you actually work.
+The obvious rival is the Beelink SER8. It runs a faster Ryzen 7 8745HS with the better Radeon 780M iGPU and lands near $498. If gaming on integrated graphics matters and you value Beelink's stronger support and warranty reputation, the extra roughly $110 buys you a real step up in both. The M6 Ultra answers back with its eGPU path and the lower entry price.
 
-Two smaller catches back it up. The configuration software is Windows only, which leaves Mac and Linux users tuning nothing. And the secondary functions on the compact layout aren't printed on the keycaps, so there's a short learning curve while you memorize where the missing function row went. None of these are dealbreakers for the target buyer, but they're real, and you should know them before checkout.
+Inside GMKtec's own lineup, the K12 is the pick if you want the brand's most balanced all-rounder rather than the M6 Ultra's eGPU-friendly design. Both share the budget-tier support caveat below, so choose on ports and price. For most buyers who want capable everyday performance and a growth path without paying flagship money, the M6 Ultra is the sharper deal.
+
+---
+
+## One Thing to Watch Before You Buy
+
+The catch with the M6 Ultra isn't the silicon, it's what stands behind it. GMKtec ships a one-year limited warranty, shorter than some competitors, and the brand sits in the budget tier where support can be a hassle if something goes wrong. Some owners have reported SSD compatibility quirks and drives running warm, and well-known hardware reviewers have documented thermal and drive issues on GMKtec boxes. The dual-fan cooler stays quiet at idle but turns clearly audible under sustained load, and the fan curve could be tuned better.
+
+The practical move is to buy through a channel with an easy return window so you can test yours hard in the first couple of weeks. Most units are fine, but returns direct from an overseas manufacturer are the kind of time sink you want to avoid.
 
 ---
 
 ## FAQ
 
-**Q: Is the Endgame Gear KB65HE hot-swappable?**
-Yes, but only with magnetic Hall effect switches, not standard mechanical ones. You can pull and replace switches to change the feel later, just make sure each one is seated correctly, since a magnetic switch installed upside down physically fits but won't register.
+**Q: Can the GMKtec M6 Ultra run modern games?**
+Light and older titles run around 60 fps at 1080p on the Radeon 760M, and 1440p is possible with reduced settings. New AAA games at high settings need an external GPU through the USB4 port, which is the box's main gaming upgrade path.
 
-**Q: Does the KB65HE work wirelessly or on a Mac?**
-No on both counts for the full experience. It's a wired-only keyboard with no Bluetooth or dongle, and while it'll type on a Mac, the tuning software that controls actuation and rapid trigger runs on Windows only.
+**Q: Is the Ryzen 5 7640HS good enough for video editing?**
+Yes for most creators. Its six cores handle 1080p and light 4K timelines in DaVinci Resolve or Premiere comfortably, and owners report smooth 4K playback. Heavy effects-laden 4K projects will still favor a discrete GPU.
 
-**Q: Is 8000Hz polling and rapid trigger actually worth it?**
-For competitive FPS players, rapid trigger is the real prize, and it makes a felt difference in fast movement and counter-strafing. The 8000Hz polling is a smaller, harder-to-notice upgrade over 1000Hz. If you don't play twitch shooters, you're mostly buying a very well-built keyboard, which is still a fine reason.
-
----
-
-## The Verdict
-
-The KB65HE takes the features that used to cost $180 and delivers them in a sturdier-than-expected package for under $100, and the only real caveats are the wired connection and Windows-only software. If you play competitive shooters and want Hall effect performance without the premium tax, this is one of the easiest recommendations in the category right now.
+**Q: Can I upgrade the RAM and storage myself?**
+Both are user-accessible. The M6 Ultra uses DDR5 SO-DIMMs and a PCIe 4.0 M.2 SSD, so you can add memory or swap in a larger drive without buying a pricier factory configuration.
 
 ---
 
-If the price in the card above sits near the low end of its tracked range, a keyboard this well built at this spec level doesn't stay on the shelf, and it's a straightforward yes.
+## Verdict
+
+The GMKtec M6 Ultra is one of the best-value capable mini PCs under $400, with a USB4 eGPU path that few rivals match at the price. Buy it if you want a quiet everyday desktop with room to grow and you're comfortable with a one-year warranty and budget-tier support.
+
+---
+
+If the current price in the card above sits at or below typical, and you buy through a channel with an easy return window, this is an easy box to recommend.
