@@ -132,7 +132,7 @@ class ArticleBodyTest extends TestCase
 
     public function test_short_body_still_renders_every_image(): void
     {
-        $sections = ArticleBody::sections("Only paragraph here", ['img1.jpg', 'img2.jpg', 'img3.jpg'], []);
+        $sections = ArticleBody::sections('Only paragraph here', ['img1.jpg', 'img2.jpg', 'img3.jpg'], []);
 
         $images = array_column(array_filter($sections, fn ($s) => $s['image'] !== null), 'image');
         $this->assertSame(['img1.jpg', 'img2.jpg', 'img3.jpg'], array_values($images));
