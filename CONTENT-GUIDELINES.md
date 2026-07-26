@@ -28,6 +28,7 @@ Single source of truth for the three post types. The pipeline skills (`/drop-wri
 7. **Style bans** (build script warns): em dashes; "dive into", "deep dive", "game-changer", "worth noting", "seamlessly", "unleash", "unlock/elevate your", "robust" (as feature adjective), "cutting-edge", "at the end of the day", "in today's world/fast-paced", "look no further"; sentences opening with "Additionally," or "Furthermore,"; passive "is designed to".
 8. **SEO fields** (build script warns): title 50–65 chars with the keyword near the start · excerpt 120–155 · meta title ≤70 · meta description 120–155 · slug short, hyphenated, keyword-first · focus keyword in the first 100 words.
 9. **Word-count floors are thin-content protection.** Never pad to hit them — earn the length with fallback fixes (tips), analysis (news), or comparison depth (reviews). A post that can't reach its floor honestly is the wrong topic; pick another.
+10. **Image captions are optional (Plan 10.1).** The three inline images (`image_1/2/3`) each take an optional one-line caption, entered in the admin post form and rendered as a centred `<figcaption>` under the figure. The daily pipeline doesn't write captions and `posts:import` passes them through only when present, so a blank caption is normal — add one in the admin only when it adds context a reader wouldn't get from the image alone (a spec call-out, a "shown: X" clarifier), never filler. Images are placed automatically between paragraphs; don't hand-position them in the body.
 
 ## Per-type notes
 

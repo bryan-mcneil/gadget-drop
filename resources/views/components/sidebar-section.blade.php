@@ -41,7 +41,7 @@
                             @endif
                             <div class="min-w-0">
                                 <p class="text-sm font-medium text-gray-800 {{ $c['hover'] }} leading-snug transition-colors">{{ $p['title'] }}</p>
-                                <p class="text-xs text-gray-400 mt-0.5">{{ $p['published_at'] }}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">{{ $p['published_at'] }}</p>
                             </div>
                         </a>
                     </li>

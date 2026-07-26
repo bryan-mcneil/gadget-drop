@@ -116,11 +116,11 @@
                              build stays byte-identical and the committed CSS needs no churn. --}}
                         <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 tabular-nums">
                             <span class="text-2xl font-extrabold text-gray-900">${{ number_format($deal['current'], 2) }}</span>
-                            <span class="text-sm text-gray-400">usually ${{ number_format($deal['typical'], 2) }}</span>
+                            <span class="text-sm text-gray-500">usually ${{ number_format($deal['typical'], 2) }}</span>
                             {{-- The Omnibus reference line. ?? guards the 1h window where a
                                  pre-deploy cached feed lacks the key (worth_pct precedent). --}}
                             @if(($deal['low30'] ?? null) !== null)
-                                <span class="text-sm text-gray-400">30-day low ${{ number_format($deal['low30'], 2) }}</span>
+                                <span class="text-sm text-gray-500">30-day low ${{ number_format($deal['low30'], 2) }}</span>
                             @endif
                         </div>
 
@@ -131,7 +131,7 @@
                             </svg>
                         @endif
 
-                        <p class="text-xs text-gray-400">
+                        <p class="text-xs text-gray-500">
                             {{-- Shared verdict language (feed only admits lowest|good, so a badge
                                  always renders). No :drop-pct: the −N% pill above already carries
                                  the magnitude. --}}

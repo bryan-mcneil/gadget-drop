@@ -218,13 +218,13 @@
                          bigger image, the verdict chip, a one-line why, and the one
                          filled CTA. The rest are compact with a quiet text link, so
                          the row of identical buttons is broken. --}}
-                    <div class="group relative col-span-2 flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+                    <div class="group relative col-span-2 flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-300">
                         <span aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-indigo-500/20">
                             <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r from-transparent via-indigo-500 to-indigo-400"></span>
                         </span>
                         <div class="relative bg-gray-50 flex items-center justify-center p-5 sm:w-2/5 min-h-[176px] overflow-hidden">
                             @if($feat['image_url'])
-                                <x-responsive-image :src="$feat['image_url']" :alt="$feat['name']" loading="lazy" sizes="(min-width: 640px) 260px, 100vw" class="max-h-40 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+                                <x-responsive-image :src="$feat['image_url']" :alt="$feat['name']" loading="lazy" sizes="(min-width: 640px) 260px, 100vw" class="max-h-40 w-auto object-contain transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100" />
                             @else
                                 <div class="w-full h-full min-h-[140px] bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-6xl select-none">G</span></div>
                             @endif
@@ -267,13 +267,13 @@
 
                     {{-- Compact picks --}}
                     @foreach($rest as $product)
-                        <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                        <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-300">
                             <span aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-indigo-500/20">
                                 <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r from-transparent via-indigo-500 to-indigo-400"></span>
                             </span>
                             <div class="relative bg-gray-50 flex items-center justify-center h-32 overflow-hidden">
                                 @if($product['image_url'])
-                                    <x-responsive-image :src="$product['image_url']" :alt="$product['name']" loading="lazy" sizes="180px" class="max-h-24 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
+                                    <x-responsive-image :src="$product['image_url']" :alt="$product['name']" loading="lazy" sizes="180px" class="max-h-24 w-auto object-contain p-3 transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100" />
                                 @else
                                     <div class="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center"><span class="text-indigo-200 font-black text-5xl select-none">G</span></div>
                                 @endif
@@ -373,7 +373,7 @@
                         <span class="w-1 h-7 rounded-full bg-gradient-to-b from-indigo-500 to-purple-500"></span>
                         <div>
                             <h2 class="text-2xl font-extrabold text-gray-900 leading-none">Recent Drops</h2>
-                            <p class="text-xs text-gray-400 mt-0.5 tracking-wide">The latest from GadgetDrop</p>
+                            <p class="text-xs text-gray-500 mt-0.5 tracking-wide">The latest from GadgetDrop</p>
                         </div>
                     </div>
                     <a href="{{ route('search') }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1 transition-colors">
@@ -480,7 +480,7 @@
                         <span class="w-1 h-7 rounded-full bg-gradient-to-b from-amber-400 to-orange-400"></span>
                         <div>
                             <h2 class="text-2xl font-extrabold text-gray-900 leading-none">Free Online Tools</h2>
-                            <p class="text-xs text-gray-400 mt-0.5 tracking-wide">Runs in your browser, nothing sent to a server</p>
+                            <p class="text-xs text-gray-500 mt-0.5 tracking-wide">Runs in your browser, nothing sent to a server</p>
                         </div>
                     </div>
                     <a href="{{ route('tools.index') }}" class="text-sm text-amber-600 hover:text-amber-700 font-semibold flex items-center gap-1 transition-colors">

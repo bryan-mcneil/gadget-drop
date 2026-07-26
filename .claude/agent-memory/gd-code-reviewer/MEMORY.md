@@ -28,3 +28,5 @@
 - [Public vs admin CSS bundle](reference_public-vs-admin-css-bundle.md) — grep the manifest-mapped public app-*.css (not `ls -t`) to verify Tailwind purge; the other app-*.css is admin/jsx
 - [Deals pill site-wide composer](project_deals-pill-composer.md) — plan 10.4 header pill reuses count(DealsFeed::get()) via layouts.public composer + new trackedCount 1h key, both flush-hooked; confirmed-safe, don't re-flag as N+1
 - [Watch-confirm reader surface](project_watch-confirm-reader-surface.md) — watch-confirm.blade.php is reader-facing (email-link landing) yet outside mail/ + signup; em-dashes folded into 10.5 + PriceWatchFlowTest-covered (clean now); keep in reader-facing set for future sweeps; watch PHP docblock em-dashes are deliberate
+- [Partial motion guard](project_partial-motion-guard.md) — recurring card bug: rail sweep gets motion-reduce but lift+zoom don't; grep hover:-translate-y/group-hover:scale on motion phases; home Top Picks was the 10.6 BLOCKER
+- [Cropper CSS chunk](project_cropper-css-chunk.md) — app-_JpMZc7H.css is the manifest-referenced _vendor-cropper css, NOT orphaned; don't re-flag deleting it

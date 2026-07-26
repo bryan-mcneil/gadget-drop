@@ -16,7 +16,7 @@
     <div data-intel-strip class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5">
         {{-- Current tracked price --}}
         <span class="inline-flex items-baseline gap-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500">Tracked</span>
+            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400">Tracked</span>
             <span class="text-xl font-extrabold text-white tabular-nums leading-none">${{ number_format($stats['current'], 2) }}</span>
         </span>
 

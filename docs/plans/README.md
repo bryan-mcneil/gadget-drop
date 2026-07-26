@@ -24,7 +24,7 @@ Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for h
 
 1. **One phase per session.** Read the plan header + the target phase + `CLAUDE.md` before touching code. If reality diverges from the plan (file moved, API changed), STOP and report the divergence — don't improvise silently.
 2. **Branch:** `feature/<plan-slug>` (one branch per plan, phases stack on it). Never commit to `main`.
-3. **Tests are part of the phase.** A phase without its listed tests is not done. Full suite must be green (baseline: 181 tests) before review.
+3. **Tests are part of the phase.** A phase without its listed tests is not done. Full suite must be green (baseline: 553 tests) before review.
 4. **Review before commit.** Run the `gd-code-reviewer` subagent on the diff. Fix BLOCKERs, judge WARNs, then prepare the commit.
 5. **Commits are prepared, not pushed.** Stage + present the commit message; Bryan approves the actual commit/push (per CLAUDE.md).
 6. **Update the Phase Log** in the plan file (checkbox + one-line build note + commit hash) as the final step of every phase.

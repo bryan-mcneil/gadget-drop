@@ -41,10 +41,12 @@
 @endphp
 
 <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate
-    class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
+    class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-300 flex flex-col">
     {{-- Type accent hairline: a dim static rail that brightens and sweeps in
-         from the left on hover. The sweep is the only animation, so it (not the
-         hover lift) is what prefers-reduced-motion disables. --}}
+         from the left on hover. Every hover motion on this card — the sweep,
+         the 2px lift, the image zoom, and the arrow nudge — is neutralised
+         under prefers-reduced-motion via motion-reduce: variants (the hover
+         shadow, a non-motion cue, stays). --}}
     <span aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden {{ $a['rail'] }}">
         <span class="block h-full w-full -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out motion-reduce:transition-none bg-gradient-to-r {{ $a['sweep'] }}"></span>
     </span>
@@ -53,7 +55,7 @@
         @if(!empty($post['featured_image']))
             <x-responsive-image :src="$post['featured_image']" :alt="$post['title']"
                 loading="lazy" width="400" height="192" sizes="(min-width: 640px) 400px, 100vw"
-                class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
                 style="object-position: {{ $post['featured_image_position'] ?? 'center center' }}" />
         @else
             <div class="w-full h-48 bg-gradient-to-br {{ $a['ph'] }} flex items-center justify-center"><span class="{{ $a['phText'] }} font-black text-5xl select-none">G</span></div>
@@ -62,7 +64,7 @@
     </div>
     <div class="p-5 flex flex-col flex-1">
         <div class="flex items-center gap-2 mb-2 min-w-0">
-            <p class="text-xs text-gray-400 tracking-wide">{{ $post['published_at'] }}</p>
+            <p class="text-xs text-gray-500 tracking-wide">{{ $post['published_at'] }}</p>
             @if($a['badge'])
                 <span class="text-xs {{ $a['badge']['classes'] }} font-bold px-2 py-0.5 rounded-full whitespace-nowrap">{{ $a['badge']['label'] }}</span>
             @endif
@@ -87,7 +89,7 @@
 
         <div class="mt-4 flex items-center gap-1 text-xs font-semibold {{ $a['more'] }}">
             Read more
-            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
         </div>
     </div>
 </a>

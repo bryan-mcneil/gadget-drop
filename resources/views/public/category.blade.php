@@ -53,7 +53,7 @@
                             <span class="w-1 h-7 rounded-full bg-gradient-to-b from-indigo-500 to-purple-500"></span>
                             <div>
                                 <h2 class="text-2xl font-extrabold text-gray-900 leading-none">{{ $category['name'] }}</h2>
-                                <p class="text-xs text-gray-400 mt-0.5 tracking-wide">{{ $posts->total() }} post{{ $posts->total() !== 1 ? 's' : '' }} in this category</p>
+                                <p class="text-xs text-gray-500 mt-0.5 tracking-wide">{{ $posts->total() }} post{{ $posts->total() !== 1 ? 's' : '' }} in this category</p>
                             </div>
                         </div>
                     </div>
