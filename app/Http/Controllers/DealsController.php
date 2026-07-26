@@ -42,6 +42,9 @@ class DealsController extends Controller
 
         return view('public.deals', [
             'deals' => $deals,
+            // Honest trust chips (each hidden when its number is zero): how many
+            // products we track prices for, drops live now, and the biggest one.
+            'trackedCount' => DealsFeed::trackedCount(),
             'truthPromo' => ($promoSlug && isset($published[$promoSlug]))
                 ? ['slug' => $promoSlug, 'title' => $published[$promoSlug]['title']]
                 : null,

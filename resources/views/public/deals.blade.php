@@ -1,38 +1,83 @@
 @extends('layouts.public')
 
 @section('content')
-{{-- Hero --}}
+{{-- Hero — a two-sentence lede + honest stat chips; the full method collapses
+     into "How we call it" so the deal cards sit closer to the fold. --}}
 <div class="bg-white border-b border-gray-100">
-    <div class="max-w-6xl mx-auto px-4 py-14">
+    <div class="max-w-6xl mx-auto px-4 py-12">
         <p class="text-xs font-semibold text-sky-600 uppercase tracking-widest mb-3">Price Drops</p>
         <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
             Drops we actually tracked
         </h1>
         <p class="text-gray-600 leading-relaxed max-w-2xl">
-            Most "was $199" claims are built on list prices nobody ever paid. These aren't. We record the
-            real Amazon price of every product we cover each time we check it, and a gadget only lands on
-            this page when its current price sits at least {{ \App\Http\Controllers\DealsController::MIN_DROP_PCT }}%
-            below what our own history says is typical. "Usually" means <em>our tracked 90-day average</em>,
-            never a manufacturer's suggested price. Every card shows the lowest price we've tracked in the
-            last 30 days (the disclosure EU law requires of retailers, and US law doesn't) and when we last
-            checked; prices move fast, so confirm the final number at checkout. The tracking method is documented on
-            {{-- Plain link (no wire:navigate): it targets a #fragment, and the
-                 browser's native navigation is what reliably scrolls to it. --}}
-            <a href="{{ route('how-we-review') }}#deal-verdicts" class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
+            Most "was $199" claims lean on a list price nobody ever paid. Ours don't: every number here is
+            the real Amazon price we recorded ourselves, and a gadget only lands on this page when its
+            current price sits at least {{ \App\Http\Controllers\DealsController::MIN_DROP_PCT }}% below what
+            our own history says is typical.
         </p>
-        <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
-            A low price isn't the whole question, though: buying four weeks before a replacement lands
-            costs more than any deal saves. Our
-            <a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">buy-or-wait verdicts</a>
-            track when each product line has actually refreshed, sourced to the manufacturer's own announcement.
-        </p>
-        @if($truthPromo)
-            <p class="mt-4 text-gray-600 leading-relaxed max-w-2xl">
-                Sale event just wrapped? We graded every deal we tracked against its own pre-event price
-                history. Read
-                <a href="{{ route('truth.show', $truthPromo['slug']) }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">{{ $truthPromo['title'] }}</a>.
-            </p>
+
+        {{-- Stat chips. Each renders only when its number is real, so an empty
+             feed shows no "live"/"biggest" chip — honest by construction. --}}
+        @php
+            $liveCount = count($deals);
+            $topDrop = $liveCount > 0 ? $deals[0]['drop_pct'] : null;
+        @endphp
+        @if($trackedCount > 0 || $liveCount > 0)
+            <div class="mt-6 flex flex-wrap items-center gap-2.5 text-sm">
+                @if($trackedCount > 0)
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-700">
+                        <span class="tabular-nums text-gray-900">{{ number_format($trackedCount) }}</span> products tracked
+                    </span>
+                @endif
+                @if($liveCount > 0)
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1 font-semibold text-sky-800">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                            <span class="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
+                        </span>
+                        <span class="tabular-nums">{{ $liveCount }}</span> {{ \Illuminate\Support\Str::plural('drop', $liveCount) }} live now
+                    </span>
+                @endif
+                @if($topDrop !== null)
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800 tabular-nums">
+                        −{{ round($topDrop) }}% biggest drop
+                    </span>
+                @endif
+            </div>
         @endif
+
+        {{-- Method, collapsed. The prose (and its "tracked 90-day average"
+             definition) stays in the DOM for crawlers even while closed. --}}
+        <details class="deals-method mt-6 max-w-2xl">
+            <summary class="inline-flex cursor-pointer items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+                <svg class="deals-method-chevron w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                How we call it
+            </summary>
+            <div class="mt-3 space-y-3 text-sm text-gray-600 leading-relaxed">
+                <p>
+                    "Usually" means <em>our tracked 90-day average</em>, never a manufacturer's suggested
+                    price. Every card shows the lowest price we've tracked in the last 30 days (the disclosure
+                    EU law requires of retailers, and US law doesn't) and when we last checked; prices move
+                    fast, so confirm the final number at checkout. The tracking method is documented on
+                    {{-- Plain link (no wire:navigate): it targets a #fragment, and the
+                         browser's native navigation is what reliably scrolls to it. --}}
+                    <a href="{{ route('how-we-review') }}#deal-verdicts" class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
+                </p>
+                <p>
+                    A low price isn't the whole question, though: buying four weeks before a replacement lands
+                    costs more than any deal saves. Our
+                    <a href="{{ route('buy-or-wait.index') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">buy-or-wait verdicts</a>
+                    track when each product line has actually refreshed, sourced to the manufacturer's own announcement.
+                </p>
+                @if($truthPromo)
+                    <p>
+                        Sale event just wrapped? We graded every deal we tracked against its own pre-event
+                        price history. Read
+                        <a href="{{ route('truth.show', $truthPromo['slug']) }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700 font-semibold">{{ $truthPromo['title'] }}</a>.
+                    </p>
+                @endif
+            </div>
+        </details>
     </div>
 </div>
 

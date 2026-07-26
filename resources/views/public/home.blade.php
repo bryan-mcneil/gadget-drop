@@ -42,7 +42,9 @@
             @touchstart.passive="touchStart($event)" @touchend.passive="touchEnd($event)"
             class="relative overflow-hidden min-h-[460px] md:min-h-[520px] text-white" style="background: {{ $heroBg }}">
             @foreach($heroSlides as $i => $slide)
-                @php $p = $slide['post']; @endphp
+                {{-- One <h1> per page: the first slide owns it; the rest are <h2>
+                     (they're headings of visually-hidden slides). --}}
+                @php $p = $slide['post']; $htag = $i === 0 ? 'h1' : 'h2'; @endphp
                 <div class="absolute inset-0 transition-opacity duration-700"
                     style="{{ $i === 0 ? 'opacity:1;z-index:10' : 'opacity:0;z-index:0' }}"
                     :style="active === {{ $i }} ? 'opacity:1;z-index:10' : 'opacity:0;z-index:0'">
@@ -76,7 +78,7 @@
                                 {{ $slide['label'] }}
                             </span>
                         @endif
-                        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight max-w-2xl">{{ $p['title'] }}</h1>
+                        <{{ $htag }} class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight max-w-2xl">{{ $p['title'] }}</{{ $htag }}>
                         @if(!empty($p['excerpt']))
                             <p class="mt-4 text-gray-300 text-base md:text-lg leading-relaxed max-w-xl line-clamp-2">{{ $p['excerpt'] }}</p>
                         @endif
@@ -200,7 +202,7 @@
 
     {{-- ── Top Picks ── --}}
     @if(count($topPicks) > 0)
-        <section id="week-top-picks" class="relative bg-slate-50 py-14 overflow-hidden">
+        <section id="week-top-picks" class="relative bg-slate-50 py-16 overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
             <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-indigo-100/70 blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-purple-100/60 blur-3xl pointer-events-none"></div>
@@ -362,9 +364,9 @@
     @endif
 
     {{-- ── Recent Drops ── --}}
-    <div id="recent-drops" class="relative">
+    <div id="recent-drops" class="relative bg-white">
         <div class="h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
-        <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
+        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-4 gap-10">
             <main class="lg:col-span-3">
                 <div class="flex items-center justify-between mb-8">
                     <div class="flex items-center gap-3">
@@ -469,7 +471,7 @@
             $featured = $featuredTools[0] ?? $tools[0];
             $rest = array_slice($featuredTools, 1);
         @endphp
-        <section id="tools" class="bg-gray-100 py-16 relative overflow-hidden">
+        <section id="tools" class="bg-slate-50 py-16 relative overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"></div>
             <div class="max-w-6xl mx-auto px-4">

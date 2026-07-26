@@ -26,3 +26,4 @@
 - [ArticleBody dual-slug convergence](project_articlebody-dual-slug.md) — plan 10.2 TOC: dual-path slug divergence RESOLVED in-phase via shared headingSlug() over one CommonMark render; keep the single source, don't reintroduce a second slug computation
 - [cardIntel eager-load](project_cardintel-eager-load.md) — plan 10.3: belongsToMany limit(1) lead-product eager-load is per-parent on sqlite (confirmed-safe) AND required — relationLoaded guard makes the verdict chip a silent no-op without it
 - [Public vs admin CSS bundle](reference_public-vs-admin-css-bundle.md) — grep the manifest-mapped public app-*.css (not `ls -t`) to verify Tailwind purge; the other app-*.css is admin/jsx
+- [Deals pill site-wide composer](project_deals-pill-composer.md) — plan 10.4 header pill reuses count(DealsFeed::get()) via layouts.public composer + new trackedCount 1h key, both flush-hooked; confirmed-safe, don't re-flag as N+1

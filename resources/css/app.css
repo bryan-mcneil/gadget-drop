@@ -126,6 +126,20 @@ input[type=number].no-spinner {
     display: none;
 }
 
+/* ── Deals "How we call it" disclosure ──────────────────────────
+   The methodology collapses into a native <details> (content stays in the
+   DOM for crawlers). Hide the default marker and rotate our own chevron when
+   open. Scoped to .deals-method so it never touches any other <summary>. */
+.deals-method summary {
+    list-style: none;
+}
+.deals-method summary::-webkit-details-marker {
+    display: none;
+}
+.deals-method[open] .deals-method-chevron {
+    transform: rotate(90deg);
+}
+
 /* ── Post body drop cap ─────────────────────────────────────── */
 .post-body > div:first-child .prose p:first-child::first-letter {
     float: left;

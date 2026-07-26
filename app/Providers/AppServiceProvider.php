@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Support\DealsFeed;
 use App\Support\NavigationData;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -61,9 +62,12 @@ class AppServiceProvider extends ServiceProvider
             ];
         });
 
-        // Public Blade layout gets the same navigation data the admin (Inertia) does.
+        // Public Blade layout gets the same navigation data the admin (Inertia) does,
+        // plus the live tracked-deals count for the header's Deals pill (one cached
+        // read of the already-memoised DealsFeed; 0 hides the pill).
         View::composer('layouts.public', function ($view) {
             $view->with('navigation', NavigationData::get());
+            $view->with('dealsLiveCount', count(DealsFeed::get()));
         });
     }
 }

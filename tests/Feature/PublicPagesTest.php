@@ -360,4 +360,26 @@ class PublicPagesTest extends TestCase
         // the tip never do.
         $this->assertSame(1, substr_count($html, 'Lowest tracked price'), 'only the gated card carries a verdict chip');
     }
+
+    public function test_homepage_renders_exactly_one_h1_across_multiple_hero_slides(): void
+    {
+        // Two published articles => two hero slides. Only slide 1 may carry the
+        // <h1>; the rest are <h2> (the single-<h1>-per-page SEO rule).
+        $author = User::factory()->create()->id;
+        foreach (['First Drop', 'Second Drop'] as $i => $title) {
+            Post::create([
+                'user_id' => $author,
+                'title' => $title,
+                'slug' => str_replace(' ', '-', strtolower($title)),
+                'type' => 'article',
+                'body' => 'Body.',
+                'status' => 'published',
+                'published_at' => now()->subDays($i + 1),
+            ]);
+        }
+
+        $html = $this->get('/')->assertOk()->getContent();
+
+        $this->assertSame(1, substr_count($html, '<h1'), 'the homepage must have exactly one <h1>');
+    }
 }

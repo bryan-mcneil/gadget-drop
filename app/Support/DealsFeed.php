@@ -21,6 +21,9 @@ class DealsFeed
     /** Max entries in the feed. */
     public const MAX_ENTRIES = 24;
 
+    /** Cache key for the tracked-product count (busted by PriceIntel::flush). */
+    public const TRACKED_COUNT_KEY = 'deals.tracked_count';
+
     /**
      * Same defensive cache pattern as PriceIntel::stats() — a broken cache
      * layer degrades to a live compute, never an empty feed.
@@ -34,6 +37,33 @@ class DealsFeed
         } catch (\Throwable) {
             return self::build();
         }
+    }
+
+    /**
+     * How many curated products we actively track prices for (has a recorded
+     * snapshot AND a published review) — the honest denominator behind the
+     * "N products tracked" trust chip on the deals page. Same defensive cache
+     * pattern as get(); busted on PriceIntel::flush() when snapshots change.
+     */
+    public static function trackedCount(): int
+    {
+        try {
+            return Cache::remember(self::TRACKED_COUNT_KEY, now()->addHour(), fn () => self::countTracked());
+        } catch (\Throwable) {
+            return self::countTracked();
+        }
+    }
+
+    private static function countTracked(): int
+    {
+        // Mirror build()'s candidate universe (a published review — tips/news
+        // excluded) so "N products tracked" counts exactly the products that
+        // could ever surface as a deal, minus the drop gate.
+        return Product::query()
+            ->whereNotNull('price')
+            ->whereHas('priceSnapshots')
+            ->whereHas('posts', fn ($q) => $q->published()->whereNotIn('type', ['tech_tip', 'tech_news']))
+            ->count();
     }
 
     /**

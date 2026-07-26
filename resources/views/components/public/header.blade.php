@@ -1,4 +1,4 @@
-@props(['navigation' => []])
+@props(['navigation' => [], 'dealsCount' => 0])
 
 @php
     $trending       = $navigation['trending'] ?? [];
@@ -7,6 +7,9 @@
     // Tools were de-emphasised for the AdSense review (de-indexed, footer-only).
     // "Guides" surfaces only once a Guides category exists so the link never 404s.
     $guides         = collect($navigation['categories'] ?? [])->firstWhere('slug', 'guides');
+    // Active-section highlight uses the header's existing active-pill idiom
+    // (tinted bg + text), the same treatment the dropdown buttons already use.
+    $onDeals        = request()->routeIs('deals');
 @endphp
 
 <header x-data="siteHeader"
@@ -56,11 +59,18 @@
                         Guides
                     </a>
                 @endif
-                {{-- Deals — tracked price drops --}}
+                {{-- Deals — tracked price drops (live count pill; active-section tint) --}}
                 <a href="{{ route('deals') }}" wire:navigate
-                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    @class([
+                        'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                        'text-sky-700 bg-sky-50' => $onDeals,
+                        'text-gray-600 hover:text-sky-600 hover:bg-sky-50' => ! $onDeals,
+                    ])>
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" /></svg>
                     Deals
+                    @if($dealsCount > 0)
+                        <span class="ml-0.5 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full bg-sky-100 text-sky-700 text-[11px] font-bold tabular-nums">{{ $dealsCount }}</span>
+                    @endif
                 </a>
             </nav>
 
@@ -212,9 +222,17 @@
                 Guides
             </a>
             @endif
-            <a href="{{ route('deals') }}" wire:navigate class="flex items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50 rounded-lg">
+            <a href="{{ route('deals') }}" wire:navigate
+                @class([
+                    'flex items-center gap-2 px-3 py-3 text-sm font-medium rounded-lg',
+                    'text-sky-700 bg-sky-50' => $onDeals,
+                    'text-gray-700 hover:text-sky-600 hover:bg-gray-50' => ! $onDeals,
+                ])>
                 <svg class="w-3.5 h-3.5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" /></svg>
                 Deals
+                @if($dealsCount > 0)
+                    <span class="ml-auto inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full bg-sky-100 text-sky-700 text-[11px] font-bold tabular-nums">{{ $dealsCount }}</span>
+                @endif
             </a>
 
             {{-- Trending accordion --}}

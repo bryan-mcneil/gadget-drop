@@ -56,6 +56,7 @@ class PriceIntel
         try {
             Cache::forget("priceintel.{$productId}");
             Cache::forget('deals.feed');
+            Cache::forget(DealsFeed::TRACKED_COUNT_KEY);
         } catch (\Throwable) {
             // Cache not bound (pure unit context) — nothing to flush.
         }

@@ -21,7 +21,10 @@
             {{-- Link columns --}}
             <div class="grid grid-cols-3 gap-8 md:col-span-7">
                 <div>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Explore</h3>
+                    <h3 class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+                        <span class="w-4 h-px bg-gray-600"></span>
+                        Explore
+                    </h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li><a href="{{ route('deals') }}" wire:navigate class="text-gray-400 hover:text-sky-300 transition-colors">Deals</a></li>
                         {{-- Footer, not the header: the desktop nav already crams at
@@ -36,7 +39,10 @@
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Company</h3>
+                    <h3 class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+                        <span class="w-4 h-px bg-gray-600"></span>
+                        Company
+                    </h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li><a href="{{ route('about') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">About</a></li>
                         <li><a href="{{ route('how-we-review') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">How We Review</a></li>
@@ -44,7 +50,10 @@
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Legal</h3>
+                    <h3 class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+                        <span class="w-4 h-px bg-gray-600"></span>
+                        Legal
+                    </h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li><a href="{{ route('privacy') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
                         <li><a href="{{ route('cookies') }}" wire:navigate class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
