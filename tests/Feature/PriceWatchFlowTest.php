@@ -50,7 +50,9 @@ class PriceWatchFlowTest extends TestCase
             ->assertOk()
             ->assertSee("You're set")
             ->assertSee('Flow Widget', false)
-            ->assertSee($watch->expires_at->format('M j, Y'), false);
+            ->assertSee($watch->expires_at->format('M j, Y'), false)
+            // Em-dash-free voice, matched to the emails that link here (Phase 10.5).
+            ->assertSee("one email. That's the whole deal", false);
 
         $this->assertNotNull($watch->fresh()->verified_at);
     }
@@ -114,7 +116,9 @@ class PriceWatchFlowTest extends TestCase
 
         $this->get($url)
             ->assertOk()
-            ->assertSee('Watch removed', false);
+            ->assertSee('Watch removed', false)
+            // Em-dash-free voice, matched to the emails that link here (Phase 10.5).
+            ->assertSee('No more emails about it, ever', false);
 
         $this->assertDatabaseMissing('price_watches', ['id' => $watch->id]);
 

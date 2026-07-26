@@ -94,4 +94,12 @@ class WeeklyDigestTest extends TestCase
             $mailable->headers()->text['List-Unsubscribe'],
         );
     }
+
+    public function test_the_digest_carries_no_em_dashes(): void
+    {
+        $html = (new WeeklyDigest('https://example.com/unsubscribe/tok'))->render();
+
+        $this->assertStringNotContainsString("\u{2014}", $html);
+        $this->assertStringNotContainsString('&mdash;', $html);
+    }
 }

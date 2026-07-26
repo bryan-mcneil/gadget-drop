@@ -31,14 +31,14 @@
             <p style="margin:0 0 14px;font-family:Consolas,'Courier New',monospace;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#10b981;">Price drop alert</p>
 
             <h1 style="margin:0 0 12px;font-size:24px;font-weight:800;color:#111827;line-height:1.3;letter-spacing:-0.3px;">
-                It dropped ${{ number_format($savings, 2) }} — and you're still inside your return window
+                It dropped <span style="color:#10b981;">${{ number_format($savings, 2) }}</span>. You're still inside your return window.
             </h1>
 
             <p style="margin:0 0 20px;font-size:15px;color:#4b5563;line-height:1.65;">
                 The {{ $watch->product->name }} you bought is now tracking at
-                <strong style="color:#111827;">${{ number_format($currentPrice, 2) }}</strong>@if($checkedAt) (our last check: {{ $checkedAt }})@endif —
-                down from the ${{ number_format($paid, 2) }} we tracked on your purchase date.
-                You have <strong style="color:#111827;">{{ $daysLeft }} {{ Str::plural('day', $daysLeft) }}</strong> left to do something about it.
+                <strong style="color:#111827;">${{ number_format($currentPrice, 2) }}</strong>@if($checkedAt) (our last check: {{ $checkedAt }})@endif.
+                That is down from the ${{ number_format($paid, 2) }} we tracked on your purchase date.
+                You have <strong style="color:#111827;">{{ $daysLeft }} {{ Str::plural('day', $daysLeft) }}</strong> left to act on it.
             </p>
 
             {{-- The numbers, side by side --}}
@@ -61,14 +61,14 @@
 
             <p style="margin:0 0 10px;font-size:15px;font-weight:700;color:#111827;">The return-and-rebuy move, step by step:</p>
             <ol style="margin:0 0 22px;padding-left:20px;font-size:14px;color:#4b5563;line-height:1.8;">
-                <li>Check your original order is still marked <strong style="color:#111827;">Free Returns</strong> — that's what makes this a no-cost move.</li>
+                <li>Check your original order is still marked <strong style="color:#111827;">Free Returns</strong>. That is what makes this a no-cost move.</li>
                 <li>Order the item again at the new lower price <em>first</em>, so you're never without it.</li>
-                <li>Return the original from Your Orders, citing "found a better price." Amazon no longer price-matches — return-and-rebuy is the move they themselves point to.</li>
+                <li>Return the original from Your Orders, citing "found a better price." Amazon no longer price-matches, so return-and-rebuy is the move they themselves point to.</li>
                 <li>Refund lands when the return is scanned; the difference stays with you.</li>
             </ol>
 
             <p style="margin:0 0 18px;font-size:13px;color:#6b7280;line-height:1.6;">
-                Prices move — confirm the current price and the return terms on your order before pulling the trigger. This is our tracked price, not a live Amazon quote.
+                Prices move fast. Confirm the current price and the return terms on your order before you act. This is our tracked price, not a live Amazon quote.
             </p>
 
             <a href="{{ $reviewUrl }}"
@@ -81,7 +81,7 @@
         <tr>
             <td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:22px 40px;text-align:center;">
                 <p style="margin:0 0 8px;font-size:12px;color:#9ca3af;line-height:1.6;">
-                    That's the one email this watch will ever send — it's done now.
+                    That's the one email this watch will ever send. It's done now.
                     You asked us to watch this price at <a href="{{ url('/') }}" style="color:#6b7280;text-decoration:underline;">gadgetdrop.tech</a>.
                 </p>
                 <a href="{{ $unsubscribeUrl }}" style="font-size:12px;color:#9ca3af;text-decoration:underline;">

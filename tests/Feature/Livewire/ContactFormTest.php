@@ -107,4 +107,12 @@ class ContactFormTest extends TestCase
             ->assertSee('Send message', false)
             ->assertSeeLivewire(ContactForm::class);
     }
+
+    public function test_the_notification_email_carries_no_em_dashes(): void
+    {
+        $html = (new ContactMessage('Jane Reader', 'jane@example.com', 'correction', 'Body text.'))->render();
+
+        $this->assertStringNotContainsString("\u{2014}", $html);
+        $this->assertStringNotContainsString('&mdash;', $html);
+    }
 }

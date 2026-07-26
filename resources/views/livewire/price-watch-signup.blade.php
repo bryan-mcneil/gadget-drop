@@ -25,7 +25,7 @@
             Already bought it?
         </div>
         <p class="mt-1.5 text-sm text-gray-600">
-            We'll watch this price for the rest of your {{ $windowDays }}-day return window and email you once if it drops enough to be worth a return &amp; rebuy. Compared against our tracked price for your purchase date.
+            Prices slip after you buy, and Amazon won't tell you. We'll watch this one for the rest of your {{ $windowDays }}-day return window and email you once if it drops enough to be worth a return and rebuy, measured against our tracked price for your purchase date.
         </p>
 
         <form wire:submit="startWatch" class="mt-3">
@@ -42,23 +42,23 @@
                 </button>
             </div>
 
-            {{-- Honeypot — invisible to humans, irresistible to bots --}}
+            {{-- Honeypot: invisible to humans, irresistible to bots --}}
             <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden;">
                 <label for="watch-company-{{ $productId }}">Company</label>
                 <input id="watch-company-{{ $productId }}" type="text" wire:model="company" tabindex="-1" autocomplete="off" />
             </div>
 
             @error('email') <p class="mt-2 text-red-600 text-xs">{{ $message }}</p> @enderror
-            @error('purchased_on') <p class="mt-2 text-red-600 text-xs">Pick the date you bought it — within the last {{ $windowDays }} days.</p> @enderror
+            @error('purchased_on') <p class="mt-2 text-red-600 text-xs">Pick the date you bought it, within the last {{ $windowDays }} days.</p> @enderror
             @if($status === 'throttled')
-                <p class="mt-2 text-amber-600 text-xs">That's a few watches in a row — give it an hour and try again.</p>
+                <p class="mt-2 text-amber-600 text-xs">That's a few watches in a row. Give it an hour and try again.</p>
             @endif
             @if($status === 'error')
                 <p class="mt-2 text-red-600 text-xs">Something went wrong setting up the watch. Please try again.</p>
             @endif
 
             <p class="mt-2 text-[11px] text-gray-400">
-                Two email max, confirmation and only if it drops. Your email is deleted after the window closes. <a href="{{ route('privacy') }}" wire:navigate class="underline hover:text-gray-600">Privacy</a>
+                Two emails max: the confirmation, then one more only if it drops. Your address is deleted after the window closes. <a href="{{ route('privacy') }}" wire:navigate class="underline hover:text-gray-600">Privacy</a>
             </p>
         </form>
     @endif

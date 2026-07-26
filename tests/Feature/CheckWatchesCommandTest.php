@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Mail\WatchClosingMail;
 use App\Mail\WatchDropMail;
+use App\Mail\WatchVerifyMail;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PriceWatch;
@@ -264,5 +265,55 @@ class CheckWatchesCommandTest extends TestCase
         $lowest = (new WatchClosingMail($this->makeWatch($dropped, ['purchase_price' => 100])))->render();
 
         $this->assertStringContainsString('lowest price we have tracked', $lowest);
+    }
+
+    public function test_the_drop_mail_paints_the_headline_savings_green(): void
+    {
+        // Paid $100, now $77 → $23.00 back. The savings figure in the <h1>
+        // must be wrapped in the emerald money color so the eye lands on it.
+        $watch = $this->makeWatch($this->makeProduct(77), ['purchased_at' => now()->subDays(25)]);
+
+        $html = (new WatchDropMail($watch))->render();
+
+        // The exact headline span (distinct from the stat-table's <p> cell,
+        // which also renders $23.00 in green) — proves the money is greened
+        // in the headline itself, not only in the numbers table.
+        $this->assertStringContainsString('<span style="color:#10b981;">$23.00</span>', $html);
+    }
+
+    public function test_the_watch_mails_carry_no_em_dashes(): void
+    {
+        $product = $this->makeProduct(77);
+
+        // Flat $100 history → avg90 = 100: paid 90/100/110 exercises the good /
+        // typical / elevated verdict arms. $120→$100 gives "lowest"; a
+        // history-less product hits the thin "default" arm. Every arm's copy was
+        // rewritten in this phase, so render them all.
+        $flat = $this->makeProduct(100);
+        $this->snapshot($flat, 100, 60);
+        $this->snapshot($flat, 100, 30);
+
+        $dropped = $this->makeProduct(100);
+        $this->snapshot($dropped, 120, 60);
+        $this->snapshot($dropped, 100, 30);
+
+        $thin = $this->makeProduct(100); // only the creation snapshot → gate closed
+
+        $renders = [
+            (new WatchDropMail($this->makeWatch($product)))->render(),
+            (new WatchVerifyMail($this->makeWatch($product)))->render(),
+            (new WatchClosingMail($this->makeWatch($flat, ['purchase_price' => 90])))->render(),   // good
+            (new WatchClosingMail($this->makeWatch($flat, ['purchase_price' => 100])))->render(),  // typical
+            (new WatchClosingMail($this->makeWatch($flat, ['purchase_price' => 110])))->render(),  // elevated
+            (new WatchClosingMail($this->makeWatch($dropped, ['purchase_price' => 100])))->render(), // lowest
+            (new WatchClosingMail($this->makeWatch($thin, ['purchase_price' => 100])))->render(),   // default
+        ];
+
+        foreach ($renders as $html) {
+            $this->assertStringNotContainsString("\u{2014}", $html); // em-dash
+            $this->assertStringNotContainsString("\u{2013}", $html); // en-dash (no smuggling)
+            $this->assertStringNotContainsString('&mdash;', $html);
+            $this->assertStringNotContainsString('&ndash;', $html);
+        }
     }
 }

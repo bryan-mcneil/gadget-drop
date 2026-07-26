@@ -31,7 +31,7 @@
             <p style="margin:0 0 16px;font-size:15px;color:#4b5563;line-height:1.65;">
                 Quick honest wrap-up: the price never dropped far enough below the
                 ${{ number_format($paid, 2) }} we tracked on your purchase date to make a return-and-rebuy worth it.
-                And here's the good news — {{ $verdictLine }}
+                And here's the good news: {{ $verdictLine }}
             </p>
 
             <p style="margin:0 0 22px;font-size:15px;color:#4b5563;line-height:1.65;">
@@ -43,11 +43,11 @@
                 See the full price history
             </a>
 
-            {{-- Quiet invite — never auto-subscribe --}}
+            {{-- Quiet invite, never auto-subscribe --}}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;">
                 <tr><td style="border-top:1px solid #e5e7eb;padding-top:18px;">
                     <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.6;">
-                        Liked having someone watch the price for you? The weekly Drop covers what's <em>actually</em> a deal across everything we track — join only if that sounds useful:
+                        Liked having someone watch the price for you? The weekly Drop covers what's <em>actually</em> a deal across everything we track. Join only if that sounds useful:
                         <a href="{{ url('/') }}#subscribe" style="font-weight:700;color:#4f46e5;text-decoration:none;">Join the Drop &rarr;</a>
                     </p>
                 </td></tr>

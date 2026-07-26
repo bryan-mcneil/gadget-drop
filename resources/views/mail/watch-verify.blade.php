@@ -29,11 +29,11 @@
             </h1>
 
             <p style="margin:0 0 18px;font-size:15px;color:#4b5563;line-height:1.65;">
-                Here's the deal: until <strong style="color:#111827;">{{ $watch->expires_at->format('M j, Y') }}</strong> — the end of your {{ config('watch.window_days') }}-day return window —
+                Here's the deal. Until <strong style="color:#111827;">{{ $watch->expires_at->format('M j, Y') }}</strong>, the end of your {{ config('watch.window_days') }}-day return window,
                 we'll compare this product's tracked price against
                 <strong style="color:#111827;">${{ number_format((float) $watch->purchase_price, 2) }}</strong>, our tracked price for your purchase date.
                 If it drops by at least ${{ number_format(config('watch.min_drop_abs'), 0) }} or {{ round(config('watch.min_drop_pct') * 100) }}%
-                (whichever is larger), you get <strong style="color:#111827;">one email</strong> explaining the return-and-rebuy move. If it never drops, we won't clutter your inbox.
+                (whichever is larger), you get <strong style="color:#111827;">one email</strong> with the return-and-rebuy move. If it never drops, your inbox stays quiet.
             </p>
 
             <a href="{{ $verifyUrl }}"
@@ -42,7 +42,7 @@
             </a>
 
             <p style="margin:18px 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-                This confirmation link expires in 48 hours. Didn't ask for this? Ignore this email — the watch never activates without the click, and the record is deleted automatically.
+                This confirmation link expires in 48 hours. Didn't ask for this? Ignore this email. The watch never activates without the click, and the record is deleted automatically.
             </p>
 
         </td></tr>

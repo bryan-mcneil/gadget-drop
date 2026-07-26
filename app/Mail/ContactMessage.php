@@ -23,7 +23,7 @@ class ContactMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[GadgetDrop contact] '.ucfirst($this->topic).' — '.$this->senderName,
+            subject: '[GadgetDrop contact] '.ucfirst($this->topic).': '.$this->senderName,
             replyTo: [new Address($this->senderEmail, $this->senderName)],
         );
     }

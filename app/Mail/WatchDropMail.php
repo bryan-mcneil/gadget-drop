@@ -60,7 +60,7 @@ class WatchDropMail extends Mailable
     {
         return new Envelope(
             subject: sprintf(
-                'It dropped $%s — return & rebuy your %s',
+                'It dropped $%s. Return and rebuy your %s',
                 number_format($this->savings, 2),
                 $this->watch->product->name,
             ),
