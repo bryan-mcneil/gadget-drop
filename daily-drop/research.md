@@ -1,27 +1,27 @@
-DATE: 2026-07-26
+DATE: 2026-07-27
 DEDUPE: checked against 39 existing products
-BRIEF: seo-brief.md present (generated 2026-07-24, fresh) but reports "No opportunities yet" — editorial pick
+BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-26, "No opportunities yet") — editorial pick, brief is fresh but empty
 
 ===PRODUCT 1===
-NAME: SAMSUNG T9 Portable SSD 1TB, USB 3.2 Gen 2x2 External SSD, Up to 2,000 MB/s | External Solid State Drive for Gaming, Students and Professionals, MU-PG1T0B/AM, Black
-ASIN: B0CHFSWM2P
-PRICE: ~$250
-TRENDING: The T9 is the default "best overall" pick in nearly every 2026 best-portable-SSD roundup, and its price swings hard around Prime Day / clearance events (Kotaku, Gizmodo and PC Guide all covered fresh lows this month), keeping "samsung t9 review" and "best portable ssd" buyer-intent searches high.
-ANGLE: The storage gap in our catalog — we cover the mouse, monitors and keyboard but never external storage, the one purchase every creator/gamer eventually makes. Lean on our differentiator: a 2,000 MB/s USB 3.2 Gen 2x2 drive is fast, but the real buying decision is WHEN, because the T9 yo-yos in price. Frame it as "is the T9 worth it, and is now the time to buy" — spec-vs-need analysis (who actually saturates Gen 2x2) plus the honest price-timing angle our price-history widget is built for.
-KEYWORD: Samsung T9 portable SSD review
-TARGET_QUERY: samsung t9 portable ssd review
+NAME: Crucial X10 Pro 2TB Portable SSD
+ASIN: B0C9WGS6MC
+PRICE: $150–$170
+TRENDING: Riding the summer "best portable SSD 2026" buying wave — repeatedly named the fastest USB 3.2 Gen 2x2 (20Gbps) portable drive of the year at a price that keeps sliding under Samsung's T9, so it's a live buyer-intent search magnet as creators offload phone/camera footage.
+ANGLE: The honest "who is the Pro actually for" verdict — the X10 Pro only pays off if you own a real 20Gbps (USB 3.2 Gen 2x2) port; on the far more common Thunderbolt/10Gbps machines the cheaper X9 Pro and X10 non-Pro land at similar real-world speed. Pair that with our tracked price history so readers can see whether today is a genuine dip or list price.
+KEYWORD: crucial x10 pro review
+TARGET_QUERY: crucial x10 pro 2tb worth it
 CATEGORY: Computers & Accessories
-TAGS: portable SSD | external SSD | Samsung T9 | data storage | USB-C SSD
-ALTERNATIVES: SanDisk Extreme Portable SSD | no-review | Crucial X9 Pro | no-review
+TAGS: portable ssd | external storage | crucial | usb-c | content creators
+ALTERNATIVES: Samsung T9 Portable SSD 2TB | no-review, Crucial X9 Pro 2TB | no-review
 
 ===PRODUCT 2===
-NAME: SanDisk 1TB Extreme Portable SSD - Up to 1050MB/s, USB-C, USB 3.2 Gen 2, IP65 Water and Dust Resistance, Updated Firmware - External Solid State Drive - SDSSDE61-1T00-G25
-ASIN: B08GTYFC37
-PRICE: ~$110
-TRENDING: The perennial "best value" runner-up in every 2026 portable-SSD guide — IP65 weather sealing and ~1,050 MB/s at roughly half the T9's price keeps it a top buyer-intent pick for photographers and creators who don't need Gen 2x2 speeds.
-ANGLE: The value question — most people never saturate 2,000 MB/s, so is the cheaper, weather-sealed Extreme the smarter buy? Honest "who is the extra speed actually for" comparison, with our price-timing angle since the Extreme also drops around sales.
-KEYWORD: SanDisk Extreme portable SSD review
-TARGET_QUERY: sandisk extreme portable ssd review
+NAME: Elgato Facecam MK.2
+ASIN: B0CW1S7XP5
+PRICE: $150
+TRENDING: The default upgrade pick in every "best streaming webcam 2026" roundup — reviewers call it the near-perfect 1080p60 webcam after the MK.2 fixed the original's software, added HDR and a Sony Starvis sensor; steady buyer intent from streamers and remote workers upgrading off laptop cams.
+ANGLE: The one caveat buyers keep missing — a premium 1080p webcam with no built-in mic and fixed focus, so the real question is whether HDR + a true Sony sensor justify $150 over a $70 Logitech C920 when you already own a mic. Add tracked price history to show its real floor.
+KEYWORD: elgato facecam mk.2 review
+TARGET_QUERY: elgato facecam mk 2 worth it
 CATEGORY: Computers & Accessories
-TAGS: portable SSD | external SSD | SanDisk Extreme | data storage | USB-C SSD
-ALTERNATIVES: Samsung T9 Portable SSD | no-review | Crucial X9 Pro | no-review
+TAGS: webcam | streaming | elgato | 1080p | video conferencing
+ALTERNATIVES: Logitech C920 | no-review, Anker PowerConf C200 | no-review
