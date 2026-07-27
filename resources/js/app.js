@@ -569,6 +569,60 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
+    /* ── Hero recap video (post page) ────────────────────────────
+       Plays the 16:9 recap exactly once, muted, the first time it
+       scrolls into view. preload="none" + poster keep the painted
+       poster the LCP; the mp4 only fetches when play() is called.
+       Under prefers-reduced-motion autoplay never fires — the static
+       poster stays and a play button appears instead (same for an
+       autoplay rejection). The IntersectionObserver is the one manual
+       handle, disconnected in destroy(); the video is paused there
+       too so a wire:navigate swap can't leave audio-less playback
+       running in a detached DOM. */
+    Alpine.data('heroRecap', () => ({
+        observer: null,
+        played: false,
+        showPlay: false,
+        init() {
+            const video = this.$refs.video;
+            if (!video) return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                this.showPlay = true;
+                return;
+            }
+            this.observer = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (!entry.isIntersecting || this.played) continue;
+                    this.start();
+                    break;
+                }
+            }, { threshold: 0.35 });
+            this.observer.observe(this.$el);
+        },
+        start() {
+            this.played = true;
+            this.teardown();
+            const p = this.$refs.video.play();
+            // An autoplay rejection (policy, power saving) falls back to the
+            // poster + play button — never a broken black box.
+            if (p && p.catch) p.catch(() => { this.showPlay = true; this.played = false; });
+        },
+        play() {
+            this.showPlay = false;
+            this.start();
+        },
+        teardown() {
+            if (this.observer) {
+                this.observer.disconnect();
+                this.observer = null;
+            }
+        },
+        destroy() {
+            this.teardown();
+            this.$refs.video?.pause();
+        },
+    }));
+
     /* ── Share bar ───────────────────────────────────────────── */
     Alpine.data('shareBar', (shortUrl, title) => ({
         copied: false,

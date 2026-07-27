@@ -279,6 +279,8 @@ class PublicController extends Controller
             'hero_image_position' => $post->hero_image
                 ? ($post->hero_image_position ?? 'center center')
                 : ($post->featured_image_position ?? 'center center'),
+            'recap_video_url' => $post->recapVideoUrl(),
+            'recap_video_duration' => $post->recap_video_duration,
             'image_1' => $post->image_1,
             'image_1_fit' => $post->image_1_fit ?? 'cover',
             'image_2' => $post->image_2,
@@ -619,6 +621,21 @@ class PublicController extends Controller
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
+    /** Make a possibly-relative URL absolute for structured data. */
+    private function absoluteUrl(string $url): string
+    {
+        return preg_match('#^https?://#', $url) ? $url : url($url);
+    }
+
+    /** Whole seconds → ISO-8601 duration for VideoObject (e.g. 31 → PT31S). */
+    private function isoDuration(int $seconds): string
+    {
+        $m = intdiv($seconds, 60);
+        $s = $seconds % 60;
+
+        return 'PT'.($m ? "{$m}M" : '').(($s || ! $m) ? "{$s}S" : '');
+    }
+
     private function buildServerMeta(array $d): array
     {
         $seo = $d['seo_meta'] ?? [];
@@ -708,6 +725,34 @@ class PublicController extends Controller
         }
 
         $graph[] = $article;
+
+        // VideoObject — only when the post carries a self-hosted recap (plan
+        // 10.7's deliberate exception to the "no SEO-meta changes" non-goal).
+        // Every field is real: contentUrl is the served file, the thumbnail is
+        // the actual painted poster, duration is the rendered video's length.
+        if ($d['recap_video_url'] ?? null) {
+            $posterSrc = $d['hero_image'] ?? $d['featured_image'] ?? null;
+            $poster = \App\Support\ResponsiveImage::webpVariantUrl($posterSrc) ?? $posterSrc;
+
+            $video = [
+                '@type' => 'VideoObject',
+                '@id' => "{$postUrl}#recap",
+                'name' => "{$d['title']} — video recap",
+                'description' => $desc ?: $d['title'],
+                'contentUrl' => $this->absoluteUrl($d['recap_video_url']),
+            ];
+            if ($d['published_at_iso'] ?? null) {
+                $video['uploadDate'] = $d['published_at_iso'];
+            }
+            if ($poster) {
+                $video['thumbnailUrl'] = $this->absoluteUrl($poster);
+            }
+            if ($d['recap_video_duration'] ?? null) {
+                $video['duration'] = $this->isoDuration((int) $d['recap_video_duration']);
+            }
+
+            $graph[] = $video;
+        }
 
         // Products
         foreach (collect($d['products'] ?? []) as $p) {

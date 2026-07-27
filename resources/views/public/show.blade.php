@@ -47,11 +47,17 @@ $sidebarList = $post['type'] === 'tech_news'
 @php $lcpSrc = $post['hero_image'] ?? $post['featured_image'] ?? null; @endphp
 @if($lcpSrc)
 @push('head')
+@if(!empty($post['recap_video_url']))
+{{-- Recap posts paint the video poster (one exact file — poster takes no
+     srcset) as the LCP, so preload that same file. --}}
+<link rel="preload" as="image" href="{{ \App\Support\ResponsiveImage::webpVariantUrl($lcpSrc) ?? $lcpSrc }}" fetchpriority="high">
+@else
 @php $lcpWebp = \App\Support\ResponsiveImage::webpSrcset($lcpSrc); @endphp
 @if($lcpWebp !== '')
 <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $lcpWebp }}" imagesizes="(min-width: 1024px) 768px, 100vw" fetchpriority="high">
 @else
 <link rel="preload" as="image" href="{{ $lcpSrc }}" fetchpriority="high">
+@endif
 @endif
 @endpush
 @endif
@@ -124,20 +130,11 @@ $sidebarList = $post['type'] === 'tech_news'
             </div>
         @endif
 
-        {{-- Hero image — below the band, on the light surface (white pack-shots
-             keep their background). Still eager/high-priority for LCP. --}}
-        @if($post['hero_image'] || $post['featured_image'])
-            <x-adaptive-image
-                :src="$post['hero_image'] ?? $post['featured_image']"
-                :alt="'Featured image for ' . $post['title']"
-                :fit="$post['featured_image_fit'] ?? 'cover'"
-                :position="$post['hero_image_position'] ?? $post['featured_image_position'] ?? 'center center'"
-                class="w-full rounded-2xl border border-gray-200/80 max-h-96"
-                wrapper-class="mb-10"
-                sizes="(min-width: 1024px) 768px, 100vw"
-                loading="eager"
-                fetchpriority="high" />
-        @endif
+        {{-- Hero slot — below the band, on the light surface. A recap video
+             (poster-first, autoplay-once) when the post has one; the plain
+             eager/high-priority hero image otherwise. --}}
+        <x-hero-recap :post="$post" />
+
 
         {{-- Body — 68ch measure inside <x-article-body>, figures full column. --}}
         <x-article-body :sections="$sections" />

@@ -19,6 +19,7 @@ class Post extends Model
         'user_id', 'type', 'title', 'slug', 'excerpt', 'body',
         'source_url', 'featured_image', 'featured_image_fit', 'featured_image_position',
         'hero_image', 'hero_image_position',
+        'recap_video_path', 'recap_video_duration',
         'image_1', 'image_1_fit', 'image_1_caption',
         'image_2', 'image_2_fit', 'image_2_caption',
         'image_3', 'image_3_fit', 'image_3_caption',
@@ -107,6 +108,25 @@ class Post extends Model
         $skip = $this->worthItVotes()->skip()->count();
 
         return WorthItVote::summarize($worth, $skip);
+    }
+
+    /**
+     * Public URL of the 16:9 recap video, or null when the post has none.
+     * Paths are stored relative to the `public` disk (recaps/…); a value that
+     * is already a URL/absolute path passes through untouched (import safety).
+     * Self-hosted only — the admin upload is the sole writer of this column.
+     */
+    public function recapVideoUrl(): ?string
+    {
+        if (! $this->recap_video_path) {
+            return null;
+        }
+
+        if (Str::startsWith($this->recap_video_path, ['http://', 'https://', '/'])) {
+            return $this->recap_video_path;
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->recap_video_path);
     }
 
     public function scopePublished($query)

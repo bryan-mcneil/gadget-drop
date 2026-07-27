@@ -382,4 +382,88 @@ class PublicPagesTest extends TestCase
 
         $this->assertSame(1, substr_count($html, '<h1'), 'the homepage must have exactly one <h1>');
     }
+
+    /** A published review with a recap video attached (plan 10.7). */
+    private function recapPost(): Post
+    {
+        return Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Recap Video Drop',
+            'slug' => 'recap-video-drop',
+            'type' => 'article',
+            'excerpt' => 'A drop with a 16:9 recap.',
+            'body' => "Intro paragraph here.\n\nSecond paragraph of running text.",
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+            'featured_image' => '/storage/posts/recap-hero.jpg',
+            'recap_video_path' => 'recaps/recap-test.mp4',
+            'recap_video_duration' => 31,
+        ]);
+    }
+
+    public function test_post_with_recap_renders_a_poster_first_video_hero(): void
+    {
+        $post = $this->recapPost();
+
+        $html = $this->get("/posts/{$post->slug}")->assertOk()->getContent();
+
+        // Poster-first, CLS-safe, autoplay-capable — the 10.7 non-negotiables.
+        $this->assertStringContainsString('aspect-[16/9]', $html);
+        $this->assertStringContainsString('<video', $html);
+        $this->assertStringContainsString('preload="none"', $html);
+        $this->assertStringContainsString('poster="/storage/posts/recap-hero.jpg"', $html);
+        $this->assertStringContainsString('/storage/recaps/recap-test.mp4', $html);
+
+        // muted + playsinline present, loop absent — plays once, then stops.
+        $tagStart = strpos($html, '<video');
+        $videoTag = substr($html, $tagStart, strpos($html, '>', $tagStart) - $tagStart);
+        $this->assertStringContainsString('muted', $videoTag);
+        $this->assertStringContainsString('playsinline', $videoTag);
+        $this->assertStringNotContainsString('loop', $videoTag);
+
+        // Reduced-motion / autoplay-refused markup path: the play control is in
+        // the server HTML (JS only toggles its visibility).
+        $this->assertStringContainsString('Play video recap', $html);
+
+        // The hero is now a video, so the plain adaptive-image hero is gone —
+        // and the page still has exactly one <h1>.
+        $this->assertStringNotContainsString('Featured image for Recap Video Drop', $html);
+        $this->assertSame(1, substr_count($html, '<h1'));
+
+        // LCP guard: the poster is still preloaded as an image.
+        $this->assertStringContainsString('rel="preload" as="image" href="/storage/posts/recap-hero.jpg"', $html);
+    }
+
+    public function test_post_with_recap_emits_honest_videoobject_jsonld(): void
+    {
+        $post = $this->recapPost();
+
+        $html = $this->get("/posts/{$post->slug}")->assertOk()->getContent();
+
+        $this->assertStringContainsString('"@type":"VideoObject"', $html);
+        $this->assertStringContainsString('"contentUrl":"'.url('/storage/recaps/recap-test.mp4').'"', $html);
+        $this->assertStringContainsString('"thumbnailUrl":"'.url('/storage/posts/recap-hero.jpg').'"', $html);
+        $this->assertStringContainsString('"duration":"PT31S"', $html);
+        $this->assertStringContainsString('"uploadDate":', $html);
+    }
+
+    public function test_post_without_recap_keeps_the_image_hero_and_no_videoobject(): void
+    {
+        $post = Post::create([
+            'user_id' => User::factory()->create()->id,
+            'title' => 'Plain Hero Drop',
+            'slug' => 'plain-hero-drop',
+            'type' => 'article',
+            'body' => 'Body paragraph.',
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+            'featured_image' => '/storage/posts/plain-hero.jpg',
+        ]);
+
+        $html = $this->get("/posts/{$post->slug}")->assertOk()->getContent();
+
+        $this->assertStringNotContainsString('<video', $html);
+        $this->assertStringNotContainsString('VideoObject', $html);
+        $this->assertStringContainsString('Featured image for Plain Hero Drop', $html);
+    }
 }

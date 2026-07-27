@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ImageUploader from '@/Components/ImageUploader';
+import VideoUploader from '@/Components/VideoUploader';
 
 function toDatetimeLocal(val) {
     if (!val) return new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
@@ -25,6 +26,8 @@ export default function PostForm({ post, categories, tags, products }) {
         featured_image_position: post?.featured_image_position ?? 'center center',
         hero_image: post?.hero_image ?? '',
         hero_image_position: post?.hero_image_position ?? 'center center',
+        recap_video_path: post?.recap_video_path ?? '',
+        recap_video_duration: post?.recap_video_duration ?? null,
         image_1: post?.image_1 ?? '',
         image_1_fit: post?.image_1_fit ?? 'cover',
         image_1_caption: post?.image_1_caption ?? '',
@@ -235,6 +238,41 @@ export default function PostForm({ post, categories, tags, products }) {
                                         className="mt-1.5 text-xs text-red-400 hover:text-red-600 transition-colors">
                                         Remove hero image
                                     </button>
+                                )}
+                            </Field>
+                            <Field label="Recap Video (16:9)" error={errors.recap_video_path}>
+                                <p className="text-xs text-gray-400 mb-1.5">
+                                    Optional silent 16:9 recap (rendered by drop-studio). Replaces the hero
+                                    image with a poster-first video that autoplays once, muted.
+                                </p>
+                                <VideoUploader
+                                    value={data.recap_video_path}
+                                    previewUrl={data.recap_video_path ? `/storage/${data.recap_video_path}` : ''}
+                                    onChange={(path, url, duration) => {
+                                        setData((prev) => ({
+                                            ...prev,
+                                            recap_video_path: path,
+                                            recap_video_duration: duration ?? prev.recap_video_duration,
+                                        }));
+                                    }}
+                                />
+                                {data.recap_video_path && (
+                                    <>
+                                        <div className="flex items-center gap-2 mt-1.5">
+                                            <span className="text-xs text-gray-400 whitespace-nowrap">Duration (s):</span>
+                                            <input type="number" min={1} max={3600}
+                                                value={data.recap_video_duration ?? ''}
+                                                onChange={(e) => setData('recap_video_duration', e.target.value ? parseInt(e.target.value, 10) : null)}
+                                                className="w-24 border-gray-300 rounded-lg shadow-sm text-sm" />
+                                            <span className="text-[10px] text-gray-300">feeds VideoObject SEO</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => { setData((prev) => ({ ...prev, recap_video_path: '', recap_video_duration: null })); }}
+                                            className="mt-1.5 text-xs text-red-400 hover:text-red-600 transition-colors">
+                                            Remove recap video
+                                        </button>
+                                    </>
                                 )}
                             </Field>
                             <button type="submit" disabled={processing}

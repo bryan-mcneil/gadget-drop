@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\BuyOrWaitController;
 use App\Http\Controllers\DealsController;
 use App\Http\Controllers\DropPriceController;
@@ -132,6 +133,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('tags', TagController::class)->except(['show', 'create', 'edit']);
     Route::post('images', [ImageController::class, 'store'])->name('images.store');
+    Route::post('videos', [VideoController::class, 'store'])->name('videos.store');
     Route::get('daily-drop', [DailyDropController::class, 'index'])->name('daily-drop.index');
     Route::post('daily-drop/generate', [DailyDropController::class, 'generate'])->name('daily-drop.generate');
     Route::get('newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
