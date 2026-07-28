@@ -8,8 +8,8 @@ Context for the implementer: the two layers connect by ASIN only. `MarketImportS
 
 ## Phase Log
 
-- [x] Phase 8.1 — `MarketPromotionService` + promote endpoint + tests (built 2026-07-22, commit pending)
-- [x] Phase 8.2 — Admin UI (promote panel, catalog badges) + docs + build (built 2026-07-22, commit pending)
+- [x] Phase 8.1 — `MarketPromotionService` + promote endpoint + tests (built 2026-07-22; commit `3a16fb0` — one combined 8.1–8.2 commit; reviewed by gd-code-reviewer, standing WARN recorded in agent memory)
+- [x] Phase 8.2 — Admin UI (promote panel, catalog badges) + docs + build (built 2026-07-22; commit `3a16fb0`) — **plan complete; Deployment section actionable**
 
 ## Design decisions
 
@@ -71,3 +71,11 @@ Shared template (plans README) — deltas: no migration, so `migrate --force` is
 ## Rollback
 
 No schema changes. Revert the commits; already-promoted products are ordinary catalog rows and keep working (their `source='market'` snapshots are inert data).
+
+## Build Log
+
+(append one line per phase)
+
+- **8.1 + 8.2 (2026-07-22, commit `3a16fb0`)** — both phases shipped in one commit. `App\Services\MarketPromotionService::promote()` wraps the whole promotion in a `DB::transaction`, creates the catalog row via `Product::withoutEvents()`, copies `market_price_snapshots` → `product_price_snapshots` with `source='market'` at the original observation dates (single `current_price` snapshot as the fallback when the market row has no history), sets `price_checked_at = last_seen_at` explicitly, and calls `PriceIntel::flush()` by hand because the observer path is deliberately skipped. Admin surface: `POST /admin/market-products/{market_product}/promote`, the Edit-page promote panel (category `<select>` + explainer, replaced by a green "In catalog" card once promoted) and "In catalog" chips on the Index. 9 tests in `tests/Feature/Admin/MarketPromotionTest.php`.
+- **Review (gd-code-reviewer, 2026-07-22)** — findings recorded in agent memory `project_market-promote-review.md`. The `withoutEvents` + seeded-history pattern is confirmed-safe (the only Product model event is `ProductObserver`, and both of its hooks are intentionally replaced by explicit writes); the `price_checked_at == last_seen_at` assertion doubles as proof the `saving` hook was suppressed. **Standing WARN, still open:** the §Design-decisions "column-width mapping" branches — `name` truncated to 255, an over-255 `image_url` **dropped rather than truncated** (a cut URL 404s), `review_count` capped to `unsignedMediumInteger` — have no test coverage. If anything touches that mapping, add a `gd-test-engineer` case on the image_url-drop branch first.
+- **Log hygiene note (2026-07-27):** this Build Log was reconstructed after the fact from the commit, the source, and the reviewer's agent memory — the phases shipped without one, and the Phase Log carried a stale "commit pending" marker for five days.

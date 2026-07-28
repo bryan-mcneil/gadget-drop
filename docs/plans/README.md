@@ -1,6 +1,6 @@
 # GadgetDrop Feature Plans
 
-Seven implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
+Eleven implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
 
 ## The plan set (suggested order)
 
@@ -23,7 +23,7 @@ Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for h
 ## Working agreement (applies to every phase)
 
 1. **One phase per session.** Read the plan header + the target phase + `CLAUDE.md` before touching code. If reality diverges from the plan (file moved, API changed), STOP and report the divergence — don't improvise silently.
-2. **Branch:** `feature/<plan-slug>` (one branch per plan, phases stack on it). Never commit to `main`.
+2. **Branch: `main`.** Standing decision 2026-07-18: no more `feature/*` branches — commit phases directly on the current branch (normally `main`). Plans 00–06 predate this and their headers still name a `feature/<plan-slug>` branch; those branches are gone and the work landed on `main`. Treat the header branch on any plan as historical, not an instruction.
 3. **Tests are part of the phase.** A phase without its listed tests is not done. Full suite must be green (baseline: 553 tests) before review.
 4. **Review before commit.** Run the `gd-code-reviewer` subagent on the diff. Fix BLOCKERs, judge WARNs, then prepare the commit.
 5. **Commits are prepared, not pushed.** Stage + present the commit message; Bryan approves the actual commit/push (per CLAUDE.md).
@@ -58,6 +58,7 @@ Referenced by each plan's Deployment section; deltas are listed per plan.
 1. Local: full suite green → `npm run build` → commit `public/build` with the release commit.
 2. Merge feature branch → `main` (PR if the cloud agent flow is active), push.
 3. Server: `bash bin/deploy.sh` (pull, composer `--no-dev`, `migrate --force`, `optimize`, `images:optimize`).
+3a. **Run the plan's data step, if it has one — `deploy.sh` does NOT run seeders.** A plan whose feature needs rows to exist (a seeder, a backfill, an import) ships dark without this: the code deploys, the pages 404, and any *ungated* cross-link to them becomes a live broken link. This is not hypothetical — Plan 06 sat dark on prod from 2026-07-23 to 2026-07-27 because `db:seed --class=ReleaseCycleSeeder --force` was never run, while the footer linked to its 404 from every page. If the plan's Deployment section names a seed/backfill command, it is part of the deploy, not an optional extra.
 4. Verify Livewire update endpoint after `route:cache` (Join the Drop form submits OK).
 5. Purge Hostinger CDN (hPanel → Performance → CDN).
 6. Smoke test: `/`, `/deals`, one review page, `/admin` login, plus the plan's listed URLs.

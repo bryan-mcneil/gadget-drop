@@ -192,7 +192,7 @@ Built during planning, in the Cowork sandbox, $0: a 22s 1080×1920 Short — ani
 
 - [x] Phase 1 — 2026-07-19: drop-studio repo created (`../drop-studio`, github.com/bryan-mcneil/drop-studio, private). Storyboard schema v1 + validation, deterministic builder from `output.json`, Pillow renderer (hook/product/feature×3/price/cta, Ken Burns, animated sparkline with honesty gates, auto-fit text shared with QA), QA gates, golden-frame tests. See `drop-studio/MORNING-REVIEW.md`.
 - [x] Phase 2 — 2026-07-19 (same session): Kokoro-82M per-scene TTS (kokoro→piper→openai→none chain) driving scene duration + caption timing; synth music bed + licensed-track manifest; VO ducking; two-pass loudnorm to −14 LUFS. Demo Short renders end-to-end, 37 tests green.
-- [ ] Phase 3 —
-- [ ] Phase 4 —
-- [ ] Phase 5 —
-- [ ] Phase 6 —
+- [ ] Phase 3 — gadget-drop integration (M): `php artisan drop:video-feed {post}` export + `storyboard.py` + `/drop-video` skill + optional `/morning` step. **Blocking dependency for Plan 10 §10.7's honesty gate** — 10.7 ships its site-side wiring first with a null-safe fallback, but no real recap may be published until this export feeds it real price data.
+- [ ] Phase 4 — Semi-auto publish (S): `metadata.json` generator + thumbnail frame export + channel setup checklist; Bryan uploads via Studio.
+- [ ] Phase 5 — API upload (M): OAuth, private-visibility uploads → compliance audit → scheduled public uploads, with retry/backoff and an upload ledger.
+- [ ] Phase 6 — Iterate on data (ongoing): after 30 Shorts, retention-driven hook A/B, selective Tier 2 b-roll, possible long-form compilation.

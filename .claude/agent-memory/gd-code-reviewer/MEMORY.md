@@ -30,3 +30,4 @@
 - [Watch-confirm reader surface](project_watch-confirm-reader-surface.md) — watch-confirm.blade.php is reader-facing (email-link landing) yet outside mail/ + signup; em-dashes folded into 10.5 + PriceWatchFlowTest-covered (clean now); keep in reader-facing set for future sweeps; watch PHP docblock em-dashes are deliberate
 - [Partial motion guard](project_partial-motion-guard.md) — grep every hover lift/zoom for its motion-reduce twin; same-layer zoom div (fade inside) is correct, don't re-flag
 - [Cropper CSS chunk](project_cropper-css-chunk.md) — app-_JpMZc7H.css is the manifest-referenced _vendor-cropper css, NOT orphaned; don't re-flag deleting it
+- [Plan 06 buy-or-wait review](project_plan06-buy-or-wait-review.md) — eee9a02 retrospective: unseeded-prod dead links, index cache never busted on cycle writes, flagship 50-row silent cap; confirmed-safe list

@@ -7,10 +7,10 @@
 ## Phase Log
 
 - [x] Phase 3.1 — Schema + model + pruning (commit: 5eb94d1 — was never ticked here; recovered 2026-07-22)
-- [x] Phase 3.2 — Signup Livewire component + verification mail (commit: 2026-07-22 session, single commit with 3.3–3.5)
-- [x] Phase 3.3 — `watches:check` hourly command + drop alert mail (commit: same)
-- [x] Phase 3.4 — Closing-window courtesy mail (optional but recommended) (commit: same)
-- [x] Phase 3.5 — Dusk pass + privacy-page copy (commit: same)
+- [x] Phase 3.2 — Signup Livewire component + verification mail (commit: `ea531ab` — one combined 3.2–3.5 commit, Bryan's call; reviewed by gd-code-reviewer, verdict approve)
+- [x] Phase 3.3 — `watches:check` hourly command + drop alert mail (commit: `ea531ab`)
+- [x] Phase 3.4 — Closing-window courtesy mail (optional but recommended) (commit: `ea531ab`)
+- [x] Phase 3.5 — Dusk pass + privacy-page copy (commit: `ea531ab`) — **plan complete; Deployment section actionable**
 
 ## Design decisions
 

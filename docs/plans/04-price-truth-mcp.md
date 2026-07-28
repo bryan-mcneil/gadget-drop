@@ -7,9 +7,9 @@
 ## Phase Log
 
 - [x] Phase 4.1 — Package install + server skeleton + throttle (commit: fdbf4ba + c48f3bd)
-- [x] Phase 4.2 — Core tools: history, verdict, deals (commit: pending — one combined 4.2–4.4 review)
-- [x] Phase 4.3 — Search tool + methodology resource + `/for-ai` docs page (commit: pending — one combined 4.2–4.4 review)
-- [x] Phase 4.4 — Hardening, usage counter, prod verification (commit: pending; prod checklist runs post-deploy)
+- [x] Phase 4.2 — Core tools: history, verdict, deals (commit: `d30941c` — one combined 4.2–4.4 commit + one combined review, run 2026-07-22; findings recorded in gd-code-reviewer memory `mcp-server-invariants`, both write-ups it asked for are now in the Build Log)
+- [x] Phase 4.3 — Search tool + methodology resource + `/for-ai` docs page (commit: `d30941c`)
+- [x] Phase 4.4 — Hardening, usage counter, prod verification (commit: `d30941c`) — **plan complete; prod checklist + MCP directory submission still run post-deploy (Bryan)**
 
 ## Design decisions
 
