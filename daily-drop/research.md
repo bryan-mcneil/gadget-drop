@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-08-01
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: seo-brief.md is stale (generated 2026-07-28, >3 days old, and "No opportunities yet") — editorial pick, noted per drop-research fallback.
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: DJI Osmo Action 6 Standard Combo
+ASIN: B0FM3X3DW5
+PRICE: $399 (Standard Combo; base kit ~$379, accessory combos up to ~$499)
+TRENDING: The Osmo Action 6 (Nov 2025) is the first action camera with a variable aperture (f/2.0–f/4.0) on a larger 1/1.1" square sensor, so "DJI Osmo Action 6 review" and "Osmo Action 6 vs GoPro Hero 13" are high-intent as summer travel/adventure buyers weigh it against the GoPro they already know, and its price has now settled after 8 months so a genuine dip is tellable.
+ANGLE: The honest "is the variable aperture and bigger sensor actually worth it over a GoPro Hero 13" verdict for vloggers and low-light shooters — the Action 6's f/2.0–f/4.0 aperture, 1/1.1" square sensor (shoot once, crop 16:9 or 9:16 with no quality loss), 13.5 stops of dynamic range, and 50GB built-in storage make it the low-light and flexibility leader, but GoPro's HyperSmooth stabilization and huge mount/accessory ecosystem still win for anyone already invested. Pair that with our tracked price history so readers can tell a real deal from the $499 combo sticker. Only one action camera (GoPro HERO13) has been reviewed, so this deepens a thin category and unlocks a real comparison.
+KEYWORD: dji osmo action 6 review
+TARGET_QUERY: dji osmo action 6 worth it
+CATEGORY: Cameras
+TAGS: action camera | dji | vlogging | low light | variable aperture
+ALTERNATIVES: GoPro HERO13 Black | /posts/gopro-hero13-black-review, Insta360 Ace Pro 2 | no-review
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
+NAME: Insta360 Ace Pro 2 (8K Waterproof Action Camera, Co-Engineered with Leica)
+ASIN: B0DKTWPCD4
+PRICE: $399–$419 (single-battery ~$399 launch, standard bundle ~$419)
+TRENDING: The Ace Pro 2's Leica SUMMARIT lens, 1/1.3" 8K sensor, dual AI chip, and 2.5" flip screen make it the vlogger-favorite low-light action cam, and "Insta360 Ace Pro 2 review" stays high as creators cross-shop it against the DJI Osmo Action 6 and GoPro Hero 13.
+ANGLE: The flip-screen vlogging and low-light angle — is the Leica-tuned 8K30 sensor and front-facing screen worth ~$400 over a GoPro, and who actually needs 8K on an action cam. Real price tracking plus an honest "creators yes, GoPro-mount owners maybe not" verdict.
+KEYWORD: insta360 ace pro 2 review
+TARGET_QUERY: insta360 ace pro 2 worth it
 CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+TAGS: action camera | insta360 | vlogging | leica | low light
+ALTERNATIVES: GoPro HERO13 Black | /posts/gopro-hero13-black-review, DJI Osmo Action 6 | no-review
