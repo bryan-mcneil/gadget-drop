@@ -1,27 +1,29 @@
-DATE: 2026-07-28
-DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+DATE: 2026-08-04
+DEDUPE: checked against 39 existing products (API reachable)
+BRIEF: stale (seo-brief.md generated 2026-07-28, >3 days old, and it reports "no opportunities yet") — editorial pick
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: DJI Osmo Action 5 Pro Adventure Combo, Waterproof Action Camera, 1/1.3" Sensor, 4K/120fps Video, Subject Tracking, 12h Battery (3 Batteries), 1.5m Extension Rod, Battery Case
+ASIN: B0DBR8HVZG
+PRICE: $369
+TRENDING: Just hit a record-low price and is currently Amazon's Choice for action cameras, driving a buyer-intent spike heading into late-summer travel/adventure season.
+ANGLE: The honest "should I get this or a GoPro?" call — the Osmo Action 5 Pro's 1/1.3" sensor, dual OLED screens, real 47GB onboard storage and best-in-class battery life vs the GoPro HERO13 Black we already reviewed. Lead with the price story (record low right now) since that's our tracked value layer.
+KEYWORD: DJI Osmo Action 5 Pro review
+TARGET_QUERY: DJI Osmo Action 5 Pro review
+CATEGORY: Cameras
+TAGS: action camera | DJI | 4K video | vlogging | GoPro alternative
+ALTERNATIVES: GoPro HERO13 Black | /posts/gopro-hero13-black-review | Insta360 Ace Pro 2 | no-review
+NOTES: Two live combos — Standard Combo (the camera alone) is ASIN B0DBQTC2P7, historically ~$299–339; the Adventure Combo above (B0DBR8HVZG, ~$369) is the Amazon's Choice / most-bought bundle and has a clean CamelCamelCamel price history showing the recent record low. Use ONE as the single product-card CTA — Adventure Combo recommended as the canonical link, mention the cheaper Standard Combo in the body as the budget option. Facts (sensor, 4K/120, dual OLED, 47GB storage, waterproof to 20m, subject tracking) from DJI spec sheet + published coverage; never scrape Amazon. No first-hand-testing claims.
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: RENPHO Smart Scale for Body Weight, BMI & Body Fat, 13 Metrics, Elis 1 — Bathroom Digital Bluetooth Scale, 400lb Capacity, Syncs with Fitness Apps
+ASIN: B01N1UX8RW
+PRICE: $30
+TRENDING: Perennial Amazon best-seller in body-composition scales (300k+ reviews); a sub-$30 no-subscription health device with strong evergreen buyer intent and frequent deal-day dips to ~$18.
+ANGLE: "Is a $30 body-fat scale accurate enough to be worth it?" — what BIA (bioelectrical impedance) actually measures, the 13 metrics, no-subscription free app, and our price-tracking read on whether $30 is the buy price or worth waiting for the ~$18 deal.
+KEYWORD: RENPHO smart scale review
+TARGET_QUERY: RENPHO smart scale review
+CATEGORY: Wearables
+TAGS: smart scale | body composition | fitness tracking | health | Bluetooth
+ALTERNATIVES: Withings Body Smart | no-review | eufy Smart Scale P3 | no-review
+NOTES: Elis 1 (B01N1UX8RW) is the canonical high-review model; other RENPHO SKUs exist (B07R29FDWX White, B0B653PRDY Wi-Fi Premium) but Elis 1 has the deepest review base and cleanest price history. BIA scales estimate, not measure, body fat — keep claims honest per CONTENT-GUIDELINES.md (trend-over-time value, not clinical accuracy). No first-hand-testing claims.
