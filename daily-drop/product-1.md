@@ -1,100 +1,98 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: Plaud NotePin Review: Is a $159 AI Recorder Worth It?
+EXCERPT: A clear-eyed Plaud NotePin review: what the $159 wearable AI recorder does well, the subscription math past 300 free minutes, and who should skip it.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Computers & Accessories
+TAGS: AI voice recorder | note-taking | productivity | wearable tech | meetings
+ASIN: B0DL9WQ4Z4
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Tiny 0.61-ounce body wears as pin, clip, or pendant
+- Clean AI summaries and action items after meetings
+- Strong transcription in quiet rooms, 112 languages
+- Rated 20 hours of recording per charge
 CONS:
-- 450 lumens means dark rooms only
-SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+- Past 300 minutes a month you need a paid plan
+SEO_SCORE: 90
+META_TITLE: Plaud NotePin Review: Is the $159 AI Recorder Worth It?
+META_DESCRIPTION: Our Plaud NotePin review breaks down the $159 wearable AI recorder: transcription quality, the subscription past 300 free minutes, and who it's for.
+FOCUS_KEYWORD: Plaud NotePin
+TARGET_QUERY: plaud notepin review
+SLUG: plaud-notepin-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
+You leave a meeting with three action items in your head and a notebook that says "follow up re: pricing?" By 4pm, two of them are gone. That gap between what gets said and what you actually remember is the whole reason a device like the Plaud NotePin exists.
 
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
-
----
-
-## What Is the XGIMI MoGo 4?
-
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
-
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+The Plaud NotePin is a wearable AI voice recorder that clips to your shirt, hangs on a lanyard, or straps to your wrist. Press the button, talk, and its app turns the audio into a transcript, a summary, and a tidy list of next steps. At $159 it sits in an odd new category: not quite a gadget toy, not quite an office tool. So the real question is whether it earns a spot on your collar every day, or ends up in the drawer with the other clever ideas.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## What Is the Plaud NotePin?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+The NotePin is a magnetic capsule about the size of a large vitamin, weighing 0.61 ounces. It records in-person audio at the press of a button, then syncs to the Plaud app on your phone, where the transcription and AI summary happen. Plaud leans on large language models for the summaries, so you get more than a wall of text: headings, bullet points, and action items pulled out of a rambling conversation.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
-
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+The manufacturer rates it at 20 hours of continuous recording and about 40 days of standby, and it supports 112 languages for transcription. One thing to be clear about up front, because it trips people up: the NotePin records the room around you, not phone calls. If capturing calls is your main need, that is a different product in the same family (more on that below).
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Who Should Buy the Plaud NotePin?
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
+The NotePin makes the most sense if your day is a stack of conversations you keep forgetting. Think consultants hopping between client calls, students in back-to-back lectures, journalists doing interviews, or managers who run six meetings and can't type notes in any of them. If you regularly walk away thinking "what did we actually decide," this is aimed squarely at you.
 
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+It's a weaker fit if your meetings already live on Zoom or Teams, where built-in transcription is free and you don't need extra hardware on your body. It also asks something of you socially. Recording a live conversation means telling the other people in the room, and recording-consent laws vary by state and country. The NotePin solves a memory problem, not a permission problem, and you still own that part.
 
 ---
 
-## The One Thing to Consider
+## Key Features That Actually Matter
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+- **It disappears.** At 0.61 ounces with pin, clip, and pendant mounts, verified-purchase owners consistently describe forgetting they're wearing it. That matters more than any spec, because a recorder you leave at home records nothing.
+- **The summaries do real work.** The value isn't the raw transcript, it's the AI pass on top: a two-hour meeting comes back as a short summary with decisions and to-dos separated out. Owners who lean on it call this the reason they keep it.
+- **Battery you don't babysit.** A 20-hour rating means a normal week of meetings between charges, not a nightly ritual. Standby of roughly 40 days means it survives being ignored for a while.
+- **Broad language support.** 112 languages covered, which makes it genuinely useful for multilingual teams and travel, not just English-only offices.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## What You'll Pay
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+At $159, the NotePin costs about what a mid-tier pair of earbuds runs, and the hardware price is only half the story. Every unit includes a free Starter plan with 300 transcription minutes a month. That's five hours. If your meeting load is light, you may never pay another cent. If it's heavy, you'll bump the ceiling fast, and the Pro plan runs $99.99 a year for 1,200 minutes a month, with an Unlimited tier at $239.99 a year on top of that.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+So the honest way to read the price is: $159 to get in the door, then a subscription decision once you see how many minutes you actually use. The price widget above shows where today's hardware number sits against the history we track, which is the figure to watch if you're waiting for a dip before committing.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+---
+
+## The Alternatives Worth Considering
+
+If phone calls are the recordings you care about, look at the Plaud Note Pro instead. It's a flat card that sticks to the back of your phone and can capture call audio, which the NotePin cannot. Same AI engine, different form factor and a different job.
+
+And if you step back, the NotePin fixes note-taking, not your whole desk. Plenty of people who feel scattered at work don't have a memory problem so much as a workflow one, and a better input device moves the needle there. Our [Logitech MX Master 3S review](/posts/logitech-mx-master-3s-why-worth-it) covers that side of the equation: if typing and navigating is the daily slog, that's a cheaper fix than a wearable recorder and a subscription. Match the tool to the actual bottleneck.
+
+---
+
+## One Thing to Consider
+
+The subscription is the catch most buyers underestimate. Five free hours a month sounds generous until you realize a single busy week can eat it, and once you're hooked on the summaries, dropping back to nothing feels like a downgrade. Budget for the $99.99-a-year Pro plan if you plan to use this seriously, and treat the free tier as a trial rather than the finish line.
+
+On hardware, the most common gripe is small but real: across analyzed verified buyers, the magnetic charging cable drew repeated complaints for feeling loose over time, and some owners report occasional sync hiccups where a recording takes a while to upload. Neither is a dealbreaker, but both are worth knowing before you rely on it for something you can't afford to lose.
+
+---
+
+## FAQ
+
+**Q: Can the Plaud NotePin record phone calls?**
+No. The NotePin captures in-person audio around you, not the audio inside a call. If recording phone and video calls is your goal, the card-style Plaud Note Pro is the model built for that, using the same app and AI summaries.
+
+**Q: Do I have to pay a subscription?**
+Not necessarily. Every NotePin includes 300 free transcription minutes a month, which is enough for light users forever. Heavier users hit that ceiling and move to the Pro plan at $99.99 a year for 1,200 minutes a month.
+
+**Q: Is the transcription accurate?**
+In quiet to moderately noisy rooms, verified-purchase owners rate accuracy highly, and it handles 112 languages. Accuracy drops in loud environments and depends a lot on placement, so a crowded cafe will read worse than a conference room.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The Plaud NotePin is a genuinely useful tool for anyone drowning in conversations they can't hold onto, and the AI summaries are the part that justifies it. Buy it if meetings and interviews are your life and you'll actually wear it, but go in clear-eyed about the subscription past five hours a month.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the current price in the card above sits at or below what we've tracked, and your calendar is wall-to-wall meetings, this is an easy yes. If you're a light note-taker or your calls already transcribe themselves, save your money.
