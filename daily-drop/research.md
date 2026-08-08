@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-08-08
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: stale (generated 2026-07-28, >3 days old) — editorial pick
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: DJI Neo 2 (Drone Only)
+ASIN: B0FJ1S18HF
+PRICE: $199
+TRENDING: DJI's newest palm-sized drone (announced Nov 2025, now shipping in the US) is the first in the Neo line with omnidirectional obstacle sensing, and its drone-only price has been dipping toward $199 — pulling in first-time drone buyers.
+ANGLE: The "your first real drone" pick — a sub-$200 flying 4K camera you can launch from your palm with no controller, no FAA registration (151g), and now with all-around obstacle avoidance the original Neo lacked. Frame it as buy-now-or-wait using our tracked price and how it stacks against the original Neo and the HOVERAir X1.
+KEYWORD: DJI Neo 2 review
+TARGET_QUERY: dji neo 2 review
+CATEGORY: Cameras
+TAGS: drones | dji | 4k-video | beginner-drone | aerial-photography
+ALTERNATIVES: DJI Neo (original) | no-review, HOVERAir X1 | no-review
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Meta Quest 3S 128GB (Batman: Arkham Shadow bundle)
+ASIN: B0DDK1WM9K
+PRICE: $299
+TRENDING: After Meta's April 2026 price hike to $349, the Quest 3S keeps dipping back toward its original $297–$299 in Amazon deals — making "is it a deal right now?" a live question for VR buyers.
+ANGLE: The best affordable standalone VR headset, told as a price-history story: what it launched at, the 2026 hike, and how to tell a real deal from list price using our tracked history. Compare against the pricier Quest 3.
+KEYWORD: Meta Quest 3S review
+TARGET_QUERY: meta quest 3s review
+CATEGORY: Gaming
+TAGS: vr-headset | meta-quest | mixed-reality | budget-vr | gaming
+ALTERNATIVES: Meta Quest 3 | no-review, PlayStation VR2 | no-review
