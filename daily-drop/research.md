@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-08-10
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: stale (generated 2026-07-28, >3 days old) — editorial pick
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: LEVOIT Core 400S Smart Air Purifier for Home Large Room
+ASIN: B08R794ZMX
+PRICE: $220 (list $219.99; frequently sold in the $180–$200 range)
+TRENDING: Perennial Amazon's Choice best-seller (16,000+ verified reviews, 4.7 stars) that got a 2026 firmware refresh adding Matter support and improved auto-mode sensitivity, keeping it in the "best air purifier under $250" roundups.
+ANGLE: The site's first air purifier review — and a natural fit for the price-tracking layer, because the Core 400S list price ($219.99) and its real street price ($180–$200) diverge enough that "should I buy at today's price?" is a genuine question. Frame it as the sweet-spot large-room smart purifier: is the app + laser PM2.5 sensor worth the premium over a dumb HEPA box?
+KEYWORD: Levoit Core 400S review
+TARGET_QUERY: levoit core 400s review
+CATEGORY: Smart Home
+TAGS: air purifier | smart home | HEPA | Levoit | air quality
+ALTERNATIVES: Coway Airmega AP-1512HH Mighty | no-review | SwitchBot Hub 3 (Matter hub, for a Matter smart-home internal link) | /posts/switchbot-hub-3-review-is-the-matter-hub-worth-it
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Beelink SER5 Pro Mini PC (AMD Ryzen 5 5625U, 16GB/500GB)
+ASIN: B0CTQBGPH9
+PRICE: $359 (frequently discounted from a ~$429 list)
+TRENDING: Budget mini PCs are a fast-growing 2026 desktop category; the SER5 Pro is one of the most-recommended sub-$400 boxes, and Beelink is among the handful of mini-PC brands reviewers trust for actual after-sales support.
+ANGLE: The quiet home-office desktop that fits behind a monitor — how far a 6-core Ryzen 5 5625U with 16GB/500GB actually gets you for office, browsing, media and light multitasking, and where it stops (no discrete GPU, minimal support if it fails). Backup pick if the Core 400S proves a dud at write time.
+KEYWORD: Beelink SER5 Pro review
+TARGET_QUERY: beelink ser5 pro mini pc review
+CATEGORY: Computers & Accessories
+TAGS: mini PC | Beelink | desktop | AMD Ryzen | home office
+ALTERNATIVES: GMKtec G10 | no-review | BenQ GW2486TC (pair it with an affordable monitor) | /posts/benq-gw2486tc-a-monitor-that-saves-you-money
