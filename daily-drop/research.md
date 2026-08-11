@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-08-11
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: stale/missing — editorial pick (seo-brief.md generated 2026-07-28, >3 days old and reports "no opportunities yet"; used editorial judgment)
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: RayNeo Air 4 Pro AR/XR Glasses - 201" HDR10 Video Display, Vision 4000 Chip, Audio by Bang & Olufsen, 3D Movies & Gaming Smart Glasses
+ASIN: B0G563KVYZ
+PRICE: $299
+TRENDING: Launched at CES 2026 as the first AR glasses with a true HDR10 Micro-OLED display, and coverage (Android Authority, Notebookcheck, GSMArena) has framed them as the sub-$300 pick that finally "gets it (mostly) right" for movies and portable gaming.
+ANGLE: The first sub-$300 AR glasses with a real HDR10 display — a genuine buyer's decision against pricier rivals for private big-screen movies, Switch 2 / Steam Deck / PS5 gaming, and long flights. We add price-history tracking (these dip with coupons — $299 list has clipped to ~$249 and hit ~$239 on Prime Day) plus an honest spec-and-owner-feedback readout of the real trade-offs (edge blur, no IPD adjustment, no anchoring mode) rather than a hands-on claim.
+KEYWORD: RayNeo Air 4 Pro review
+TARGET_QUERY: rayneo air 4 pro review
+CATEGORY: Wearables
+TAGS: AR glasses | smart glasses | RayNeo | Steam Deck | portable display
+ALTERNATIVES: XREAL 1S AR/XR Glasses | /posts/xreal-1s-ar-xr-glasses ; Viture Luma Pro | no-review
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Arlo Pro Wireless Security Camera 2K HDR (6th Gen) - 1-Cam
+ASIN: B0FJTMJRTD
+PRICE: ~$130 (single cam, verify at write time — bundles run higher)
+TRENDING: The 6th-gen Arlo Pro landed as a 2026 "best wireless outdoor camera" pick (T3, Security.org) with USB-C charging, longer battery, 2K HDR and on-device person/vehicle/animal AI.
+ANGLE: A no-hub 2K HDR outdoor camera that leans hard on a paid Secure subscription — the buyer question is what you actually get for free vs. what's paywalled, and how it compares to a subscription-optional rival. We add price history plus an honest total-cost-of-ownership breakdown (camera price + Secure plan) versus cameras that store locally.
+KEYWORD: Arlo Pro 6 review
+TARGET_QUERY: arlo pro 6 review
+CATEGORY: Smart Home
+TAGS: security camera | outdoor camera | Arlo | smart home | home security
+ALTERNATIVES: eufy Security 4K Indoor Camera E30 | /posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee ; Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget
