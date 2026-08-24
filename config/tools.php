@@ -81,6 +81,16 @@ return [
         'meta_description' => 'Extract dominant colors from any image instantly in your browser. Get HEX, RGB, and HSL codes with one click. No upload required.',
         'related_tags' => ['design', 'photography', 'tech-accessories'],
     ],
+    'docx-to-pdf' => [
+        'name' => 'DOCX to PDF Converter',
+        'description' => 'Turn a Word document into a real PDF with selectable text, right on your device.',
+        'icon' => 'document',
+        'processing' => 'client',
+        'category' => 'document',
+        'meta_title' => 'Free DOCX to PDF Converter (No Upload) | GadgetDrop',
+        'meta_description' => 'Convert Word .docx files to PDF instantly in your browser. Real selectable text, not a screenshot. Pick page size, margins, and font. Nothing is uploaded, 100% private and free.',
+        'related_tags' => ['productivity', 'software', 'developer-tools'],
+    ],
     'meta-tag-previewer' => [
         'name' => 'Meta Tag Previewer',
         'description' => 'Preview how your page looks in Google search results and social media cards.',

@@ -97,6 +97,7 @@ Route::get('/tools/password-generator', [ToolController::class, 'passwordGenerat
 Route::get('/tools/base64-encoder', [ToolController::class, 'base64Encoder'])->name('tools.base64-encoder');
 Route::get('/tools/color-palette', [ToolController::class, 'colorPalette'])->name('tools.color-palette');
 Route::get('/tools/meta-tag-previewer', [ToolController::class, 'metaTagPreviewer'])->name('tools.meta-tag-previewer');
+Route::get('/tools/docx-to-pdf', [ToolController::class, 'docxToPdf'])->name('tools.docx-to-pdf');
 Route::permanentRedirect('/tools/image-cropper', '/tools/image-editor');
 
 // Server-side tools scaffold (Phase 2+)

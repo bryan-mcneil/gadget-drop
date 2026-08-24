@@ -54,6 +54,7 @@ class PublicPagesTest extends TestCase
             ['/tools/base64-encoder', 'Base64 Encoder'],
             ['/tools/color-palette', 'Color Palette'],
             ['/tools/meta-tag-previewer', 'Meta Tag Previewer'],
+            ['/tools/docx-to-pdf', 'DOCX to PDF'],
         ];
     }
 
