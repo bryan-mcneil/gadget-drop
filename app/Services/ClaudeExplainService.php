@@ -43,7 +43,7 @@ class ClaudeExplainService
     /** Requests still allowed today under the self-imposed budget. */
     public function requestsRemainingToday(): int
     {
-        $limit = (int) config('services.claude.daily_limit', 100);
+        $limit = (int) config('services.claude.daily_limit', 50);
 
         return max(0, $limit - $this->usageToday());
     }
@@ -87,7 +87,7 @@ class ClaudeExplainService
                     [
                         'role' => 'user',
                         'content' => "Explain this verdict using only these facts:\n\n"
-                            .json_encode($facts, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
+                            . json_encode($facts, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
                     ],
                 ],
             );
@@ -129,6 +129,6 @@ class ClaudeExplainService
 
     private function usageKey(): string
     {
-        return 'claude-explain.usage.'.now()->format('Y-m-d');
+        return 'claude-explain.usage.' . now()->format('Y-m-d');
     }
 }
