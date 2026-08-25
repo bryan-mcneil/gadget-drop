@@ -11,7 +11,7 @@ Context for the implementer: this is the **second** Claude-API feature on the si
 - [x] Phase 11.1 — `PriceComparison` support class (pure) + unit tests (built 2026-08-25; commit pending approval)
 - [x] Phase 11.2 — `PriceCompareService` + config + feature tests (built 2026-08-25; commit pending approval)
 - [x] Phase 11.3 — `LivePriceCompare` Livewire component + view + wiring + tests (built 2026-08-25; commit pending approval)
-- [ ] Phase 11.4 — docs, `.env.example`, build, deployment notes
+- [x] Phase 11.4 — docs, `.env.example`, build, deployment notes (built 2026-08-25) — **plan complete; Deployment section actionable**
 
 ---
 
@@ -339,3 +339,5 @@ Commit: `docs(price-compare): document the live comparison feature and enable fl
   - **`gated` is decided in `mount()`, not on click.** A disabled feature or an unpriced product renders nothing at all, so the reader never sees a button whose only possible outcome is an apology.
   - **No Alpine.** `wire:loading` / `wire:target` carry the pending state, which sidesteps the `alpine:init` + `destroy()` cleanup contract entirely. The spinner carries `motion-reduce:animate-none` per the Plan 10 motion budget.
   - Test-only note: name the post helper `publishedPost()`, not `post()` — the latter collides with Laravel's HTTP `post()` on `TestCase` and is a fatal error, not a failure.
+- **11.4 (2026-08-25)** — `.env.example` (`PRICE_COMPARE_ENABLED=false` uncommented so the kill switch is visible, model/limit commented), a CLAUDE.md subsection under the price-intelligence section listing the five load-bearing invariants, and `npm run build` after `php artisan view:clear`. Verified post-build: `resources/js/tools.js` still imports only the rolldown runtime + preload helper (3 dynamic imports), so the lazy-tool chunking invariant is intact, and the new utility classes (`tabular-nums`, `motion-reduce:animate-none`) are present in the emitted CSS. Suite green at 634. The plan's "baseline 560" line was stale on arrival; the real pre-plan baseline was 572.
+- **Not yet done:** no `gd-code-reviewer` pass has run on any of these four phases, and nothing is deployed. Both are the outstanding items.
