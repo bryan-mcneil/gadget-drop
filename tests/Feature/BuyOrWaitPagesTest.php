@@ -116,6 +116,40 @@ class BuyOrWaitPagesTest extends TestCase
         $this->get('/buy-or-wait')->assertNotFound();
     }
 
+    /**
+     * The August 2026 prod incident: /buy-or-wait was hit while the cycle table
+     * was still empty, the six-hour index cache stored that empty array, and the
+     * page kept 404ing for hours after the cycles were seeded. Nothing an
+     * operator reaches for fixes that (a CDN purge is the wrong layer; the
+     * seeder does not touch the cache), so the 404 state must never be stored.
+     */
+    public function test_seeding_a_line_clears_the_empty_index_404_at_once(): void
+    {
+        $this->get('/buy-or-wait')->assertNotFound();
+
+        $this->cycle(['slug' => 'newly-seeded', 'name' => 'Newly Seeded']);
+
+        $this->get('/buy-or-wait')
+            ->assertOk()
+            ->assertSee('Newly Seeded', false);
+    }
+
+    /** The same staleness in the other direction: a warm index must see a new line. */
+    public function test_a_new_line_appears_on_an_already_cached_index(): void
+    {
+        $this->cycle(['slug' => 'first-line', 'name' => 'First Line']);
+
+        $this->get('/buy-or-wait')
+            ->assertOk()
+            ->assertDontSee('Second Line', false);
+
+        $this->cycle(['slug' => 'second-line', 'name' => 'Second Line']);
+
+        $this->get('/buy-or-wait')
+            ->assertOk()
+            ->assertSee('Second Line', false);
+    }
+
     public function test_the_index_is_indexable_with_a_canonical(): void
     {
         $this->cycle();

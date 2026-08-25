@@ -8,6 +8,7 @@ use App\Models\ReleaseCycle;
 use App\Support\BuyOrWait;
 use App\Support\PriceIntel;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -88,7 +89,8 @@ class BuyOrWaitController extends Controller
      * The index rows. Assembling them costs a flagship lookup plus a PriceIntel
      * read per line, so the finished array (plain scalars, safe on the database
      * cache store) is cached for six hours, keyed by the calendar day because a
-     * cycle position moves every day.
+     * cycle position moves every day AND by a fingerprint of the cycle table,
+     * because the rows themselves change on a seed or an edit.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -118,12 +120,45 @@ class BuyOrWaitController extends Controller
         try {
             // Namespaced through BuyOrWait so a verdict-copy version bump busts
             // this derived cache too, not just the per-cycle verdicts inside it.
-            $key = BuyOrWait::cacheNamespace().'.index.'.now()->toDateString();
+            // The fingerprint follows verdict()'s self-busting pattern: a seeded,
+            // edited or deleted cycle is simply a different key. Without it this
+            // derived array outlives the rows it was built from, and nothing an
+            // operator reaches for can clear it — a CDN purge is the wrong layer
+            // and re-running the seeder does not touch the cache. That is what
+            // kept /buy-or-wait 404ing for hours after its cycles landed.
+            $key = BuyOrWait::cacheNamespace().'.index.'.now()->toDateString().'.'.self::cycleFingerprint();
 
-            return Cache::remember($key, now()->addHours(6), $build);
+            $rows = Cache::get($key);
+
+            if (is_array($rows)) {
+                return $rows;
+            }
+
+            $rows = $build();
+
+            // An empty index is the 404 branch in index(). Never store it: a
+            // page that is missing only until someone adds data must come back
+            // the moment the data lands, not six hours later.
+            if ($rows !== []) {
+                Cache::put($key, $rows, now()->addHours(6));
+            }
+
+            return $rows;
         } catch (\Throwable) {
             return $build();
         }
+    }
+
+    /**
+     * A cheap stamp of the cycle table's current state: row count plus the
+     * newest updated_at. Two aggregates over ten editorial rows, against a
+     * build that costs a flagship lookup and a PriceIntel read per line.
+     */
+    private static function cycleFingerprint(): string
+    {
+        $stamp = ReleaseCycle::query()->max('updated_at');
+
+        return ReleaseCycle::query()->count().'.'.($stamp ? Carbon::parse($stamp)->timestamp : 'none');
     }
 
     /**
