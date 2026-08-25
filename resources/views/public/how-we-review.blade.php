@@ -110,11 +110,16 @@
     <section class="space-y-4">
         <h2 class="text-xl font-bold text-gray-900">How AI is used here</h2>
         <p class="text-gray-600 leading-relaxed">
-            We use AI tools to help with research aggregation and drafting, the same way other publications
-            use spellcheckers and research assistants, just more capable. What AI does not do here is publish.
-            Every article is reviewed, fact-checked, and edited by {{ config('site.author.name') }} before it
-            goes live, published under his name, and he is accountable for every claim in it. If something
-            gets past that process and turns out wrong, we correct the article directly and say so.
+            We use Claude to help with research aggregation and drafting: surfacing patterns in owner
+            feedback, pulling together what the specs and professional reviews say, and producing a
+            first-pass draft. It's the same role other publications give a research assistant or a
+            spellchecker, just considerably more capable.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            What Claude does not do here is publish. Every article is reviewed, fact-checked, and edited by
+            {{ config('site.author.name') }} before it goes live, published under his name, and he is
+            accountable for every claim in it. If something gets past that process and turns out wrong, we
+            correct the article directly and say so.
         </p>
     </section>
 

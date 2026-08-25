@@ -26,6 +26,8 @@
                 verdict is directional until we refresh it.
             </p>
         @endif
+
+        <livewire:explain-verdict :cycle-slug="$cycle->slug" />
     </div>
 </div>
 
