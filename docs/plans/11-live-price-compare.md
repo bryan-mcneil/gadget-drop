@@ -9,7 +9,7 @@ Context for the implementer: this is the **second** Claude-API feature on the si
 ## Phase Log
 
 - [x] Phase 11.1 — `PriceComparison` support class (pure) + unit tests (built 2026-08-25; commit pending approval)
-- [ ] Phase 11.2 — `PriceCompareService` + config + feature tests
+- [x] Phase 11.2 — `PriceCompareService` + config + feature tests (built 2026-08-25; commit pending approval)
 - [ ] Phase 11.3 — `LivePriceCompare` Livewire component + view + wiring + tests
 - [ ] Phase 11.4 — docs, `.env.example`, build, deployment notes
 
@@ -50,7 +50,8 @@ Each of these was settled in the 2026-08-25 design session. Do not silently revi
 - **Three guards, all on the database cache store** (no Redis on Hostinger): global `daily_limit` 150 uncached calls/day (~$11 ceiling, realistically $1–3 with cache hits), per-IP `RateLimiter` 5/hour, and a `Cache::lock` stampede guard that re-checks the cache inside the lock.
 - **24h cache, keyed with a fingerprint of our own price** so an `/admin/prices` edit self-busts it rather than serving a comparison against a price we have since changed (the `db-cache-outlives-the-data` lesson).
 - **Synchronous — there is no worker.** `QUEUE_CONNECTION=database` but nothing runs `queue:work`: not `bin/deploy.sh`, not `routes/console.php`, and the hPanel cron fires `schedule:run` **hourly**. A dispatched job would sit in the `jobs` table forever. This is a button → API → JSON → Blade round trip inside one request, by design.
-- **We must fail before LiteSpeed does.** The Anthropic PHP client's `RequestOptions` defaults to `timeout: 600` (10 minutes) and `maxRetries: 2` — left alone it loses every race against PHP `max_execution_time` and the LiteSpeed proxy, and the reader gets a dead 504 instead of our graceful fallback. Construct with `RequestOptions::with(timeout: 25.0, maxRetries: 0)`. **`maxRetries: 0` is load-bearing**: retries are applied to timeouts, so the default 2 would make a 25s timeout a 75s wall clock.
+- **We must fail before LiteSpeed does.** The Anthropic PHP client's `RequestOptions` defaults to `timeout: 600` (10 minutes) and `maxRetries: 2` — left alone it loses every race against PHP `max_execution_time` and the LiteSpeed proxy, and the reader gets a dead 504 instead of our graceful fallback. **`maxRetries: 0` is load-bearing**: retries are applied to timeouts, so the default 2 would make a 25s timeout a 75s wall clock.
+- **Pass `timeout`/`maxRetries` on the `create()` call, NOT on the `Client` constructor** (corrected during 11.2 against the vendored SDK — the original plan said otherwise and was wrong). `SdkParams::parseRequest()` builds a fresh `RequestOptions` for every request, and because `timeout` and `maxRetries` are *required* properties carrying class defaults they are always present in it and always win the merge against anything set on the `Client`. Setting them on the constructor reads correctly and does nothing: a 500 still retried 3 times and the timeout stayed at 600s. `transporter` is an *optional* property, absent when unset, which is why it alone still works at the `Client` level.
 - **`pause_turn` means give up, not loop.** A long search turn can return `stop_reason: 'pause_turn'`; continuing it would need another round trip we have no time budget for. Treat as failure, return null.
 - **Failures are never cached; empty results are.** A timeout or API error must leave the cache untouched so an immediate retry is free to succeed. A genuine "found nothing" is a real answer and is cached for the full 24h.
 - **Kill switch independent of the API key.** `PRICE_COMPARE_ENABLED` (default **false**, same posture as `ADSENSE_ENABLED`) so this can be turned off in prod without pulling `ANTHROPIC_API_KEY`, which `ClaudeExplainService` also depends on.
@@ -164,13 +165,16 @@ Steps:
 
    - `isEnabled()`, `isConfigured()`, `usageToday()`, `requestsRemainingToday()`, `countRequest()` (increment **before** the call — an attempt that reaches the provider bills either way), cache key `price-compare.usage.{Y-m-d}`.
    - `compare(Product $product): ?array` returns the **raw decoded payload** (normalization is 11.1's job) or **null on any failure whatsoever** — not enabled, not configured, budget exhausted, auth, rate limit, network, timeout, `pause_turn`, malformed JSON. Never throws.
-   - Client construction:
+   - Client construction, and the per-call options that actually bind:
 
      ```php
      $client = new Client(
          apiKey: $this->apiKey,
-         requestOptions: RequestOptions::with(timeout: 25.0, maxRetries: 0),
+         requestOptions: RequestOptions::with(transporter: $this->transporter), // null in prod
      );
+
+     // MUST be per call. On the constructor these are silently overridden.
+     $requestOptions = RequestOptions::with(timeout: 25.0, maxRetries: 0);
      ```
 
    - Request:
@@ -192,6 +196,7 @@ Steps:
              'format' => ['type' => 'json_schema', 'schema' => self::SCHEMA],
              'effort' => config('price-compare.effort'),
          ],
+         requestOptions: $requestOptions,
      );
      ```
 
@@ -219,7 +224,7 @@ Tests (`tests/Feature/PriceCompareServiceTest.php`) — **no test may reach the 
 
 Commit: `feat(price-compare): add PriceCompareService with web search, budget and timeout guards`
 
-Review checklist: timeout 25s **and** `maxRetries: 0`; `allowed_domains` present and `blocked_domains` absent; no path throws; usage counted before the call; key read from `services.claude.api_key`; system prompt forbids ranking and forbids mentioning Amazon.
+Review checklist: timeout 25s **and** `maxRetries: 0`, both **on the `create()` call**; `allowed_domains` present and `blocked_domains` absent; no path throws; usage counted before the call; key read from `services.claude.api_key`; system prompt forbids ranking and forbids mentioning Amazon.
 
 ---
 
@@ -322,3 +327,9 @@ Commit: `docs(price-compare): document the live comparison feature and enable fl
   - **URL scheme validation.** Only `http`/`https` survive, capped at 2048 chars. These become `<details>` links in 11.3, so a `javascript:` URL must never reach the view.
   - **Retailer display names are sanitised.** Model-authored text, so it is whitespace-collapsed, stripped of control characters, capped at 60 chars, and falls back to the matched whitelist domain when unusable. Dedupe keys on the matched domain, never on this string.
   - Also worth knowing for 11.3: `suppressed`, `is_empty`, and "ready" are mutually exclusive, so the view can branch on them in that order. A suppressed payload returns `rows => []` rather than leaking unvetted rows.
+- **11.2 (2026-08-25)** — `config/price-compare.php` + `app/Services/PriceCompareService.php` + `tests/Feature/PriceCompareServiceTest.php` (16 tests, PSR-18 stub transporter so nothing reaches the real API). Suite green at 620.
+  - **The plan's client construction was wrong and is corrected above.** `timeout`/`maxRetries` set on the `Client` constructor are silently discarded: `SdkParams::parseRequest()` mints a fresh `RequestOptions` per request, and since both are *required* properties carrying class defaults they always win the merge. Measured against the vendored SDK: a 500 retried **3 times** with `maxRetries: 0` on the constructor, **1 time** with it on the `create()` call, and the 25s timeout was likewise ignored. `transporter` is *optional* so it is absent when unset, which is why it alone still binds at the `Client` level. `test_a_transport_failure_is_not_retried` is the regression guard; it fails loudly if anyone moves these back.
+  - **Tools are built from typed SDK objects, not the plan's raw arrays.** Both shapes work, but a raw array is forwarded to the wire *verbatim and unvalidated*: `allowedDomains` (camelCase, which is what the SDK's own array shape documents) ships as `allowedDomains` and the API ignores it, meaning a search with **no whitelist at all**. For the one setting that carries the §2(b) guarantee, a typo must be a PHP error rather than a silent compliance breach. `test_the_request_carries_the_retailer_whitelist_and_never_amazon` asserts on the serialized body, so it holds whichever shape a future edit uses.
+  - **`refusal` and `max_tokens` join `pause_turn` as failures.** All three mean there is no complete answer to parse; treating them alike keeps the "null on any failure" contract honest.
+  - **Our own price is never sent to the model** (asserted). It is the number the reader is comparing against, and an anchor is the last thing you want in front of a model reporting numbers it read elsewhere. The model gets name, brand, ASIN, and today's date.
+  - The transporter constructor argument is the test seam; production passes null and the SDK discovers Guzzle as usual.
