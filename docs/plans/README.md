@@ -1,6 +1,6 @@
 # GadgetDrop Feature Plans
 
-Eleven implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
+Twelve implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
 
 ## The plan set (suggested order)
 
@@ -17,6 +17,7 @@ Eleven implementation plans, each broken into small, individually reviewable pha
 | 08 | [Market → catalog promotion](08-market-promote.md) | S | — (market layer on main) |
 | 09 | [Mention-driven review selection](09-review-queue.md) | M | — (market layer + reviewed-products API on main) |
 | 10 | [Design refresh: price-truth instrument](10-design-refresh.md) | L | 01, 03, 06 (all shipped) |
+| 11 | [Live price compare (Claude + web search)](11-live-price-compare.md) | M | — (price-intel layer + ClaudeExplainService on main) |
 
 Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for humans (badges, votes, post-purchase protection, truth reports) and for AI agents (MCP). All features run structurally $0 on current hosting.
 
