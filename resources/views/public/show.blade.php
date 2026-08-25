@@ -149,6 +149,9 @@ $sidebarList = $post['type'] === 'tech_news'
                 @foreach($post['products'] as $product)
                     <x-product-card :product="$product" :post-id="$post['id']" />
                     <x-price-history :stats="$product['price_intel'] ?? null" />
+                    {{-- key() is required: without it Livewire reuses a single
+                         component instance across a roundup's products. --}}
+                    @livewire('live-price-compare', ['productId' => $product['id']], key('compare-'.$product['id']))
                     <x-buy-or-wait-strip :data="$product['buy_or_wait'] ?? null" />
                     @if(!empty($product['price_intel']))
                         @livewire('price-watch-signup', ['productId' => $product['id']])

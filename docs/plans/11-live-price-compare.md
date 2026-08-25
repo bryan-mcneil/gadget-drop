@@ -10,7 +10,7 @@ Context for the implementer: this is the **second** Claude-API feature on the si
 
 - [x] Phase 11.1 — `PriceComparison` support class (pure) + unit tests (built 2026-08-25; commit pending approval)
 - [x] Phase 11.2 — `PriceCompareService` + config + feature tests (built 2026-08-25; commit pending approval)
-- [ ] Phase 11.3 — `LivePriceCompare` Livewire component + view + wiring + tests
+- [x] Phase 11.3 — `LivePriceCompare` Livewire component + view + wiring + tests (built 2026-08-25; commit pending approval)
 - [ ] Phase 11.4 — docs, `.env.example`, build, deployment notes
 
 ---
@@ -333,3 +333,9 @@ Commit: `docs(price-compare): document the live comparison feature and enable fl
   - **`refusal` and `max_tokens` join `pause_turn` as failures.** All three mean there is no complete answer to parse; treating them alike keeps the "null on any failure" contract honest.
   - **Our own price is never sent to the model** (asserted). It is the number the reader is comparing against, and an anchor is the last thing you want in front of a model reporting numbers it read elsewhere. The model gets name, brand, ASIN, and today's date.
   - The transporter constructor argument is the test seam; production passes null and the SDK discovers Guzzle as usual.
+- **11.3 (2026-08-25)** — `app/Livewire/LivePriceCompare.php` + `resources/views/livewire/live-price-compare.blade.php` + one `@livewire` line in `public/show.blade.php`; `tests/Feature/Livewire/LivePriceCompareTest.php` (14 tests). Suite green at 634. Four things differ from the phase text:
+  - **The RAW payload is cached and `normalize()` runs on every read**, rather than caching the finished view model. This is what makes the freshness gate cheap: an admin re-checking a price brings the winner line back with no API call, while a CHANGED price lands on a different key and correctly buys a fresh search. Consequently the cache key fingerprints `products.price` **only**, never `price_checked_at`, or every "Unchanged" click in `/admin/prices` would burn budget.
+  - **A low-confidence payload gets its own phase (`unavailable`) and IS cached.** The phase text said suppressed maps to `failed`, but §Design-decisions draws the line at "failures are never cached; real answers are", and a low-confidence answer is a real answer to a hard question, not a timeout. Caching it also stops the most re-clickable products from leaking budget. It renders honest copy ("couldn't confidently match this exact model") rather than the "try again" line, which would be false: retrying will not help.
+  - **`gated` is decided in `mount()`, not on click.** A disabled feature or an unpriced product renders nothing at all, so the reader never sees a button whose only possible outcome is an apology.
+  - **No Alpine.** `wire:loading` / `wire:target` carry the pending state, which sidesteps the `alpine:init` + `destroy()` cleanup contract entirely. The spinner carries `motion-reduce:animate-none` per the Plan 10 motion budget.
+  - Test-only note: name the post helper `publishedPost()`, not `post()` — the latter collides with Laravel's HTTP `post()` on `TestCase` and is a fatal error, not a failure.
