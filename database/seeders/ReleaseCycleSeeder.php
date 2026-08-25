@@ -68,7 +68,9 @@ class ReleaseCycleSeeder extends Seeder
                 'cadence_months' => 12,
                 'last_release_name' => 'iPhone 17',
                 'last_release_at' => '2025-09-19', // on sale; announced Sept 9, 2025
-                'next_expected_note' => 'Apple has announced a new iPhone in September every year since 2012.',
+                // Hedged because the absolute is false: the iPhone 12 slipped to
+                // October 13, 2020. Every other year since 2012 was September.
+                'next_expected_note' => 'Apple has announced a new iPhone in September every year since 2012 except 2020, when the iPhone 12 was announced on October 13.',
                 'source_url' => 'https://www.apple.com/newsroom/2025/09/apple-debuts-iphone-17/',
             ],
             [

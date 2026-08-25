@@ -21,7 +21,7 @@ Starting today, GadgetDrop tracks that timing the same way we already track pric
 
 The pattern is not subtle once you look at it line by line, and it varies far more than most buyers assume.
 
-Apple has announced a new iPhone in September every year since 2012. That is a twelve month clock you can plan around, and it means a July purchase sits roughly ten months into a twelve month cycle. AirPods Pro, sold in the same store by the same company, run on a completely different schedule: October 2019, September 2022, September 2025. That is a three year cadence, so ten months after a launch is early, not late. Identical timing, opposite advice, and the only way to know which is which is to have the release history written down.
+Apple has announced a new iPhone in September every year since 2012, with a single exception: the iPhone 12, which slipped to October 13, 2020. That is close enough to a twelve month clock to plan around, and it means a July purchase sits roughly ten months into a twelve month cycle. AirPods Pro, sold in the same store by the same company, run on a completely different schedule: October 2019, September 2022, September 2025. That is a three year cadence, so ten months after a launch is early, not late. Identical timing, opposite advice, and the only way to know which is which is to have the release history written down.
 
 Then there are the lines that break their own pattern. GoPro shipped a HERO flagship almost every September for nearly a decade, and then did not ship one in 2025 at all. Anyone who "waited for the new one" that autumn waited through a year that never came. That is exactly why our pages report what has shipped rather than what is expected to ship.
 

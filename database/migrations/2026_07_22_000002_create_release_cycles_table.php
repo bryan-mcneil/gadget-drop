@@ -32,7 +32,9 @@ return new class extends Migration
             // for the new model starts and the predecessor starts discounting.
             $table->date('last_release_at');
             // Editorial, hedged, history-only note ("Apple has announced a new
-            // iPhone every September since 2012"). Never leaks or predictions.
+            // iPhone every September since 2012 except 2020"). The hedge is the
+            // point: a checkably false absolute is worse than no note at all.
+            // Never leaks or predictions.
             $table->string('next_expected_note')->nullable();
             // Mandatory honesty pair: where the facts came from, and when a human
             // last checked them against that source. Staleness is displayed, not

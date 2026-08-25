@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 /**
  * Public buy-or-wait pages: the living verdict on when to buy a product line,
@@ -182,17 +183,40 @@ class BuyOrWaitController extends Controller
             ->get(['id', 'title', 'slug', 'published_at', 'featured_image']);
     }
 
-    /** @param array<string, mixed> $verdict */
+    /**
+     * The SERP snippet, kept inside the site's 120-155 character meta budget
+     * (CONTENT-GUIDELINES.md) for every shipped cycle row. The line name
+     * already carries the identity, so the age clause says "the current model"
+     * instead of spending a third of the budget repeating a release name like
+     * "Kindle Paperwhite (12th generation)".
+     *
+     * @param  array<string, mixed>  $verdict
+     */
     private function metaDescription(ReleaseCycle $cycle, array $verdict): string
     {
         return sprintf(
-            '%s The %s line refreshes about every %d months; %s has been out %d. Our verdict, the sources behind it, and our own tracked price history.',
-            BuyOrWait::label($verdict['verdict']).'.',
+            '%s. %s refreshes about every %d months; %s. Sourced dates, our own price history.',
+            BuyOrWait::label($verdict['verdict']),
             $cycle->name,
             $cycle->cadence_months,
-            $cycle->last_release_name,
-            (int) round($cycle->monthsSinceRelease()),
+            $this->modelAge($cycle),
         );
+    }
+
+    /**
+     * "the current model has been out 11 months" — carrying the unit word that
+     * was missing entirely ("has been out 11."), plus the two cases where a
+     * bare count reads as a bug: a single month, and a model younger than one.
+     */
+    private function modelAge(ReleaseCycle $cycle): string
+    {
+        $months = (int) round($cycle->monthsSinceRelease());
+
+        if ($months === 0) {
+            return 'the current model is less than a month old';
+        }
+
+        return 'the current model has been out '.$months.' '.Str::plural('month', $months);
     }
 
     /**

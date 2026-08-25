@@ -201,6 +201,65 @@ class BuyOrWaitPagesTest extends TestCase
             ->assertDontSee('high confidence', false);
     }
 
+    /**
+     * Retro-review finding 3: metaDescription() formatted 'has been out %d.'
+     * with no unit word, shipping "iPhone 17 has been out 11." as the SERP
+     * snippet of every cycle page. Nothing asserted the tag, which is why it
+     * shipped and then sat live for a month.
+     */
+    public function test_the_meta_description_states_the_model_age_with_its_unit(): void
+    {
+        $this->cycle(['slug' => 'unit-line', 'name' => 'Unit Line', 'last_release_at' => now()->subMonths(11)->toDateString()]);
+
+        $description = $this->metaDescriptionOf('/buy-or-wait/unit-line');
+
+        $this->assertStringContainsString('has been out 11 months', $description);
+        $this->assertStringNotContainsString('has been out 11.', $description);
+    }
+
+    /** The two ages a bare count renders as a bug: one month, and younger than one. */
+    public function test_the_meta_description_handles_one_month_and_a_just_launched_model(): void
+    {
+        $this->cycle(['slug' => 'one-month', 'name' => 'One Month Line', 'last_release_at' => now()->subMonth()->toDateString()]);
+        $this->cycle(['slug' => 'brand-new', 'name' => 'Brand New Line', 'last_release_at' => now()->subDays(5)->toDateString()]);
+
+        $this->assertStringContainsString('has been out 1 month.', $this->metaDescriptionOf('/buy-or-wait/one-month'));
+        $this->assertStringContainsString('is less than a month old', $this->metaDescriptionOf('/buy-or-wait/brand-new'));
+    }
+
+    /**
+     * CONTENT-GUIDELINES.md budgets a meta description at 120-155 characters.
+     * Worst case in the shipped dataset: the longest line name, a late cycle
+     * (longest verdict label) and a two-digit age. The old template missed the
+     * budget on all ten rows, at 166 to 196 characters.
+     */
+    public function test_the_meta_description_fits_the_sites_snippet_budget(): void
+    {
+        $this->cycle([
+            'slug' => 'kindle-paperwhite',
+            'name' => 'Kindle Paperwhite',
+            'cadence_months' => 36,
+            'last_release_at' => now()->subMonths(34)->toDateString(),
+        ]);
+
+        $description = $this->metaDescriptionOf('/buy-or-wait/kindle-paperwhite');
+
+        $this->assertGreaterThanOrEqual(120, mb_strlen($description));
+        $this->assertLessThanOrEqual(155, mb_strlen($description));
+    }
+
+    /** The rendered <meta name="description"> content, decoded. */
+    private function metaDescriptionOf(string $url): string
+    {
+        $html = $this->get($url)->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/<meta name="description" content="[^"]+">/', $html);
+
+        preg_match('/<meta name="description" content="([^"]*)">/', $html, $matches);
+
+        return html_entity_decode($matches[1], ENT_QUOTES);
+    }
+
     public function test_an_unknown_line_404s(): void
     {
         $this->cycle();
