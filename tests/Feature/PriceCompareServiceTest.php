@@ -146,6 +146,37 @@ class PriceCompareServiceTest extends TestCase
         $this->assertSame(1, $transport->calls, 'A 500 must not be retried: the request budget is 25 seconds total.');
     }
 
+    /**
+     * The other half of the deadline, and the half that was silently doing
+     * nothing until review caught it. `RequestOptions::timeout` is declared by
+     * the SDK and never read by it (grep the package), and PSR-18's
+     * sendRequest() takes no timeout argument, so it CANNOT be honoured there.
+     * The only deadline that binds is the one on the Guzzle transporter.
+     *
+     * Without this the reader waits on Anthropic until PHP or LiteSpeed kills
+     * the request, which is a 504 instead of our retry line.
+     */
+    public function test_the_default_transporter_carries_the_configured_deadline(): void
+    {
+        config(['price-compare.timeout' => 12.5]);
+
+        $method = new \ReflectionMethod(PriceCompareService::class, 'transporter');
+        $transporter = $method->invoke(new PriceCompareService);
+
+        $this->assertInstanceOf(\GuzzleHttp\Client::class, $transporter);
+        $this->assertSame(12.5, $transporter->getConfig('timeout'), 'Guzzle has no total timeout by default: it must be set explicitly.');
+        $this->assertSame(5.0, $transporter->getConfig('connect_timeout'));
+    }
+
+    public function test_an_injected_transporter_is_used_instead_of_building_one(): void
+    {
+        $stub = $this->transport();
+
+        $method = new \ReflectionMethod(PriceCompareService::class, 'transporter');
+
+        $this->assertSame($stub, $method->invoke(new PriceCompareService($stub)));
+    }
+
     // ---------------------------------------------------------- the responses
 
     public function test_a_well_formed_response_decodes_into_the_raw_payload(): void

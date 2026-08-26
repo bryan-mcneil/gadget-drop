@@ -11,6 +11,7 @@ use App\Services\PriceCompareService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -224,6 +225,52 @@ class LivePriceCompareTest extends TestCase
             ->assertSet('phase', 'throttled');
     }
 
+    // ---------------------------------------------------------- the tampering
+
+    /**
+     * Livewire applies the client's `updates` array after validating the
+     * snapshot checksum, so an UNLOCKED public property is client-writable.
+     * Without Locked on $phase/$result, a crafted update sets phase=ready and
+     * hands rows straight to the view, bypassing PriceComparison entirely,
+     * including its URL scheme check.
+     */
+    public function test_no_public_property_accepts_a_client_update(): void
+    {
+        $component = Livewire::test(LivePriceCompare::class, ['productId' => $this->product()->id]);
+
+        foreach ([
+            'productId' => 999,
+            'phase' => 'ready',
+            'result' => ['rows' => [['retailer' => 'Walmart', 'price' => 1.0, 'url' => 'javascript:alert(1)', 'in_stock' => true]]],
+        ] as $property => $value) {
+            try {
+                $component->set($property, $value);
+                $this->fail("\${$property} accepted a client update: it needs #[Locked].");
+            } catch (CannotUpdateLockedPropertyException) {
+                $this->assertTrue(true);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------- the budget
+
+    public function test_an_exhausted_daily_budget_says_so_rather_than_inviting_a_retry(): void
+    {
+        // "Try again in a moment" would be false: the budget resets at midnight.
+        $this->mock(PriceCompareService::class, function ($mock) {
+            $mock->shouldReceive('isEnabled')->andReturn(true);
+            $mock->shouldReceive('isConfigured')->andReturn(true);
+            $mock->shouldReceive('requestsRemainingToday')->andReturn(0);
+            $mock->shouldNotReceive('compare');
+        });
+
+        Livewire::test(LivePriceCompare::class, ['productId' => $this->product()->id])
+            ->call('compare')
+            ->assertSet('phase', 'exhausted')
+            ->assertSee('Try again tomorrow')
+            ->assertDontSee('Try again in a moment');
+    }
+
     // ---------------------------------------------------------- the commerce
 
     public function test_the_widget_adds_no_affiliate_cta_and_no_amazon_link(): void
@@ -236,7 +283,7 @@ class LivePriceCompareTest extends TestCase
 
         $this->assertStringNotContainsString('amazon.com', $html, 'The comparison must never link to Amazon.');
         $this->assertStringNotContainsString('Check Current Prices', $html);
-        $this->assertStringContainsString('rel="nofollow noopener"', $html);
+        $this->assertStringContainsString('rel="nofollow noopener noreferrer"', $html);
     }
 
     /**
@@ -267,6 +314,7 @@ class LivePriceCompareTest extends TestCase
         $this->mock(PriceCompareService::class, function ($mock) use ($payload, $expectCalls) {
             $mock->shouldReceive('isEnabled')->andReturn((bool) config('price-compare.enabled'));
             $mock->shouldReceive('isConfigured')->andReturn(true);
+            $mock->shouldReceive('requestsRemainingToday')->andReturn(150);
 
             if ($expectCalls === 0) {
                 $mock->shouldNotReceive('compare');

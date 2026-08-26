@@ -31,3 +31,6 @@
 - [Partial motion guard](project_partial-motion-guard.md) — grep every hover lift/zoom for its motion-reduce twin; same-layer zoom div (fade inside) is correct, don't re-flag
 - [Cropper CSS chunk](project_cropper-css-chunk.md) — app-_JpMZc7H.css is the manifest-referenced _vendor-cropper css, NOT orphaned; don't re-flag deleting it
 - [Plan 06 buy-or-wait review](project_plan06-buy-or-wait-review.md) — eee9a02 retrospective: unseeded-prod dead links, index cache never busted on cycle writes, flagship 50-row silent cap; confirmed-safe list
+- [Host allowlist parse_url bypass](project_host-allowlist-parse-url.md) — `https://amazon.com\@walmart.com` passes PHP host checks but browsers go to amazon.com; six URLs to test on every allowlist
+- [Livewire unlocked public props](project_livewire-unlocked-public-props.md) — `#[Locked]` on the id doesn't protect `$phase`/`$result`; lock any prop that reaches an href or a claim line
+- [Plan 11 price-compare review](project_plan11-price-compare-review.md) — confirmed-safe SDK/§6(y)/cache patterns not to re-flag, plus the six standing findings from the first pass

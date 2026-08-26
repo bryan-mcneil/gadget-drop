@@ -149,9 +149,17 @@ $sidebarList = $post['type'] === 'tech_news'
                 @foreach($post['products'] as $product)
                     <x-product-card :product="$product" :post-id="$post['id']" />
                     <x-price-history :stats="$product['price_intel'] ?? null" />
-                    {{-- key() is required: without it Livewire reuses a single
+                    {{-- Gated here as well as inside the component: mounting a
+                         Livewire component costs a query and a serialised
+                         snapshot per product, and while the flag is off (its
+                         default, and the current prod state) every one of those
+                         renders an empty div. Review types only, matching
+                         price_intel/buy_or_wait above.
+                         key() is required: without it Livewire reuses a single
                          component instance across a roundup's products. --}}
-                    @livewire('live-price-compare', ['productId' => $product['id']], key('compare-'.$product['id']))
+                    @if(config('price-compare.enabled') && ! in_array($post['type'], ['tech_tip', 'tech_news'], true))
+                        @livewire('live-price-compare', ['productId' => $product['id']], key('compare-'.$product['id']))
+                    @endif
                     <x-buy-or-wait-strip :data="$product['buy_or_wait'] ?? null" />
                     @if(!empty($product['price_intel']))
                         @livewire('price-watch-signup', ['productId' => $product['id']])

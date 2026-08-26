@@ -38,7 +38,19 @@ class LivePriceCompare extends Component
     #[Locked]
     public int $productId;
 
-    /** idle | ready | empty | unavailable | gated | throttled | failed */
+    /** Request-scoped memo for {@see self::product()}. Never serialised. */
+    private ?Product $resolved = null;
+
+    /**
+     * idle | ready | empty | unavailable | gated | throttled | exhausted | failed
+     *
+     * Locked, like every other property here. Livewire applies the `updates`
+     * array after validating the snapshot checksum, so an unlocked public
+     * property is client-writable: without this, a crafted update could set
+     * phase=ready and hand $result rows straight to the view, bypassing
+     * PriceComparison entirely (including its URL scheme check).
+     */
+    #[Locked]
     public string $phase = 'idle';
 
     /**
@@ -48,6 +60,7 @@ class LivePriceCompare extends Component
      *
      * @var array<string, mixed>
      */
+    #[Locked]
     public array $result = [];
 
     public function mount(int $productId): void
@@ -85,6 +98,15 @@ class LivePriceCompare extends Component
 
         if (RateLimiter::tooManyAttempts($rateLimitKey, 5)) {
             $this->phase = 'throttled';
+
+            return;
+        }
+
+        // Distinguished from `failed` on purpose: the daily budget does not
+        // come back "in a moment", so telling the reader to retry would be
+        // false and would burn a rate-limiter hit per attempt.
+        if (app(PriceCompareService::class)->requestsRemainingToday() < 1) {
+            $this->phase = 'exhausted';
 
             return;
         }
@@ -190,7 +212,9 @@ class LivePriceCompare extends Component
 
     private function product(): ?Product
     {
-        return Product::find($this->productId);
+        // Memoized: mount() and isAvailable() both need it, and this component
+        // renders once per product on a roundup.
+        return $this->resolved ??= Product::find($this->productId);
     }
 
     public function render()

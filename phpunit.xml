@@ -35,6 +35,11 @@
         <env name="INDEXNOW_KEY" value=""/>
         <env name="SOCIAL_ENABLED" value="false"/>
         <env name="BLUESKY_APP_PASSWORD" value=""/>
+        <!-- Both Claude features bill per call. Pinned so a developer .env can
+             never let the suite reach the real API, whatever a future test
+             forgets to stub. -->
+        <env name="ANTHROPIC_API_KEY" value=""/>
+        <env name="PRICE_COMPARE_ENABLED" value="false"/>
         <env name="FACEBOOK_PAGE_TOKEN" value=""/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>

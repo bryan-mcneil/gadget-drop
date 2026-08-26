@@ -21,14 +21,14 @@
                 Other retailers
             </div>
 
-            @if($phase === 'idle' || $phase === 'throttled' || $phase === 'failed')
+            @if(in_array($phase, ['idle', 'throttled', 'failed', 'exhausted'], true))
                 <p class="mt-2 text-sm text-gray-600 leading-relaxed">
                     Check what this costs at {{ $retailerCount }} other major US retailers right now.
                 </p>
 
                 <button type="button" wire:click="compare" wire:loading.attr="disabled" wire:target="compare"
                     class="mt-3 inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:border-gray-400 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60">
-                    <svg wire:loading wire:target="compare" class="h-4 w-4 shrink-0 animate-spin motion-reduce:animate-none text-gray-400" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg wire:loading wire:target="compare" class="h-4 w-4 shrink-0 animate-spin motion-reduce:animate-none text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Z"></path>
                     </svg>
@@ -47,6 +47,12 @@
                 @if($phase === 'throttled')
                     <p class="mt-2 text-xs text-gray-500">You've run a few of these already. Try again a little later.</p>
                 @endif
+
+                @if($phase === 'exhausted')
+                    {{-- Deliberately not "try again in a moment": the daily
+                         budget does not come back in a moment. --}}
+                    <p class="mt-2 text-xs text-gray-500">We can't run a live check right now. Try again tomorrow.</p>
+                @endif
             @endif
 
             @if($phase === 'unavailable')
@@ -60,7 +66,7 @@
 
             @if($phase === 'empty')
                 <p class="mt-2 text-sm text-gray-700 leading-relaxed">
-                    We checked {{ $result['retailers_checked'] }} major retailers and couldn't find this at any of them. This one looks Amazon-exclusive.
+                    We searched the major US retailers we cover and couldn't find this at any of them. This one looks Amazon-exclusive.
                 </p>
             @endif
 
@@ -127,7 +133,7 @@
                         <ul class="mt-2 space-y-1">
                             @foreach($result['rows'] as $row)
                                 <li>
-                                    <a href="{{ $row['url'] }}" target="_blank" rel="nofollow noopener"
+                                    <a href="{{ $row['url'] }}" target="_blank" rel="nofollow noopener noreferrer"
                                         class="text-xs text-gray-500 underline decoration-gray-300 underline-offset-2 hover:text-gray-700 break-all">
                                         {{ $row['retailer'] }}
                                     </a>

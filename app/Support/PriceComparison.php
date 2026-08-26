@@ -47,6 +47,12 @@ class PriceComparison
      */
     private const ABSURD_MULTIPLE = 100;
 
+    /**
+     * A winner priced below this fraction of ours is more likely a mis-read
+     * monthly/financing figure than a deal. Winner computation only.
+     */
+    private const IMPLAUSIBLE_FRACTION = 0.15;
+
     private const MAX_RETAILER_LENGTH = 60;
 
     private const MAX_URL_LENGTH = 2048;
@@ -204,7 +210,15 @@ class PriceComparison
             return [null, null];
         }
 
-        $inStock = array_values(array_filter($rows, fn (array $row) => $row['in_stock']));
+        // In stock, and not absurdly cheap. The low-end guard applies to the
+        // WINNER ONLY: a mis-parsed financing figure ("$18.99/mo" on a $199
+        // item) would otherwise produce a confident, badly wrong claim, which
+        // is worse than naming no winner. The row itself still renders, and a
+        // genuine >85% clearance simply goes unverdicted rather than unshown.
+        $inStock = array_values(array_filter(
+            $rows,
+            fn (array $row) => $row['in_stock'] && $row['price'] >= $ourPrice * self::IMPLAUSIBLE_FRACTION,
+        ));
 
         if ($inStock === []) {
             return [null, null];
@@ -227,8 +241,10 @@ class PriceComparison
         }
 
         // Ties go to Amazon: at the same number it is the one we can actually
-        // link, and the one whose price we track ourselves.
-        if ($best['price'] === $ourPrice) {
+        // link, and the one whose price we track ourselves. Compared in cents,
+        // because a float-representation miss here would fall through to the
+        // amazon-lowest branch and render "$0.00 under".
+        if (self::cents($best['price']) === self::cents($ourPrice)) {
             return ['amazon', sprintf(
                 'Our tracked Amazon price of %s matches the lowest in-stock price we found elsewhere (%s at %s).',
                 $ours,
@@ -238,7 +254,7 @@ class PriceComparison
         }
 
         return ['amazon', sprintf(
-            'Our tracked Amazon price of %s is the lowest, %s under the best in-stock price we found elsewhere (%s at %s).',
+            'Our tracked Amazon price of %s is the lowest in-stock price, %s under the best we found elsewhere (%s at %s).',
             $ours,
             self::money($best['price'] - $ourPrice),
             $theirs,
@@ -285,6 +301,23 @@ class PriceComparison
         $url = trim($value);
 
         if ($url === '' || strlen($url) > self::MAX_URL_LENGTH) {
+            return null;
+        }
+
+        // PHP and browsers disagree about where the host ends, and the gap is a
+        // whitelist bypass. parse_url() follows RFC 3986, where a backslash is
+        // an ordinary userinfo character; the WHATWG parser every browser uses
+        // treats it as a delimiter. So in
+        //
+        //     https://amazon.com\@walmart.com/dp/B000
+        //
+        // PHP reports host "walmart.com" and admits the row, while the reader's
+        // browser goes to amazon.com. That is precisely the §2(b) breach the
+        // whitelist exists to make impossible. No legitimate retailer product
+        // URL contains a backslash, raw whitespace, a control character, or
+        // stray angle brackets, so reject the lot rather than trying to
+        // out-parse two disagreeing specs.
+        if (preg_match('/[\\\\\s\x00-\x1F\x7F<>"]/', $url)) {
             return null;
         }
 
@@ -350,14 +383,17 @@ class PriceComparison
      */
     private static function retailersChecked(array $raw, array $allowed): int
     {
-        $ceiling = count($allowed);
         $claimed = $raw['retailers_checked'] ?? null;
 
+        // Falls back to 0, NOT to the ceiling. A malformed payload is not
+        // evidence that we checked anything, and defaulting to the maximum
+        // would assert our largest claim on our weakest data. The view's copy
+        // must therefore read correctly at zero.
         if (! is_int($claimed) && ! (is_string($claimed) && ctype_digit($claimed))) {
-            return $ceiling;
+            return 0;
         }
 
-        return max(0, min((int) $claimed, $ceiling));
+        return max(0, min((int) $claimed, count($allowed)));
     }
 
     /** @param  array<string, mixed>  $raw */
@@ -401,5 +437,11 @@ class PriceComparison
     private static function money(float $value): string
     {
         return '$'.number_format($value, 2);
+    }
+
+    /** Money compared as integer cents, never as floats. */
+    private static function cents(float $value): int
+    {
+        return (int) round($value * 100);
     }
 }

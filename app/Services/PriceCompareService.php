@@ -13,6 +13,7 @@ use Anthropic\Messages\WebSearchToolResultBlock;
 use Anthropic\Messages\WebSearchToolResultError;
 use Anthropic\RequestOptions;
 use App\Models\Product;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Client\ClientInterface;
@@ -39,13 +40,18 @@ use Psr\Http\Client\ClientInterface;
  *     typo ("allowed_domain") would silently ship a search with no whitelist
  *     at all, and the first symptom would be an Amazon price on the page.
  *     With the typed object a typo is a PHP error instead.
- *  2. THE TIMEOUT, PASSED PER CALL. There is no queue worker on this host, so
- *     this runs inside the reader's request. We must fail before PHP and
- *     LiteSpeed do, hence timeout ~25s AND maxRetries: 0 (retries apply to
- *     timeouts, so the SDK default of 2 would make a 25s budget a 75s wall
- *     clock). Both MUST go on the create() call: options set on the Client
- *     constructor are silently overridden per request. See the comment at the
- *     call site, and the test that proves a 500 is not retried.
+ *  2. THE DEADLINE, WHICH LIVES ON THE TRANSPORTER. There is no queue worker
+ *     on this host, so this runs inside the reader's request and must fail
+ *     before PHP and LiteSpeed do. Two separate traps here:
+ *     (a) RequestOptions::timeout is DEAD in this SDK. It is declared and
+ *         never read, and PSR-18's sendRequest() takes no timeout argument, so
+ *         it could not be honoured anyway. The real deadline is configured on
+ *         the Guzzle client in transporter().
+ *     (b) maxRetries DOES bind, but only per call: SdkParams::parseRequest()
+ *         mints a fresh RequestOptions whose required properties carry the
+ *         defaults, so anything set on the Client constructor is overridden.
+ *         Without maxRetries: 0 the deadline is spent three times over.
+ *     Guard test: test_a_transport_failure_is_not_retried.
  *
  * @see docs/plans/11-live-price-compare.md Phase 11.2
  */
@@ -114,7 +120,8 @@ class PriceCompareService
 
     /**
      * The transporter seam exists so tests can never reach the real API. In
-     * production it is null and the SDK discovers Guzzle as usual.
+     * production it is null and {@see self::transporter()} builds a Guzzle
+     * client carrying the deadline.
      */
     public function __construct(private ?ClientInterface $transporter = null)
     {
@@ -169,20 +176,26 @@ class PriceCompareService
         try {
             $client = new Client(
                 apiKey: $this->apiKey,
-                requestOptions: RequestOptions::with(transporter: $this->transporter),
+                requestOptions: RequestOptions::with(transporter: $this->transporter()),
             );
 
-            // MUST be passed per call, not on the Client. Verified against
-            // anthropic-ai/sdk in this repo: SdkParams::parseRequest() builds a
-            // fresh RequestOptions for every call, and because timeout and
-            // maxRetries are required properties with defaults they are always
-            // present in it (600s / 2 retries) and therefore always win the
-            // merge over anything set on the Client. Setting them on the
-            // constructor looks right and does nothing. Optional properties
-            // like transporter are absent when unset, which is why THAT one
-            // still works at the Client level.
+            // maxRetries MUST be passed per call, not on the Client. Verified
+            // against anthropic-ai/sdk in this repo: SdkParams::parseRequest()
+            // builds a fresh RequestOptions for every call, and because
+            // maxRetries is a required property with a default it is always
+            // present in it (2) and therefore always wins the merge over
+            // anything set on the Client. Setting it on the constructor looks
+            // right and does nothing. Optional properties like transporter are
+            // absent when unset, which is why THAT one still binds there.
+            //
+            // timeout is passed here for intent and forward compatibility only.
+            // THE SDK NEVER READS IT: grep the package, RequestOptions::timeout
+            // is declared and never consumed, and PSR-18's sendRequest() takes
+            // no timeout argument, so it cannot be. The real deadline is set on
+            // the Guzzle transporter in transporter() below. Do not delete that
+            // and assume this line is doing the work.
             $requestOptions = RequestOptions::with(
-                timeout: (float) config('price-compare.timeout', 25.0),
+                timeout: $this->timeout(),
                 maxRetries: 0,
             );
 
@@ -299,6 +312,33 @@ class PriceCompareService
             'amazon_asin' => $product->asin,
             'today' => now()->toDateString(),
         ], fn ($value) => $value !== null && $value !== '');
+    }
+
+    /**
+     * The transporter, and with it the only deadline that actually binds.
+     *
+     * There is no queue worker on this host, so this call happens inside the
+     * reader's request: if it outlives PHP's max_execution_time or LiteSpeed's
+     * proxy timeout, the reader gets a dead 504 instead of our retry line.
+     * Guzzle is therefore constructed with an explicit total and connect
+     * timeout rather than left to its defaults (no total timeout at all).
+     *
+     * A timed-out request surfaces as a Guzzle ConnectException, which the SDK
+     * wraps in APIConnectionException, which compare() catches. Paired with
+     * maxRetries: 0 so the budget is spent once, not three times over.
+     */
+    private function transporter(): ClientInterface
+    {
+        return $this->transporter ??= new GuzzleClient([
+            'timeout' => $this->timeout(),
+            'connect_timeout' => min(5.0, $this->timeout()),
+            'http_errors' => false,
+        ]);
+    }
+
+    private function timeout(): float
+    {
+        return (float) config('price-compare.timeout', 25.0);
     }
 
     /** @return array<int, string> */

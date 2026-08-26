@@ -87,6 +87,52 @@ class PriceComparisonTest extends TestCase
         $this->assertSame(['Walmart', 'Best Buy', 'Target'], array_column($result['rows'], 'retailer'));
     }
 
+    /**
+     * The whitelist bypass found in review. parse_url() follows RFC 3986, where
+     * a backslash is ordinary userinfo, so it reports host "walmart.com" for
+     * `https://amazon.com\@walmart.com/...`. Every browser uses the WHATWG
+     * parser, which treats the backslash as a delimiter and navigates to
+     * amazon.com. A row that renders as "Walmart" and links to Amazon is
+     * exactly the §2(b) breach the whitelist exists to prevent.
+     *
+     * @param  string  $url
+     */
+    #[DataProvider('hostileAuthorities')]
+    public function test_a_url_whose_host_php_and_browsers_disagree_about_is_rejected(string $url): void
+    {
+        $result = $this->normalize([$this->row(['url' => $url])]);
+
+        $this->assertSame([], $result['rows'], "A browser does not read the host of {$url} the way PHP does.");
+    }
+
+    public static function hostileAuthorities(): array
+    {
+        return [
+            'backslash hides amazon in userinfo' => ['https://amazon.com\@walmart.com/dp/B000'],
+            'backslash hides any host' => ['https://evil.com\@walmart.com/p'],
+            'plain userinfo' => ['https://walmart.com@evil.com/'],
+            'tab in authority' => ["https://walmart.com	.evil.com/"],
+            'newline in authority' => ["https://walmart
+.com/x"],
+            'space in url' => ['https://walmart.com/a b'],
+            'angle bracket' => ['https://walmart.com/<script>'],
+        ];
+    }
+
+    public function test_an_over_long_url_is_rejected(): void
+    {
+        $result = $this->normalize([$this->row(['url' => 'https://walmart.com/'.str_repeat('a', 2100)])]);
+
+        $this->assertSame([], $result['rows']);
+    }
+
+    public function test_a_data_url_is_not_a_source(): void
+    {
+        $result = $this->normalize([$this->row(['url' => 'data:text/html,<h1>hi</h1>'])]);
+
+        $this->assertSame([], $result['rows']);
+    }
+
     public function test_a_non_http_url_is_not_a_source(): void
     {
         $result = $this->normalize([
@@ -267,6 +313,9 @@ class PriceComparisonTest extends TestCase
         $this->assertSame('amazon', $result['winner']);
         $this->assertStringContainsString('Best Buy', $result['winner_label']);
         $this->assertStringNotContainsString('Walmart', $result['winner_label']);
+        // Both winner branches must say "in-stock", or a reader seeing a
+        // cheaper sold-out row above reads a flat contradiction.
+        $this->assertStringContainsString('in-stock', $result['winner_label']);
     }
 
     public function test_nothing_in_stock_anywhere_means_no_verdict(): void
@@ -289,6 +338,38 @@ class PriceComparisonTest extends TestCase
         $result = $this->normalize([$row], ourPrice: 199.99, checkedAt: Carbon::now()->subDay());
 
         $this->assertTrue($result['rows'][0]['in_stock']);
+        $this->assertSame('retailer', $result['winner']);
+    }
+
+    /**
+     * A mis-read financing figure ("$18.99/mo" on a $199 item) would otherwise
+     * produce a confident, badly wrong claim. The row still renders; only the
+     * verdict is withheld.
+     */
+    public function test_an_implausibly_cheap_row_renders_but_never_wins(): void
+    {
+        $result = $this->normalize(
+            [
+                $this->row(['retailer' => 'Walmart', 'price' => 18.99]),
+                $this->row(['retailer' => 'Best Buy', 'price' => 209.99, 'url' => 'https://bestbuy.com/x']),
+            ],
+            ourPrice: 199.99,
+            checkedAt: Carbon::now()->subDay(),
+        );
+
+        $this->assertCount(2, $result['rows'], 'The row is shown: we just will not build a claim on it.');
+        $this->assertSame('amazon', $result['winner']);
+        $this->assertStringNotContainsString('Walmart', $result['winner_label']);
+    }
+
+    public function test_a_steep_but_plausible_discount_still_wins(): void
+    {
+        $result = $this->normalize(
+            [$this->row(['retailer' => 'Walmart', 'price' => 99.99])],
+            ourPrice: 199.99,
+            checkedAt: Carbon::now()->subDay(),
+        );
+
         $this->assertSame('retailer', $result['winner']);
     }
 
@@ -352,7 +433,9 @@ class PriceComparisonTest extends TestCase
 
         $this->assertSame(count(self::HOSTS), $inflated['retailers_checked']);
         $this->assertSame(3, $honest['retailers_checked']);
-        $this->assertSame(count(self::HOSTS), $missing['retailers_checked']);
+        // Falls to 0, never to the ceiling: a malformed payload must not assert
+        // our largest claim on our weakest data.
+        $this->assertSame(0, $missing['retailers_checked']);
     }
 
     public function test_our_own_price_and_stamp_pass_through_untouched(): void
