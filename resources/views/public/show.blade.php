@@ -22,14 +22,28 @@ $eyebrowBar  = ['indigo' => 'bg-indigo-400',   'emerald' => 'bg-emerald-400',   
 
 $firstCategory = collect($post['categories'])->first();
 
+// Review types only, matching the price_intel / buy_or_wait payload.
+$comparePrices = config('price-compare.enabled') && ! in_array($post['type'], ['tech_tip', 'tech_news'], true);
+
 // The first product with a tracked price feeds the one-line band intel strip.
+// The same pass decides whether the pre-body price block has anything to
+// render, so a post with no tracked price doesn't get a bare spacer div.
 $intelStats = null;
+$hasPriceBlock = $comparePrices && count($post['products']) > 0;
 foreach ($post['products'] as $p) {
-    if (!empty($p['price_intel']) && ($p['price_intel']['current'] ?? null) !== null) {
+    $hasIntel = !empty($p['price_intel']) && ($p['price_intel']['current'] ?? null) !== null;
+    if ($hasIntel && $intelStats === null) {
         $intelStats = $p['price_intel'];
-        break;
+    }
+    if ($hasIntel || !empty($p['buy_or_wait'])) {
+        $hasPriceBlock = true;
     }
 }
+
+// The verdict sits right under the product card in the end zone, so it takes
+// the same stack gap the cards use; with no product card above it, it follows
+// running text and keeps the full section break instead.
+$verdictSpacing = count($post['products']) > 0 ? 'mt-4' : 'mt-10 pt-8 border-t border-gray-100';
 
 // One trimmed sidebar post list (capped at 5), most-relevant per post type.
 $sidebarList = $post['type'] === 'tech_news'
@@ -132,35 +146,40 @@ $sidebarList = $post['type'] === 'tech_news'
 
         {{-- Hero slot — below the band, on the light surface. A recap video
              (poster-first, autoplay-once) when the post has one; the plain
-             eager/high-priority hero image otherwise. --}}
-        <x-hero-recap :post="$post" />
+             eager/high-priority hero image otherwise. No bottom gap when the
+             price truth block follows: the hero reads as the top card of that
+             stack. Bound attribute, not an @if inside the tag — directives
+             between a component's attributes break it. --}}
+        <x-hero-recap :post="$post" :spacing="$hasPriceBlock ? '' : 'mb-10'" />
 
+        {{-- ── Price truth block ─────────────────────────────────
+             Above the read, because "what does it cost right now" is the
+             question the reader arrived with. Nothing here is an affiliate
+             CTA (tracked price carries no link, compare points at
+             third-party retailers, buy-or-wait is an internal link), so the
+             single-CTA rule holds — <x-product-card> is still the only
+             affiliate link on the page and it stays in the end zone below.
+             The "Already bought it?" watch signup closes the block: it is an
+             email field, not a CTA.
 
-        {{-- Body — 68ch measure inside <x-article-body>, figures full column. --}}
-        <x-article-body :sections="$sections" />
-
-        {{-- ── End zone ──────────────────────────────────────────────
-             Commerce block first: the product card is the single affiliate
-             CTA; the tracked-price panel, buy-or-wait strip, and price-watch
-             signup regroup around it (they carry no CTA / an email field, so
-             the single-CTA rule holds). --}}
-        @if(count($post['products']) > 0)
-            <div class="mt-12 space-y-4">
+             live-price-compare is gated here as well as inside the
+             component: mounting a Livewire component costs a query and a
+             serialised snapshot per product, and while the flag is off (its
+             default, and the current prod state) every one of those renders
+             an empty div. key() is required: without it Livewire reuses a
+             single component instance across a roundup's products. --}}
+        @if($hasPriceBlock)
+            <div class="mt-4 mb-10 space-y-4">
                 @foreach($post['products'] as $product)
-                    <x-product-card :product="$product" :post-id="$post['id']" />
                     <x-price-history :stats="$product['price_intel'] ?? null" />
-                    {{-- Gated here as well as inside the component: mounting a
-                         Livewire component costs a query and a serialised
-                         snapshot per product, and while the flag is off (its
-                         default, and the current prod state) every one of those
-                         renders an empty div. Review types only, matching
-                         price_intel/buy_or_wait above.
-                         key() is required: without it Livewire reuses a single
-                         component instance across a roundup's products. --}}
-                    @if(config('price-compare.enabled') && ! in_array($post['type'], ['tech_tip', 'tech_news'], true))
+                    @if($comparePrices)
                         @livewire('live-price-compare', ['productId' => $product['id']], key('compare-'.$product['id']))
                     @endif
                     <x-buy-or-wait-strip :data="$product['buy_or_wait'] ?? null" />
+                    {{-- Same condition as $hasIntel above: PriceIntel::stats()
+                         returns null or an array whose 'current' is always a
+                         float, so a non-empty price_intel guarantees the block
+                         wrapper already rendered. --}}
                     @if(!empty($product['price_intel']))
                         @livewire('price-watch-signup', ['productId' => $product['id']])
                     @endif
@@ -168,12 +187,31 @@ $sidebarList = $post['type'] === 'tech_news'
             </div>
         @endif
 
-        {{-- Verdict summary (rating + pros/cons) — the editorial payload. --}}
-        <x-verdict-box :post="$post" />
+        {{-- Body — 68ch measure inside <x-article-body>, figures full column. --}}
+        <x-article-body :sections="$sections" />
 
-        {{-- Worth-it vote — end-of-article engagement, kept away from the
-             product card so the single affiliate CTA keeps its space. --}}
-        <div class="mt-10">
+        {{-- ── End zone ──────────────────────────────
+             The product card is the single affiliate CTA and the only
+             commerce element left down here — the tracked-price panel, live
+             compare, buy-or-wait strip, and "Already bought it?" watch
+             signup all moved above the body (see the price truth block under
+             the hero), so the reader gets the price answer before the read
+             and the CTA gets the end of it to itself. --}}
+        @if(count($post['products']) > 0)
+            <div class="mt-12 space-y-4">
+                @foreach($post['products'] as $product)
+                    <x-product-card :product="$product" :post-id="$post['id']" />
+                @endforeach
+            </div>
+        @endif
+
+        {{-- Verdict summary (rating + pros/cons) — the editorial payload.
+             Closes the end zone as the second card in the stack. --}}
+        <x-verdict-box :post="$post" :spacing="$verdictSpacing" />
+
+        {{-- Worth-it vote — end-of-article engagement, closing the end-zone
+             stack at the same gap as the cards above it. --}}
+        <div class="mt-4">
             @livewire('worth-it-vote', ['postId' => $post['id']])
         </div>
 

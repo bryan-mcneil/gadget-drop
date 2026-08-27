@@ -9,7 +9,9 @@
     $iconCheck = '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>';
 @endphp
 
-<div class="my-10">
+{{-- Spacing lives on the wrapper in public/show.blade.php: a margin here
+     too would just collapse against it and hide which one is in charge. --}}
+<div>
     <div class="overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white px-6 py-8 text-center shadow-sm">
         @if ($voted === null)
             {{-- Ballot --}}

@@ -1,4 +1,10 @@
-@props(['post'])
+@props([
+    'post',
+    // Bottom spacing, overridable by the caller. Defaults to the standalone
+    // gap; the post page passes '' when the price truth block sits directly
+    // under the hero and owns the rhythm instead.
+    'spacing' => 'mb-10',
+])
 
 @php
     // Hero slot for the post page (plan 10.7). With a recap video: a poster-first
@@ -13,7 +19,7 @@
 @if($recapUrl && $heroSrc)
     {{-- aspect-[16/9] box reserves the space before any media loads (no CLS).
          muted + playsinline let mobile autoplay fire; no loop — plays once. --}}
-    <div class="relative aspect-[16/9] rounded-2xl border border-gray-200/80 overflow-hidden bg-slate-950 mb-10"
+    <div class="relative aspect-[16/9] rounded-2xl border border-gray-200/80 overflow-hidden bg-slate-950 {{ $spacing }}"
         x-data="heroRecap">
         <video x-ref="video"
             class="absolute inset-0 w-full h-full object-cover"
@@ -42,7 +48,7 @@
         :fit="$post['featured_image_fit'] ?? 'cover'"
         :position="$post['hero_image_position'] ?? $post['featured_image_position'] ?? 'center center'"
         class="w-full rounded-2xl border border-gray-200/80 max-h-96"
-        wrapper-class="mb-10"
+        :wrapper-class="$spacing"
         sizes="(min-width: 1024px) 768px, 100vw"
         loading="eager"
         fetchpriority="high" />

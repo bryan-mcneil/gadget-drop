@@ -40,6 +40,7 @@
              forgets to stub. -->
         <env name="ANTHROPIC_API_KEY" value=""/>
         <env name="PRICE_COMPARE_ENABLED" value="false"/>
+        <env name="TRUSTED_PROXIES" value=""/>
         <env name="FACEBOOK_PAGE_TOKEN" value=""/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
