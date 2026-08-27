@@ -328,6 +328,47 @@ class PriceCompareServiceTest extends TestCase
             'description' => 'A test gadget.',
         ], $overrides));
     }
+
+    /**
+     * Structured outputs rejects numeric range keywords outright. This shipped
+     * and every production call 400'd on it:
+     *
+     *   output_config.format.schema: For 'number' type, properties maximum,
+     *   minimum are not supported
+     *
+     * The stub transporter below cannot catch that class of bug -- it accepts
+     * whatever we send and hands back a canned reply, so a schema the real API
+     * refuses looks perfectly green here. Hence a direct assertion on the
+     * schema shape. Ranges belong in the property description, where the model
+     * still reads them; enforcement belongs in PriceComparison, which clamps
+     * retailers_checked and gates on the confidence floor for real.
+     */
+    public function test_the_schema_carries_no_keyword_the_api_rejects(): void
+    {
+        $schema = (new \ReflectionClass(PriceCompareService::class))
+            ->getReflectionConstant('SCHEMA')
+            ->getValue();
+
+        $banned = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'multipleOf'];
+        $found = [];
+
+        $walk = function (array $node, string $path) use (&$walk, $banned, &$found): void {
+            foreach ($node as $key => $value) {
+                if (in_array($key, $banned, true)) {
+                    $found[] = $path.'.'.$key;
+                }
+
+                if (is_array($value)) {
+                    $walk($value, $path.'.'.$key);
+                }
+            }
+        };
+
+        $walk($schema, 'schema');
+
+        $this->assertSame([], $found, 'Structured outputs rejects: '.implode(', ', $found));
+    }
+
 }
 
 /** A PSR-18 client that never leaves the process and records what it was handed. */

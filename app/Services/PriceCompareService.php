@@ -87,16 +87,21 @@ class PriceCompareService
         'additionalProperties' => false,
         'required' => ['confidence', 'retailers_checked', 'results'],
         'properties' => [
+            // NO minimum/maximum ANYWHERE IN THIS SCHEMA. Structured outputs
+            // rejects numeric range keywords outright -- verified in production
+            // 2026-08-27, every call 400'd with "output_config.format.schema:
+            // For 'number' type, properties maximum, minimum are not
+            // supported". State the range in the description instead; the model
+            // reads it, and PriceComparison enforces it for real on the way in
+            // (confidence is compared against the floor, retailers_checked is
+            // clamped to the whitelist size). SchemaTest guards this.
             'confidence' => [
                 'type' => 'number',
-                'minimum' => 0,
-                'maximum' => 1,
-                'description' => 'How confident you are that these listings are the exact product named.',
+                'description' => 'How confident you are that these listings are the exact product named, from 0.0 to 1.0.',
             ],
             'retailers_checked' => [
                 'type' => 'integer',
-                'minimum' => 0,
-                'description' => 'How many distinct retailer sites you actually looked at.',
+                'description' => 'How many distinct retailer sites you actually looked at. Zero or more.',
             ],
             'results' => [
                 'type' => 'array',
