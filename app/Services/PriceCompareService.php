@@ -131,7 +131,7 @@ class PriceCompareService
     /** The kill switch, independent of the API key the explain feature shares. */
     public function isEnabled(): bool
     {
-        return (bool) config('price-compare.enabled', false);
+        return (bool) config('price-compare.enabled', true);
     }
 
     public function isConfigured(): bool
@@ -311,7 +311,7 @@ class PriceCompareService
             'brand' => $product->brand,
             'amazon_asin' => $product->asin,
             'today' => now()->toDateString(),
-        ], fn ($value) => $value !== null && $value !== '');
+        ], fn($value) => $value !== null && $value !== '');
     }
 
     /**
@@ -378,6 +378,6 @@ class PriceCompareService
 
     private function usageKey(): string
     {
-        return 'price-compare.usage.'.now()->format('Y-m-d');
+        return 'price-compare.usage.' . now()->format('Y-m-d');
     }
 }
