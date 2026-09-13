@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DailyDropController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HlsDownloaderController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\MarketProductController;
 use App\Http\Controllers\Admin\NewsletterController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\TruthReportController;
+use App\Http\Middleware\NoIndex;
 use App\Models\PostSlugRedirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -140,6 +142,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
     Route::post('newsletter/test', [NewsletterController::class, 'sendTest'])->name('newsletter.test');
     Route::post('newsletter/send-all', [NewsletterController::class, 'sendAll'])->name('newsletter.send-all');
+    // Admin-only HLS (.m3u8) to MP4 downloader. noindex on both routes, and never listed
+    // in config/tools.php, so it stays off /tools and out of the sitemap.
+    Route::middleware(NoIndex::class)->group(function () {
+        Route::get('tools/hls-downloader', [HlsDownloaderController::class, 'index'])->name('tools.hls-downloader');
+        Route::get('tools/hls-downloader/proxy', [HlsDownloaderController::class, 'proxy'])->name('tools.hls-downloader.proxy');
+    });
 });
 
 Route::middleware('auth')->group(function () {
