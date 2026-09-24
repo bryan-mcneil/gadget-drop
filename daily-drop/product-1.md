@@ -1,100 +1,100 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: DJI Neo 2 Review: The Best First Drone Under $200?
+EXCERPT: Our DJI Neo 2 review: a 151g 4K drone you launch from your palm, now with all-around obstacle sensing. Who it's for, the price, and one real catch.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Cameras
+TAGS: drones | dji | 4k-video | beginner-drone | aerial-photography
+ASIN: B0FJ1S18HF
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Palm launch, no controller needed
+- All-around obstacle sensing at this price
+- Sharp 4K/60fps from a 151g drone
 CONS:
-- 450 lumens means dark rooms only
+- Real flight time closer to 13 minutes
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: DJI Neo 2 Review: Best Beginner Drone Under $200 in 2026?
+META_DESCRIPTION: DJI Neo 2 review: a palm-launched 4K drone with all-around obstacle sensing for around $200. Specs, price context, alternatives, and the catch.
+FOCUS_KEYWORD: DJI Neo 2 review
+TARGET_QUERY: dji neo 2 review
+SLUG: dji-neo-2-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+Most first-time drone buyers quit before they ever land a clean shot. The controller has too many sticks, the registration paperwork looks intimidating, and the fear of flying a pricey machine straight into a tree kills the fun before it starts. The DJI Neo 2 is built to erase all three of those worries, and at around $200 it's cheap enough that you'll actually take it outside.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Is the DJI Neo 2?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The DJI Neo 2 is a palm-sized 4K camera drone that weighs just 151 grams. DJI announced it in November 2025, and it's now shipping in the US as the follow-up to the original Neo. It's DJI's entry-level flyer, and it's the first in the Neo line to add omnidirectional obstacle sensing, so it can spot and dodge objects on every side instead of just below.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+You launch it straight from your open hand, no controller required, and steer it with your phone, voice commands, or preset flight paths that circle and follow you automatically. The 12MP 1/2-inch sensor shoots 4K at up to 60fps, plus a 4K/100fps slow-motion mode and 2.7K vertical clips made for phone-first video. Because it slips under the 250-gram line, recreational flyers in the US don't have to register it with the FAA.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## Who Should Buy the DJI Neo 2?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+This is a first drone, and it's a good one. If you've never flown before and the idea of a full controller makes you nervous, the Neo 2's palm takeoff and phone control lower the barrier about as far as it goes.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
+It also fits solo creators who want hands-free shots of themselves. Mountain bikers, hikers, skaters, and anyone filming a walk-and-talk can set ActiveTrack and let the drone do the following. Travelers like that it disappears into a jacket pocket. Parents like that they can hand it to a teenager without wincing.
 
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+Who should skip it? If you shoot professional real estate or wedding footage, you want a bigger drone with a larger sensor and longer legs. If you already own a capable DJI Mini, the Neo 2 is a sidekick, not an upgrade.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## What the DJI Neo 2 Gets Right
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+- **Palm takeoff and landing.** You skip the controller entirely and get a shot in seconds, which is the whole reason a beginner sticks with it.
+- **Omnidirectional obstacle sensing.** This is new to the Neo line, and it takes the sting out of the classic first-flight mistake of clipping a branch you never saw coming.
+- **4K/60fps from a 151-gram body.** That smoothness used to demand a much bigger, heavier drone. Owner footage of this sensor looks genuinely sharp in good light.
+- **ActiveTrack that follows you.** Set it once and the drone keeps you in frame while you ride, run, or walk, no second person needed to fly.
+- **Under 250 grams.** Recreational US flyers skip FAA registration, though you still take the free TRUST test and follow local rules.
 
 ---
 
-## The One Thing to Consider
+## What You'll Pay for the DJI Neo 2
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+Drone-only pricing has been landing around $199, with a Fly More combo (extra batteries, charging hub, and a controller) closer to $349 to $399. For a first drone, the bare package is usually the smart start: you find out whether you'll actually fly before you spend on spares.
+
+That $199 buys you the newest sensor, the faster 4K/60fps video, and the all-around sensing that the cheaper original Neo lacks. The price widget above shows where today's number sits against the history we track, so you can tell a real dip from the usual list price before you commit.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## DJI Neo 2 vs. the Original Neo and HOVERAir X1
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The original DJI Neo still sells for less, often around $159, and it captures the same easygoing selfie shots. If your budget is tight and you can live without obstacle sensing and the jump to 4K/60fps, the first Neo is the value pick. Spend the extra roughly $40 on the Neo 2 mainly for the safety net of all-around sensing and the smoother, higher-frame-rate video.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+The HOVERAir X1 is the other name in this pocket-drone space. It leans even harder into fully automatic selfie flights and folds flatter, but its camera and tracking feature set trail DJI's, and it usually costs more. Most first-time buyers get more drone for the money with the Neo 2.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+Not sure you want a flying camera at all? If you'd rather strap a rugged shooter to your chest or helmet than pilot one, our [GoPro HERO13 Black review](/posts/gopro-hero13-black-review) covers the action-cam route to the same kind of point-of-view footage.
+
+---
+
+## One Thing to Consider Before You Buy
+
+Battery life is the Neo 2's weak spot. DJI rates it at 19 minutes, but that number assumes ideal conditions and the prop guards removed. Independent reviewers and owners report closer to 12 to 15 minutes of usable flight once you add the transceiver module, run ActiveTrack, and fly in a light breeze. Plan for a spare, and know the sting: Neo 2 replacement batteries run about $129, nearly double the $69 the original Neo's batteries cost.
+
+Two smaller notes: there's no RAW photo capture, so serious editors lose some latitude, and gusts above roughly 20 mph start to push this featherweight around and can soften the footage. In calm-to-moderate conditions, none of that will bother a casual flyer.
+
+---
+
+## DJI Neo 2 FAQ
+
+**Q: Do I need a license to fly the DJI Neo 2?**
+No pilot license for recreational use. Because it weighs 151 grams, under the 250-gram threshold, US recreational flyers don't register it with the FAA. You still need to pass the free TRUST test and follow local airspace rules, and commercial work requires a Part 107 certificate.
+
+**Q: How long does the DJI Neo 2 fly on one battery?**
+DJI rates it at 19 minutes in ideal conditions. In normal use with tracking and a bit of wind, owner and tester reports put real flight time closer to 12 to 15 minutes, so a second battery is a sensible add if you plan longer sessions.
+
+**Q: Is the DJI Neo 2 worth it over the original Neo?**
+For most buyers, yes. The roughly $40 step up adds omnidirectional obstacle sensing and 4K/60fps video, two things that make the drone safer to fly and better to watch. Stick with the original Neo only if the lowest possible price is the deciding factor.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The DJI Neo 2 is the easiest, most forgiving way to start flying, and it delivers sharp 4K video from a drone that fits in your palm. Buy it if you want a genuine first drone, just budget for a spare battery and keep it out of strong wind.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the current price in the card above sits at or near that $199 mark, this is an easy first drone to say yes to. Watch the tracked history for a dip below typical and you'll know you timed it right.
