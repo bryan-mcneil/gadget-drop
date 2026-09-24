@@ -1,100 +1,96 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: DJI Osmo Action 5 Pro Review: Worth It Over a GoPro?
+EXCERPT: Our DJI Osmo Action 5 Pro review weighs the bigger sensor, 4-hour battery, and 20m waterproofing against the GoPro HERO13 Black.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
-RATING: 4
+CATEGORY: Cameras
+TAGS: action camera | DJI | 4K video | vlogging | GoPro alternative
+ASIN: B0DBR8HVZG
+RATING: 4.5
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Bigger 1/1.3-inch sensor cleans up low light
+- 4-hour battery outlasts every rival
+- Waterproof to 20m with no case
+- Dual OLED screens make self-framing easy
+- 47GB onboard storage saves a card
 CONS:
-- 450 lumens means dark rooms only
+- Tops out at 4K, no interchangeable lenses
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: DJI Osmo Action 5 Pro Review: Bigger Sensor, Longer Battery
+META_DESCRIPTION: Our DJI Osmo Action 5 Pro review covers the 1/1.3-inch sensor, 4-hour battery, and 20m waterproofing, and how it stacks up to the GoPro HERO13.
+FOCUS_KEYWORD: DJI Osmo Action 5 Pro review
+TARGET_QUERY: DJI Osmo Action 5 Pro review
+SLUG: dji-osmo-action-5-pro-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+Action cameras used to force an ugly trade. You could go tiny and grainy, or bulky with a pocket full of spare batteries. The DJI Osmo Action 5 Pro answers both complaints at once, and it parks itself right in GoPro's lane. If you've been eyeing the GoPro HERO13 Black and wondering whether DJI's version is the smarter buy, here's the honest breakdown.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Is the DJI Osmo Action 5 Pro?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The Osmo Action 5 Pro is DJI's flagship action camera, a pocket-sized, waterproof cube built to strap to a helmet, a chest mount, or a selfie stick and take a beating. The headline change from the previous generation is a larger 1/1.3-inch CMOS sensor, the same size class that used to be reserved for premium compact cameras. It shoots up to 4K at 120fps, captures a claimed 13.5 stops of dynamic range, and carries 47GB of storage inside the body so a full memory card doesn't end your day.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+Two high-brightness OLED touchscreens sit on the front and back, which matters more than it sounds. The Adventure Combo reviewed here (ASIN B0DBR8HVZG) ships with three batteries, a 1.5m extension rod, and a multi-battery charging case, so it's the "everything you need on day one" bundle rather than the bare camera.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## Who Should Buy the Osmo Action 5 Pro?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+This is an easy call for a few specific people. If it's your first real action camera, the DJI gives you more in the box and a gentler learning curve than most rivals. Vloggers benefit from that front screen, since you can actually see yourself while recording instead of guessing at the frame.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
-
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+Swimmers and divers get the biggest edge. The camera is rated waterproof to 20m with no housing, and a built-in pressure gauge logs depth and altitude and can auto-start recording the moment you enter the water. Anyone who has spent a day swapping dead batteries at a ski hill or a skate park will appreciate the 4-hour runtime. Skip it if you already own the Osmo Action 4, or if you specifically need higher-than-4K resolution.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Features That Actually Matter
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+- **A 1/1.3-inch sensor that sees in the dark.** The larger sensor pulls in noticeably more light than smaller action-cam chips, so dusk skate sessions and dim interiors come out cleaner instead of a wall of noise.
+- **Four hours of battery, and fast top-ups.** DJI rates it at four hours of recording, and a 15-minute charge gets you roughly two hours back. In cold down to -20C it still records around 3.6 hours per the manufacturer.
+- **Waterproof to 20m with nothing added.** No case, no fuss. The pressure gauge and auto-record-on-entry features turn it into a genuinely useful dive and snorkel camera out of the box.
+- **Dual OLED touchscreens.** The front screen means you frame yourself correctly the first time, which saves reshoots when you're the subject.
+- **47GB of built-in storage.** If your card fills or you forget one, the camera keeps rolling. That safety net is rare at this price.
 
 ---
 
-## The One Thing to Consider
+## What You'll Pay
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+The Adventure Combo lands around $369 and includes the three-battery kit, charging case, and extension rod. If you don't need the extras, the Standard Combo (ASIN B0DBQTC2P7) covers the camera and the basics for less. Either way, DJI tends to undercut GoPro's flagship pricing while putting more accessories in the box, which is a big part of the value story here.
+
+Action-cam prices move around a lot, and this one has dipped to notable lows during sale events. The price widget above shows where today's number sits against the history we track, so you can see at a glance whether the current price is a genuine deal or just the usual sticker.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## Osmo Action 5 Pro vs. GoPro HERO13 Black
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The real question for most buyers is DJI or GoPro. In [our GoPro HERO13 Black review](/posts/gopro-hero13-black-review) the HERO13 earns its keep with 5.3K resolution, the HB-series interchangeable lens system, HyperSmooth 6.0 stabilization, GPS telemetry overlays, and a mount ecosystem nothing else can match. Grab the GoPro if you edit at high resolution, want to swap lenses, or already own a drawer of GoPro mounts.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+The Osmo counters with a bigger sensor, better low-light footage, longer battery life, deeper no-case waterproofing, and that dual-screen setup, usually for less money. If you shoot in mixed light and hate carrying spare batteries, DJI is the pick. The Insta360 Ace Pro 2 is the other name worth a look if Leica-tuned optics and heavy AI editing tools appeal more than raw simplicity.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+---
+
+## One Thing to Consider
+
+The Osmo Action 5 Pro tops out at 4K. GoPro's 5.3K gives you more room to crop and reframe in editing, and there's no interchangeable-lens trick here like the HERO13's. You're also buying into DJI's world: the Mimo app, DJI's own wireless mic pairing, and DJI accessories. Owner feedback points at the app as the occasional weak spot, with pairing and firmware updates that can be fiddly. None of that is a dealbreaker for most people, but if you live in the GoPro ecosystem already, the switch has friction.
+
+---
+
+## FAQ
+
+**Q: Is the DJI Osmo Action 5 Pro waterproof without a case?**
+Yes. It's rated to 20m of depth with no housing at all, which is the deepest no-case rating in its class. A separate dive case takes it to 60m. A built-in pressure gauge even logs your depth and can start recording automatically when you submerge.
+
+**Q: Does it work with DJI wireless microphones?**
+Yes. The camera pairs directly with DJI's wireless mic system for clean audio without a receiver dongle, which is handy for vlogging and interviews. It also records solid built-in audio for casual clips.
+
+**Q: Osmo Action 5 Pro or GoPro HERO13 Black for low light?**
+The Osmo, in most cases. Its larger 1/1.3-inch sensor gathers more light than the HERO13's smaller chip, so dusk and indoor footage looks cleaner. Choose the GoPro instead if you want maximum 5.3K resolution or interchangeable lenses.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+For most people shopping this price bracket, the Osmo Action 5 Pro is the better all-around buy thanks to its bigger sensor, class-leading battery, and no-case waterproofing. Buy it unless you specifically need GoPro's 5.3K resolution, lens swaps, or an existing pile of GoPro mounts.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the current price in the card above sits at or below what we've tracked as typical, this is one of the easiest yes calls in the action-cam aisle right now.
