@@ -1,100 +1,95 @@
 ===POST===
 AUTHOR: Bryan McNeil
 TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+EXCERPT: The XGIMI MoGo 4 is the most polished grab-and-go projector you can buy, but 450 lumens means it only shines in the dark. Here's who should buy it.
 TYPE: article
 CATEGORY: Audio & Home Theater
 TAGS: portable projector | projector | google tv | xgimi | movie night
 ASIN: B0F3CBV5HP
-RATING: 4
+RATING: 3.5
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Full Google TV with Netflix built in
+- Built-in battery finally cuts the cord
+- 360-degree gimbal stand, no propping needed
+- Big Harman Kardon sound for the size
 CONS:
-- 450 lumens means dark rooms only
-SEO_SCORE: 92
+- 450 lumens is a dark-room-only projector
+- Fan gets audibly loud in performance mode
+SEO_SCORE: 88
 META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
+META_DESCRIPTION: Our research-based XGIMI MoGo 4 review: Google TV, a built-in battery, and great sound, but 450 lumens make it a dark-room projector. Who should buy it.
 FOCUS_KEYWORD: xgimi mogo 4 review
 TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+SLUG: xgimi-mogo-4-review-worth-it
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+A portable projector makes one simple promise: carry a 100-inch screen in one hand, set it on the patio table after sunset, and start a movie in under a minute. The XGIMI MoGo 4 gets closer to that promise than almost anything else its size. The catch is the one number nobody prints in big type on the box: 450 ISO lumens. That figure, not the Google TV interface or the Harman Kardon speakers everyone talks about, decides whether you'll love this projector or box it back up.
 
 ---
 
 ## What Is the XGIMI MoGo 4?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The MoGo 4 is a battery-powered 1080p portable projector that weighs about 1.3 kg, roughly the size and shape of a tall coffee thermos. It runs full Google TV with a licensed Netflix app built in, so you don't need to hang a Fire Stick off the back or fight a workaround to watch the one service most people actually pay for. A 360-degree gimbal stand is molded into the body, which means you can tilt it straight up at the ceiling or angle it onto a wall without stacking books under one edge.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+Two 6W Harman Kardon speakers handle sound, and they're genuinely loud and full enough that you can skip a separate Bluetooth speaker for a casual backyard night. The headline change over last year's MoGo 3 Pro is the built-in battery: XGIMI rates it at 2.5 hours, though owners and professional testers put real-world runtime closer to two hours in standard mode and about three in the dimmer Eco mode. That's enough for one movie, not a double feature.
 
 ---
 
 ## Who Should Buy the XGIMI MoGo 4?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+This is a projector for people who watch after dark. If your plan is a blank bedroom wall at night, a tent ceiling on a camping trip, or a patio movie once the sun is fully down, the MoGo 4 is close to ideal. It sets up in seconds, the picture at 1080p is sharp and color-accurate in a dark room, and it scales cleanly from a cozy 60 inches up to a wall-filling 200.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
+It's also a strong pick for renters and dorm residents who can't mount a TV, and for travelers who want a real screen in a hotel room without checking a bag full of gear.
 
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+Skip it if you picture daytime cartoons for the kids or a game on during a lit dinner party. At 450 lumens, ambient light washes the image out fast. Owners are blunt about this: with blackout curtains it looks great, but in a normally lit living room the picture goes flat and gray.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Features That Earn Their Keep
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+- **Google TV, not a bolted-on app store.** You get the same interface as a mainstream smart TV, with real Netflix, so setup is signing into accounts, not sideloading APKs.
+- **The gimbal stand is the quiet star.** Because the base rotates a full 360 degrees, aiming the MoGo 4 is a two-second twist instead of a balancing act, and auto-keystone squares the image on the wall for you.
+- **Battery power changes where you can watch.** No wall outlet means the backyard, the tent, and the far end of the basement are all fair game for a couple of hours.
+- **Harman Kardon sound covers a small crowd.** The dual 6W drivers get loud enough for four or five people outdoors, which is rare in something this pocketable.
 
 ---
 
-## The One Thing to Consider
+## XGIMI MoGo 4 Price: What You'll Pay
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+At a $499 list price, the MoGo 4 sits at the premium end of pocket-sized projectors. You're paying for the polish: the battery, the Harman Kardon audio, and clean Google TV are a real step up from the $200 no-name projectors that flood Amazon. That said, this model regularly dips toward $399, and at that number the value equation looks a lot friendlier. The price widget above this article shows where today's number sits against the history we track, so you can tell a genuine sale from the sticker price before you commit. If you see list price, it's usually worth waiting for the next dip.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## The Alternatives Worth Considering
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+If your viewing spot is only semi-dark or you want a bigger, brighter image for a larger group, the **Anker Nebula Mars 3 Air** is the better buy. It's chunkier and less pocketable, but it pushes more brightness for the money, which matters more than any smart feature once ambient light enters the picture. The **Anker Nebula Capsule 3 Laser**, roughly the size of a soda can, is the pick if absolute portability beats everything and you accept a smaller, dimmer image for it.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+And if you actually have a wall and a nearby outlet, a fixed TV will beat any portable projector on brightness and cost per inch. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a big-screen option that never asks you to draw the curtains.
+
+---
+
+## One Thing to Consider
+
+Brightness is the headline compromise, and you already know it. The subtler gripes are the ones that surface after a few weeks. Testers who measure this stuff found the fan, rated at a quiet 28 dBA in the lab, climbing closer to 45 to 50 dBA at a meter in Performance mode, loud enough to notice in a silent scene. Owners also report the auto-focus and auto-keystone occasionally switching themselves off and needing a manual reset. Neither is a dealbreaker, but at $499 you're allowed to expect these small things to just work.
+
+---
+
+## FAQ
+
+**Q: Can you use the XGIMI MoGo 4 in daylight?**
+Not really. At 450 ISO lumens it's built for dark rooms and after-dark outdoor use. In a lit room or during the day the image looks washed out and gray. Blackout curtains fix it indoors, but if daytime viewing is your main use case, look at a brighter projector or a TV.
 
 **Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+XGIMI rates it at 2.5 hours. In practice, owners and testers report closer to two hours in standard mode and around three in the dimmer Eco mode. That covers a single movie comfortably. For a longer session, keep it plugged in.
+
+**Q: Do you need a streaming stick with the MoGo 4?**
+No. It runs full Google TV with a licensed Netflix app built in, so most people can sign in and start watching without adding any hardware. That built-in Netflix is a bigger deal than it sounds, since many budget projectors block the official app.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The XGIMI MoGo 4 is the most polished grab-and-go projector you can buy, and for dark-room and after-sunset watching it's an easy recommendation. Buy it if you'll watch in the dark and can catch it near $399; wait or look brighter if your rooms are lit or you need daytime viewing.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the current price in the card above sits at or below the $399 range we've been seeing, this is an easy yes for a nighttime setup. At full list, it's worth waiting for the next dip.
