@@ -1,100 +1,99 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: Levoit Core 400S Review: A Smart HEPA Purifier Sweet Spot
+EXCERPT: Our Levoit Core 400S review breaks down the smart HEPA purifier's app, real room coverage, noise, and filter costs, and where its price makes sense.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Smart Home
+TAGS: air purifier | smart home | HEPA | Levoit | air quality
+ASIN: B08R794ZMX
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- H13 True HEPA plus activated carbon filter
+- Laser PM2.5 sensor with live app readings
+- Very quiet 24 dB sleep mode
+- Matter, Alexa and Google support
+- Covers most living rooms, about 360 sq ft
 CONS:
-- 450 lumens means dark rooms only
+- Bonded filter runs about $50 twice a year
+- VeSync app connection can be flaky
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: Levoit Core 400S Review: Is the Smart HEPA Purifier Worth It?
+META_DESCRIPTION: The Levoit Core 400S is a smart HEPA air purifier with a laser PM2.5 sensor. Here's its real room coverage, noise, filter cost, and whether it's worth it.
+FOCUS_KEYWORD: Levoit Core 400S review
+TARGET_QUERY: levoit core 400s review
+SLUG: levoit-core-400s-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+You can't see most of what's floating in your living room air, which is exactly the problem. Pollen, cooking smoke, pet dander, and the fine PM2.5 particles that drift in from traffic outside all hang around at levels your nose stops noticing after a few minutes. The Levoit Core 400S is one of Amazon's most-bought answers to that, a large-room smart purifier that pairs a True HEPA filter with a laser sensor and an app that tells you, in real numbers, how bad the air actually is. The question isn't whether it cleans the air. It's whether the smart parts earn their keep.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Is the Levoit Core 400S?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The Core 400S is Levoit's mid-size smart air purifier, sized for living rooms and open-plan spaces rather than a small bedroom. Inside sits a three-stage filter: a fine pre-filter for hair and large dust, an H13 True HEPA layer that captures 99.97% of particles down to 0.3 microns, and an activated carbon layer for odors and cooking smells. A laser particle sensor on the side reads PM2.5 continuously and feeds that number to both the VeSync app and the LED display on top.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+What makes it "smart" is the auto mode. The purifier watches the sensor and ramps the fan up when the air gets dirty, then settles back down once it clears. You can also drive it from your phone, set schedules, or wire it into Alexa or Google Assistant. A 2026 firmware update added Matter support, so it now works with a wider mix of smart-home hubs than it did at launch.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## Who Should Buy the Levoit Core 400S?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+This is the purifier for a main living space, roughly 350 to 400 square feet, where you want set-and-forget operation. Allergy sufferers get the most obvious benefit, since the HEPA layer pulls pollen and dander out of the air during high season. Pet owners and anyone who cooks a lot will appreciate the carbon layer going after smells the HEPA filter alone can't touch.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
-
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+It's also a natural pick if you already live in an app. If you like seeing your PM2.5 number trend down after you sear a steak, or you want the fan to quiet itself automatically at bedtime, the smart features are the reason to choose this over a plain HEPA box. If you just want clean air and never plan to open an app, keep reading, because there's a cheaper way to get there.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Key Features That Actually Matter
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+- **H13 True HEPA plus carbon**: the three-in-one filter handles fine particles and odors together, so pollen season and last night's fish both get dealt with.
+- **Laser PM2.5 sensor**: a real particle reading, not an estimate, drives auto mode and shows up as a live number so you can watch the thing working.
+- **Genuinely quiet on low**: around 24 dB in sleep mode is quieter than a whisper, so it can run all night in a bedroom without becoming the sound you fall asleep to.
+- **Real smart-home support**: Alexa, Google, and now Matter after the 2026 firmware update, plus scheduling and remote control in the VeSync app.
+- **Sensible room coverage**: rated for roughly 360 square feet at a meaningful air-change rate, which covers most living rooms and studios.
 
 ---
 
-## The One Thing to Consider
+## What You'll Pay
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+List price is $219.99, but the Core 400S rarely sits there. It's frequently sold in the $180 to $200 range, which is where it makes the most sense against the competition. At full list it's priced like a premium smart purifier. Around $185 it's closer to a $30 smart tax over a comparable non-connected HEPA unit, and that's a fair trade if you'll actually use the app and auto mode.
+
+The number that matters more over time is the filter, not the purchase price. Budget for a genuine replacement roughly every six to eight months. The live price widget above shows where today's number sits against the price we've tracked, so you can tell whether you're looking at a real dip or just the usual list price staring back at you.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## The Alternatives Worth Considering
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The Coway Airmega AP-1512HH Mighty is the classic "no app, just works" alternative. It covers a similar 360-ish square feet, tends to cost a little less, and skips the smart features entirely. If you never want to pair a purifier to Wi-Fi, that's the smarter buy, and its filters run cheaper too.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+If the Matter support is part of the appeal and you're standardizing your smart home around that standard, it helps to have a proper hub tying everything together. Our [SwitchBot Hub 3 review](/posts/switchbot-hub-3-review-is-the-matter-hub-worth-it) walks through what a Matter hub actually does and whether it's worth adding, which pairs naturally with a Matter-ready purifier like this one.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+---
+
+## One Thing to Consider
+
+The filter is a bonded three-in-one design, which sounds convenient until you learn what it means for your wallet. When the carbon layer saturates with odors, usually within about six months in a kitchen-heavy home, you replace the whole cartridge even if the HEPA layer still has life left in it. Genuine Core 400S-RF filters run about $50, so figure $60 to $100 a year in consumables on top of the sticker price.
+
+The other recurring gripe from owners is the VeSync app. Most of the time it's fine, but it can drop its connection, need a re-pair, or lag when you open it. None of that stops the purifier from cleaning air on its own, so it's not a dealbreaker. Just know that if the app is a big reason you're buying, it's the weakest link in the package.
+
+---
+
+## FAQ
+
+**Q: Is the Levoit Core 400S big enough for a large living room?**
+It's rated for roughly 360 square feet at a proper air-change rate, which covers most living rooms and open studios. For a large open-plan space that flows into a kitchen and dining area, you may want to size up or run a second unit, since older marketing quoted much larger coverage numbers than the realistic figure.
+
+**Q: How often do I need to replace the filter, and what does it cost?**
+Plan on a genuine Core 400S-RF replacement every six to eight months, sooner in a home with heavy cooking or pets. Each filter runs about $50, so the running cost lands around $60 to $100 a year.
+
+**Q: Do I need the app to use it?**
+No. The Core 400S runs auto mode, sleep mode, and manual fan control from the buttons on top without ever connecting to Wi-Fi. The VeSync app adds scheduling, remote control, PM2.5 history, and voice-assistant links, but the core cleaning works fully offline.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The Core 400S earns its long-running best-seller status: strong HEPA-plus-carbon filtration, a real particle sensor, and quiet night operation, all for a street price that usually lands near $185. Buy it if you'll use the smart features and you size it to the right room. Wait for a dip toward $180 rather than paying full list, and skip it only if you want zero app involvement, in which case the Coway is your box.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+Air purifiers are one of the few gadgets you'll run every single day for years, so the running cost matters as much as the sticker. If the price in the card above is sitting at or below what we've tracked, this is an easy one to say yes to.
