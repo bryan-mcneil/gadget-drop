@@ -54,9 +54,9 @@
             <a href="{{ route('how-we-review') }}" wire:navigate class="text-indigo-600 underline hover:text-indigo-700">How We Review</a>.
         </p>
         <p class="text-gray-600 leading-relaxed">
-            I use AI tools to help with drafting and research, but every post is personally reviewed, fact-checked, and
-            edited before it goes live. AI is a writing aid here, never a substitute for a real person taking
-            responsibility for what gets published.
+            I use Claude to help with drafting and research, but every post is personally reviewed,
+            fact-checked, and edited before it goes live. It's a writing aid here, never a substitute for a
+            real person taking responsibility for what gets published.
         </p>
     </section>
 

@@ -31,6 +31,11 @@ class ThinPageCleanupTest extends TestCase
                 'slug' => "post-{$n}",
                 'type' => 'article',
                 'body' => 'Body copy for a review.',
+                // Renders the card templates' @if($post['featured_image']) branch
+                // (the same-layer zoom markup in x-post-card + the tag listing
+                // card) in CI; the file doesn't exist, so ResponsiveImage's
+                // webpSrcset() returns '' and it degrades to a plain <img>.
+                'featured_image' => '/storage/uploads/card-test.jpg',
                 'status' => 'published',
                 'published_at' => now()->subDays($i),
             ]);

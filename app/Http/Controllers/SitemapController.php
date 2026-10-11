@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\ReleaseCycle;
+use App\Support\TruthReport;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Sitemap\Sitemap;
@@ -23,7 +25,44 @@ class SitemapController extends Controller
                 ->add(Url::create(route('deals'))->setPriority(0.8)->setChangeFrequency('daily'))
                 ->add(Url::create(route('drop-price.index'))->setPriority(0.7)->setChangeFrequency('daily'))
                 ->add(Url::create(route('about'))->setPriority(0.5)->setChangeFrequency('monthly'))
-                ->add(Url::create(route('how-we-review'))->setPriority(0.5)->setChangeFrequency('monthly'));
+                ->add(Url::create(route('how-we-review'))->setPriority(0.5)->setChangeFrequency('monthly'))
+                ->add(Url::create(route('for-ai'))->setPriority(0.5)->setChangeFrequency('monthly'));
+
+            // Buy-or-wait pages. The index 404s while no cycles are seeded (a
+            // thin page), so it only joins the sitemap once it is a real page:
+            // the same "the two signals must agree" rule the categories follow.
+            $cycleSlugs = ReleaseCycle::query()->orderBy('slug')->pluck('slug');
+
+            if ($cycleSlugs->isNotEmpty()) {
+                $sitemap->add(Url::create(route('buy-or-wait.index'))
+                    ->setPriority(0.8)
+                    ->setChangeFrequency('weekly'));
+            }
+
+            foreach ($cycleSlugs as $cycleSlug) {
+                // The verdict genuinely can change day to day as the cycle moves.
+                $sitemap->add(Url::create(route('buy-or-wait.show', $cycleSlug))
+                    ->setPriority(0.7)
+                    ->setChangeFrequency('weekly'));
+            }
+
+            // Published Truth Reports (config + artifact double-gate) — static
+            // once published, so they only change when a report is re-generated.
+            // The /truth index only becomes a real page at 2+ reports (below
+            // that it 404s or 302s to the single report), so it joins then.
+            $truthSlugs = array_keys(TruthReport::published());
+
+            if (count($truthSlugs) >= 2) {
+                $sitemap->add(Url::create(route('truth.index'))
+                    ->setPriority(0.6)
+                    ->setChangeFrequency('yearly'));
+            }
+
+            foreach ($truthSlugs as $truthSlug) {
+                $sitemap->add(Url::create(route('truth.show', $truthSlug))
+                    ->setPriority(0.8)
+                    ->setChangeFrequency('yearly'));
+            }
 
             Post::published()
                 // Posts flagged noindex in the SEO panel stay out of the sitemap

@@ -1,4 +1,11 @@
-@props(['post'])
+@props([
+    'post',
+    // Section-break spacing, overridable by the caller. The default separates
+    // the verdict from running text; the post page passes a tight stack gap
+    // when a product card sits directly above it, where the rule would just
+    // float between two cards.
+    'spacing' => 'mt-10 pt-8 border-t border-gray-100',
+])
 
 @php
     $rating = $post['rating'] ?? null;
@@ -9,7 +16,7 @@
 @endphp
 
 @if($hasVerdict)
-    <section class="mt-10 pt-8 border-t border-gray-100" aria-label="The verdict">
+    <section class="{{ $spacing }}" aria-label="The verdict">
         <div class="rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6">
             <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
                 <h2 class="text-lg font-extrabold text-gray-900">The Verdict</h2>

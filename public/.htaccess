@@ -18,6 +18,10 @@
     <FilesMatch "\.(?:webp|avif|jpe?g|png|gif|svg|ico)$">
         Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
+    # Self-hosted recap videos (storage/app/public/recaps, randomised filenames)
+    <FilesMatch "\.(?:mp4|webm)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_rewrite.c>

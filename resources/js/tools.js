@@ -1208,4 +1208,171 @@ document.addEventListener('alpine:init', () => {
         },
         saveName() { return this.image?.name ?? 'image'; },
     }));
+
+    /* ── Tool: DOCX → PDF ────────────────────────────────────────
+     | The conversion engine (mammoth + jsPDF) lives in lib/docx-pdf.js and is
+     | dynamically imported the first time someone actually picks a file, so
+     | the other nine tool pages never download it. Parsing the .docx and
+     | laying out the PDF are separate steps: changing a dropdown re-renders
+     | from the cached HTML instead of re-reading the archive.               */
+    const DP_MAX_BYTES = 30 * 1024 * 1024;
+    const DP_WARN_BYTES = 8 * 1024 * 1024;
+    const dpBytes = (b) => (b < 1024 ? `${b} B` : b < 1024 * 1024 ? `${(b / 1024).toFixed(0)} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`);
+    // A .docx is a zip; every one starts "PK\x03\x04". Catches files renamed
+    // to .docx as well as the legacy binary .doc format.
+    const dpIsZip = (buffer) => {
+        const head = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength));
+        return head[0] === 0x50 && head[1] === 0x4b && head[2] === 0x03 && head[3] === 0x04;
+    };
+
+    Alpine.data('docxToPdf', () => ({
+        stage: 'idle', // 'idle' | 'working' | 'ready'
+        dragging: false,
+        error: null,
+        warnings: [],
+        notice: null,
+        file: null,
+        pages: 0,
+        pdfSize: 0,
+        previewUrl: null,
+        _engine: null,
+        _html: null,
+        _blob: null,
+        _docMessages: null,
+        _run: 0,
+        settings: {
+            pageSize: 'letter',
+            orientation: 'p',
+            margin: 'normal',
+            font: 'helvetica',
+            fontSize: '11',
+            pageNumbers: false,
+        },
+
+        get working() { return this.stage === 'working'; },
+
+        async engine() {
+            if (!this._engine) this._engine = await import('./lib/docx-pdf.js');
+            return this._engine;
+        },
+
+        onDrop(event) {
+            this.dragging = false;
+            this.pick(event.dataTransfer?.files?.[0]);
+        },
+
+        async pick(file) {
+            if (!file) return;
+            this.error = null; this.notice = null; this.warnings = [];
+
+            const name = file.name ?? '';
+            if (/\.docx?$/i.test(name) === false) {
+                this.error = 'That is not a Word document. Pick a .docx file.';
+                return;
+            }
+            if (/\.doc$/i.test(name)) {
+                this.error = 'That is a legacy .doc file, which uses a completely different (binary) format. Open it in Word, Google Docs, or LibreOffice and re-save it as .docx, then come back.';
+                return;
+            }
+            if (!file.size) { this.error = 'That file is empty.'; return; }
+            if (file.size > DP_MAX_BYTES) {
+                this.error = `That file is ${dpBytes(file.size)}. The limit is 30 MB because the whole conversion happens in this browser tab.`;
+                return;
+            }
+            if (file.size > DP_WARN_BYTES) {
+                this.notice = `Large document (${dpBytes(file.size)}). This may take a few seconds.`;
+            }
+
+            this.file = { name, size: file.size };
+            this.stage = 'working';
+            this._clearPreview();
+
+            try {
+                const buffer = await file.arrayBuffer();
+                if (!dpIsZip(buffer)) {
+                    throw new Error('This file is named .docx but is not a Word document inside. If it came from an email or an export, try opening and re-saving it in Word.');
+                }
+                const { readDocx } = await this.engine();
+                const { html, messages } = await readDocx(buffer);
+                if (!html.trim()) {
+                    throw new Error('No readable text found. If the document is only scanned images, there is no text to convert.');
+                }
+                this._html = html;
+                this._docMessages = messages.slice(0, 2);
+                await this.build();
+            } catch (e) {
+                this.stage = 'idle';
+                this.file = null;
+                this.error = this._explain(e);
+            }
+        },
+
+        // Re-lay-out from the cached HTML. Called by every settings control.
+        async regenerate() {
+            if (!this._html) return;
+            this.stage = 'working';
+            // Let the spinner paint before the layout pass blocks the thread.
+            await new Promise((resolve) => setTimeout(resolve, 16));
+            try {
+                await this.build();
+            } catch (e) {
+                this.stage = 'ready';
+                this.error = this._explain(e);
+            }
+        },
+
+        async build() {
+            const run = ++this._run;
+            const { renderPdf } = await this.engine();
+            const result = await renderPdf(this._html, {
+                ...this.settings,
+                fontSize: parseInt(this.settings.fontSize, 10) || 11,
+                title: (this.file?.name ?? '').replace(/\.docx$/i, ''),
+            });
+            if (run !== this._run) return; // a newer render already won
+
+            this._clearPreview();
+            this._blob = result.blob;
+            this.previewUrl = URL.createObjectURL(result.blob);
+            this.pages = result.pages;
+            this.pdfSize = result.blob.size;
+            this.warnings = [...result.warnings, ...(this._docMessages ?? [])];
+            this.stage = 'ready';
+        },
+
+        download() {
+            if (!this._blob) return;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(this._blob);
+            link.download = (this.file?.name ?? 'document').replace(/\.docx$/i, '') + '.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(link.href), 10000);
+            toast('PDF saved');
+        },
+
+        reset() {
+            this._clearPreview();
+            this._html = null; this._blob = null; this._docMessages = null;
+            this.file = null; this.stage = 'idle'; this.pages = 0; this.pdfSize = 0;
+            this.error = null; this.notice = null; this.warnings = [];
+        },
+
+        _clearPreview() {
+            if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
+            this.previewUrl = null;
+        },
+
+        _explain(e) {
+            const message = e?.message ?? '';
+            if (/password|encrypt/i.test(message)) return 'This document is password-protected. Remove the password in Word and try again.';
+            return message || 'Could not read that document. It may be corrupted.';
+        },
+
+        // Blob URLs survive a wire:navigate swap otherwise — release them.
+        destroy() { this._clearPreview(); },
+
+        fmtBytes: dpBytes,
+    }));
 });

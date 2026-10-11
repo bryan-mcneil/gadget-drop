@@ -21,7 +21,7 @@ class ToolController extends Controller
 
         view()->share('serverMeta', [
             'title' => 'Free Online Tools | GadgetDrop',
-            'description' => 'Free browser-based tools for developers and everyday users. Validate JSON, minify JS & CSS, convert and crop images. No sign-up, no server upload.',
+            'description' => 'Free browser-based tools for developers and everyday users. Validate JSON, minify JS & CSS, convert Word documents to PDF, convert and crop images. No sign-up, no server upload.',
             'og_image' => null,
             'og_type' => 'website',
             'canonical' => route('tools.index'),
@@ -81,6 +81,11 @@ class ToolController extends Controller
     public function metaTagPreviewer(): View
     {
         return $this->tool('meta-tag-previewer', 'meta-tag-previewer');
+    }
+
+    public function docxToPdf(): View
+    {
+        return $this->tool('docx-to-pdf', 'docx-to-pdf');
     }
 
     private function tool(string $configKey, string $view, ?string $initialTool = null): View

@@ -84,7 +84,7 @@ class WeeklyDigest extends Mailable
         return new Envelope(
             subject: ! empty($this->posts)
                 ? 'This week\'s drop: '.$this->posts[0]['title']
-                : 'The Weekly Drop — '.now()->format('M j, Y'),
+                : 'The Weekly Drop: '.now()->format('M j, Y'),
         );
     }
 

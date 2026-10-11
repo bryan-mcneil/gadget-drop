@@ -85,8 +85,9 @@ export default function PricesIndex({ products }) {
 
                 <div className="bg-indigo-50 border border-indigo-100 text-indigo-900 px-4 py-3 rounded-lg text-sm">
                     Stalest first. Open <strong>check ↗</strong>, glance at the Amazon price, then either type the new
-                    number and <strong>Save</strong> (records a snapshot) or hit <strong>Unchanged</strong> (refreshes the
-                    "price checked" date). Five minutes here keeps every review's price widget honest.
+                    number and <strong>Save</strong> (records a snapshot) or hit <strong>Unchanged</strong> (records a
+                    same-price check snapshot and refreshes the "price checked" date). Checked rows re-sort to the
+                    back of the queue. Five minutes here keeps every review's price widget honest.
                 </div>
 
                 <div className="bg-white rounded-xl shadow overflow-hidden">

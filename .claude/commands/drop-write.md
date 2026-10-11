@@ -44,7 +44,7 @@ Write as **Bryan McNeil** — the site's one real editor. Plain-English, direct,
 
 ---
 
-- **Price context**: 1 short paragraph. Where does the price sit for the category ("$149 is mid-pack for flagship-ANC earbuds"), what you're paying for vs. the step-down option, and a pointer that the live tracked price and its history render right on this page ("the price widget above shows where today's number sits against our tracked history"). **Qualitative only — no invented numbers.** Heading flexible: `## What You'll Pay`, or product-specific.
+- **Price context**: 1 short paragraph. Where does the price sit for the category ("$149 is mid-pack for flagship-ANC earbuds"), what you're paying for vs. the step-down option, and a pointer that the live tracked price and its history render right on this page ("the price widget above shows where today's number sits against our tracked history"). **Qualitative only, no invented numbers.** Heading flexible: `## What You'll Pay`, or product-specific. **If the product sits on a line we track a release cycle for** (iPhone, Samsung Galaxy S, Google Pixel, AirPods Pro, iPad, MacBook Air, Sony WH-1000X, Nintendo Switch, GoPro HERO, Kindle Paperwhite), add one site-relative link to its verdict page here, e.g. `[whether now is the time to buy on this line](/buy-or-wait/airpods-pro)`. Only when the line genuinely applies, never a guessed slug (the full list is at `/buy-or-wait`); the page itself also renders a timing strip under the product card automatically.
 
 ---
 

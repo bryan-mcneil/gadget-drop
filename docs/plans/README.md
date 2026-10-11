@@ -1,6 +1,6 @@
 # GadgetDrop Feature Plans
 
-Seven implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
+Twelve implementation plans, each broken into small, individually reviewable phases. Work them **one phase at a time** with `/implement-phase <plan-file> <phase>` — never implement two phases in one session.
 
 ## The plan set (suggested order)
 
@@ -13,14 +13,19 @@ Seven implementation plans, each broken into small, individually reviewable phas
 | 04 | [Price-Truth MCP server](04-price-truth-mcp.md) | M | 01 |
 | 05 | [Truth Report pipeline](05-truth-report.md) | M | 01 |
 | 06 | [Buy-or-Wait engine](06-buy-or-wait.md) | L | 01, 04 (last phase) |
+| 07 | [Automated review videos → YouTube (drop-studio)](07-video-pipeline.md) | L | — (new sibling repo; consumes daily-drop output) |
+| 08 | [Market → catalog promotion](08-market-promote.md) | S | — (market layer on main) |
+| 09 | [Mention-driven review selection](09-review-queue.md) | M | — (market layer + reviewed-products API on main) |
+| 10 | [Design refresh: price-truth instrument](10-design-refresh.md) | L | 01, 03, 06 (all shipped) |
+| 11 | [Live price compare (Claude + web search)](11-live-price-compare.md) | M | — (price-intel layer + ClaudeExplainService on main) |
 
 Strategy recap: GadgetDrop becomes the honesty layer for gadget prices — for humans (badges, votes, post-purchase protection, truth reports) and for AI agents (MCP). All features run structurally $0 on current hosting.
 
 ## Working agreement (applies to every phase)
 
 1. **One phase per session.** Read the plan header + the target phase + `CLAUDE.md` before touching code. If reality diverges from the plan (file moved, API changed), STOP and report the divergence — don't improvise silently.
-2. **Branch:** `feature/<plan-slug>` (one branch per plan, phases stack on it). Never commit to `main`.
-3. **Tests are part of the phase.** A phase without its listed tests is not done. Full suite must be green (baseline: 181 tests) before review.
+2. **Branch: `main`.** Standing decision 2026-07-18: no more `feature/*` branches — commit phases directly on the current branch (normally `main`). Plans 00–06 predate this and their headers still name a `feature/<plan-slug>` branch; those branches are gone and the work landed on `main`. Treat the header branch on any plan as historical, not an instruction.
+3. **Tests are part of the phase.** A phase without its listed tests is not done. Full suite must be green (baseline: 553 tests) before review.
 4. **Review before commit.** Run the `gd-code-reviewer` subagent on the diff. Fix BLOCKERs, judge WARNs, then prepare the commit.
 5. **Commits are prepared, not pushed.** Stage + present the commit message; Bryan approves the actual commit/push (per CLAUDE.md).
 6. **Update the Phase Log** in the plan file (checkbox + one-line build note + commit hash) as the final step of every phase.
@@ -54,6 +59,7 @@ Referenced by each plan's Deployment section; deltas are listed per plan.
 1. Local: full suite green → `npm run build` → commit `public/build` with the release commit.
 2. Merge feature branch → `main` (PR if the cloud agent flow is active), push.
 3. Server: `bash bin/deploy.sh` (pull, composer `--no-dev`, `migrate --force`, `optimize`, `images:optimize`).
+3a. **Run the plan's data step, if it has one — `deploy.sh` does NOT run seeders.** A plan whose feature needs rows to exist (a seeder, a backfill, an import) ships dark without this: the code deploys, the pages 404, and any *ungated* cross-link to them becomes a live broken link. This is not hypothetical — Plan 06 sat dark on prod from 2026-07-23 to 2026-07-27 because `db:seed --class=ReleaseCycleSeeder --force` was never run, while the footer linked to its 404 from every page. If the plan's Deployment section names a seed/backfill command, it is part of the deploy, not an optional extra.
 4. Verify Livewire update endpoint after `route:cache` (Join the Drop form submits OK).
 5. Purge Hostinger CDN (hPanel → Performance → CDN).
 6. Smoke test: `/`, `/deals`, one review page, `/admin` login, plus the plan's listed URLs.

@@ -29,7 +29,7 @@
                         <div class="space-y-2">
                             <div class="flex items-center gap-2">
                                 <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Result</label>
-                                <span x-show="brushMode" x-cloak class="text-xs px-2 py-0.5 rounded-full" :class="brushMode === 'erase' ? 'text-rose-700 bg-rose-50 border border-rose-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'" x-text="(brushMode === 'erase' ? 'Erase' : 'Restore') + ' — click & drag on the result'"></span>
+                                <span x-show="brushMode" x-cloak class="text-xs px-2 py-0.5 rounded-full" :class="brushMode === 'erase' ? 'text-rose-700 bg-rose-50 border border-rose-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'" x-text="(brushMode === 'erase' ? 'Erase' : 'Restore') + ': click & drag on the result'"></span>
                             </div>
                             <div class="rounded-2xl overflow-hidden border-2 transition-all min-h-[220px] flex items-center justify-center" :class="brushMode ? (brushMode === 'erase' ? 'border-rose-400' : 'border-emerald-400') : 'border-transparent'" style="{{ $checker }}">
                                 <div x-show="processing" class="flex flex-col items-center gap-3 text-gray-400">

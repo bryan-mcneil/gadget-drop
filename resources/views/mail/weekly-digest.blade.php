@@ -12,7 +12,7 @@
 
 {{-- Inbox preview text (hidden in the email body) --}}
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
-    @if(!empty($posts)){{ $posts[0]['title'] }} — plus today's Drop Price puzzle.@else This week on GadgetDrop — plus today's Drop Price puzzle.@endif
+    @if(!empty($posts)){{ $posts[0]['title'] }}. Plus today's Drop Price puzzle.@else This week on GadgetDrop. Plus today's Drop Price puzzle.@endif
     &#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
 </div>
 

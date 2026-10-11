@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,10 @@ class Post extends Model
         'user_id', 'type', 'title', 'slug', 'excerpt', 'body',
         'source_url', 'featured_image', 'featured_image_fit', 'featured_image_position',
         'hero_image', 'hero_image_position',
-        'image_1', 'image_1_fit', 'image_2', 'image_2_fit', 'image_3', 'image_3_fit',
+        'recap_video_path', 'recap_video_duration',
+        'image_1', 'image_1_fit', 'image_1_caption',
+        'image_2', 'image_2_fit', 'image_2_caption',
+        'image_3', 'image_3_fit', 'image_3_caption',
         'status', 'published_at', 'view_count',
         'rating', 'pros', 'cons',
         'share_code',
@@ -84,6 +88,45 @@ class Post extends Model
     public function seoMeta(): HasOne
     {
         return $this->hasOne(SeoMeta::class);
+    }
+
+    public function worthItVotes(): HasMany
+    {
+        return $this->hasMany(WorthItVote::class);
+    }
+
+    /**
+     * Worth-it vote tally for this post with the small-sample honesty gate
+     * applied (see WorthItVote::summarize). Two cheap COUNT()s — fine for a
+     * single post page; the /deals feed uses withCount instead to avoid N+1.
+     *
+     * @return array{worth: int, skip: int, total: int, pct: ?int}
+     */
+    public function worthItSummary(): array
+    {
+        $worth = $this->worthItVotes()->worth()->count();
+        $skip = $this->worthItVotes()->skip()->count();
+
+        return WorthItVote::summarize($worth, $skip);
+    }
+
+    /**
+     * Public URL of the 16:9 recap video, or null when the post has none.
+     * Paths are stored relative to the `public` disk (recaps/…); a value that
+     * is already a URL/absolute path passes through untouched (import safety).
+     * Self-hosted only — the admin upload is the sole writer of this column.
+     */
+    public function recapVideoUrl(): ?string
+    {
+        if (! $this->recap_video_path) {
+            return null;
+        }
+
+        if (Str::startsWith($this->recap_video_path, ['http://', 'https://', '/'])) {
+            return $this->recap_video_path;
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->recap_video_path);
     }
 
     public function scopePublished($query)

@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\PriceIntel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class PriceSnapshotTest extends TestCase
@@ -60,6 +62,50 @@ class PriceSnapshotTest extends TestCase
 
         $this->assertSame(1, $product->priceSnapshots()->count());
         $this->assertTrue($product->fresh()->price_checked_at->equalTo($checkedAt));
+    }
+
+    public function test_a_confirmed_check_records_one_same_price_snapshot_per_day(): void
+    {
+        Carbon::setTestNow('2026-08-01 10:00:00');
+        $product = $this->makeProduct(['price' => 100]);
+
+        // Same-day confirm: the creation snapshot already proves today's
+        // price was observed — no extra row.
+        Carbon::setTestNow('2026-08-01 14:00:00');
+        $product->forceFill(['price_checked_at' => now()])->save();
+        $this->assertSame(1, $product->priceSnapshots()->count());
+
+        // Days later the check is new information: one same-price row.
+        Carbon::setTestNow('2026-08-04 10:00:00');
+        $product->forceFill(['price_checked_at' => now()])->save();
+
+        $this->assertSame(2, $product->priceSnapshots()->count());
+        $latest = $product->priceSnapshots()->latest('id')->first();
+        $this->assertSame('100.00', (string) $latest->price);
+        $this->assertSame('manual', $latest->source);
+
+        // A second confirm the same day adds nothing.
+        Carbon::setTestNow('2026-08-04 16:00:00');
+        $product->forceFill(['price_checked_at' => now()])->save();
+        $this->assertSame(2, $product->priceSnapshots()->count());
+    }
+
+    public function test_a_confirmed_check_only_history_stays_typical_never_lowest(): void
+    {
+        // A flat history built purely from confirmed checks passes the
+        // honesty gate's span, but with zero variation the verdict must be
+        // "typical" — a checked-but-never-moved price can't masquerade as a
+        // low (and so can never qualify for /deals).
+        Carbon::setTestNow('2026-08-01 10:00:00');
+        $product = $this->makeProduct(['price' => 100]);
+
+        foreach (['2026-08-06', '2026-08-11', '2026-08-16'] as $day) {
+            Carbon::setTestNow("{$day} 10:00:00");
+            $product->forceFill(['price_checked_at' => now()])->save();
+        }
+
+        $this->assertSame(4, $product->priceSnapshots()->count());
+        $this->assertSame('typical', PriceIntel::stats($product->id)['verdict']);
     }
 
     public function test_unpriced_products_are_ignored(): void

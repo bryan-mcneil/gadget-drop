@@ -1,27 +1,27 @@
-DATE: 2026-07-13
-DEDUPE: checked against 34 existing products
-BRIEF: no demand-backed candidates yet (seo-brief.md generated 2026-07-10, "No opportunities yet") — editorial pick
+DATE: 2026-07-28
+DEDUPE: checked against 39 existing products
+BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
 
 ===PRODUCT 1===
-NAME: XREAL 1S AR/XR Glasses, 500" Virtual Screen Smart Glasses with 52° FOV, Native 3DoF, REAL 3D, Powered by X1 Chip
-ASIN: B0GC56Z4CR
-PRICE: $449
-TRENDING: Newly reviewed across Tom's Guide, TechRadar and Gaming Nexus as "the best AR glasses you can buy right now" — the cheaper, brighter successor to the XREAL One, and a plug-and-play external screen for the Steam Deck / ROG Ally / iPhone 17 crowd.
-ANGLE: The honest "should a normal person buy $449 AR glasses in 2026?" review — what the 500" virtual screen actually replaces (a travel monitor / handheld screen), where 3DoF and 52° FOV fall short of the hype, and how the 1S undercuts the One Pro without giving up much. GadgetDrop has zero spatial-display coverage, so this opens a fresh lane; our tracked-price widget adds the "is $449 a fair price or wait for a drop?" answer nobody else gives.
-KEYWORD: XREAL 1S review
-TARGET_QUERY: XREAL 1S review worth it
-CATEGORY: Computers & Accessories
-TAGS: AR glasses | XREAL | portable display | Steam Deck | spatial computing
-ALTERNATIVES: XREAL One Pro | no-review ; Viture Luma Pro | no-review
+NAME: XGIMI MoGo 4 Portable Projector
+ASIN: B0F3CBV5HP
+PRICE: $399–$499
+TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
+ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
+KEYWORD: xgimi mogo 4 review
+TARGET_QUERY: xgimi mogo 4 worth it
+CATEGORY: Audio & Home Theater
+TAGS: portable projector | projector | google tv | xgimi | movie night
+ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
 
 ===PRODUCT 2===
-NAME: Oura Ring 4 - Smart Ring - Silver - Sleep, Activity, Women's Health, AI Advisor, Up to 8 Days of Battery Life
-ASIN: B0D9WT1S2T
-PRICE: $349
-TRENDING: Consistently a top-selling wearable in 2026 and the default recommendation for screen-free sleep and recovery tracking; the Ring 4's AI Advisor and 8-day battery keep it in buyer-intent searches against the smart-ring field.
-ANGLE: The subscription-cost-included reality check — what the $5.99/mo Oura membership means for total cost of ownership, how sleep/readiness accuracy compares to a wrist wearable, and who a screen-free ring actually suits. Internal-links to our RingConn Gen 2 review for the no-subscription alternative.
-KEYWORD: Oura Ring 4 review
-TARGET_QUERY: Oura Ring 4 review worth it subscription
-CATEGORY: Wearables
-TAGS: smart ring | Oura | sleep tracking | fitness wearable | health tracker
-ALTERNATIVES: RingConn Gen 2 | /posts/ringconn-gen-2 ; Samsung Galaxy Watch 7 | /posts/samsung-galaxy-watch-7-review-flagship-smarts-under-200
+NAME: Elgato Facecam MK.2
+ASIN: B0CW1S7XP5
+PRICE: $150
+TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
+ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
+KEYWORD: elgato facecam mk.2 review
+TARGET_QUERY: elgato facecam mk2 worth it
+CATEGORY: Cameras
+TAGS: webcam | streaming | elgato | 1080p | content creators
+ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review

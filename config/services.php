@@ -104,6 +104,23 @@ return [
         ],
     ],
 
+    /*
+    | Claude API — powers the "Explain this verdict" feature on /buy-or-wait
+    | pages (App\Services\ClaudeExplainService). Distinct from the content
+    | pipeline's use of Claude (Claude Code itself, running the drop-research/
+    | drop-write skills) — this is a runtime API call from the app. No-ops
+    | gracefully when unset (ClaudeExplainService::isConfigured()). Model
+    | defaults to Haiku 4.5: the explanation is a short, fact-constrained
+    | completion that doesn't need a top-tier model. daily_limit is a
+    | circuit-breaker, not a functional constraint — caching (keyed to the
+    | inputs that determine the verdict) keeps real usage far below it.
+    */
+    'claude' => [
+        'api_key' => env('ANTHROPIC_API_KEY'),
+        'model' => env('CLAUDE_EXPLAIN_MODEL', 'claude-haiku-4-5-20251001'),
+        'daily_limit' => (int) env('CLAUDE_EXPLAIN_DAILY_LIMIT', 100),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

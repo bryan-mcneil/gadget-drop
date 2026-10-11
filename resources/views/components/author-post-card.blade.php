@@ -10,7 +10,7 @@
 @endphp
 
 <a href="{{ route('posts.show', $post['slug']) }}" wire:navigate
-    class="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    class="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-200">
     @if(!empty($post['featured_image']))
         <x-responsive-image :src="$post['featured_image']" :alt="$post['title']" loading="lazy" width="400" height="176" sizes="(min-width: 768px) 33vw, 100vw" class="w-full h-44 object-cover" />
     @else

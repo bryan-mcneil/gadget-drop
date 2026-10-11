@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Cache;
  * Products refresh stalest-first, with anything currently on the /deals feed
  * moved to the front so public numbers stay freshest. Price changes are
  * snapshotted by ProductObserver with the source recorded; unchanged prices
- * still refresh the "Price checked" stamp.
+ * refresh the "Price checked" stamp and are recorded by the observer as a
+ * same-price check snapshot (max one per day) so the check stays durable.
  */
 class RefreshProductPrices extends Command
 {

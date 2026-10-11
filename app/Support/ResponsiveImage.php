@@ -38,6 +38,44 @@ class ResponsiveImage
     }
 
     /**
+     * URL of ONE WebP variant for contexts that take a single image URL and no
+     * srcset (the recap video's `poster`, VideoObject thumbnailUrl). Picks the
+     * smallest variant at least $width wide (falling back to the largest one
+     * below it), or null when no local variants exist — callers then use the
+     * original image URL.
+     */
+    public static function webpVariantUrl(?string $url, int $width = 960): ?string
+    {
+        $rel = self::relativePath($url);
+        if ($rel === null) {
+            return null;
+        }
+
+        $disk = Storage::disk('public');
+        if (! $disk->exists($rel)) {
+            return null;
+        }
+
+        $info = pathinfo($rel);
+        $dir = ($info['dirname'] ?? '.') === '.' ? '' : $info['dirname'].'/';
+        $name = $info['filename'];
+
+        $best = null;
+        foreach (ImageVariants::WIDTHS as $w) {
+            $variant = "{$dir}{$name}-{$w}.webp";
+            if (! $disk->exists($variant)) {
+                continue;
+            }
+            $best = $disk->url($variant);
+            if ($w >= $width) {
+                break; // WIDTHS is ascending — first one wide enough wins
+            }
+        }
+
+        return $best;
+    }
+
+    /**
      * Build a WebP srcset string for a stored image URL, or '' when no local
      * WebP variants exist (so the component skips the <source> entirely).
      */

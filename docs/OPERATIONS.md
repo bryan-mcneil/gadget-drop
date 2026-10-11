@@ -17,6 +17,8 @@ How the site runs day to day, what's automated, and what Bryan actually does. Co
 
 (Hostinger cron fires hourly at minute :00 — new tasks must be scheduled at :00.)
 
+Manual, when a market price file (CSV/XLSX) arrives: `php artisan market:import <file>` (dry-run first) — contract + Power Automate flow outline in `docs/MARKET-IMPORT.md`.
+
 ## Your daily hour (~45–60 min)
 
 1. **`/morning`** (~5 min) — checks the PR's CI status (red = early stop signal: the agent touched something it shouldn't have — don't merge until you've looked), merges the day's PR, validates, imports drafts into **production**, runs the honesty QA gate, prints the checklist. CI green replaces nothing — the local re-validate and dry-run import stay. No PR? It offers to run the pipeline locally instead. **Convention (no enforced branch protection — private repo on GitHub Free): never merge a red PR.**

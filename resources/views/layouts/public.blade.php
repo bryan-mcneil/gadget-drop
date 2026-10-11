@@ -108,7 +108,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-50 flex flex-col">
-            <x-public.header :navigation="$navigation" />
+            <x-public.header :navigation="$navigation" :deals-count="$dealsLiveCount ?? 0" />
 
             <main class="flex-1">
                 @yield('content')

@@ -7,12 +7,13 @@
 
 ## Phase Log
 
-- [ ] Phase 6.1 — `release_cycles` schema + seeded editorial dataset (commit: )
-- [ ] Phase 6.2 — `BuyOrWait` verdict engine (pure, unit-tested) (commit: )
-- [ ] Phase 6.3 — Public pages: /buy-or-wait + per-category (commit: ) · **go/no-go with Bryan first**
-- [ ] Phase 6.4 — Review-page strip + news cross-links (commit: )
-- [ ] Phase 6.5 — MCP tool + llms.txt entry (commit: )
-- [ ] Phase 6.6 — Dusk pass + launch content pass (commit: )
+- [x] Phase 6.1: `release_cycles` schema + seeded editorial dataset (commit: `eee9a02`)
+- [x] Phase 6.2: `BuyOrWait` verdict engine (pure, unit-tested) (commit: `eee9a02`)
+- [x] Phase 6.3: Public pages: /buy-or-wait + per-category (commit: `eee9a02`) · **go/no-go folded into the end-of-plan review at Bryan's request**
+- [x] Phase 6.4: Review-page strip + news cross-links (commit: `eee9a02`)
+- [x] Phase 6.5: MCP tool + llms.txt entry (commit: `eee9a02`)
+- [x] Phase 6.6: Dusk pass + launch content pass (commit: `eee9a02`)
+- [ ] **Fix-forward pass (opened 2026-07-27 by the retro review — see Build Log). Plan is NOT done: the feature is deployed but dark on prod, and two BLOCKERs are unfixed.**
 
 ## Design decisions
 
@@ -105,6 +106,13 @@ Unit: engine matrix (~10). Feature: pages, strip, MCP, seeds (~15). E2E: 2 Dusk.
 
 Standard template + `migrate --force` + `php artisan db:seed --class=ReleaseCycleSeeder --force` (idempotent) + CDN purge. Phases deploy independently — 6.1/6.2 can ship dark (no routes) ahead of 6.3.
 
+Deltas found during implementation:
+
+- **`npm run build` must go in the release commit.** New Tailwind classes (`ring-{emerald,amber,sky}-200`, `hover:border-indigo-200`, `scroll-mt-24`, the chip palettes) were verified to compile, but the built bundle was reverted so the review diff stays source-only (whole-bundle rehash; see the build-churn note in CLAUDE.md).
+- **Bust the sitemap cache after seeding.** `sitemap.xml` is cached for a day and the seeder doesn't touch a Post, so nothing flushes it: run `php artisan tinker --execute="Cache::forget('sitemap.xml'); Cache::forget('search.llms_txt');"` (or `App\Support\NavigationData::flush()`) after the seed, or the new URLs wait up to 24h.
+- **Verdict copy is cached 6h keyed on data only.** Editing the sentence builder alone will NOT change live pages until the TTL lapses; bump `BuyOrWait::CACHE_VERSION` in the same commit (it namespaces the per-cycle verdicts *and* the `/buy-or-wait` index rows).
+- Smoke URLs to add to step 6: `/buy-or-wait`, `/buy-or-wait/iphone`, `/how-we-review#buy-or-wait`, `/llms.txt`, and one review on a tracked line (strip renders).
+
 ## Maintenance
 
 - **Quarterly re-verify** every cycle row against sources; bump `verified_at`; update `last_release_*` after launches (this is the feature's heartbeat — `/gd-health` flags stale rows and it goes red at 9 months).
@@ -121,3 +129,31 @@ Standard template + `migrate --force` + `php artisan db:seed --class=ReleaseCycl
 ## Build Log
 
 (append one line per phase)
+
+- **6.1 (2026-07-22)**: `release_cycles` table + `ReleaseCycle` model + `ReleaseCycleSeeder` with 10 lines, each researched live and carrying a real source URL. 9 of 10 cite a manufacturer newsroom/press release; the base-iPad row cites MacRumors because no apple.com permalink for that announcement could be located (flagged in the seeder, replace at next re-verify). `last_release_at` = the on-sale date where the source states one, else the announcement date (noted per row). Two model decisions worth reviewing: `$dateFormat` is pinned so date casts don't need a DB connection (that's what makes 6.2's pure unit tests possible), and `forProduct()` refuses to guess: name match first, category fallback only when exactly one line maps to that hub (three lines share `computers`). 13 tests.
+- **6.2 (2026-07-22)**: `App\Support\BuyOrWait`: matrix, confidence tiers, sourced/dated/hedged sentence builder, factor list. Guarded cache use only, so `tests/Unit/BuyOrWaitTest.php` runs with no Laravel boot (mirrors `ArticleBodyTest`). Cache key is self-busting (cycle `updated_at` + calendar day + price inputs) plus a `CACHE_VERSION` for copy changes. 20 tests.
+- **6.3 (2026-07-22)**: `/buy-or-wait` index + `/buy-or-wait/{cycle:slug}`, FAQPage JSON-LD, sitemap inclusion, `#buy-or-wait` methodology section on How We Review. Zero affiliate links on these pages (asserted). Empty index 404s rather than shipping a thin page, and the sitemap only lists it once cycles exist, so the two signals agree. **Nav placement decision made conservatively and needs Bryan's sign-off:** footer "Explore" + a /deals cross-link + the review strip, NOT the desktop header (it already crams at the `md` breakpoint). 17 tests.
+- **6.4 (2026-07-22)**: `<x-buy-or-wait-strip>` under the product card on reviews whose product resolves to a line; internal link only, no CTA, so the single-affiliate-CTA rule holds. `PublicController::show()` now computes `PriceIntel::stats()` once and reuses it for both the price widget and the strip. `/drop-write` + `/drop-news` gained one sentence each instructing a single site-relative link to the relevant verdict page (**these steer the cloud agent; review the wording**). 9 tests.
+- **6.5 (2026-07-22)**: `get_buy_or_wait_verdict` MCP tool (resolve by slug/name/partial, verdict + cycle block + factors + shared price payload + page URL + disclosure; unknown line names what we do cover). Server instructions gained a timing paragraph that explicitly forbids presenting a cadence as a promised release date. `/for-ai` + `llms.txt` updated. 10 tests.
+- **6.6 (2026-07-22)**: 3 Dusk tests (index chips, cycle hero + sourced factors, strip → cycle-page navigation); full Dusk suite 12 green. Launch post drafted at `daily-drop/launch/news-buy-or-wait.md` (775 words, validates clean through `bin/daily-drop-build.php`, exit 0). It sits in a subdirectory ON PURPOSE so the top-level `news-*.md` glob can't sweep it into an unrelated daily drop; copy it up to `daily-drop/news-1.md` when publishing. No social-outbox code needed: `PostObserver` enqueues on publish.
+- **Two live-data fixes caught by rendering real pages** (both after the seeded data went into the local DB): the generated sentence carried an em dash (banned by CONTENT-GUIDELINES for prose, and this copy is quoted verbatim by AI agents), and an early-cycle "no strong signal" verdict described itself as "mid-cycle", which was simply false for a 10-months-into-36 line. Both now covered by tests.
+- **Suite:** 525 feature/unit green (baseline in the plans README, 181, is long stale) + 12 Dusk green. Plan target was +~27 tests; actual is +69.
+
+### Retro code review — 2026-07-27 (the review this plan never got)
+
+All six phases shipped in commit `eee9a02` (2026-07-23) **without a gd-code-reviewer pass** — the only plan in `docs/plans/` that missed its review. Run retrospectively 2026-07-27 against the committed diff. **Verdict: CHANGES REQUIRED (fix-forward).** The engine itself is sound: the verdict matrix was re-derived cell-by-cell and matches the docblock, confidence provably can never read "high" on stale data, the honesty gates propagate (a gated-out `PriceIntel` verdict makes `buy`/`wait_for_price` structurally unreachable), no `/out/` link exists on any cycle page, the em-dash ban is genuinely enforced across 20 position×tier combinations, and 9/10 seeded source URLs verify against their stated dates. Targeted suites re-run green (55 `BuyOrWait*` + 13 `ReleaseCycleTest`).
+
+Open items, in fix order:
+
+1. **BLOCKER (prod) — the seeder was never run.** `release_cycles` is empty on production, so `abort_if($rows === [], 404)` makes `/buy-or-wait` and every `/buy-or-wait/{slug}` a 404, while **four ungated links point at it**: the sitewide footer (every public page), the `/deals` promo paragraph, `/how-we-review#buy-or-wait`, `/for-ai` — plus the `llms.txt` "Key pages" entry advertising the dead URL to crawlers and agents, and a live `get_buy_or_wait_verdict` MCP tool that answers "No release cycles are published yet" to everything. `bin/deploy.sh` does not seed and `DatabaseSeeder` does not register this seeder, so nothing was ever going to do it automatically. **Fix items 2–3 BEFORE seeding** (both defects become publicly visible the moment data exists). Either seed + bust `sitemap.xml` / `search.llms_txt` / the index key + CDN purge, **or** gate the four links on `ReleaseCycle::exists()` — the current state must not persist either way.
+2. **BLOCKER (honesty) — the iPhone cadence claim is factually false.** `ReleaseCycleSeeder` line ~67: "Apple has announced a new iPhone in September every year since 2012." The iPhone 12 was announced **13 October 2020**, and the row's `source_url` (the iPhone 17 press release) says nothing about cadence. This string is the feature's highest-amplification text: it renders in the "Release cadence" factor, in the FAQPage JSON-LD, in the MCP `cycle.pattern_note`, and verbatim in the unpublished launch post at `daily-drop/launch/news-buy-or-wait.md`. Per this plan's own top risk ("stale cycle data = wrong advice"), a checkably false absolute is worse than a hedge. Fix both files, then re-seed.
+3. **BLOCKER — meta description is missing its unit word.** `BuyOrWaitController::metaDescription()` formats `'%s has been out %d.'`, rendering "iPhone 17 has been out 10." into the SERP snippet of every cycle page. No test asserts `<meta name="description">`, which is why it shipped. Add that assertion with the fix.
+4. **WARN — `ReleaseCycle::flagshipProduct()` will silently lose the price half of the verdict.** It pulls `orderByDesc('id')->limit(50)` and name-matches in PHP; for the four `category_id = null` lines that scans the 50 newest reviewed products *site-wide*, so at ~11 posts/week the matching review ages out in roughly six weeks and the page quietly drops to "we do not yet track a product on this line" (MCP `price` block goes null). Push the name match into SQL or drop the cap; order by the review's `published_at`, not `products.id` (the docblock already claims "newest review first", which the code does not do).
+5. **WARN — the index cache is never busted by a cycle write.** Per-cycle verdicts self-bust via `updated_at`, but `cachedIndex()` keys only on namespace + date, so the Maintenance promise ("update the row same-week, the verdict flips automatically") holds on the cycle page and fails on `/buy-or-wait` for up to 6h (and sitemap/llms.txt for 24h). Add `ReleaseCycle::max('updated_at')` to the key or a `saved`/`deleted` flush hook mirroring `Post::saved → NavigationData::flush()`. This also deletes the manual `tinker` step from §Deployment above.
+6. **WARN — unflagged divergence from §6.3 step 2.** The page renders a bare `@livewire('join-the-drop')` with generic weekly-drop copy, while the Blade comment above it claims "this genuinely is a manual list today, and says so" — it doesn't. Either add the lead-in sentence or delete the misleading comment. Divergence is fine; silent divergence is not.
+7. **WARN — contrast.** The index confidence + "cycle data verified" line is `text-xs text-gray-400` on white (≈2.5:1). Note this is calibration, not a missed rule: the contrast convention landed with Plan 10.6 on 2026-07-26, *after* this commit. Move to `text-gray-500`; the closing disclaimer may stay `gray-400`.
+8. **NITs.** MCP reverse-containment resolves "iPad Pro 13-inch" to the parent iPad cycle and returns a 24-month cadence for a different family (add a `line_note` or refuse); the strip's "no strong signal" short label loses the late-cycle clearance nuance; `assertLessThanOrEqual(1, $outLinks)` in `BuyOrWaitStripTest` passes at zero links (assert `assertSame(1, …)`); `show.blade.php` renders "What {product} costs right now" even when `has_stats` is false (wording mismatch, not a gate leak); CLAUDE.md documents `<x-buy-or-wait-strip>` but never the `/buy-or-wait` public surface itself.
+
+**Test-coverage gaps that map to the above** (point additions, no `gd-test-engineer` needed): no assertion on the rendered meta description (caused item 3); no test that a name-matching product older than 50 newer reviews is still found (item 4); no test that a cycle write changes the index in the same request (item 5); no test that the sitewide footer link resolves — the suite in fact *encodes* the broken state, asserting the empty index 404s while the footer link is unconditional; no MCP sub-line query test.
+
+**The two decisions still parked on Bryan:** (a) *nav placement* — the reviewer signs off on footer + `/deals` + strip as shipped and agrees the desktop header must stay untouched (it crams at `md`), but suggests a real card in the `/deals` body and a sidebar line, since discovery is thin for what the plan calls its biggest SEO surface; (b) *the base-iPad MacRumors citation* — acceptable as shipped (the documented fallback rule was followed exactly and the dates check out), with a suggestion to add an `apple.com/newsroom/2025/03/` archive or same-day iPad Air link as a corroborating anchor at the quarterly re-verify.

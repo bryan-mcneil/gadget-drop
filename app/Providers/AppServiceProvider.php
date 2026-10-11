@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Support\DealsFeed;
 use App\Support\NavigationData;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -47,9 +48,26 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(30)->by($request->ip());
         });
 
-        // Public Blade layout gets the same navigation data the admin (Inertia) does.
+        // The Price-Truth MCP server (routes/ai.php → POST /mcp). Two per-IP
+        // ceilings — a burst cap and a daily cap — counted on the default
+        // (database) cache store on Hostinger: structural protection for
+        // shared-hosting CPU against over-enthusiastic agents. The two limits
+        // use distinct keys because ThrottleRequests hashes the named limiter +
+        // limit key, so a shared IP key would collide the two counters. If
+        // strain shows, drop to 15/min (documented in /for-ai, Phase 4.3).
+        RateLimiter::for('mcp', function (Request $request) {
+            return [
+                Limit::perMinute(30)->by('mcp-min:'.$request->ip()),
+                Limit::perDay(300)->by('mcp-day:'.$request->ip()),
+            ];
+        });
+
+        // Public Blade layout gets the same navigation data the admin (Inertia) does,
+        // plus the live tracked-deals count for the header's Deals pill (one cached
+        // read of the already-memoised DealsFeed; 0 hides the pill).
         View::composer('layouts.public', function ($view) {
             $view->with('navigation', NavigationData::get());
+            $view->with('dealsLiveCount', count(DealsFeed::get()));
         });
     }
 }

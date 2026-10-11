@@ -6,13 +6,16 @@ use App\Models\AffiliateClick;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\ReleaseCycle;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\AmazonProductService;
 use App\Support\ArticleBody;
+use App\Support\BuyOrWait;
 use App\Support\DropPrice;
 use App\Support\NavigationData;
 use App\Support\PriceIntel;
+use App\Support\TruthReport;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -109,7 +112,7 @@ class PublicController extends Controller
             ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
             ->take(12)
-            ->get(['id', 'slug']);
+            ->get(['id', 'slug', 'excerpt']);
 
         $seenProductIds = [];
         $topPicks = [];
@@ -118,12 +121,23 @@ class PublicController extends Controller
             if ($product && $product->id !== $puzzleProductId && ! in_array($product->id, $seenProductIds)) {
                 $seenProductIds[] = $product->id;
                 $api = $this->resolveApiData($product->asin);
+                // Verdict for the featured pick's chip — same db-cached stats,
+                // null (chip hidden) until the honesty gates open.
+                $stats = PriceIntel::stats($product->id);
+                $verdict = $stats['verdict'] ?? null;
                 $topPicks[] = [
                     'id' => $product->id,
                     'name' => $api['name'] ?? $product->name,
-                    'price' => $api['price'] ?? $product->price,
+                    // When a verdict is shown, the price beside it MUST be the
+                    // tracked number the verdict describes (stats.current), not a
+                    // fresher API price; without one, show the freshest display
+                    // price. Keeps "the number next to the verdict is the number
+                    // the verdict describes" true even once PA-API is configured.
+                    'price' => $verdict !== null ? $stats['current'] : ($api['price'] ?? $product->price),
                     'image_url' => $product->image_url,
                     'post_slug' => $tp->slug,
+                    'excerpt' => $tp->excerpt,
+                    'verdict' => $verdict,
                 ];
             }
             if (count($topPicks) >= 6) {
@@ -182,11 +196,12 @@ class PublicController extends Controller
             'dropPrice' => $dropPrice,
             'recentPosts' => Post::published()
                 ->whereNotIn('type', ['tech_tip', 'tech_news'])
+                ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
                 ->latest('published_at')
                 ->skip(1)
                 ->take(8)
                 ->get($cols)
-                ->map($fmt),
+                ->map(fn ($p) => [...$fmt($p), ...$this->cardIntel($p)]),
             'categories' => Category::whereHas('posts', fn ($q) => $q->published())
                 ->withCount(['posts' => fn ($q) => $q->published()])
                 ->orderBy('name')
@@ -264,6 +279,8 @@ class PublicController extends Controller
             'hero_image_position' => $post->hero_image
                 ? ($post->hero_image_position ?? 'center center')
                 : ($post->featured_image_position ?? 'center center'),
+            'recap_video_url' => $post->recapVideoUrl(),
+            'recap_video_duration' => $post->recap_video_duration,
             'image_1' => $post->image_1,
             'image_1_fit' => $post->image_1_fit ?? 'cover',
             'image_2' => $post->image_2,
@@ -275,23 +292,31 @@ class PublicController extends Controller
             'published_at_iso' => $post->published_at?->toIso8601String(),
             'categories' => $post->categories->map(fn ($c) => ['id' => $c->id, 'name' => $c->name, 'slug' => $c->slug]),
             'tags' => $post->tags->map(fn ($t) => ['id' => $t->id, 'name' => $t->name, 'slug' => $t->slug]),
-            'products' => $post->products->map(fn ($p) => [
-                'id' => $p->id,
-                'name' => $p->name,
-                'description' => $p->description,
-                'price' => $p->price,
-                'image_url' => $p->image_url,
-                'brand' => $p->brand,
-                'gtin' => $p->gtin,
-                'amazon_rating' => $p->amazon_rating,
-                'amazon_review_count' => $p->amazon_review_count,
+            'products' => $post->products->map(function ($p) use ($post) {
                 // Tracked-price history for the <x-price-history> widget.
                 // Only meaningful on review-type posts, and null until the
-                // product has a price.
-                'price_intel' => in_array($post->type, ['tech_tip', 'tech_news'])
-                    ? null
-                    : PriceIntel::stats($p->id),
-            ]),
+                // product has a price. Computed once and reused by the
+                // buy-or-wait strip below so the stats aren't built twice.
+                $isReview = ! in_array($post->type, ['tech_tip', 'tech_news']);
+                $priceIntel = $isReview ? PriceIntel::stats($p->id) : null;
+
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'description' => $p->description,
+                    'price' => $p->price,
+                    'image_url' => $p->image_url,
+                    'brand' => $p->brand,
+                    'gtin' => $p->gtin,
+                    'amazon_rating' => $p->amazon_rating,
+                    'amazon_review_count' => $p->amazon_review_count,
+                    'price_intel' => $priceIntel,
+                    // Release-cycle timing strip. Null unless this product's line
+                    // resolves to a cycle; ReleaseCycle::forProduct() refuses to
+                    // guess when a category holds more than one line.
+                    'buy_or_wait' => $isReview ? $this->buyOrWaitStrip($p, $priceIntel) : null,
+                ];
+            }),
             'seo_meta' => $post->seoMeta ? [
                 'meta_title' => $post->seoMeta->meta_title,
                 'meta_description' => $post->seoMeta->meta_description,
@@ -391,21 +416,86 @@ class PublicController extends Controller
         view()->share('serverMeta', $this->buildServerMeta($postData));
         view()->share('serverJsonLd', $this->buildServerJsonLd($postData));
 
-        // Server-side Markdown: body split into thirds with inline images injected
+        // Server-side Markdown: structure-aware inline image placement
         $sections = ArticleBody::sections(
             $post->body,
             [$post->image_1, $post->image_2, $post->image_3],
             [$post->image_1_fit ?? 'cover', $post->image_2_fit ?? 'cover', $post->image_3_fit ?? 'cover'],
+            [$post->image_1_caption, $post->image_2_caption, $post->image_3_caption],
         );
 
         return view('public.show', [
             'post' => $postData,
             'sections' => $sections,
+            // H2 anchor list for the sidebar "On this page" nav; ids are
+            // stamped on the matching <h2>s by ArticleBody::style().
+            'toc' => ArticleBody::headings($post->body),
             'categoryPosts' => $categoryPosts,
             'tagPosts' => $tagPosts,
             'recentPosts' => $recentPosts,
             'relatedProducts' => $relatedProducts,
         ]);
+    }
+
+    /**
+     * Card-scale price + verdict for a review post's lead product, gated on the
+     * SAME honesty rules the rest of the site uses: the row appears only once
+     * PriceIntel's window stats open (verdict !== null), never with placeholder
+     * data. Reads the db-cached PriceIntel::stats — no query per card beyond the
+     * lead product the listing already eager-loads — so the grid stays N+1-free.
+     * Tips/news never carry a card verdict. The drop-pct is deliberately dropped
+     * at card scale: the sm badge + a long "· X% below typical" suffix overflows
+     * the ~167px card content column at 375px (verdict-badge card-width note).
+     *
+     * @return array{card_price: float|null, card_verdict: string|null}
+     */
+    private function cardIntel(Post $post): array
+    {
+        $blank = ['card_price' => null, 'card_verdict' => null];
+
+        if (in_array($post->type, ['tech_tip', 'tech_news'], true) || ! $post->relationLoaded('products')) {
+            return $blank;
+        }
+
+        $product = $post->products->first();
+
+        if (! $product) {
+            return $blank;
+        }
+
+        $stats = PriceIntel::stats($product->id);
+
+        if (! $stats || $stats['verdict'] === null) {
+            return $blank;
+        }
+
+        return ['card_price' => $stats['current'], 'card_verdict' => $stats['verdict']];
+    }
+
+    /**
+     * Data for the <x-buy-or-wait-strip> under a review's product card, or null
+     * when the product's line has no release cycle. Informational only: the
+     * strip is an internal link, so the single-affiliate-CTA rule holds.
+     *
+     * @param  array<string, mixed>|null  $priceIntel
+     * @return array<string, string>|null
+     */
+    private function buyOrWaitStrip(Product $product, ?array $priceIntel): ?array
+    {
+        $cycle = ReleaseCycle::forProduct($product);
+
+        if (! $cycle) {
+            return null;
+        }
+
+        $verdict = BuyOrWait::verdict($cycle, $priceIntel);
+
+        return [
+            'slug' => $cycle->slug,
+            'name' => $cycle->name,
+            'verdict' => $verdict['verdict'],
+            'short' => BuyOrWait::shortLabel($verdict['verdict']),
+        ];
     }
 
     /**
@@ -466,6 +556,84 @@ class PublicController extends Controller
             ['@context' => 'https://schema.org', '@graph' => $graph],
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
+    }
+
+    /**
+     * FAQPage JSON-LD for /how-we-review — the answer-engine mirror of the
+     * #deal-verdicts section. Every number is interpolated from the same
+     * constants the code enforces (PriceIntel gates, the /deals bar) so the
+     * structured data can't drift from reality (plan 01 §1.4 checklist).
+     */
+    private function buildFaqJsonLd(): string
+    {
+        $minPoints = PriceIntel::MIN_POINTS;
+        $minSpanDays = PriceIntel::MIN_SPAN_DAYS;
+        $dealPct = PriceIntel::DEAL_PCT * 100;
+        $dealsBar = DealsController::MIN_DROP_PCT;
+
+        $faqs = [
+            [
+                'q' => 'What does "Lowest tracked price" mean on GadgetDrop?',
+                'a' => "It means the product's current price matches the lowest point in our own recorded"
+                    .' price history over the last 90 days, and the price has genuinely varied in that window.'
+                    .' A price that never moved is labeled "Typical price", never "Lowest tracked price".'
+                    .' The data is our own snapshot history, not a live Amazon price, so we always show when'
+                    .' we last checked and the price at checkout is the one that counts.',
+            ],
+            [
+                'q' => "Where does GadgetDrop's price data come from?",
+                'a' => 'From our own snapshot log. We record a snapshot every time we check a product\'s'
+                    ." price, through the editor's manual checks and Amazon's product-data APIs. We never"
+                    .' scrape Amazon pages, and we never use a manufacturer\'s suggested price as the'
+                    .' "was" price in a comparison.',
+            ],
+            [
+                'q' => 'When does GadgetDrop show price verdicts?',
+                'a' => "Only once a product has at least {$minPoints} price snapshots spanning at least"
+                    ." {$minSpanDays} days. Until then we show the current price and when we checked it,"
+                    .' nothing more.',
+            ],
+            [
+                'q' => 'What counts as a deal on GadgetDrop?',
+                'a' => "A current price at least {$dealPct}% below that product's own tracked 90-day"
+                    .' average, always measured against our recorded history, never against an MSRP.'
+                    .' Our Price Drops page lists a product only when it carries one of our two deal'
+                    ." verdicts, its price sits at least {$dealsBar}% below its tracked 90-day average,"
+                    .' and we have a published review for it.',
+            ],
+            [
+                'q' => 'What is the 30-day reference price on GadgetDrop?',
+                'a' => 'The lowest price we have tracked for a product in the last 30 days. EU rules'
+                    .' require retailers to disclose that figure when advertising a discount; US law has'
+                    .' no equivalent. We publish it voluntarily so a deal can be checked against recent'
+                    .' history instead of a list price.',
+            ],
+        ];
+
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(fn (array $faq) => [
+                '@type' => 'Question',
+                'name' => $faq['q'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq['a']],
+            ], $faqs),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /** Make a possibly-relative URL absolute for structured data. */
+    private function absoluteUrl(string $url): string
+    {
+        return preg_match('#^https?://#', $url) ? $url : url($url);
+    }
+
+    /** Whole seconds → ISO-8601 duration for VideoObject (e.g. 31 → PT31S). */
+    private function isoDuration(int $seconds): string
+    {
+        $m = intdiv($seconds, 60);
+        $s = $seconds % 60;
+
+        return 'PT'.($m ? "{$m}M" : '').(($s || ! $m) ? "{$s}S" : '');
     }
 
     private function buildServerMeta(array $d): array
@@ -557,6 +725,34 @@ class PublicController extends Controller
         }
 
         $graph[] = $article;
+
+        // VideoObject — only when the post carries a self-hosted recap (plan
+        // 10.7's deliberate exception to the "no SEO-meta changes" non-goal).
+        // Every field is real: contentUrl is the served file, the thumbnail is
+        // the actual painted poster, duration is the rendered video's length.
+        if ($d['recap_video_url'] ?? null) {
+            $posterSrc = $d['hero_image'] ?? $d['featured_image'] ?? null;
+            $poster = \App\Support\ResponsiveImage::webpVariantUrl($posterSrc) ?? $posterSrc;
+
+            $video = [
+                '@type' => 'VideoObject',
+                '@id' => "{$postUrl}#recap",
+                'name' => "{$d['title']} — video recap",
+                'description' => $desc ?: $d['title'],
+                'contentUrl' => $this->absoluteUrl($d['recap_video_url']),
+            ];
+            if ($d['published_at_iso'] ?? null) {
+                $video['uploadDate'] = $d['published_at_iso'];
+            }
+            if ($poster) {
+                $video['thumbnailUrl'] = $this->absoluteUrl($poster);
+            }
+            if ($d['recap_video_duration'] ?? null) {
+                $video['duration'] = $this->isoDuration((int) $d['recap_video_duration']);
+            }
+
+            $graph[] = $video;
+        }
 
         // Products
         foreach (collect($d['products'] ?? []) as $p) {
@@ -680,6 +876,7 @@ class PublicController extends Controller
 
         $posts = Post::published()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
+            ->with(['products' => fn ($q) => $q->orderBy('display_order')->limit(1)])
             ->latest('published_at')
             ->paginate(12)
             ->through(fn ($p) => [
@@ -690,6 +887,7 @@ class PublicController extends Controller
                 'excerpt' => $p->excerpt,
                 'featured_image' => $p->featured_image,
                 'published_at' => $p->published_at?->toDateString(),
+                ...$this->cardIntel($p),
             ]);
 
         $categories = Category::whereHas('posts', fn ($q) => $q->published())
@@ -844,7 +1042,26 @@ class PublicController extends Controller
             'canonical' => route('how-we-review'),
         ]);
 
-        return view('public.how-we-review');
+        view()->share('serverJsonLd', $this->buildFaqJsonLd());
+
+        return view('public.how-we-review', [
+            // The methodology page links the Truth Reports index once the
+            // first report is live (config flag AND artifact — the 5.2 gate).
+            'truthReports' => TruthReport::published(),
+        ]);
+    }
+
+    public function forAi(): View
+    {
+        view()->share('serverMeta', [
+            'title' => 'GadgetDrop for AI Agents — Price-Truth MCP Server',
+            'description' => 'Connect your AI assistant to GadgetDrop\'s free MCP server: independently tracked price history, honest deal verdicts, and the live price-drops feed for every product we review.',
+            'og_image' => null,
+            'og_type' => 'website',
+            'canonical' => route('for-ai'),
+        ]);
+
+        return view('public.for-ai');
     }
 
     public function privacy(): View
