@@ -1,27 +1,27 @@
-DATE: 2026-07-28
-DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+DATE: 2026-07-29
+DEDUPE: checked against 39 existing products (API reachable)
+BRIEF: present (generated 2026-07-28, ≤3 days old) but reports "No opportunities yet — not enough search data" → editorial pick, no candidate to honor or avoid
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: DJI Neo 2 (Drone Only), Lightweight 4K Drone With Camera
+ASIN: B0FJ1S18HF
+PRICE: $259
+TRENDING: Newly released successor to DJI's ultra-cheap selfie drone, now Amazon's Choice at $259 — it fixes the original Neo's biggest gaps (adds a 2-axis gimbal, 4K/60, omnidirectional obstacle sensing) and buyers are actively comparing it to the outgoing model.
+ANGLE: "Is the $259 DJI Neo 2 worth the upgrade over the $159 original Neo?" — a self-flying, palm-launch 4K drone for people who want hands-free clips without learning to fly. Lead with the omnidirectional sensing + gimbal that finally make it safe/steady, be honest about the sub-250g class limits (short 19-min battery, small sensor, wind sensitivity), and frame who should buy which.
+KEYWORD: DJI Neo 2 review
+TARGET_QUERY: dji neo 2 review
+CATEGORY: Cameras
+TAGS: DJI | drone | 4K video | vlogging | content creation
+ALTERNATIVES: DJI Neo (original, drone-only) | no-review — the $159 outgoing model, the natural "step down" comparison; HoverAir X1 | no-review — the main rival self-flying palm drone
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Aqara Smart Home Hub M3 (Matter Controller, Thread Border Router)
+ASIN: B0CWLHSKYC
+PRICE: $110
+TRENDING: Steady best-seller in the no-subscription smart-home-hub space; frequently on sale near $100–$110 and repeatedly pitted against the SwitchBot Hub 3 in 2026 buyer guides, so it has real tracked price history and a live comparison target we already reviewed.
+ANGLE: "The Matter/Thread hub to start (or centralize) a subscription-free smart home." Value comes from spec + protocol breadth (Zigbee/Thread/Matter/IR, PoE, local automation for up to 128 devices, no mic/camera for privacy) and an honest comparison against the SwitchBot Hub 3 we already reviewed — Aqara wins on protocols/HomeKit, SwitchBot wins on retrofit hardware and price.
+KEYWORD: Aqara Hub M3 review
+TARGET_QUERY: aqara hub m3 review
+CATEGORY: Smart Home
+TAGS: Aqara | Matter | Thread | smart home hub | HomeKit
+ALTERNATIVES: SwitchBot Hub 3 | /posts/switchbot-hub-3 — the reviewed rival hub (retrofit-first, cheaper); Aqara Hub M100 | no-review — the cheaper single-protocol step-down
