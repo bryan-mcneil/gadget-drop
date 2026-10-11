@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-07-30
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: seo-brief.md is fresh (generated 2026-07-28, 2 days old) but says "No opportunities yet" — no demand-backed candidates, so this is an editorial pick per that skill's contract.
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: Blink Outdoor 4 (Newest Model) – Wireless smart security camera, two-year battery, 1080p HD, two-way talk, Sync Module Core included – 1 camera system
+ASIN: B0DHLSZXQD
+PRICE: $60–$100 (frequently discounted to ~$40 during sales; ~$99.99 list)
+TRENDING: Late-summer home-security buying wave plus repeated deep Amazon markdowns (single cams have hit ~$38, bundles ~$130) keep "Blink Outdoor 4 worth it" high-intent as buyers try to time the dip.
+ANGLE: The honest "cheapest reliable outdoor cam — but read the subscription math first" verdict. The Outdoor 4 is genuinely the low-friction, two-year-battery pick, but its most-wanted features (person detection, saved cloud clips) sit behind Blink Subscription ($3.99/mo per device or $11.99/mo unlimited after a 30-day trial), so the real cost isn't the sticker — it's the sticker plus a recurring fee. Pair that with our tracked price history so a reader can tell a true clearance dip from the everyday price, and contrast it with the no-monthly-fee alternative we've already reviewed. No Blink camera has been reviewed on the site yet.
+KEYWORD: blink outdoor 4 review
+TARGET_QUERY: is the blink outdoor 4 worth it
+CATEGORY: Cameras
+TAGS: security camera | outdoor camera | blink | subscription | home security
+ALTERNATIVES: eufy Security 4K Indoor Camera E30 | /posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee, Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Amazfit Active 2 (Premium) Smart Watch, AMOLED, GPS, offline maps, no subscription
+ASIN: B0DT3YMDMZ
+PRICE: $99 (Premium ~$129; has dipped to ~$85)
+TRENDING: Widely covered in 2026 as the best sub-$150 smartwatch and a "no subscription" rebellion while flagship wearables lock insights behind monthly fees; strong "Amazfit Active 2 worth it" buyer intent.
+ANGLE: The full-feature budget smartwatch that skips the subscription entirely — AMOLED, accurate GPS, offline maps, week-long battery for ~$99, versus the recurring fees now attached to Oura/Fitbit tiers. Contrast against our reviewed Galaxy Watch 7 (flagship smarts under $200) and Garmin Forerunner 165 (runner-first) so a reader can see exactly what the extra money does and doesn't buy.
+KEYWORD: amazfit active 2 review
+TARGET_QUERY: is the amazfit active 2 worth it
+CATEGORY: Wearables
+TAGS: smartwatch | fitness tracker | amazfit | gps watch | no subscription
+ALTERNATIVES: Samsung Galaxy Watch 7 | /posts/samsung-galaxy-watch-7-review-flagship-smarts-under-200, Garmin Forerunner 165 | /posts/garmin-forerunner-165-review
