@@ -1,46 +1,47 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: Projector Image Blurry? How to Fix the Focus in Minutes
-EXCERPT: A blurry projector image is almost always focus, distance, or keystone. Here's the exact order to fix a soft picture and get it sharp.
+TITLE: Action Camera Overheating? How to Stop It Shutting Off
+EXCERPT: Action camera overheating and shutting off mid-shot? Here's the exact order to stop the "camera too hot" warning and keep it recording.
 TYPE: tech_tip
-CATEGORY: Audio & Home Theater
-TAGS: projector | blurry projector | projector setup | movie night
-SOURCE_URL: https://us.xgimi.com/blogs/tips-tutorials/fix-blurry-projector-image
+CATEGORY: Cameras
+TAGS: action camera | overheating | gopro | dji | troubleshooting
+SOURCE_URL: https://shop.lagenio.com/blogs/news/gopro-overheating-fix
 SEO_SCORE: 90
-META_TITLE: Projector Image Blurry? How to Fix the Focus Fast
-META_DESCRIPTION: Fix a blurry projector image in the right order: focus, throw distance, keystone, and lens. Simple steps to get a sharp picture back.
-FOCUS_KEYWORD: blurry projector image
-TARGET_QUERY: why is my projector blurry
-SLUG: fix-blurry-projector-image
+META_TITLE: Action Camera Overheating? How to Stop It Shutting Off
+META_DESCRIPTION: Fix an action camera overheating and shutting off: lower the resolution, ditch the case, cut the extras, and keep your GoPro or DJI recording.
+FOCUS_KEYWORD: action camera overheating
+TARGET_QUERY: action camera overheating fix
+SLUG: action-camera-overheating-fix
 BODY:
-You start the movie, the room goes dark, and the picture on the wall looks soft, like everyone on screen needs glasses. A blurry projector image is one of the most common setup problems, and it is almost never a broken projector. It's usually focus, distance, or keystone, in that order. Here's how to walk through the fixes without guessing.
+You clip the camera on, hit record, and two minutes into the good part it flashes "camera too hot" and quits. Action camera overheating is one of the most common complaints in r/gopro and DJI owner threads, and it almost always happens on hot days shooting high-resolution video. The good news: it's manageable. Here's the order to work through it.
 
-## How to Fix a Blurry Projector Image
+## How to Stop an Action Camera From Overheating
 
-Do these in order. Stop as soon as the picture snaps sharp.
+Work these top to bottom. The first two solve most cases.
 
-1. **Adjust the focus first.** If your projector has a focus ring on the lens, turn it slowly in tiny increments and watch small text or a face on screen, not the whole image. If it uses software focus, open the settings menu and find the focus slider, or trigger the autofocus and let it run once without anyone walking in front of the lens.
-2. **Check the throw distance.** Every projector can only focus within a set distance range for a given image size. If you're too close or too far, the focus ring runs out of travel and nothing looks crisp. As a rough guide, a standard-throw projector needs about 8 to 12 feet to fill a 100-inch screen, while a short-throw model wants 3 to 5 feet. Move the projector, not just the screen.
-3. **Turn off digital keystone.** Keystone correction fixes a skewed, trapezoid shape, but digital keystone does it by stretching and cropping pixels, which softens the whole image. Set keystone back to zero and square the picture physically instead by moving and angling the projector.
-4. **Level it and aim it straight.** If the projector sits at an angle or off to one side, the focus favors the center and the edges go soft. Put it on a flat, level surface, roughly centered on the screen, and pointed straight at it so the focus plane is even corner to corner.
-5. **Clean the lens.** Dust and fingerprints scatter light and mimic a focus problem. Puff off loose dust with a can of compressed air or a blower, then wipe gently in a circular motion with a dry microfiber cloth. Never use a paper towel or your shirt.
+1. **Drop the resolution and frame rate.** This is the biggest lever by far. Shooting 5.3K or 4K at 60fps makes the chip work hardest and run hottest. In your camera's video settings, switch to 4K/30 or even 2.7K/30. The footage still looks great, and the heat drops noticeably.
+2. **Take it out of the waterproof case.** The dive housing seals the camera in a pocket of dead air with nowhere for heat to escape. If you're not underwater, pull the camera out of any protective case or frame that wraps the body and let air reach it.
+3. **Turn off the screens.** The front and rear displays generate heat and drain the battery, which also runs warm. Lower the brightness or set the screen to switch off after a few seconds. On a helmet or chest mount you're not watching it anyway.
+4. **Disable the extras you're not using.** GPS, Wi-Fi, and voice control all keep radios and sensors active in the background. Turn them off in settings when you don't need them for the shoot.
+5. **Update the firmware.** Both GoPro and DJI have shipped thermal-management updates that clock the processor smarter under load. Open the phone app, connect the camera, and install any pending firmware before you write the hardware off.
 
 ## Why This Works
 
-A projector focuses light onto one flat plane at a specific distance. Move it closer or farther, tilt it, or force the software to reshape the image, and part of the picture falls off that plane and goes fuzzy. Getting the distance and angle right first means the lens has an easy, even target to focus on, and the focus adjustment can do its actual job instead of fighting geometry.
+Action cameras cram a powerful processor into a tiny, sealed body. Recording sharp 4K, stabilizing every bump, and encoding high frame rates all happen in real time, and that work throws off heat with almost nowhere to go. When the internal temperature crosses a limit, the camera shuts down on purpose to protect its components. It's a safety cutoff, not a broken camera. Every step above either makes the chip do less work or gives the heat a path out.
 
 ## If That Didn't Work
 
-Try these next, cheapest and quickest first.
+Try these in order, cheapest first.
 
-- **Give it a minute to warm up.** A cold lens brought in from a chilly garage or a cold car can fog with condensation and look soft until it reaches room temperature. Let it sit powered on for a few minutes.
-- **Check the source and cable.** A picture set to the wrong resolution, or a cheap or failing HDMI cable, can look soft even with perfect focus. Set your streaming stick or console to 1080p or 4K to match the projector, and swap in a known-good cable to rule it out.
-- **Update the firmware, then factory reset.** Smart projectors occasionally ship autofocus bugs that a firmware update fixes. If focus still hunts or never locks after that, a factory reset clears bad calibration data. If the center is sharp but the edges never come in no matter what you do, the lens element may be knocked loose, and that's a warranty or repair call.
+- **Get it out of direct sun between takes.** A camera baking on a black dashboard or a sunlit rail starts a recording already hot. Park it in the shade or a pocket until you're ready to roll.
+- **Point a little airflow at it.** For long static shots, a mount that leaves the body exposed to moving air, or even a small clip-on fan for interviews and time-lapses, buys you a lot of runtime. Some shooters aim a phone-sized USB fan at it for tripod work.
+- **Use external power for long sessions, not a hot internal battery.** A battery charging and discharging inside the camera adds heat. For long static recording, run the camera off a pass-through USB power source with the door open where the design allows it.
+- **Give it a real cool-down.** If it's already shut off, don't just power-cycle it. Let it sit five to ten minutes out of the sun. Restarting a still-hot camera trips the cutoff again within seconds.
 
-## Pro Tips to Keep It Sharp
+## Pro Tips to Prevent It
 
-- **Project onto a flat, matte surface.** A textured wall or a bumpy sheet destroys sharpness that no focus adjustment can recover. A cheap matte screen or a smooth, light-colored wall beats a fancy projector on a rough surface.
-- **Mount at the right height.** Setting the projector level with the top or bottom of your screen means little or no keystone, which keeps every pixel crisp. Stacking books to aim it steeply is what forces the keystone that softens the picture.
-- **Buy native resolution, not "supported."** If you're still shopping, a true 1080p panel and honest physical setup matter more than marketing numbers. Our [XGIMI MoGo 4 review](/posts/xgimi-mogo-4-review) breaks down what real 1080p and good autofocus actually look like on a portable projector, and where the corners get cut.
+- **Match the setting to the shot.** Reserve 5.3K and high frame rates for short, important clips. For everyday footage, 4K/30 runs cooler and fills your card slower.
+- **Carry a spare battery and swap early.** A hot, near-empty battery makes overheating worse. Rotating in a cool one resets both problems at once.
+- **Buy for your climate.** Newer cameras with bigger sensors and better heat handling shrug this off more easily. Our [GoPro HERO13 Black review](/posts/gopro-hero13-black-review) covers how the current generation manages heat and battery on long shoots, worth a read if you shoot in summer heat a lot.
 
-A soft picture feels like a dead projector, but nine times out of ten it's a two-minute fix. Get the distance and angle right, kill the digital keystone, and let the focus finish the job.
+Overheating will never fully disappear on a camera this small and this powerful, but drop the resolution, ditch the case, and cut the background extras, and you'll get through the shot without that "camera too hot" screen ending it early.

@@ -1,100 +1,104 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: DJI Osmo Action 6 Review: Is the Variable Aperture Worth It?
+EXCERPT: Our DJI Osmo Action 6 review breaks down the variable aperture, bigger sensor, and low-light footage to tell you if it beats a GoPro Hero 13.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
-RATING: 4
+CATEGORY: Cameras
+TAGS: action camera | dji | vlogging | low light | variable aperture
+ASIN: B0FM3X3DW5
+RATING: 4.5
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Variable aperture tames bright sun and dusk
+- Bigger 1/1.1-inch sensor shines in low light
+- Square sensor lets you crop 16:9 or 9:16
+- 50GB built-in storage, no card needed
+- Up to 4 hours of recording per charge
 CONS:
-- 450 lumens means dark rooms only
+- Mount and accessory ecosystem trails GoPro
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: DJI Osmo Action 6 Review: Variable Aperture Worth It?
+META_DESCRIPTION: DJI Osmo Action 6 review: the variable aperture, 1/1.1-inch sensor, and low-light footage vs a GoPro Hero 13, plus who should actually buy it.
+FOCUS_KEYWORD: dji osmo action 6 review
+TARGET_QUERY: dji osmo action 6 worth it
+SLUG: dji-osmo-action-6-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
+Action cameras have carried the same weakness for a decade. Point one at anything dimmer than full daylight and the footage turns to noise and mud. DJI's fix on the Osmo Action 6 is mechanical, not a software patch: a variable aperture that no rival has ever put on an action cam.
 
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
-
----
-
-## What Is the XGIMI MoGo 4?
-
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
-
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+This DJI Osmo Action 6 review is about whether that one hardware trick, plus a noticeably bigger sensor, is enough to pull you away from the GoPro everyone already owns. Short version: for low light and creative control it's the most capable action cam you can buy right now. Whether that's worth it depends on what you shoot and what mounts are already in your bag.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## What Is the DJI Osmo Action 6?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+The Osmo Action 6 is DJI's flagship action camera, launched in November 2025. It's the pocket-sized, waterproof, stick-it-anywhere kind of camera you'd use for mountain biking, diving, vlogging, or clipping to a helmet.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
+The headline is the lens. It's the first action camera with a variable aperture, adjustable from f/2.0 to f/4.0, so the camera can physically control how much light hits the sensor instead of leaning entirely on software. Behind it sits a 1/1.1-inch square sensor with fused 2.4-micron pixels, rated by DJI for up to 13.5 stops of dynamic range.
 
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+The rest reads like a spec-sheet flex: 4K at up to 120fps, a square capture mode so you shoot once and crop later, 10-bit D-Log M color for people who grade their footage, dual touchscreens that hit 1000 nits, IP68 waterproofing to 20 meters without a case, 50GB of built-in storage, and up to four hours of recording on a charge. It weighs about 149 grams.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Who Should Buy the DJI Osmo Action 6?
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
+Buy it if you shoot in changing or low light. Sunset rides, indoor gyms, night markets, early-morning trailheads, underwater. The variable aperture and larger sensor are aimed squarely at the conditions where cheaper action cams fall apart.
 
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
+Vloggers are the other clear fit. The square sensor means you can frame wide on set and crop a clean 16:9 for YouTube and a 9:16 for TikTok from the same clip, with no quality loss because you're cropping into a taller-than-normal frame. The bright dual screens make self-recording easy to check.
 
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+Skip it if you only ever film in bright daylight and already own a shelf of GoPro mounts. In flat, sunny conditions the gap between this and a good older action cam narrows a lot, and you'd be paying for headroom you never touch.
 
 ---
 
-## The One Thing to Consider
+## The Features That Actually Matter
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+- **Variable aperture (f/2.0 to f/4.0).** Stop down to f/4.0 in harsh sun to keep highlights from blowing out, or open to f/2.0 at dusk to pull in light. Every other action cam is locked to one fixed opening.
+- **1/1.1-inch sensor.** It's physically larger than the sensor in most rivals, and sensor size is the single biggest factor in low-light quality. Bigger sensor, cleaner night footage.
+- **Square capture.** Filming to a square frame sounds odd until you realize it lets you reframe to landscape or vertical after the fact. One take feeds both your YouTube and your Reels.
+- **50GB onboard storage.** You can shoot straight out of the box with no memory card, and it's a genuine save when a card fills mid-trip.
+- **Four-hour battery.** Real endurance for a camera this size, so a full day of clips doesn't mean a pocket full of spares.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## What You'll Pay
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The Osmo Action 6 lives in the premium tier of action cameras, and DJI sells it in several kits. The bare camera runs lower, while the Standard Combo that bundles a case, extra battery, and mount sits around $399 as of this writing, and loaded accessory kits climb toward $499. That puts it right alongside a GoPro Hero 13 Black and the Insta360 Ace Pro 2, so this is a flagship-price decision, not a budget buy.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+The trick with any camera at this level is timing. Action cameras dip hardest around holiday sales and when a new model looms. The tracked price widget above shows where today's number sits against our recorded history, so you can tell a real discount from a combo that just looks cheaper because it throws in a card you didn't need.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+---
+
+## DJI Osmo Action 6 vs. GoPro HERO13 Black
+
+The honest comparison is with the camera most people already trust. Our [GoPro HERO13 Black review](/posts/gopro-hero13-black-review) covers why it's still the safe default: HyperSmooth stabilization remains the smoothest in the class, and GoPro's mount and accessory ecosystem is enormous, so almost any clamp, chesty, or handlebar mount just works.
+
+Where the Osmo Action 6 pulls ahead is light. Its 1/1.1-inch sensor is bigger than the Hero 13's 1/1.9-inch chip, and the variable aperture gives it control the fixed f/2.5 GoPro simply doesn't have. Professional reviewers who shot the two side by side in the dark called the difference night and day. If your footage is mostly bright and stabilized, the GoPro is the easier pick. If you push into low light or want creative aperture control, the DJI is the better camera.
+
+The Insta360 Ace Pro 2 is the third name to weigh, a Leica-tuned 8K cam with a flip screen that vloggers love. It's the pick if a front-facing screen and 8K resolution matter more to you than the Action 6's aperture flexibility.
+
+---
+
+## One Thing to Consider
+
+The real trade-off isn't the camera, it's everything around it. GoPro has spent years building a mount and accessory ecosystem that nothing else matches, and while DJI's magnetic quick-release is good, third-party support is thinner. If you've already invested in GoPro mounts, batteries, and clamps, switching means rebuying a lot of small parts, and that hidden cost can quietly rival the price of the camera itself. Verified-purchase owners also note the deep menu system takes a few sessions to learn.
+
+---
+
+## DJI Osmo Action 6 FAQ
+
+**Q: Is the DJI Osmo Action 6 better than a GoPro Hero 13 for low light?**
+Yes, and it isn't close. The larger 1/1.1-inch sensor and the variable aperture give it a real hardware advantage in the dark, which reviewers who compared them directly described as a night-and-day gap. For bright daylight the two are much closer.
+
+**Q: Do I need a memory card for the Osmo Action 6?**
+Not to get started. It has 50GB of built-in storage, enough for a day of high-resolution clips, though heavy 4K shooters will still want a fast microSD card for longer sessions.
+
+**Q: Is the variable aperture actually useful, or just a spec?**
+It's useful if you shoot in changing light. Stopping down keeps bright scenes from clipping and opening up helps at dusk, control a fixed-aperture camera can only fake in software. If you only film in steady daylight, you'll rarely touch it.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The DJI Osmo Action 6 is the most capable action camera on the market for low light and creative control, and the variable aperture is a genuine step forward rather than a marketing line. Buy it if you shoot in tricky light or vlog and want the flexibility, but if you live in GoPro's mount ecosystem and film mostly in daylight, the Hero 13 is still the smarter money.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the price in the card above sits at or below its typical range, a low-light shooter won't find a better action cam for the money.
