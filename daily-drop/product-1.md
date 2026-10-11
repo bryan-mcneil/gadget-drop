@@ -1,100 +1,98 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: Oura Ring 5 Review: The Smallest Smart Ring, With a Catch
+EXCERPT: Our Oura Ring 5 review: the world's smallest smart ring nails sleep and recovery, but the $5.99 monthly membership is the real cost to weigh.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Wearables
+TAGS: smart ring | oura ring 5 | sleep tracking | fitness tracker | wearables
+ASIN: B0GRK1N94H
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Smallest, lightest smart ring yet made
+- Up to a week of battery
+- Class-leading sleep and recovery tracking
+- New blood pressure and breathing insights
 CONS:
-- 450 lumens means dark rooms only
+- Best insights need a $5.99 monthly membership
+- Sizing kit and per-size listings add friction
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: Oura Ring 5 Review: World's Smallest Smart Ring Worth It?
+META_DESCRIPTION: Our Oura Ring 5 review weighs the world's smallest smart ring against its $5.99 monthly fee and subscription-free rivals like RingConn.
+FOCUS_KEYWORD: oura ring 5 review
+TARGET_QUERY: oura ring 5 review
+SLUG: oura-ring-5-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+Smart rings solved the one thing smartwatches never could: you forget you're wearing them. The catch was always Oura. It made the best one, but the ring felt a little bulky and it charged a monthly fee on top of the hardware. This Oura Ring 5 review looks at what actually changed, because the new model fixes half of that complaint. Owners who upgraded from the Ring 4 say the Ring 5 all but vanishes on the finger. The membership? Still there.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Is the Oura Ring 5?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The Oura Ring 5 is a titanium health tracker you wear on a finger instead of a wrist. There's no screen. It logs your sleep stages, heart rate, heart-rate variability, skin temperature, blood oxygen and daily activity, then feeds all of it to the Oura app, which turns the raw numbers into three plain scores: Sleep, Activity and Readiness.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
+Oura launched the Ring 5 on May 28, 2026 and calls it the world's smallest smart ring. It's roughly 40% smaller and lighter than the Ring 4, which is the single biggest change here. The sensor array got an upgrade too, and Oura added a few genuinely new tricks: blood pressure trends, nighttime breathing insights, GLP-1 medication guidance for people on those prescriptions, and an AI Advisor that answers questions about your own data. Battery life lands at about a week per charge. It comes in six finishes and, usefully for a lot of buyers, it's FSA and HSA eligible.
 
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
-
----
-
-## Who Should Buy the XGIMI MoGo 4?
-
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
-
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
+The important asterisk: most of the interesting analysis lives behind the Oura membership. Buy the ring and you get the hardware and basic scores. The trends, the coaching and the deeper breakdowns need the subscription.
 
 ---
 
-## What the XGIMI MoGo 4 Gets Right
+## Who Should Buy the Oura Ring 5?
 
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+This ring is for people who want serious sleep and recovery data without strapping a screen to their wrist every night. If you've tried a smartwatch and taken it off at bedtime because it felt bulky or the battery died, a ring fixes both problems. It's also a strong pick for anyone chasing better sleep, tracking recovery around training, or managing a GLP-1 prescription and wanting to see how it maps to their metrics.
 
----
-
-## What You'll Pay for the MoGo 4
-
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
+It's the wrong buy in a few cases. If you want live workout stats, on-screen notifications or built-in GPS, a watch does that and a ring never will. If a recurring fee bothers you on principle, the math below won't sit well. And if you rarely open a health app, you'll pay for insights you never read.
 
 ---
 
-## MoGo 4 vs. the Alternatives
+## Oura Ring 5 Features That Actually Matter
 
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
-
----
-
-## The One Thing to Consider
-
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+- **The smallest, lightest Oura yet.** At about 40% smaller than the Ring 4, owners report it's easy to keep on overnight, which is the whole point of a sleep tracker you have to actually wear.
+- **Up to a week of battery.** Charging becomes a weekly chore instead of a nightly one, so you lose fewer nights of data to a dead device.
+- **Sharper sleep and recovery tracking.** The upgraded sensors tighten Oura's core strength: sleep staging, HRV and the Readiness score that tells you whether to push or rest.
+- **New health context.** Blood pressure trends and nighttime breathing insights add signals most rings still don't offer, useful if you're watching cardiovascular or respiratory health over time.
+- **Titanium build, six finishes, HSA/FSA eligible.** It looks like jewelry, survives daily wear, and you can often buy it with pre-tax health dollars.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## What You'll Pay
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The Ring 5 starts at $399 in the Silver and Black base finishes. The premium colors (Gold, Stealth, Brushed Silver and Deep Rose) run $499, a $100 jump for a coating, not for extra features. Then there's the membership: $5.99 a month or $69.99 a year, with the first month included. That fee is the part buyers underestimate. A subscription-free ring like RingConn costs $299 once and never asks again. Oura's real price is the hardware plus years of that monthly line item, so factor it in. The price widget above this article shows where today's number sits against the price we track, so you can see whether $399 is the going rate or a dip.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+---
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+## Oura Ring 5 vs. the Subscription-Free Rings
+
+The Ring 5's toughest competition isn't a watch, it's the rings that skip the fee. The [RingConn Gen 2](/posts/ringconn-gen-2) is the obvious one: $299, no subscription, and battery life owners peg at up to ten days, longer than Oura's. RingConn's app isn't as polished and its coaching is thinner, but if you want solid sleep and HRV numbers without a recurring bill, it's the better-value buy and it's the ring we'd point most people to first.
+
+The Samsung Galaxy Ring is the other real rival at about $300 with no fee, and it's the smarter choice if you already live in Samsung Health on a Galaxy phone, since the data lands where you already look. Outside that ecosystem its advantages fade. Oura still wins on raw insight quality and cross-platform support, iOS and Android alike. You're paying for the best software, monthly.
+
+---
+
+## One Thing to Consider
+
+The membership is the honest knock, and it compounds. At $5.99 a month, three years of ownership adds roughly $215 on top of the $399 ring, pushing the true cost past $600 while RingConn asks $299 flat. You're not buying a ring so much as renting a health service that happens to ship with hardware.
+
+The second snag is buying friction. Oura sizes don't match standard ring sizes, so you're expected to order a sizing kit first, and on Amazon every size and finish is its own listing. You can't just add one to the cart and hope. It's a minor hassle, but it's real, and a wrong size means bad readings.
+
+---
+
+## Oura Ring 5 FAQ
+
+**Q: Do you need a subscription for the Oura Ring 5?**
+For the good stuff, yes. The ring shows basic Sleep, Activity and Readiness scores without a membership, but the trends, detailed sleep breakdowns, blood pressure insights and AI Advisor all require the $5.99-a-month plan. The first month is included, so you can see what you'd be paying for before you commit.
+
+**Q: Is the Oura Ring 5 worth upgrading to from the Ring 4?**
+If you already own a Ring 4 and the size never bothered you, the upgrade is hard to justify: the sensors are better, but the day-to-day app experience is similar. New buyers are a different story. There's no reason to start on the older, larger ring.
+
+**Q: How do I find my Oura ring size?**
+Order the sizing kit before the ring. Amazon sells one that credits back toward your purchase. Oura uses its own sizing that doesn't line up with jewelry sizes, and a loose fit throws off the optical sensors that read your heart rate and blood oxygen.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The Oura Ring 5 is the best smart ring you can buy, and it isn't especially close on software and comfort. Just go in clear-eyed: the $399 sticker is the start of the bill, not the end, so it's a confident buy only if the monthly membership fits your budget.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the price in the card above is at or near its usual $399 and you've made peace with the monthly fee, the Ring 5 is the easiest smart-ring recommendation right now. If a recurring charge is a dealbreaker, a subscription-free rival will save you real money over time.

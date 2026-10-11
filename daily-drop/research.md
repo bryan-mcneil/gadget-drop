@@ -1,27 +1,27 @@
-DATE: 2026-07-28
+DATE: 2026-08-03
 DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+BRIEF: stale/missing — editorial pick (seo-brief.md generated 2026-07-28, > 3 days old and lists no opportunities)
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: Oura Ring 5
+ASIN: B0GRK1N94H
+PRICE: $399
+TRENDING: Released May 28, 2026 as the "world's smallest smart ring" (40% smaller than the Ring 4) with new blood-pressure and GLP-1 insights, and it's the most-searched smart ring of the summer.
+ANGLE: It's the best smart ring you can buy right now, but the $5.99/month membership and the fact that every size and finish is a separate Amazon listing change the math against subscription-free rivals like RingConn.
+KEYWORD: oura ring 5 review
+TARGET_QUERY: oura ring 5 review
+CATEGORY: Wearables
+TAGS: smart ring | oura ring 5 | sleep tracking | fitness tracker | wearables
+ALTERNATIVES: RingConn Gen 2 | /posts/ringconn-gen-2 | Samsung Galaxy Ring | no-review
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: OBSBOT Meet SE 1080P AI Webcam
+ASIN: B0DQ196WLW
+PRICE: $130
+TRENDING: OBSBOT's AI-framing webcams sold hard through Prime Day 2026, and the Meet SE pushes auto-framing plus 100fps down to a sub-$150 price that undercuts the 4K flagship.
+ANGLE: An AI auto-framing webcam for streamers and remote workers who don't need 4K, and whether 1080p/100fps is the smarter buy than the pricier Meet.
+KEYWORD: obsbot meet se review
+TARGET_QUERY: obsbot meet se webcam review
+CATEGORY: Computers & Accessories
+TAGS: webcam | obsbot | streaming | video conferencing | ai framing
+ALTERNATIVES: Logitech MX Brio | no-review | OBSBOT Tiny 2 | no-review
