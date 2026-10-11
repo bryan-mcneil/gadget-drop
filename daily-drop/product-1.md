@@ -1,100 +1,94 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: RayNeo Air 4 Pro Review: $299 HDR AR Glasses Worth It?
+EXCERPT: Our RayNeo Air 4 Pro review covers the first sub-$300 HDR AR glasses: a bright 1200-nit display, the real trade-offs, and who should skip them.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Wearables
+TAGS: AR glasses | smart glasses | RayNeo | Steam Deck | portable display
+ASIN: B0G563KVYZ
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Bright 1200-nit HDR10 display, usable in daylight
+- 120Hz refresh keeps fast games smooth
+- Light 76g frame with B&O quad speakers
+- Plug-and-play USB-C for Switch 2 and Steam Deck
 CONS:
-- 450 lumens means dark rooms only
+- Blurry screen edges and nose pressure over time
 SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+META_TITLE: RayNeo Air 4 Pro Review: Are These $299 HDR AR Glasses Worth It?
+META_DESCRIPTION: Our RayNeo Air 4 Pro review breaks down the 1200-nit HDR display, gaming latency, real owner complaints, and who should buy these $299 AR glasses.
+FOCUS_KEYWORD: RayNeo Air 4 Pro review
+TARGET_QUERY: rayneo air 4 pro review
+SLUG: rayneo-air-4-pro-review
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+You want a giant screen without owning a giant TV, and every year some company promises glasses that deliver one. Most land somewhere between "neat demo" and "gives me a headache after twenty minutes." The RayNeo Air 4 Pro is the first pair under $300 that makes the pitch land for the right buyer, mostly because it fixed the thing budget AR glasses always got wrong: brightness.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Are the RayNeo Air 4 Pro AR Glasses?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The RayNeo Air 4 Pro are display glasses, not standalone computers. You plug them into a phone, laptop, or game console over a single USB-C cable, and they project what looks like a 201-inch screen floating a few feet in front of you. Two Micro-OLED panels push 1920x1080 per eye at a 120Hz refresh rate, and RayNeo (TCL's smart-glasses brand) markets them as the first AR glasses with a true HDR10 display. A Vision 4000 chip handles an SDR-to-HDR upscale co-developed with Pixelworks, and Bang & Olufsen tuned the quad-speaker audio.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
-
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+The headline spec is 1,200 nits of peak brightness. Older budget glasses topped out somewhere between 400 and 700 nits, which is why they only looked good in a blacked-out room. At 1,200 nits, reviewers report the picture stays readable on a sunny train or a bright plane cabin. The frame weighs 76 grams, roughly a heavy pair of sunglasses, and there's no battery inside, so your phone or console does the powering.
 
 ---
 
-## Who Should Buy the XGIMI MoGo 4?
+## Who Should Buy the RayNeo Air 4 Pro?
 
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
+These make the most sense for three people. First, the frequent flyer or commuter who wants a private big-screen for movies and doesn't want a seatmate reading along. Second, the handheld gamer running a Steam Deck, ROG Ally, or Switch 2 who wants a 200-inch view instead of a 7-inch one, without lugging a monitor. Third, anyone in a dorm, studio, or shared space where a real TV won't fit or won't stay private.
 
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
-
----
-
-## What the XGIMI MoGo 4 Gets Right
-
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+If you want spatial computing, floating windows anchored in your room, or a full AR overlay on the real world, these aren't that. They're a wearable monitor with excellent color. Set that expectation and the $299 makes sense. Come in expecting a Vision Pro on a budget and you'll be disappointed.
 
 ---
 
-## What You'll Pay for the MoGo 4
+## Features That Actually Matter
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
-
----
-
-## MoGo 4 vs. the Alternatives
-
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
+- **1,200-nit HDR10 display.** The brightness is the real upgrade here. It means you can watch outdoors or on a lit plane, and HDR movies show the kind of deep contrast that made the jump worth it for owners coming from dimmer glasses.
+- **120Hz refresh rate.** Double the 60Hz most glasses run. Fast games and quick pans look smooth, and the low latency means a Switch 2 or Steam Deck feels responsive rather than laggy.
+- **76-gram frame with B&O audio.** Light enough to forget for a movie's length, and the quad-speaker setup is loud and clear enough that you often won't reach for earbuds in a quiet room.
+- **Universal USB-C plug-and-play.** One cable to iPhone 15 through 17, Android phones, MacBooks, Steam Deck, and PS5. Older iPhones and the Switch 2 dock need a separate adapter, so check your device's video-out before buying.
 
 ---
 
-## The One Thing to Consider
+## What You'll Pay
 
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+At $299 list, the Air 4 Pro undercuts most name-brand AR glasses by $100 or more, and some sellers list them closer to $269. RayNeo also runs frequent clip-coupons that have pulled the price toward $249, and the pair dipped to around $239 during a major summer sale. That volatility is exactly why the price widget above matters: it shows where today's number sits against the history we track, so you can tell a real discount from a sticker that's just been marked up first. For pure screen-in-your-face value, this is the aggressive end of the category, and you're paying for the bright HDR panel more than for software polish.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## RayNeo Air 4 Pro vs. XREAL 1S
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+The obvious rival is the XREAL 1S, and the two split cleanly. The XREAL 1S runs about $449, a $150 premium, and spends it on features the RayNeo skips: a wider 52-degree field of view, electrochromic dimming that darkens the lenses on demand, screen anchoring that pins the display in space as you turn your head, and glasses-side 3D. If those spatial tricks are the reason you want AR glasses, [our XREAL 1S review](/posts/xreal-1s-ar-xr-glasses) explains why the extra money is defensible.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
+The RayNeo answer is brighter (1,200 nits vs 700), lighter, and $150 cheaper, with the HDR10 panel the XREAL lacks. For someone who mainly wants to watch and game on a big, vivid screen, the RayNeo is the better buy and it isn't close. Pay the XREAL premium only if anchoring and dimming genuinely change how you'd use them.
 
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+---
+
+## One Thing to Consider
+
+The 47-degree field of view is narrower than the pricier competition, and it shows at the edges. Reviewers and owners consistently describe a sharp center that goes soft and blurry in the corners, a common trade-off when optics stretch to fill a wide frame. You learn to keep the important content centered, but it's a real limitation for spreadsheets or anything where the edges carry information.
+
+The other recurring complaint is fit. There's no interpupillary-distance adjustment, so people with wider or narrower eye spacing can't fine-tune the sweet spot, and several reviewers flag nose pressure over long sessions. RayNeo includes swappable nose pads, which helps, but if glasses normally bother the bridge of your nose, budget for some trial and error.
+
+---
+
+## FAQ
+
+**Q: Do the RayNeo Air 4 Pro work with the Steam Deck and Nintendo Switch 2?**
+Yes for the Steam Deck, which outputs video over USB-C directly. The Switch 2 in handheld mode and older iPhones need RayNeo's USB-C adapter or a compatible dock, since their ports don't send a display signal on their own. Confirm your specific device supports USB-C DisplayPort video-out before you buy.
+
+**Q: Can I use them if I wear prescription glasses?**
+Not over your existing glasses comfortably. RayNeo sells magnetic prescription lens inserts that clip inside the frame, which is the standard fix for this category. There's no IPD adjustment, though, so a small share of buyers never find a perfectly sharp focus.
+
+**Q: Are they worth it over the cheaper XREAL Air line?**
+If you want HDR and daylight-usable brightness, yes. The Air 4 Pro's 1,200-nit HDR10 panel is a clear step up from older 400-to-700-nit glasses for movies and gaming. If you only watch in a dark room and want to spend less, a previous-generation pair still does the job.
 
 ---
 
 ## Verdict
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+The RayNeo Air 4 Pro is the AR glasses to beat under $300, delivering a bright HDR picture and smooth 120Hz gaming that used to cost a lot more. Buy them if you want a private big screen for travel and handhelds, and wait or step up to the XREAL 1S if edge sharpness, a wider view, or spatial anchoring are dealbreakers.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+If the price in the card above is sitting at or below its typical range, these are an easy recommendation for movies and portable gaming. If it's near full list, the frequent coupons mean a better number usually isn't far off.
