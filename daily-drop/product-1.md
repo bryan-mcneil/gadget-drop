@@ -1,100 +1,111 @@
 ===POST===
 AUTHOR: Bryan McNeil
-TITLE: XGIMI MoGo 4 Review: Is This $499 Projector Worth It?
-EXCERPT: Our XGIMI MoGo 4 review breaks down the portable Google TV projector's real brightness, battery, and price so you know if it fits your room.
+TITLE: Aqara U400 Review: The Smart Lock That Opens as You Walk Up
+EXCERPT: Our Aqara U400 review covers the UWB smart lock that unlocks before you touch it, what it needs from Apple Home, and where $270 falls short.
 TYPE: article
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ASIN: B0F3CBV5HP
+CATEGORY: Smart Home
+TAGS: smart lock | aqara | apple home | matter | ultra wideband
+ASIN: B0FRS6T6HL
 RATING: 4
 PROS:
-- Sharp native 1080p with polished Google TV
-- Harman Kardon speakers skip the soundbar
-- 360-degree stand sets up in seconds
-- Battery plus USB-C make it truly portable
+- Hands-free UWB unlock before you reach the handle
+- Six backup ways in, including fingerprint and keypad
+- Rechargeable six-month battery, no disposable cells
 CONS:
-- 450 lumens means dark rooms only
-SEO_SCORE: 92
-META_TITLE: XGIMI MoGo 4 Review: Is the $499 Projector Worth It?
-META_DESCRIPTION: XGIMI MoGo 4 review: real brightness, battery life, and price for the portable Google TV projector, plus who should skip it.
-FOCUS_KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-SLUG: xgimi-mogo-4-review
+- Hands-free unlock is Apple-only for now
+- Grade 3 bolt and a bulky interior panel
+SEO_SCORE: 88
+META_TITLE: Aqara U400 Review: UWB Smart Lock That Unlocks as You Walk Up
+META_DESCRIPTION: Aqara U400 review: the UWB smart lock that unlocks hands-free with an iPhone. What it needs, where it falls short, and whether $270 is fair.
+FOCUS_KEYWORD: Aqara U400 review
+TARGET_QUERY: aqara u400 review
+SLUG: aqara-u400-review-uwb-smart-lock
 BODY:
-You dim the lights, prop a projector on the coffee table, and for a few minutes it feels like a movie theater moved into your living room. Then someone cracks the blinds and the picture washes out to a gray smear. That trade-off sits at the center of this XGIMI MoGo 4 review, because the MoGo 4 is one of the most polished portable projectors you can buy and also one of the easiest to buy for the wrong room.
-
-XGIMI released it in June 2025 at $499, and it has since settled into frequent $399 dips. Whether that price is fair depends almost entirely on where you plan to watch. Let's get into it.
+Every smart lock promises you'll never dig for keys again. Then you're standing at the door with two grocery bags, waiting for Bluetooth to wake up, and you end up tapping the keypad anyway. The Aqara U400 is the first deadbolt built around that exact moment. It uses ultra-wideband, the same radio behind Apple's precision AirTag finding, to sense that you're walking toward the door and throw the bolt before your hand gets to the handle. This Aqara U400 review covers what that trick requires, the six other ways in when it doesn't apply, and whether the $270 asking price holds up against Schlage and Level.
 
 ---
 
-## What Is the XGIMI MoGo 4?
+## What Is the Aqara U400 Smart Lock?
 
-The XGIMI MoGo 4 is a battery-powered portable projector about the size of a 40-ounce water bottle and a shade under three pounds. It throws a 1080p Full HD picture anywhere from 40 to 200 inches, runs a certified version of Google TV with a licensed Netflix app baked in, and pushes sound through two 6-watt Harman Kardon speakers.
+The U400 is a full single-cylinder deadbolt replacement, not a retrofit that bolts over your existing thumb-turn. Aqara announced it at CES in January 2026 and it has been shipping since February, so there's now eight months of owner feedback and long-term reviews to draw on.
 
-The party trick is the 360-degree gimbal stand. The projector body pivots on a hinged base, so you can aim it at a wall, a ceiling, or a backyard fence and let the smart autofocus and keystone correction square the image up on their own. A 71Wh battery makes it cord-free, XGIMI includes a magnetic "sunset" filter for mood lighting, and you can top the battery from a USB-C power bank when the wall is too far away.
+The headline is UWB unlocking. With an iPhone 11 or later (not the SE or 16e) on iOS 18.5, or an Apple Watch Series 6 or later on watchOS 11.5, the lock measures your distance and direction and unlocks as you approach. It needs a Thread-capable Apple Home hub to do this: a HomePod mini, a second-generation HomePod, or a 2021 or 2022 Apple TV 4K.
 
-Rated brightness is 450 ISO lumens. Hold onto that number, because it decides who this projector is for.
+Everything else is belt and suspenders. Apple Home Key lets you tap a phone or watch to the reader. A fingerprint sensor stores up to 50 prints and reads in roughly a third of a second, according to Aqara. The touchscreen keypad takes permanent, scheduled, and offline one-time codes. NFC cards (sold separately) work for kids, and two mechanical keys ship in the box.
 
----
+Under the hood it's Matter over Thread, so the lock also shows up in Google Home, Alexa, SmartThings, and Home Assistant if that ecosystem has a Thread border router. Aqara calls it Aliro-enabled, meaning hands-free unlock for Android is promised through the cross-platform standard, with no date attached.
 
-## Who Should Buy the XGIMI MoGo 4?
-
-This is a projector for people who watch in the dark. If you rent an apartment with no wall for a big TV, host backyard movie nights after sunset, or want a screen for a dorm room that packs into a backpack, the MoGo 4 is close to ideal. It is also a strong pick for anyone who hates fiddling with setup, since the autofocus and auto-keystone genuinely work in a few seconds.
-
-It is the wrong buy for a bright, sun-filled living room or for someone who wants to watch afternoon sports with the curtains open. At 450 lumens, daylight is the enemy. Buyers who ignore that are the ones who leave a one-star review complaining the picture looks faded.
+The battery is a removable rechargeable pack rated for up to six months, charged over USB-C from the inside, with an emergency USB-C port outside for a power bank. The exterior is IP65 rated, the bolt carries a BHMA Grade 3 certification, and a gyro sensor detects the door closing so auto-lock needs no separate sensor. It comes in black or silver.
 
 ---
 
-## What the XGIMI MoGo 4 Gets Right
+## Who Should Buy the Aqara U400?
 
-- **Real native 1080p.** Plenty of cheap projectors advertise "1080p supported" while running a 720p panel. The MoGo 4 has a true Full HD chip, so text and faces stay sharp even at a 100-inch image.
-- **Google TV with licensed Netflix.** No dongle, no sideloading sketchy APKs. The MoGo 4 ships with the certified Netflix app that many budget projectors legally cannot include, plus Prime Video, YouTube, and Chromecast built in.
-- **Harman Kardon sound that carries a room.** The dual 6-watt speakers get loud and clear enough that a small room does not need a separate soundbar. That matters for a projector you'll carry outside, where a Bluetooth speaker is one more thing to charge.
-- **Setup measured in seconds.** The 360-degree gimbal plus smart autofocus means you point it roughly where you want and the software handles the geometry. It even runs up to six hours as a Bluetooth speaker with the lamp off.
+**The all-Apple household.** If everyone carries an iPhone and a HomePod mini or Apple TV 4K already sits in the living room, this is the lock the platform has been waiting for. 9to5Mac's reviewer called it the first HomeKit lock that "truly delivers" on the set-it-and-forget-it promise, and long-term owners describe the same thing: the door is open by the time your hand lands.
 
----
+**The mixed household.** One parent on iPhone, a teenager on Android, a dog walker twice a week. The U400 still works; the non-Apple people get fingerprint, keypad codes, or an NFC card instead of the walk-up unlock.
 
-## What You'll Pay for the MoGo 4
+**The Google or Alexa home.** It functions through Matter over Thread, but you'd pay a premium for a UWB feature you can't use yet. Aqara's U200 or U100 make more sense there until Aliro ships on Android.
 
-At $499 list and often $399 on sale, the MoGo 4 sits toward the upper end of portable 1080p projectors. You are paying for the Google TV certification, the Harman Kardon tuning, and that gimbal stand, not for raw brightness. Basic 720p "can" projectors undercut it by $150 or more, and they show it in resolution, sound, and software.
-
-The price widget above shows where today's number sits against the history we track, so you can tell a genuine $399 dip from a full-price week before you commit. On a lifestyle projector that swings a hundred dollars on sale, that timing is most of the buying decision.
+**The security-first buyer or the renter.** If forced-entry resistance is the reason you're shopping, look at a Grade 1 bolt like the Schlage Encode Plus. If you can't swap your landlord's deadbolt, the retrofit U200 keeps the existing cylinder.
 
 ---
 
-## MoGo 4 vs. the Alternatives
+## Aqara U400 Features That Matter at the Door
 
-The **Anker Nebula Capsule Air** is the obvious step-down at around $250. It is smaller and cheaper, but it runs 720p at roughly 150 lumens, so you trade away resolution and the little brightness headroom the MoGo 4 has. Get it only if the smallest, cheapest can that plays Netflix in a pitch-black room is all you need.
-
-**Samsung The Freestyle (2nd Gen)** lands near the MoGo 4 on price with a similar grab-and-go design and Samsung's smart TV platform. It is the better fit if you already live in the Samsung ecosystem, though it is similarly dim and better suited to dark rooms.
-
-If you mostly watch in a lit room or during the day, be honest with yourself: a bright TV beats any portable projector at this price. Our [Fire TV Omni QLED review](/posts/fire-tv-omni-qled-review-color-that-leaps-off-screen) covers a set that stays vivid with the lights on, which is exactly where the MoGo 4 struggles.
-
----
-
-## The One Thing to Consider
-
-The brightness ceiling is real, and no software mode fixes it. Verified-purchase owners and professional testers agree the picture looks great in a dark room and washes out fast once ambient light creeps in. There is a higher-output "performance" mode, but reviewers note it trades away picture quality and spins the cooling fan loud enough to hear over a quiet scene. Battery life is another soft spot: XGIMI rates 2.5 hours of video in Eco mode, and third-party testing puts real-world Standard-mode playback closer to two hours, so a long movie night still wants a power bank nearby.
+- **UWB approach unlock.** The Home app lets you pick an approach direction (left, front, right, or all) so walking past on the way to the mailbox doesn't pop it open. Reviewers who logged their unlocks reported success rates between 95 and 99 percent, with the misses tied to a nearly dead iPhone.
+- **Home Key with Express Mode.** Tap the phone or watch and the bolt moves, no Face ID prompt. Apple's power reserve keeps Express Mode working for a few hours after the iPhone shuts down from a flat battery, so a dead phone isn't a locked-out phone.
+- **Fingerprint and keypad as true backups.** Fifty prints covers a big family. Offline one-time codes, up to eight per hour, let you hand a plumber a code even when your internet is down.
+- **Rechargeable battery with an escape hatch.** Six months on paper, a pack you can charge on the kitchen counter, and an exterior USB-C port for emergencies. No more hunting for CR123A cells.
+- **Matter over Thread, no Wi-Fi radio.** Thread sips power compared with Wi-Fi locks that chew through batteries, and local control doesn't depend on one vendor's cloud.
 
 ---
 
-## XGIMI MoGo 4 FAQ
+## What You'll Pay for the Aqara U400
 
-**Q: Is the XGIMI MoGo 4 bright enough for a living room during the day?**
-No. At 450 ISO lumens it is built for dark rooms and after-dusk outdoor use. In a sunlit room the image looks washed out, and that is the single most common owner complaint.
+List price is $269.99, which puts the U400 in the upper-middle of connected deadbolts. It's about $100 more than Aqara's retrofit U200 and roughly $50 to $80 less than the Schlage Encode Plus and Level Lock Pro. What the extra $100 over the U200 buys is UWB, a stronger motor, and a full deadbolt with a keypad built in.
 
-**Q: Does the MoGo 4 have Netflix built in?**
-Yes. It runs certified Google TV with a licensed Netflix app, plus Prime Video and YouTube. That is a real advantage over budget projectors that force you to sideload or add a separate streaming stick.
-
-**Q: How long does the MoGo 4 battery last?**
-XGIMI rates the 71Wh battery at 2.5 hours of video in Eco mode, and up to six hours as a Bluetooth speaker. Professional testers put real-world Standard-mode playback closer to two hours, so plan on a USB-C power bank for a full double feature.
+This is also a lock that goes on sale on a schedule. Deal trackers logged it around $220 during Prime Big Deal Days this week, and it dipped to similar territory during the spring and summer sales. As of this writing, Amazon's own listing shows a 30-day range of $219.99 to $269.99, with today's price sitting at the top of it. The price widget above shows where the current number lands against our tracked history, so if it's near list, a sale is a matter of waiting a few weeks.
 
 ---
 
-## Verdict
+## Aqara U400 vs. Schlage Encode Plus and Level Lock Pro
 
-Buy the XGIMI MoGo 4 if you watch in the dark and want the least-fuss portable projector with true 1080p, real Netflix, and sound good enough to skip a soundbar. Wait for the $399 price, and skip it entirely if daylight ever hits your screen.
+**Schlage Encode Plus ($319 to $349).** The better buy if raw hardware matters more than convenience. It's an ANSI Grade 1 bolt with Schlage's reputation behind it, Wi-Fi is built in so there's no hub to buy, and it supports Home Key. It does not do UWB or Matter, and it eats batteries faster because of that Wi-Fi radio.
+
+**Level Lock Pro ($349).** The pick if you want the lock to look like a lock. All the electronics hide inside the bolt itself, and it speaks Matter over Thread with Home Key support. You give up the fingerprint reader and keypad, and remote access needs Level's $79 bridge, so the real price is closer to $430.
+
+**Aqara U200 ($169.99).** Same brand, same Home Key and fingerprint reader, but it clamps onto your existing deadbolt and skips UWB. The right answer for renters and Android homes.
+
+If you're outfitting the whole entryway, the U400 pairs naturally with a camera doorbell. Our [Ring Battery Doorbell (2nd gen) review](/posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget) covers the budget end of that. And if Matter is new to you, our [SwitchBot Hub 3 review](/posts/switchbot-hub-3-review-is-the-matter-hub-worth-it) walks through what a Matter hub does and doesn't bring to a mixed-brand home.
 
 ---
 
-If the price in the card above sits at or below its typical range, and you have a room you can darken, this is an easy yes. If your space stays bright, put the money toward a TV instead.
+## One Thing to Consider Before You Buy
+
+The feature you're paying for is Apple-only right now. Android owners get every other way in, but the walk-up unlock that justifies the price over the U200 doesn't exist for them until Aliro lands, and Aqara hasn't committed to a date.
+
+A few smaller things repeat in owner feedback. The interior panel is big, about seven inches tall and nearly two inches deep, and Tom's Guide listed "a little bulky" as a con. Installation replaces the entire deadbolt and routes two thin connector wires through the door; 9to5Mac's reviewer needed about an hour for two doors and called the wires fragile. Setup bounces between the Home app and the Aqara app. And while Aqara rates the battery at six months, owners report four to six depending on how often UWB fires.
+
+---
+
+## Aqara U400 FAQ
+
+**Q: Does the Aqara U400 work with Android phones?**
+Partly. Fingerprint, keypad codes, NFC cards, and app control through Google Home or SmartThings all work from an Android home. The hands-free UWB unlock is Apple-only today. Aqara says it's Aliro-enabled, which is the standard that should bring UWB to Android, but no timeline has been announced.
+
+**Q: Do I need a hub for the Aqara U400?**
+For the good parts, yes. UWB unlock, Home Key management, remote access, and automations all require a Thread-enabled Apple Home hub: a HomePod mini, a HomePod (2nd gen), or an Apple TV 4K from 2021 or 2022. Without one you get Bluetooth-only control in the Aqara app, plus fingerprint, keypad, and keys.
+
+**Q: How long does the Aqara U400 battery last?**
+Aqara rates it at up to six months per charge; owners land between four and six depending on traffic. You get a low-battery alert at 20 percent, charging takes a few hours over USB-C, and the exterior USB-C port accepts a power bank if it dies while you're out.
+
+---
+
+## Verdict: Buy It If You're in Apple's Ecosystem
+
+If your household runs on iPhones and a HomePod mini or Apple TV already sits in the living room, buy it: nothing else in Apple Home does hands-free entry this well, and the backups are deep enough that you'll never be locked out. If you're on Android or you want the strongest bolt on the block, pay less for the U200 or more for the Schlage Encode Plus instead.
+
+---
+
+If the card above shows the price down near its sale level, that's the moment. At full list it's still a fair deal for an Apple household, just not an urgent one.
