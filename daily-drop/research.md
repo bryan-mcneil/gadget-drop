@@ -1,27 +1,27 @@
-DATE: 2026-07-28
-DEDUPE: checked against 39 existing products
-BRIEF: no demand-backed candidates in seo-brief.md (generated 2026-07-28, "No opportunities yet") — editorial pick, brief is fresh but empty
+DATE: 2026-08-07
+DEDUPE: checked against 39 existing products (neither pick appears in the reviewed-products list)
+BRIEF: stale/missing — editorial pick (daily-drop/seo-brief.md generated 2026-07-28, >3 days old, and its body says "No opportunities yet")
 
 ===PRODUCT 1===
-NAME: XGIMI MoGo 4 Portable Projector
-ASIN: B0F3CBV5HP
-PRICE: $399–$499
-TRENDING: Late-summer "portable projector / backyard movie night" buying wave plus back-to-school dorm setups keep "XGIMI MoGo 4 review" and "best portable projector 2026" high-intent, and the MoGo 4 (June 2025) is now mature enough that its $499 list has settled into frequent $399 dips buyers are trying to time.
-ANGLE: The honest "who is a 450-ISO-lumen projector actually for" verdict — the MoGo 4's Google TV, Harman Kardon speakers, and 360° gimbal stand make it the most polished grab-and-go projector, but 450 ISO lumens means it only shines in a dark room, so daytime/bright-room buyers are the ones who return it. Pair that with our tracked price history so readers can tell a genuine $399 dip from the $499 list before they buy. No projector has been reviewed on the site yet, so this opens a fresh category.
-KEYWORD: xgimi mogo 4 review
-TARGET_QUERY: xgimi mogo 4 worth it
-CATEGORY: Audio & Home Theater
-TAGS: portable projector | projector | google tv | xgimi | movie night
-ALTERNATIVES: Anker Nebula Capsule Air | no-review, Samsung The Freestyle (2nd Gen) | no-review
+NAME: DJI Neo 2 (Drone Only), Lightweight 4K Drone With Camera
+ASIN: B0FJ1S18HF
+PRICE: $259
+TRENDING: Released worldwide Nov 2025 and now flagged "Amazon's Choice" at $259, the sub-160g Neo 2 is widely called 2026's best-value mini drone after fixing the original Neo's biggest weaknesses — it adds omnidirectional obstacle sensing, a 2-axis mechanical gimbal, a larger 1/2-inch sensor, and 4K/60 video, all while staying under the 250g registration threshold.
+ANGLE: "Is the $259 DJI Neo 2 the mini drone to finally buy?" — walk through what the three headline upgrades (omnidirectional sensing, the 2-axis gimbal, the bigger sensor) actually change for a beginner versus the first-gen Neo, where the honest limits still are (19-min flight, 12MP stills, no true remote in the base kit), and who genuinely doesn't need to upgrade.
+KEYWORD: DJI Neo 2 review
+TARGET_QUERY: dji neo 2 review
+CATEGORY: Cameras
+TAGS: DJI | drones | mini drone | 4K video | aerial photography
+ALTERNATIVES: DJI Neo (1st gen) | no-review ; GoPro HERO13 Black | /posts/gopro-hero13-black-review
 
 ===PRODUCT 2===
-NAME: Elgato Facecam MK.2
-ASIN: B0CW1S7XP5
-PRICE: $150
-TRENDING: Back-to-school and new-streamer season pushes "best webcam for streaming 2026" and "Elgato Facecam MK.2 review" buyer intent as students and creators upgrade off laptop cams; the MK.2 is Elgato's current mainstream flagship with a fixed-focus Sony sensor pitched squarely at that crowd.
-ANGLE: The honest "do you actually need a $150 webcam" verdict — the MK.2's uncompressed 1080p60, manual controls, and no-driver Camera Hub software are a real step over built-in laptop cams and cheap 4K webcams that fake sharpness, but fixed focus and 1080p (not 4K) mean it is for streamers in a controlled setup, not everyone. Tracked price history flags whether today is a real dip.
-KEYWORD: elgato facecam mk.2 review
-TARGET_QUERY: elgato facecam mk2 worth it
-CATEGORY: Cameras
-TAGS: webcam | streaming | elgato | 1080p | content creators
-ALTERNATIVES: Insta360 Mic Pro | /posts/insta360-mic-pro-review, Logitech MX Brio | no-review
+NAME: Tapo C460 4K Wireless Outdoor Security Camera (TP-Link)
+ASIN: B0F5M9MC3M
+PRICE: $70
+TRENDING: 2026 "best AI security camera" roundups (the-gadgeteer, SafeWise) put the Tapo C460 ahead of Ring on value — free on-device person/vehicle AI detection, 4K/starlight color night vision, IP66 battery-and-magnetic-mount install, and no mandatory subscription.
+ANGLE: "Subscription-free 4K outdoor security" — how the Tapo C460's free AI detection and local storage stack up against Ring's paid Protect plans, and what you give up (ecosystem, doorbell integration) to skip the monthly fee.
+KEYWORD: Tapo C460 review
+TARGET_QUERY: tapo c460 review
+CATEGORY: Smart Home
+TAGS: TP-Link | Tapo | security camera | outdoor camera | no subscription
+ALTERNATIVES: eufy Security 4K Indoor Camera E30 | /posts/eufy-indoor-cam-e30-review-4k-without-the-monthly-fee ; Ring Battery Doorbell (2nd gen) | /posts/ring-battery-doorbell-2nd-gen-review-2k-on-a-budget
