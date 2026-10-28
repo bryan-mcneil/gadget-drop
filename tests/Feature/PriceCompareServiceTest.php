@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Request as PsrRequest;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -115,10 +116,66 @@ class PriceCompareServiceTest extends TestCase
         $body = json_decode((string) $transport->body, true);
 
         $this->assertSame('claude-sonnet-5', $body['model']);
-        $this->assertSame('medium', $body['output_config']['effort']);
+        // Latency knobs: low effort and three searches are the defaults because
+        // this call runs inside the reader's request against a 25s ceiling.
+        $this->assertSame('low', $body['output_config']['effort']);
         $this->assertSame('json_schema', $body['output_config']['format']['type']);
-        $this->assertSame(4, $body['tools'][0]['max_uses']);
+        $this->assertSame(3, $body['tools'][0]['max_uses']);
         $this->assertSame('US', $body['tools'][0]['user_location']['country']);
+    }
+
+    public function test_effort_and_max_uses_are_tunable_from_config(): void
+    {
+        // Both are env-overridable so prod can be tuned without a deploy.
+        config(['price-compare.effort' => 'medium', 'price-compare.max_uses' => 4]);
+
+        $transport = $this->transport();
+        $this->service($transport)->compare($this->product());
+
+        $body = json_decode((string) $transport->body, true);
+
+        $this->assertSame('medium', $body['output_config']['effort']);
+        $this->assertSame(4, $body['tools'][0]['max_uses']);
+    }
+
+    public function test_the_prompt_asks_for_searches_in_one_parallel_batch(): void
+    {
+        // Sequential searches are the dominant latency cost (each is a full
+        // model round trip), so the prompt must keep steering toward one batch.
+        $transport = $this->transport();
+        $this->service($transport)->compare($this->product());
+
+        $body = json_decode((string) $transport->body, true);
+
+        $this->assertStringContainsString('single batch', $body['system']);
+    }
+
+    public function test_the_usage_log_records_the_wall_clock_duration(): void
+    {
+        Log::spy();
+
+        $this->service($this->transport())->compare($this->product());
+
+        Log::shouldHaveReceived('info')
+            ->withArgs(fn (string $message, array $context) => $message === 'Price compare usage'
+                && array_key_exists('duration_ms', $context)
+                && is_int($context['duration_ms'])
+                && $context['duration_ms'] >= 0)
+            ->once();
+    }
+
+    public function test_a_failed_call_logs_its_duration_too(): void
+    {
+        // A timeout is only diagnosable if the failure line carries how long
+        // the call ran before it died.
+        Log::spy();
+
+        $this->service($this->transport(throw: true))->compare($this->product());
+
+        Log::shouldHaveReceived('warning')
+            ->withArgs(fn (string $message, array $context) => $message === 'Price compare call failed'
+                && is_int($context['duration_ms'] ?? null))
+            ->once();
     }
 
     public function test_our_own_price_is_never_sent_to_the_model(): void

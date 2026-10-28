@@ -37,14 +37,23 @@ return [
     'daily_limit' => (int) env('PRICE_COMPARE_DAILY_LIMIT', 150),
 
     /*
-     * Adaptive thinking is on by default on Sonnet 5, and thinking costs
-     * latency we do not have. This is the first knob to turn down (to 'low')
-     * if production timeouts are common.
+     * LATENCY KNOB 1. Adaptive thinking is on by default on Sonnet 5 and this
+     * call runs inside the reader's request, so thinking depth is wall-clock
+     * the reader waits through. 'low' is the default: the task is lookup plus
+     * one judgment call (exact_model_match), not reasoning. Raise to 'medium'
+     * only if wrong-variant matches show up in the logs. Env-overridable so it
+     * can be tuned on prod without a deploy (then `php artisan optimize`).
      */
-    'effort' => 'medium',
+    'effort' => env('PRICE_COMPARE_EFFORT', 'low'),
 
-    /* Web searches per request. The second knob, after effort. */
-    'max_uses' => 4,
+    /*
+     * LATENCY KNOB 2. Web searches per request. Each search the model runs
+     * one after another is a full round trip (model turn + search + model
+     * turn), so this bounds the worst case. The system prompt also asks the
+     * model to issue its searches together in one batch, which the API runs
+     * in parallel; this cap is the hard stop behind that request.
+     */
+    'max_uses' => (int) env('PRICE_COMPARE_MAX_USES', 3),
 
     /*
      * Seconds. WE MUST FAIL BEFORE THE WEB SERVER DOES. The SDK defaults to a

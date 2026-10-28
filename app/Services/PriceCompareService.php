@@ -75,6 +75,7 @@ class PriceCompareService
     - Do not rank, compare, total, recommend, or comment on whether anything is a good deal. Return data only.
     - Set confidence to how sure you are that the listings you found are the same product that was named. Low confidence is a useful answer.
     - Finding nothing is a valid and useful result. Return an empty results array rather than a guess.
+    - Speed matters: plan your searches up front and issue them all together in a single batch so they run at the same time, instead of searching, reading, then searching again. One search for the product name plus model number usually surfaces listings at several retailers at once. Do not run follow-up searches to double-check a price you have already read.
     - Never use an em dash.
     PROMPT;
 
@@ -208,6 +209,11 @@ class PriceCompareService
             // bills whether or not we like the answer.
             $this->countRequest();
 
+            // Wall clock for the usage log. Latency is the binding constraint
+            // on this feature (see config/price-compare.php), and the only way
+            // to tune effort/max_uses honestly is from real numbers.
+            $started = hrtime(true);
+
             $message = $client->messages->create(
                 model: (string) config('price-compare.model', 'claude-sonnet-5'),
                 // Thinking tokens count against this, so it is sized well above
@@ -232,16 +238,30 @@ class PriceCompareService
                 requestOptions: $requestOptions,
             );
         } catch (AnthropicException $e) {
-            Log::warning('Price compare call failed', ['product' => $product->id, 'error' => $e->getMessage()]);
+            Log::warning('Price compare call failed', [
+                'product' => $product->id,
+                'error' => $e->getMessage(),
+                'duration_ms' => $this->elapsedMs($started ?? null),
+            ]);
 
             return null;
         } catch (\Throwable $e) {
-            Log::warning('Price compare call failed unexpectedly', ['product' => $product->id, 'error' => $e->getMessage()]);
+            Log::warning('Price compare call failed unexpectedly', [
+                'product' => $product->id,
+                'error' => $e->getMessage(),
+                'duration_ms' => $this->elapsedMs($started ?? null),
+            ]);
 
             return null;
         }
 
-        return $this->payload($message, $product);
+        return $this->payload($message, $product, $this->elapsedMs($started));
+    }
+
+    /** Milliseconds since an hrtime(true) mark, or null if the call never started. */
+    private function elapsedMs(?int $started): ?int
+    {
+        return $started === null ? null : (int) round((hrtime(true) - $started) / 1_000_000);
     }
 
     /**
@@ -250,9 +270,9 @@ class PriceCompareService
      * @param  \Anthropic\Messages\Message  $message
      * @return array<string, mixed>|null
      */
-    private function payload(object $message, Product $product): ?array
+    private function payload(object $message, Product $product, ?int $durationMs = null): ?array
     {
-        $this->logUsage($message, $product);
+        $this->logUsage($message, $product, $durationMs);
 
         // pause_turn would need another round trip we have no latency budget
         // for; refusal and max_tokens mean there is no complete answer to read.
@@ -361,13 +381,16 @@ class PriceCompareService
      *
      * @param  \Anthropic\Messages\Message  $message
      */
-    private function logUsage(object $message, Product $product): void
+    private function logUsage(object $message, Product $product, ?int $durationMs): void
     {
         Log::info('Price compare usage', [
             'product' => $product->id,
             'input_tokens' => $message->usage->inputTokens ?? null,
             'output_tokens' => $message->usage->outputTokens ?? null,
             'web_search_requests' => $message->usage->serverToolUse?->webSearchRequests ?? 0,
+            // The number that decides whether effort/max_uses need another turn
+            // of the screw: compare against config('price-compare.timeout').
+            'duration_ms' => $durationMs,
         ]);
     }
 

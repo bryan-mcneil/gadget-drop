@@ -144,8 +144,8 @@ Steps:
        'enabled'          => env('PRICE_COMPARE_ENABLED', false),
        'model'            => env('PRICE_COMPARE_MODEL', 'claude-sonnet-5'),
        'daily_limit'      => (int) env('PRICE_COMPARE_DAILY_LIMIT', 150),
-       'effort'           => 'medium', // latency lever — Sonnet 5 thinks by default
-       'max_uses'         => 4,      // web searches per request
+       'effort'           => env('PRICE_COMPARE_EFFORT', 'low'),   // latency knob 1 — Sonnet 5 thinks by default
+       'max_uses'         => (int) env('PRICE_COMPARE_MAX_USES', 3), // latency knob 2 — web searches per request
        'timeout'          => 25.0,   // seconds — we must fail before LiteSpeed
        'cache_hours'      => 24,
        'fresh_days'       => 7,      // winner claim gate
@@ -315,7 +315,7 @@ Commit: `docs(price-compare): document the live comparison feature and enable fl
     - The real IP appears only in `HTTP_CF_CONNECTING_IP` / `HTTP_TRUE_CLIENT_IP` → `X-Forwarded-For` trust cannot help; that needs a small custom middleware.
 
     After setting it, `php artisan optimize`, then verify against a real surface rather than the probe: subscribe to the newsletter from two networks and check `SELECT ip_address FROM subscribers ORDER BY id DESC LIMIT 2;` — two distinct rows carrying the real public IPs.
-7. Watch `storage/logs` for the first day. The two signals that matter: real `web_search_requests` per click versus the $0.07 estimate, and the timeout rate against the 25s ceiling. If timeouts are common, tune in this order before touching the timeout — the web server's limit is the one we cannot raise: drop `effort` to `low`, then `max_uses` to 3. If **token cost** rather than latency turns out to be the pressure, the move is the opposite direction: switch to `web_search_20260209` for dynamic filtering, accepting the code-execution round trip.
+7. Watch `storage/logs` for the first day. The two signals that matter: real `web_search_requests` per click versus the $0.07 estimate, and the timeout rate against the 25s ceiling. Every usage line (and every failure line) carries `duration_ms`, so the latency distribution is readable straight from the log. Defaults shipped 2026-10-28 are already `effort=low` and `max_uses=3` (both env-overridable: `PRICE_COMPARE_EFFORT`, `PRICE_COMPARE_MAX_USES`), and the system prompt asks the model to issue its searches in one parallel batch rather than sequentially. If p95 `duration_ms` still crowds the 25s ceiling, the remaining levers in order: `max_uses` 2, then a faster model via `PRICE_COMPARE_MODEL` (Haiku 5.5 — a judgment trade-off on `exact_model_match`, Bryan's call), then `thinking: disabled` (Sonnet 5 accepts it; carries the tool-call-in-prose failure mode, so last). If **token cost** rather than latency turns out to be the pressure, the move is the opposite direction: switch to `web_search_20260209` for dynamic filtering, accepting the code-execution round trip.
 
 ## Known accepted risks
 
